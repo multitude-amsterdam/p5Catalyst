@@ -139,6 +139,6 @@ This project is licensed under the **MIT License** – free to use and modify.
 
 # 📢 Stay Updated
 Follow the development and join the discussion:
-- GitHub Discussions: [join the conversation](https://github.com/aidanwyber/p5BrandLab/discussions)
+- GitHub Discussions: [join the conversation](https://github.com/multitude-amsterdam/p5BrandLab/discussions)
 - Multitude's Instagram: [@multitudecreativeagency](https://www.instagram.com/multitudecreativeagency/)
 - Creative Coding Amsterdam: [join a Meetup](https://www.meetup.com/nl-NL/creative-coding-amsterdam/) and ask Aidan about this project in person 🤔🤔 or [find the Discord server here](https://cca.codes/) 👋
