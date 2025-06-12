@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="uuid-5e5cd3c6-0fb0-4d23-b4ff-5f86b9835474" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <style>
+      .uuid-32a37dbe-ce3d-48a5-9ca3-79de67253e71 {
+        fill: #7685f7;
+      }
+
+      .uuid-aacb2794-b892-43aa-9f1e-dd22bf485ca5 {
+        fill: none;
+        stroke: #7685f7;
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+    </style>
+  </defs>
+  <g id="uuid-e286e07c-140f-43f3-8c43-6041db44aa55" data-name="Layer_1_copy_2">
+    <g>
+      <path class="uuid-aacb2794-b892-43aa-9f1e-dd22bf485ca5" d="M16,31c-8.2709,0-15-6.7282-15-15S7.7291,1,16,1s15,6.7291,15,15-6.7282,15-15,15Z"/>
+      <path class="uuid-32a37dbe-ce3d-48a5-9ca3-79de67253e71" d="M7.6853,23.7591L13.8543,6.8894h4.3396l6.1208,16.8696h-3.8804l-1.3006-3.6875h-6.412l-1.3006,3.6875h-3.7357ZM13.6855,17.1559h4.4584l-2.2412-6.4102-2.2171,6.4102Z"/>
+    </g>
+  </g>
+</svg>
