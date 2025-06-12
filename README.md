@@ -1,6 +1,6 @@
-[![p5BrandLab. Generative branding, open to all. Initiated by Multitude.](https://github.com/aidanwyber/p5BrandLab/blob/main/p5BrandLab-header.svg?raw=true)](https://multitude.nl/ "Multitude")
+[![p5BrandLab. Generative branding, open to all. Initiated by Multitude.](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/p5BrandLab-header.svg?raw=true)](https://multitude.nl/ "Multitude")
 
-<!-- ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/aidanwyber/p5BrandLab) ![GitHub contributors](https://img.shields.io/github/contributors/aidanwyber/p5BrandLab)  -->
+<!-- ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab) ![GitHub contributors](https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab)  -->
 
 # 🧪 What is p5BrandLab?
 At [Multitude](https://multitude.nl/), we believe branding should be **fluid, flexible, and future-proof**. Instead of static design systems, we embrace **generative branding**, where design systems evolve and adapt in real-time. **p5BrandLab** evolved for this purpose. 
@@ -9,20 +9,20 @@ At [Multitude](https://multitude.nl/), we believe branding should be **fluid, fl
 
 With **p5BrandLab**, you can generate **professional brand-consistent visual content** by providing **high-quality assets** for web, print, or motion graphics.
 
-See what the p5BrandLab generator looks like [on GitHub pages](https://aidanwyber.github.io/p5BrandLab/).
+See what the p5BrandLab generator looks like [on GitHub pages](https://multitude-amsterdam.github.io/p5BrandLab/).
 
 p5BrandLab was initiated by creative agency [Multitude](https://multitude.nl/).
 
 
 # 🛠️ Features
 - **Generative templates**: define branded elements that evolve dynamically.
-- **Flexible customization**: adjust colors, typography, motion, and shapes in real-time.
-- **Modular & expandable**: the Vanilla JavaScript framework affords adding custom classes and libraries as you go.
+- **Modular & expandable**: the vanilla JavaScript framework affords adding custom classes and libraries as you go.
 - **PNG & SVG exporting**: save your generated artwork in high-quality formats.
 - **Video rendering**: uses `ffmpeg.wasm` for high-quality video exports.
 - **Works in the browser**: no installation needed, fully web-based.
 - **Dark mode support**: defaults to system theme.
 - **Multi-language support**: add your own translations.
+- **File I/O**: Save and load GUI settings. Also saves to `localStorage`.
 
 
 # 🔁 Why open-source?
@@ -36,7 +36,7 @@ To run p5BrandLab locally, follow these steps.
 
 ## 1. Clone the repository
 ```sh
-git clone https://github.com/aidanwyber/p5BrandLab.git YOUR_PROJECT_NAME
+git clone https://github.com/multitude-amsterdam/p5BrandLab.git YOUR_PROJECT_NAME
 cd YOUR_PROJECT_NAME
 ```
 or alternatively, download the code as a ZIP file by clicking the "**<> Code**" button at the top-right of this page. ↗️
