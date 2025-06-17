@@ -2,7 +2,7 @@
 ![p5Catalyst](./app/assets/p5catalyst-logo-lightmode.svg#gh-light-mode-only)
 
 <p align="center">
-	<img alt="p5Catalyst licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5Catalyst?style=flat-square&color=78f">
+	<img alt="p5Catalyst licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5Catalyst?style=flat-square">
 	<img alt="p5Catalyst stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
 	<img alt="p5Catalyst watchers" src="https://img.shields.io/github/watchers/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
 	<img alt="p5Catalyst contributors" src="https://img.shields.io/github/contributors/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
@@ -17,7 +17,7 @@
 
 # 🧪 What is p5Catalyst?
 
-p5Catalyst is a GUI-first framework that turns your `p5.js` sketches into polished, interactive web apps—ready for real-time control, export, and presentation. Whether you're building generative art, data visualizations, or dynamic brand systems, p5Catalyst gives your sketches the structure and tooling they need to go beyond the sketchpad—into production, publication, or public play.
+p5Catalyst is a GUI framework that wraps your `p5.js` sketches into polished, interactive web apps—ready for real-time control, asset exporting and daily use. Whether you're building generative art, data visualizations, or dynamic brand systems, p5Catalyst gives your sketches the structure and tooling they need to go beyond the sketchpad—into production, publication, or public play.
 
 Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew out of real-world branding needs, and is now shared as a creative coding tool for everyone.
 
