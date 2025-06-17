@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-	<img alt="p5BrandLab licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
+	<img alt="p5BrandLab licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab?style=flat-square&color=78f">
 	<img alt="p5BrandLab stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 	<img alt="p5BrandLab watchers" src="https://img.shields.io/github/watchers/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 	<br>
