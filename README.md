@@ -1,12 +1,5 @@
-<div align="center">
-	<a href="https://multitude.nl/">
-		<!-- <img src="./p5catalyst-header.svg?raw=true" alt="p5Catalyst. Initiated by Multitude." style="height: 16em"> -->
-		<img src="./app/assets/p5catalyst-logo-darkmode.svg?raw=true#gh-dark-mode-only" alt="p5Catalyst. Initiated by Multitude." style="height: 16em">
-		<!-- ![p5Catalyst](./app/assets/p5catalyst-logo-darkmode.svg#gh-dark-mode-only?raw=true) -->
-		<img src="./app/assets/p5catalyst-logo-lightmode.svg?raw=true#gh-light-mode-only" alt="p5Catalyst. Initiated by Multitude." style="height: 16em">
-		<!-- ![p5Catalyst](./app/assets/p5catalyst-logo-lightmode.svg#gh-light-mode-only?raw=true) -->
-	</a>
-</div>
+![p5Catalyst](./app/assets/p5catalyst-logo-darkmode.svg#gh-dark-mode-only?raw=true)
+![p5Catalyst](./app/assets/p5catalyst-logo-lightmode.svg#gh-light-mode-only?raw=true)
 
 <p align="center" style="font-size:1.25em">
 	<em>From sketch to powerhouse.</em>
