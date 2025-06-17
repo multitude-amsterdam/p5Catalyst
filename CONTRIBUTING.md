@@ -1,6 +1,7 @@
 # Contributing to p5BrandLab
 
-🎨 Thanks for your interest in contributing to **p5BrandLab**! This tool thrives on community creativity. [![p5BrandLab licence"](https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/LICENSE) 
+🎨 Thanks for your interest in contributing to **p5BrandLab**! This tool thrives on community creativity. p5BrandLab is open-source under MIT License. 
+
 
 ---
 
