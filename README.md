@@ -2,7 +2,9 @@
 ![p5Catalyst](./app/assets/p5catalyst-logo-lightmode.svg#gh-light-mode-only)
 
 <p align="center">
-	<img alt="p5Catalyst licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
+	<a href="./LICENCE">
+		<img alt="p5Catalyst licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
+	</a>
 	<img alt="p5Catalyst stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
 	<img alt="p5Catalyst watchers" src="https://img.shields.io/github/watchers/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
 	<img alt="p5Catalyst contributors" src="https://img.shields.io/github/contributors/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
