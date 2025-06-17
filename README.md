@@ -1,6 +1,6 @@
 [![p5BrandLab. Generative branding, open to all. Initiated by Multitude.](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/p5BrandLab-header.svg?raw=true)](https://multitude.nl/ "Multitude")
 
-<p align="center" width="50%">
+<p align="center" style="font-size:1.25em">
 	<em>p5BrandLab is a wrapper for </em><code>p5.js</code><em> designed to easily create usable web apps for professional generative visuals.</em>
 </p>
 
