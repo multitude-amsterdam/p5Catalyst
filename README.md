@@ -1,5 +1,5 @@
-![p5Catalyst](./app/assets/p5catalyst-logo-darkmode.svg#gh-dark-mode-only?raw=true)
-![p5Catalyst](./app/assets/p5catalyst-logo-lightmode.svg#gh-light-mode-only?raw=true)
+![p5Catalyst](./app/assets/p5catalyst-logo-darkmode.svg#gh-dark-mode-only)
+![p5Catalyst](./app/assets/p5catalyst-logo-lightmode.svg#gh-light-mode-only)
 
 <p align="center" style="font-size:1.25em">
 	<em>From sketch to powerhouse.</em>
