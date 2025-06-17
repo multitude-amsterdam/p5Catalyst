@@ -1,4 +1,8 @@
-[![p5Catalyst. Generative branding, open to all. Initiated by Multitude.](https://github.com/multitude-amsterdam/p5Catalyst/blob/main/p5Catalyst-header.svg?raw=true)](https://multitude.nl/ "Multitude")
+<div align="center">
+	<a href="https://multitude.nl/">
+		<img src="./p5catalyst-header.svg?raw=true" alt="p5Catalyst. Initiated by Multitude." style="height: 5em">
+	</a>
+</div>
 
 <p align="center" style="font-size:1.25em">
 	<em>From sketch to powerhouse.</em>
@@ -129,7 +133,7 @@ That's it! You can now host the application 😶‍🌫️ and send it to your c
 
 # 🤝 Contributing
 
-We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more info, see [CONTRIBUTING.md](https://github.com/multitude-amsterdam/p5Catalyst/blob/main/CONTRIBUTING.md).
+We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more info, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 For security concerns, please review the [security policy](./SECURITY.md).
 
