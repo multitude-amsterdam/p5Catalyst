@@ -1,7 +1,13 @@
 [![p5BrandLab. Generative branding, open to all. Initiated by Multitude.](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/p5BrandLab-header.svg?raw=true)](https://multitude.nl/ "Multitude")
 
 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7) ![GitHub contributors](https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7) [![p5BrandLab licence"](https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/LICENSE) [![p5BrandLab forks](https://img.shields.io/github/forks/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/fork) [![p5BrandLab stars](https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/stargazers) [![p5BrandLab issues](https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/issues) [![p5BrandLab pull-requests](https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/pulls)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)
+[![GitHub contributors](https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/CONTRIBUTING.md)
+[![p5BrandLab licence"](https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/LICENSE) 
+[![p5BrandLab forks](https://img.shields.io/github/forks/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/fork) 
+[![p5BrandLab stars](https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/stargazers) 
+[![p5BrandLab issues](https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/issues) 
+[![p5BrandLab pull-requests](https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab)](https://github.com/multitude-amsterdam/p5BrandLab/pulls)
 
 <p align="center">
 <a href="https://github.com/multitude-amsterdam/p5BrandLab/blob/main/LICENSE" target="blank">
