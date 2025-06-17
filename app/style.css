@@ -172,15 +172,15 @@ body:where(.dark-mode) #gui #logo {
 	background-image: url("assets/generator-logo.svg");
 }
 
-#gui .p5brandlab-logo {
-	background-image: url(assets/p5brandlab-logo-lightmode.svg);
+#gui .p5catalyst-logo {
+	background-image: url(assets/p5catalyst-logo-lightmode.svg);
 	background-position-x: left;
 	background-position-y: center;
 	background-size: contain;
 	background-repeat: no-repeat;
 }
-body:where(.dark-mode) #gui .p5brandlab-logo {
-	background-image: url("assets/p5brandlab-logo-darkmode.svg");
+body:where(.dark-mode) #gui .p5catalyst-logo {
+	background-image: url("assets/p5catalyst-logo-darkmode.svg");
 }
 #gui .footer-logo {
 	display: inline-block;

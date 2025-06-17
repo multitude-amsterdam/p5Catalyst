@@ -150,10 +150,10 @@ class GUIForP5 {
 		return field;
 	}
 
-	addP5BrandLabLogo() {
+	addP5CatalystLogo() {
 		let logo = this.addHTMLToNewField(
-			`powered by <a href="https://github.com/aidanwyber/p5BrandLab" target="_blank">` + 
-				`<div class="p5brandlab-logo footer-logo"></div>` + 
+			`powered by <a href="https://github.com/aidanwyber/p5Catalyst" target="_blank">` + 
+				`<div class="p5catalyst-logo footer-logo"></div>` + 
 			`</a>`,
 			'powered-by-logo'
 		);

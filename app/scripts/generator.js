@@ -1,6 +1,6 @@
 
 class Generator {
-	static name = 'p5BrandLab';
+	static name = 'p5Catalyst';
 	static supportEmail = '';
 
 	palette = [
