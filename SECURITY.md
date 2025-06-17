@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-This project is actively maintained and tested with modern browsers but older versions of `p5.js`, `toxiclibs.js`, and `ffmpeg.wasm`. Some environments may not be supported.
+This project is actively maintained and tested with modern browsers but older versions of [p5.js](https://p5js.org/), [p5.js-svg](https://github.com/zenozeng/p5.js-svg), [toxiclibs.js](https://github.com/hapticdata/toxiclibsjs), and [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm). Some environments may not be supported.
 
 ## Reporting a vulnerability
 

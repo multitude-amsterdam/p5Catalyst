@@ -145,8 +145,7 @@ We kindly ask: if you make something cool with p5BrandLab, please share it with 
 
 
 # ❤️‍🔥 Credits
-Developed using [p5.js](https://p5js.org/), [p5.js-svg
-](https://github.com/zenozeng/p5.js-svg), [toxiclibs.js](https://github.com/hapticdata/toxiclibsjs), and [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
+Developed using [p5.js](https://p5js.org/), [p5.js-svg](https://github.com/zenozeng/p5.js-svg), [toxiclibs.js](https://github.com/hapticdata/toxiclibsjs), and [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
 
 
 # 🧾 License

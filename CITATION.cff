@@ -1,0 +1,43 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: p5BrandLab
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - {}
+  - name: Multitude
+    address: Ridderspoorweg
+    city: Amsterdam
+    post-code: 1032LL
+    email: info@multitude.nl
+    tel: '+31203708532'
+    website: 'https://www.multitude.nl/'
+    location: 'Amsterdam '
+    region: Netherlands
+  - given-names: Aidan
+    family-names: Wyber
+    email: aidan.wyber@multitude.nl
+    name-particle: Aidan
+    affiliation: Multitude
+repository-code: 'https://github.com/multitude-amsterdam/p5BrandLab'
+abstract: >-
+  p5BrandLab is an open-source GUI framework for p5.js that
+  enables creative coders to add modular controls, export
+  functionality to their sketches to create usable and
+  robust web apps.
+keywords:
+  - p5
+  - p5-svg
+  - ffmpeg.wasm
+  - toxiclibs
+  - open-source
+  - javascript
+  - wrapper
+  - vanilla
+license: MIT
+version: 1.0.0
+date-released: '2025-06-11'
