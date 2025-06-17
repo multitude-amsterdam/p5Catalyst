@@ -17,9 +17,9 @@
 	<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 	<img alt="p5BrandLab licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
+	<img alt="p5BrandLab stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 	<br>
 	<img alt="p5BrandLab forks" src="https://img.shields.io/github/forks/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
-	<img alt="p5BrandLab stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
 	<img alt="p5BrandLab issues" src="https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
 	<img alt="p5BrandLab pull-requests" src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
 </p>
@@ -37,11 +37,6 @@ With **p5BrandLab**, you can generate **professional brand-consistent visual con
 p5BrandLab was initiated by creative agency [Multitude](https://multitude.nl/).
 
 
-# 👀 Demo
-
-Load the project [on GitHub pages](https://multitude-amsterdam.github.io/p5BrandLab/)!
-
-
 # 🛠️ Features
 - **Generative templates**: define branded elements that evolve dynamically.
 - **Modular & expandable**: the vanilla JavaScript framework affords adding custom classes and libraries as you go.
@@ -53,8 +48,12 @@ Load the project [on GitHub pages](https://multitude-amsterdam.github.io/p5Brand
 - **File I/O**: Save and load GUI settings. Also saves to `localStorage`.
 
 
-# 🔁 Why open-source?
+# 👀 Demo
 
+Load the project [on GitHub pages](https://multitude-amsterdam.github.io/p5BrandLab/)!
+
+
+# 🔁 Why open-source?
 
 **p5BrandLab is our invitation to the creative coding community:** hack, extend, and redefine what branding can be. We encourage experimentation and collaboration—let’s build the future of visual identities, together 🌱.
 
@@ -64,8 +63,7 @@ To run p5BrandLab locally, follow these steps.
 
 ## 1. Clone the repository
 ```sh
-git clone https://github.com/multitude-amsterdam/p5BrandLab.git YOUR_PROJECT_NAME
-cd YOUR_PROJECT_NAME
+git clone https://github.com/multitude-amsterdam/p5BrandLab.git YOUR_NEW_APP
 ```
 or alternatively, download the code as a ZIP file by clicking the "**<> Code**" button at the top-right of this page. ↗️
 
@@ -74,18 +72,18 @@ The `/app` directory holds the runnable website. You need to start a local web s
 
 First, open a command prompt and navigate to the `/app` directory.
 ```sh
-cd /Users/You/Your Github Folder/YOUR_PROJECT_NAME/app
+cd /Users/You/Your Github Folder/YOUR_NEW_APP/app
 ```
 
-If you have Python installed:
+*If you have Python installed:*
 ```sh
 python3 -m http.server 8000
 ```
-If you have Node.js installed:
+*If you have Node.js installed:*
 ```sh
 npx http-server -p 8000
 ```
-If you PHP installed:
+*If you PHP installed:*
 ```sh
 php -S localhost:8000
 ```
@@ -132,7 +130,7 @@ That's it! You can now host the application 😶‍🌫️ and send it to your c
 
 # 🤝 Contributing
 
-We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more info, see [CONTRIBUTING.md]().
+We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more info, see [CONTRIBUTING.md](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/CONTRIBUTING.md).
 
 
 # 🌍 Sharing your work
@@ -143,17 +141,16 @@ If you've built something unique, whether it's a wild new generator, an adaptati
 - Share screenshots or videos of your creations
 - Mention us if you publish your forked project online
 
-We kindly ask: **if you make something cool with p5BrandLab, please share it with us.**
-
-By sharing your work, you help grow a creative ecosystem.
+We kindly ask: if you make something cool with p5BrandLab, please share it with us in the [Show and tell sectgion of the Discussions](https://github.com/multitude-amsterdam/p5BrandLab/discussions/categories/show-and-tell)!
 
 
 # ❤️‍🔥 Credits
-Developed using [p5.js](https://p5js.org/), [toxiclibs.js](https://github.com/hapticdata/toxiclibsjs), and [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
+Developed using [p5.js](https://p5js.org/), [p5.js-svg
+](https://github.com/zenozeng/p5.js-svg), [toxiclibs.js](https://github.com/hapticdata/toxiclibsjs), and [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
 
 
 # 🧾 License
-This project is licensed under the **MIT License** – free to use and modify.
+This project is licensed under the **MIT License**: free to use and modify.
 
 
 # 📢 Stay Updated
