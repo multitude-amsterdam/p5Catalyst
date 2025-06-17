@@ -1,5 +1,6 @@
 [![p5BrandLab. Generative branding, open to all. Initiated by Multitude.](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/p5BrandLab-header.svg?raw=true)](https://multitude.nl/ "Multitude")
 
+*p5BrandLab is a wrapper for `p5.js` for creating usable web apps for professional generative visuals.*
 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)
 [![GitHub contributors](https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/CONTRIBUTING.md)
@@ -9,23 +10,7 @@
 [![p5BrandLab issues](https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)](https://github.com/multitude-amsterdam/p5BrandLab/issues) 
 [![p5BrandLab pull-requests](https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)](https://github.com/multitude-amsterdam/p5BrandLab/pulls)
 
-<p align="center">
-<a href="https://github.com/multitude-amsterdam/p5BrandLab/blob/main/LICENSE" target="blank">
-<img src="https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab" alt="p5BrandLab licence" />
-</a>
-<a href="https://github.com/multitude-amsterdam/p5BrandLab/fork" target="blank">
-<img src="https://img.shields.io/github/forks/multitude-amsterdam/p5BrandLab" alt="p5BrandLab forks"/>
-</a>
-<a href="https://github.com/multitude-amsterdam/p5BrandLab/stargazers" target="blank">
-<img src="https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab" alt="p5BrandLab stars"/>
-</a>
-<a href="https://github.com/multitude-amsterdam/p5BrandLab/issues" target="blank">
-<img src="https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab" alt="p5BrandLab issues"/>
-</a>
-<a href="https://github.com/multitude-amsterdam/p5BrandLab/pulls" target="blank">
-<img src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab" alt="p5BrandLab pull-requests"/>
-</a>
-</p>
+<hr>
 
 
 # 🧪 What is p5BrandLab?
