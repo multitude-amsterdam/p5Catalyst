@@ -4,26 +4,18 @@
 	<em>p5BrandLab is a wrapper for </em><code>p5.js</code><em> designed to easily create usable web apps for professional generative visuals.</em>
 </p>
 
-<!-- ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)
-[![GitHub contributors](https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/CONTRIBUTING.md)
-[![p5BrandLab licence"](https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/LICENSE) 
-[![p5BrandLab forks](https://img.shields.io/github/forks/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)](https://github.com/multitude-amsterdam/p5BrandLab/fork) 
-[![p5BrandLab stars](https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)](https://github.com/multitude-amsterdam/p5BrandLab/stargazers) 
-[![p5BrandLab issues](https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)](https://github.com/multitude-amsterdam/p5BrandLab/issues) 
-[![p5BrandLab pull-requests](https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7)](https://github.com/multitude-amsterdam/p5BrandLab/pulls)
- -->
-
 <p align="center">
 	<img alt="p5BrandLab licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 	<img alt="p5BrandLab stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 	<img alt="p5BrandLab watchers" src="https://img.shields.io/github/watchers/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab creation date" src="https://img.shields.io/github/created-at/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 	<br>
-	<img alt="p5BrandLab contributors" src="https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab commit activity" src="https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
+	<img alt="p5BrandLab contributors" src="https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
+	<img alt="p5BrandLab commit activity" src="https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
 	<img alt="p5BrandLab forks" src="https://img.shields.io/github/forks/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
 	<img alt="p5BrandLab issues" src="https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
 	<img alt="p5BrandLab pull-requests" src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
+	<br>
+	<img alt="p5BrandLab creation date" src="https://img.shields.io/github/created-at/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 </p>
 
 <hr>
