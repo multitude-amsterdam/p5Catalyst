@@ -12,7 +12,7 @@
 	<a style="text-decoration:none !important;" href="https://github.com/multitude-amsterdam/p5Catalyst/pulls"><img alt="p5Catalyst pull-requests" src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7"></a>
 </p>
 
-<hr>
+---
 
 
 # 🧪 What is p5Catalyst?
@@ -158,3 +158,5 @@ Follow the development and join the discussion:
 - GitHub Discussions: [join the conversation](https://github.com/multitude-amsterdam/p5Catalyst/discussions)
 - Multitude's Instagram: [@multitudecreativeagency](https://www.instagram.com/multitudecreativeagency/)
 - Creative Coding Amsterdam: [join a Meetup](https://www.meetup.com/nl-NL/creative-coding-amsterdam/) and ask Aidan about this project in person 🤔🤔 or [find the Discord server here](https://cca.codes/) 👋
+
+---
