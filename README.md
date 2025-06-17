@@ -1,7 +1,7 @@
 [![p5BrandLab. Generative branding, open to all. Initiated by Multitude.](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/p5BrandLab-header.svg?raw=true)](https://multitude.nl/ "Multitude")
 
 
-![GitHub commit activity](https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab) ![GitHub contributors](https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab) ![GitHub contributors](https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square&color=ff0000)
 
 
 <p align="center">
