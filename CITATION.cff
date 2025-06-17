@@ -8,7 +8,6 @@ message: >-
   metadata from this file.
 type: software
 authors:
-  - {}
   - name: Multitude
     address: Ridderspoorweg
     city: Amsterdam
@@ -16,12 +15,11 @@ authors:
     email: info@multitude.nl
     tel: '+31203708532'
     website: 'https://www.multitude.nl/'
-    location: 'Amsterdam '
+    location: Amsterdam
     region: Netherlands
   - given-names: Aidan
     family-names: Wyber
     email: aidan.wyber@multitude.nl
-    name-particle: Aidan
     affiliation: Multitude
 repository-code: 'https://github.com/multitude-amsterdam/p5BrandLab'
 abstract: >-
