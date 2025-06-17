@@ -1,6 +1,27 @@
 [![p5BrandLab. Generative branding, open to all. Initiated by Multitude.](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/p5BrandLab-header.svg?raw=true)](https://multitude.nl/ "Multitude")
 
-<!-- ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab) ![GitHub contributors](https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab)  -->
+
+![GitHub commit activity](https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab) ![GitHub contributors](https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab)
+
+
+<p align="center">
+<a href="https://github.com/multitude-amsterdam/p5BrandLab/blob/master/LICENSE" target="blank">
+<img src="https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab" alt="p5BrandLab licence" />
+</a>
+<a href="https://github.com/multitude-amsterdam/p5BrandLab/fork" target="blank">
+<img src="https://img.shields.io/github/forks/multitude-amsterdam/p5BrandLab" alt="p5BrandLab forks"/>
+</a>
+<a href="https://github.com/multitude-amsterdam/p5BrandLab/stargazers" target="blank">
+<img src="https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab" alt="p5BrandLab stars"/>
+</a>
+<a href="https://github.com/multitude-amsterdam/p5BrandLab/issues" target="blank">
+<img src="https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab" alt="p5BrandLab issues"/>
+</a>
+<a href="https://github.com/multitude-amsterdam/p5BrandLab/pulls" target="blank">
+<img src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab" alt="p5BrandLab pull-requests"/>
+</a>
+</p>
+
 
 # 🧪 What is p5BrandLab?
 At [Multitude](https://multitude.nl/), we believe branding should be **fluid, flexible, and future-proof**. Instead of static design systems, we embrace **generative branding**, where design systems evolve and adapt in real-time. **p5BrandLab** evolved for this purpose. 
