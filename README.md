@@ -17,9 +17,7 @@
 	<a style="text-decoration:none !important;" href="https://github.com/multitude-amsterdam/p5Catalyst/graphs/commit-activity">
 		<img alt="p5Catalyst commit activity" src="https://img.shields.io/github/commit-activity/t/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
 	</a>
-	<a style="text-decoration:none !important;" href="https://github.com/multitude-amsterdam/p5Catalyst/forks">
-		<img alt="p5Catalyst forks" src="https://img.shields.io/github/forks/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
-	</a>
+	<a style="text-decoration:none !important;" href="https://github.com/multitude-amsterdam/p5Catalyst/forks"><img alt="p5Catalyst forks" src="https://img.shields.io/github/forks/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7"></a>
 	<a style="text-decoration:none !important;" href="https://github.com/multitude-amsterdam/p5Catalyst/issues">
 		<img alt="p5Catalyst issues" src="https://img.shields.io/github/issues/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
 	</a>
