@@ -41,7 +41,7 @@ p5BrandLab was initiated by creative agency [Multitude](https://multitude.nl/).
 
 # 👀 Demo
 
-Load the project [on GitHub pages](https://multitude-amsterdam.github.io/p5BrandLab/)!
+Load the project [on GitHub pages](https://multitude-amsterdam.github.io/p5BrandLab/app/)!
 
 
 # 🔁 Why open-source?

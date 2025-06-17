@@ -22,6 +22,7 @@ authors:
     email: aidan.wyber@multitude.nl
     affiliation: Multitude
 repository-code: 'https://github.com/multitude-amsterdam/p5BrandLab'
+url: 'https://github.com/multitude-amsterdam/p5BrandLab'
 abstract: >-
   p5BrandLab is an open-source GUI framework for p5.js that
   enables creative coders to add modular controls, export
