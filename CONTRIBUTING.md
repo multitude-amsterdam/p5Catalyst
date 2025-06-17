@@ -1,6 +1,6 @@
-# Contributing to p5BrandLab
+# Contributing to p5Catalyst
 
-🎨 Thanks for your interest in contributing to **p5BrandLab**! This tool thrives on community creativity. p5BrandLab is open-source under MIT License. 
+🎨 Thanks for your interest in contributing to **p5Catalyst**! This tool thrives on community creativity. p5Catalyst is open-source under MIT License. 
 
 ---
 

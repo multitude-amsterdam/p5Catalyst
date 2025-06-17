@@ -2,7 +2,7 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: p5BrandLab
+title: p5Catalyst
 message: >-
   If you use this software, please cite it using the
   metadata from this file.
@@ -21,10 +21,10 @@ authors:
     family-names: Wyber
     email: aidan.wyber@multitude.nl
     affiliation: Multitude
-repository-code: 'https://github.com/multitude-amsterdam/p5BrandLab'
-url: 'https://github.com/multitude-amsterdam/p5BrandLab'
+repository-code: 'https://github.com/multitude-amsterdam/p5Catalyst'
+url: 'https://github.com/multitude-amsterdam/p5Catalyst'
 abstract: >-
-  p5BrandLab is an open-source GUI framework for p5.js that
+  p5Catalyst is an open-source GUI framework for p5.js that
   enables creative coders to add modular controls, export
   functionality to their sketches to create usable and
   robust web apps.

@@ -1,31 +1,31 @@
-[![p5BrandLab. Generative branding, open to all. Initiated by Multitude.](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/p5BrandLab-header.svg?raw=true)](https://multitude.nl/ "Multitude")
+[![p5Catalyst. Generative branding, open to all. Initiated by Multitude.](https://github.com/multitude-amsterdam/p5Catalyst/blob/main/p5Catalyst-header.svg?raw=true)](https://multitude.nl/ "Multitude")
 
 <p align="center" style="font-size:1.25em">
-	<em>p5BrandLab is a wrapper for </em><code>p5.js</code><em> designed to easily create usable web apps for professional generative visuals.</em>
+	<em>p5Catalyst is a wrapper for </em><code>p5.js</code><em> designed to easily create usable web apps for professional generative visuals.</em>
 </p>
 
 <p align="center">
-	<img alt="p5BrandLab licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab?style=flat-square&color=78f">
-	<img alt="p5BrandLab stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab watchers" src="https://img.shields.io/github/watchers/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab contributors" src="https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab commit activity" src="https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab forks" src="https://img.shields.io/github/forks/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab issues" src="https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab pull-requests" src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
+	<img alt="p5Catalyst licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5Catalyst?style=flat-square&color=78f">
+	<img alt="p5Catalyst stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
+	<img alt="p5Catalyst watchers" src="https://img.shields.io/github/watchers/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
+	<img alt="p5Catalyst contributors" src="https://img.shields.io/github/contributors/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
+	<img alt="p5Catalyst commit activity" src="https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
+	<img alt="p5Catalyst forks" src="https://img.shields.io/github/forks/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
+	<img alt="p5Catalyst issues" src="https://img.shields.io/github/issues/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
+	<img alt="p5Catalyst pull-requests" src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
 </p>
 
 <hr>
 
 
-# 🧪 What is p5BrandLab?
-At [Multitude](https://multitude.nl/), we believe branding should be **fluid, flexible, and future-proof**. Instead of static design systems, we embrace **generative branding**, where design systems evolve and adapt in real-time. **p5BrandLab** evolved for this purpose. 
+# 🧪 What is p5Catalyst?
+At [Multitude](https://multitude.nl/), we believe branding should be **fluid, flexible, and future-proof**. Instead of static design systems, we embrace **generative branding**, where design systems evolve and adapt in real-time. **p5Catalyst** evolved for this purpose. 
 
-**p5BrandLab** is an **open-source generative branding tool** that allows **creative coders** to create **dynamic visual identities** in a [p5.js](https://p5js.org/)-based environment.
+**p5Catalyst** is an **open-source generative branding tool** that allows **creative coders** to create **dynamic visual identities** in a [p5.js](https://p5js.org/)-based environment.
 
-With **p5BrandLab**, you can generate **professional brand-consistent visual content** by providing **high-quality assets** for web, print, or motion graphics.
+With **p5Catalyst**, you can generate **professional brand-consistent visual content** by providing **high-quality assets** for web, print, or motion graphics.
 
-p5BrandLab was initiated by creative agency [Multitude](https://multitude.nl/).
+p5Catalyst was initiated by creative agency [Multitude](https://multitude.nl/).
 
 
 # 🛠️ Features
@@ -41,20 +41,20 @@ p5BrandLab was initiated by creative agency [Multitude](https://multitude.nl/).
 
 # 👀 Demo
 
-Load the project [on GitHub pages](https://multitude-amsterdam.github.io/p5BrandLab/app/)!
+Load the project [on GitHub pages](https://multitude-amsterdam.github.io/p5Catalyst/app/)!
 
 
 # 🔁 Why open-source?
 
-**p5BrandLab is our invitation to the creative coding community:** hack, extend, and redefine what branding can be. We encourage experimentation and collaboration—let’s build the future of visual identities, together 🌱.
+**p5Catalyst is our invitation to the creative coding community:** hack, extend, and redefine what branding can be. We encourage experimentation and collaboration—let’s build the future of visual identities, together 🌱.
 
 
 # 📥 Installation & setup
-To run p5BrandLab locally, follow these steps. 
+To run p5Catalyst locally, follow these steps. 
 
 ## 1. Clone the repository
 ```sh
-git clone https://github.com/multitude-amsterdam/p5BrandLab.git YOUR_NEW_APP
+git clone https://github.com/multitude-amsterdam/p5Catalyst.git YOUR_NEW_APP
 ```
 or alternatively, download the code as a ZIP file by clicking the "**<> Code**" button at the top-right of this page. ↗️
 
@@ -121,7 +121,9 @@ That's it! You can now host the application 😶‍🌫️ and send it to your c
 
 # 🤝 Contributing
 
-We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more info, see [CONTRIBUTING.md](https://github.com/multitude-amsterdam/p5BrandLab/blob/main/CONTRIBUTING.md).
+We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more info, see [CONTRIBUTING.md](https://github.com/multitude-amsterdam/p5Catalyst/blob/main/CONTRIBUTING.md).
+
+For security concerns, please review the [security policy](./SECURITY.md).
 
 
 # 🌍 Sharing your work
@@ -132,7 +134,7 @@ If you've built something unique, whether it's a wild new generator, an adaptati
 - Share screenshots or videos of your creations
 - Mention us if you publish your forked project online
 
-We kindly ask: if you make something cool with p5BrandLab, please share it with us in the [Show and tell sectgion of the Discussions](https://github.com/multitude-amsterdam/p5BrandLab/discussions/categories/show-and-tell)!
+We kindly ask: if you make something cool with p5Catalyst, please share it with us in the [Show and tell sectgion of the Discussions](https://github.com/multitude-amsterdam/p5Catalyst/discussions/categories/show-and-tell)!
 
 
 # ❤️‍🔥 Credits
@@ -145,6 +147,6 @@ This project is licensed under the **MIT License**: free to use and modify.
 
 # 📢 Stay Updated
 Follow the development and join the discussion:
-- GitHub Discussions: [join the conversation](https://github.com/multitude-amsterdam/p5BrandLab/discussions)
+- GitHub Discussions: [join the conversation](https://github.com/multitude-amsterdam/p5Catalyst/discussions)
 - Multitude's Instagram: [@multitudecreativeagency](https://www.instagram.com/multitudecreativeagency/)
 - Creative Coding Amsterdam: [join a Meetup](https://www.meetup.com/nl-NL/creative-coding-amsterdam/) and ask Aidan about this project in person 🤔🤔 or [find the Discord server here](https://cca.codes/) 👋

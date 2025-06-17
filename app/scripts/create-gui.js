@@ -315,7 +315,7 @@ function createGUI() {
 
 
 
-	gui.addP5BrandLabLogo();
+	gui.addP5CatalystLogo();
 
 	// initialize randomly
 	// gui.randomizer.randomize();
