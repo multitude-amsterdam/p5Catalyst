@@ -1,10 +1,6 @@
 ![p5Catalyst](./app/assets/p5catalyst-logo-darkmode.svg#gh-dark-mode-only)
 ![p5Catalyst](./app/assets/p5catalyst-logo-lightmode.svg#gh-light-mode-only)
 
-<p align="center" style="font-size:1.25em">
-	<em>From sketch to powerhouse.</em>
-</p>
-
 <p align="center">
 	<img alt="p5Catalyst licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5Catalyst?style=flat-square&color=78f">
 	<img alt="p5Catalyst stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7">
