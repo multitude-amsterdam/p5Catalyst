@@ -17,10 +17,11 @@
 	<img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/y/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 	<img alt="GitHub contributors" src="https://img.shields.io/github/contributors/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
 	<img alt="p5BrandLab licence" src="https://img.shields.io/github/license/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab forks" src="https://img.shields.io/github/forks/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab issues" src="https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
-	<img alt="p5BrandLab pull-requests" src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab?style=flat-square&color=7685F7">
+	<br>
+	<img alt="p5BrandLab forks" src="https://img.shields.io/github/forks/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
+	<img alt="p5BrandLab stars" src="https://img.shields.io/github/stars/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
+	<img alt="p5BrandLab issues" src="https://img.shields.io/github/issues/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
+	<img alt="p5BrandLab pull-requests" src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5BrandLab?style=flat-square&color=BFFB50">
 </p>
 
 <hr>
@@ -33,9 +34,12 @@ At [Multitude](https://multitude.nl/), we believe branding should be **fluid, fl
 
 With **p5BrandLab**, you can generate **professional brand-consistent visual content** by providing **high-quality assets** for web, print, or motion graphics.
 
-See what the p5BrandLab generator looks like [on GitHub pages](https://multitude-amsterdam.github.io/p5BrandLab/).
-
 p5BrandLab was initiated by creative agency [Multitude](https://multitude.nl/).
+
+
+# 👀 Demo
+
+Load the project [on GitHub pages](https://multitude-amsterdam.github.io/p5BrandLab/)!
 
 
 # 🛠️ Features
@@ -66,19 +70,28 @@ cd YOUR_PROJECT_NAME
 or alternatively, download the code as a ZIP file by clicking the "**<> Code**" button at the top-right of this page. ↗️
 
 ## 2. Start a local development server
-You need to start a local web server ("dev server") to use p5 and the other libraries. Here are some options to do this in a command prompt window:
+The `/app` directory holds the runnable website. You need to start a local web server (a "dev server") in this folder to use p5 and the other libraries. Opening the `index.html` file will not work on its own. Here are some options to do this in a command prompt window:
+
+First, open a command prompt and navigate to the `/app` directory.
+```sh
+cd /Users/You/Your Github Folder/YOUR_PROJECT_NAME/app
+```
 
 If you have Python installed:
 ```sh
 python3 -m http.server 8000
 ```
+If you have Node.js installed:
+```sh
+npx http-server -p 8000
+```
 If you PHP installed:
 ```sh
 php -S localhost:8000
 ```
-The app will be available at `http://localhost:8000`.
+The app will be up and running at `http://localhost:8000`.
 
-[More on running local web servers.](https://gist.github.com/jgravois/5e73b56fa7756fd00b89)
+[More on running local web servers by Mozilla.](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Tools_and_setup/set_up_a_local_testing_server)
 
 ## 3. Create your generative sketch in `generator.js`
 The `Generator` class in generator.js is designed to correspond with the `setup()` and `draw()` functions in p5. You can copy/paste your sketches in there. You won't need to use `createCanvas()`, as there is a `canvas` object available already. There is also some structure in place to help you get started with using shaders as well.
@@ -89,7 +102,7 @@ class Generator {
 	setup() {
 	...
 	draw() {
-	....
+	...
 ```
 
 ## 4. Create GUI elements in `create-gui.js`
@@ -119,25 +132,7 @@ That's it! You can now host the application 😶‍🌫️ and send it to your c
 
 # 🤝 Contributing
 
-We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! 
-
-Examples of contributions might be:
-- New **features** for users
-- New types of **GUI controllers**
-- Implementing multi-threaded ffmpeg.wasm
-- **Anything else** you might think of!
-
-(If you're not already using a git client, we recommend using [GitHub Desktop](https://github.com/apps/desktop), it's an easy way to interface with GitHub and perform the following operations with ease.)
-
-To contribute directly to this project:
-
-1. **Fork** this repository
-2. Create a **feature branch**
-3. **Commit** your changes
-4. **Push** the branch to your fork
-5. Open a **pull request** with a clear description
-
-For larger or structural changes, please **open an issue** first to discuss ideas and ensure alignment.
+We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more info, see [CONTRIBUTING.md]().
 
 
 # 🌍 Sharing your work
