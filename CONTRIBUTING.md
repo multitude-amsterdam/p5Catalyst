@@ -2,7 +2,6 @@
 
 🎨 Thanks for your interest in contributing to **p5BrandLab**! This tool thrives on community creativity. p5BrandLab is open-source under MIT License. 
 
-
 ---
 
 ## Ways to Contribute
