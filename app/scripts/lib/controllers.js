@@ -480,51 +480,47 @@ class ColourBoxes extends ValuedController {
 		valueCallback, setupCallback=undefined) {
 		super(gui, name, labelStr, setupCallback);
 
-		this.colours = colours;
 		this.valueCallback = valueCallback;
 
-		this.setControllerColours();
+		this.createRadioFromColours(colours);
 
-		this.setValue(this.colours[defaultIndex]);
+		this.setValue(colours[defaultIndex]);
 	}
 
-	setControllerColours() {
+	createRadioFromColours(colours) {
+		const isInit = this.controllerElement === undefined;
 		if (this.controllerElement) {
-			this.controllerElement.remove();
+			this.controllerElement.elt.remove();
 		}
 
 		const radio = createRadio(this.name);
 		radio.class('colour-boxes');
-		radio.parent(this.controllerWrapper);
-		let i = 0;
-		for (const col of this.colours) {
-			// this.controllerElement
-			// let colBox = createRadio(name);
-			// colBox.parent(this.controllerElement);
-			// colBox.value = 
-			// let colBoxElt = document.createElement('input');
-			radio.option('' + i);
-			i++;
+		this.controllerWrapper.elt.prepend(radio.elt);
+
+		for (let i = 0; i < colours.length; i++) {
+			radio.option(i.toString());
 		}
 
-		radio.elt.querySelectorAll('span').forEach(elt => {
-			elt.remove();
-		});
-		radio.elt.querySelectorAll('input').forEach((elt, i) => {
-			const hexCol = colorToHexString(this.colours[i]).toUpperCase();
+		// remove span labels from p5 structure
+		for (const elt of radio.elt.querySelectorAll('span')) elt.remove();
+
+		let i = 0;
+		for (const elt of radio.elt.querySelectorAll('input')) {
+			const hexCol = colorToHexString(colours[i++]).toUpperCase();
 			elt.style.backgroundColor = hexCol;
 			elt.title = hexCol;
 			elt.onclick = (evt) => {
 				this.setValue(this.colours[parseInt(elt.value)]);
 			};
-		});
+		};
 
+		this.colours = colours;
 		this.controllerElement = radio;
 	}
 
-        setValue(colObj) {
-                if (!(colObj instanceof p5.Color))
-                        throw new Error(colObj + ' is not a p5.Color.');
+    setValue(colObj) {
+        if (!(colObj instanceof p5.Color))
+            throw new Error(colObj + ' is not a p5.Color.');
 
 		const index = this.colours.findIndex((col) =>
 			isArraysEqual(col.levels, colObj.levels)
@@ -654,6 +650,49 @@ class Textarea extends ValuedController {
 	}
 
 	randomize() {}
+}
+
+
+
+class ColourTextArea extends Textarea {
+	constructor(gui, name, labelStr, colours, valueCallback, setupCallback=undefined) {
+		const colourList = ColourTextArea.colourListToString(colours);
+		super(gui, name, labelStr, colourList, valueCallback, setupCallback);
+
+		this.controllerElement.elt.oninput = (event) => {
+			const value = ColourTextArea.parseColourList(event.srcElement.value);
+			this.valueCallback(this, value);
+
+			this.displayColours(value);
+		};
+
+		this.displayColours(colours);
+	}
+
+	displayColours(colours) {
+		if (this.disp) this.disp.elt.remove();
+
+		this.disp = createDiv();
+		this.disp.class('colour-text-area-display');
+		this.disp.parent(this.div);
+		for (let col of colours) {
+			let colBlock = createDiv();
+			colBlock.class('colour-text-area-block');
+			colBlock.style('background-color', colorToHexString(col));
+			colBlock.parent(this.disp);
+		}
+	}
+
+	static colourListToString(colours) {
+		return colours.map(c => colorToHexString(c).toUpperCase()).join(',');
+	}
+
+	static parseColourList(str) {
+		return str.split(',')
+			.map(cstr => cstr.trim())
+			.filter(cstr => cstr.length == 7 && cstr[0] == '#')
+			.map(cstr => color(cstr));
+	}
 }
 
 
