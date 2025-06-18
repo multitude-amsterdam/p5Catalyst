@@ -453,6 +453,24 @@ class XYSlider extends ValuedController {
 		this.value = {x: vec.x, y: vec.y};
 		this.setDisplay();
 		this.valueCallback(this, this.value);
+
+		/*
+			TODO
+			- now when xy slider is moved, the hide image toggle changes
+			- redo also always resets the xyslider to 0,0
+			- possible that the falling edge detected below is too late,
+				as the setValue method is called only when the move is moving
+			- add setValue to mouseUp
+			- add param to set value : (doUpdate=true)
+				and put false for mousemove
+		*/
+
+		// not working:
+		// this.isMouseDown = mouseIsPressed;
+		// this.prevIsMouseDown = this.isMouseDown;
+		// const isLetMouseGo = !this.isMouseDown && this.prevIsMouseDown;
+		// if (!isLetMouseGo) return;
+
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
