@@ -520,6 +520,25 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 }
 
 
+
+/********************************* COLOURTEXTAREA *********************************/
+#gui .colour-text-area-display {
+	width: 100%;
+	display: flex;
+	flex-flow: row wrap;
+	align-content: flex-end;
+	justify-content: flex-start;
+/*	gap: var(--gui-line-width);*/
+	gap: calc(var(--gui-target-diameter) * 0.25);
+	transition: var(--gui-transition);
+}
+#gui .colour-text-area-block {
+	width: var(--gui-target-diameter);
+	height: calc(var(--gui-target-diameter) * 0.5);
+}
+
+
+
 /********************************* TEXTBOX *********************************/
 #gui input[type="text"] {
 	-webkit-appearance: none;
