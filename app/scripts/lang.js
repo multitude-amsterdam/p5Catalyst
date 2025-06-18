@@ -46,6 +46,10 @@ const dictionary = {
 		'en': 'image',
 		'nl': 'afbeelding'
 	},
+	'LANG_VIDEO_READY_MSG': {
+		'en': 'The video is ready and will be downloaded.', 
+		'nl': 'De video is gereed and wordt gedownload.'
+	},
 	'LANG_VIDEO': {
 		'en': 'video',
 		'nl': 'video'
@@ -121,10 +125,6 @@ const dictionary = {
 	'LANG_RANDOMIZE': {
 		'en': 'randomize', 
 		'nl': 'doe maar wat'
-	},
-	'LANG_VIDEO_READY_MSG': {
-		'en': 'The video is ready and will be downloaded.', 
-		'nl': 'De video is gereed and wordt gedownload.'
 	},
 	'LANG_SAVE_SETTINGS': {
 		'en': 'save settings as file', 
