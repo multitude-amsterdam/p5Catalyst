@@ -2,7 +2,7 @@
 
 ## Maintainer & creator
 **Aidan Wyber**
-Lead developer and designer of the p5Catalyst project. Creative coder at Multitude.
+Lead developer and designer of the p5Catalyst project, creative coder at Multitude.
 Email: [aidan.wyber@multitude.nl](mailto:aidan.wyber@multitude.nl)
 
 ## Special thanks

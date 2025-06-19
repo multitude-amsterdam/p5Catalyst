@@ -32,7 +32,7 @@ Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew
 - **Export support**: save outputs as PNG, SVG, or video (MP4, WEBM) via ffmpeg.wasm.
 - **Dark mode and theming**: UI respects system theme and is easy to style.
 - **File I/O**: save/load user settings, support for `localStorage`.
-- **Change history**: .
+- **Change history**: use CTRL+Z and CTRL+SHIFT+Z to undo and redo changes.
 - **Internationalization**: plug in translations for global-ready tools.
 - **Sketch integration**: integrate a finished p5 sketch easily.
 
@@ -128,20 +128,19 @@ That's it! You can now host the application 😶‍🌫️ and send it to your c
 
 # 🤝 Contributing
 
-We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more info, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more information on contributing, continue reading [here](./CONTRIBUTING.md). 
 
 For security concerns, please review the [security policy](./SECURITY.md).
 
-
 # 🌍 Sharing your work
 
-If you've built something unique, whether it's a wild new web app, an adaptation for a client, or just a fun remix, **we'd love to see it 👀**!
+We kindly ask: if you make something cool with p5Catalyst, please share it! Whether it's a wild new web app, an adaptation for a client, or just a fun remix, **we'd love to see it 👀**! 
 
-- Open an issue to link your version
-- Share screenshots or videos of your creations
+- Create a new thread in the [**Show and tell section of the Discussions**](https://github.com/multitude-amsterdam/p5Catalyst/discussions/categories/show-and-tell)
+- Share **screenshots** or videos of your creations
 - Mention us if you publish your forked project online
 
-We kindly ask: if you make something cool with p5Catalyst, please share it with us in the [Show and tell sectgion of the Discussions](https://github.com/multitude-amsterdam/p5Catalyst/discussions/categories/show-and-tell)!
+Keep in mind the [**Community Code of Conduct**](./CODE_OF_CONDUCT.md) for this project.
 
 
 # ❤️‍🔥 Credits
@@ -151,7 +150,7 @@ Developed using [p5.js](https://p5js.org/), [p5.js-svg](https://github.com/zenoz
 
 # 🧾 License
 
-This project is licensed under the **MIT License**: free to use and modify.
+This project is licensed under the [**MIT License**](./LICENSE): free to use and modify.
 
 
 # 📢 Stay Updated
