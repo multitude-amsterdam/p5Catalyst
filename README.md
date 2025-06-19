@@ -87,16 +87,25 @@ The app will be up and running at `http://localhost:8000`.
 
 [More on running local web servers by Mozilla.](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Tools_and_setup/set_up_a_local_testing_server)
 
-## 3. Create your generative sketch in `generator.js`
+## 3. Paste your p5 sketch into `generator.js`
 The `Generator` class in generator.js is designed to correspond with the `setup()` and `draw()` functions in p5. You can copy/paste your sketches in there. You won't need to use `createCanvas()`, as there is a `canvas` object available already. There is also some structure in place to help you get started with using shaders as well.
 ```javascript
 class Generator {
 	static name = 'Project Name';
 	...
+
 	setup() {
-	...
+		// your sketch's setup() here
+		...
+	}
+
 	draw() {
+		// your sketch's draw() here
+		...
+	}
+
 	...
+}
 ```
 
 ## 4. Create GUI elements in `create-gui.js`
@@ -118,7 +127,9 @@ Most of the styling variables can be found under `:root`, like colours, sizes an
 :root {
 	...
 	--gui-base-col: #7685F7;
+	--gui-hover-col: #BFFB50;
 	...
+}
 ```
 
 ## 6. Plop it on a server!
