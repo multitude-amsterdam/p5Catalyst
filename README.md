@@ -87,7 +87,7 @@ The app will be up and running at `http://localhost:8000`.
 
 [More on running local web servers by Mozilla.](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Tools_and_setup/set_up_a_local_testing_server)
 
-## 3. Paste your p5 sketch into `generator.js`
+## 3. Paste your p5 sketch in `generator.js`
 The `Generator` class in generator.js is designed to correspond with the `setup()` and `draw()` functions in p5. You can copy/paste your sketches in there. You won't need to use `createCanvas()`, as there is a `canvas` object available already. There is also some structure in place to help you get started with using shaders as well.
 ```javascript
 class Generator {
@@ -117,11 +117,20 @@ gui.addController(new ColourBoxes(
 	(controller, value) => {
 		generator.birdCol = value;
 	}
-));
+), doAddToRandomizerAs=true);
+gui.addController(new XYSlider(
+	gui, 'xySliderBirdTarget', 'Bird flock target', 
+	0, width, width / 2, 1,
+	0, height, height / 2, 1,
+	(controller, value) => {
+		generator.imagePosition.set(value.x, value.y);
+	}
+), doAddToRandomizerAs=true);
 ...
 ```
+Adding the `doAddToRandomizerAs` argument will add a die button (🎲) to the controller that indicates whether the controller will be randomized when the Randomize button is clicked. Adding it as `false` will also add it to the controller, but it will load as the 'off' state. See how this works in the [demo](https://multitude-amsterdam.github.io/p5Catalyst/app/).
 
-## 5. Customise the styling in `style.css`
+## 5. Customize the styling in `style.css`
 Most of the styling variables can be found under `:root`, like colours, sizes and font settings.
 ```css
 :root {
