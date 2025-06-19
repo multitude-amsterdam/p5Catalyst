@@ -145,10 +145,10 @@ class GUIForP5 {
 
 	addP5CatalystLogo() {
 		let logo = this.addHTMLToNewField(
-			`powered by <a href="https://github.com/multitude-amsterdam/p5Catalyst" target="_blank">` + 
-				`<div class="p5catalyst-logo footer-logo"></div>` + 
+			`<a href="https://github.com/multitude-amsterdam/p5Catalyst" target="_blank">` + 
+				`<div class="p5catalyst-logo"></div>` + 
 			`</a>`,
-			'powered-by-logo'
+			'footer-logo'
 		);
 		return logo;
 	}

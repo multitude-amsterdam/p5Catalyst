@@ -172,8 +172,20 @@ body:where(.dark-mode) #gui #logo {
 	background-image: url("assets/generator-logo.svg");
 }
 
+
+.footer-logo {
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+}
+
 #gui .p5catalyst-logo {
-	background-image: url(assets/p5catalyst-logo-lightmode.svg);
+	height: 2.8rem;
+	width: 6rem;
+	position: relative;
+	right: -0.5rem;
+	bottom: -0.5rem;
+	background-image: url("assets/p5catalyst-logo-lightmode.svg");
 	background-position-x: left;
 	background-position-y: center;
 	background-size: contain;
@@ -182,24 +194,8 @@ body:where(.dark-mode) #gui #logo {
 body:where(.dark-mode) #gui .p5catalyst-logo {
 	background-image: url("assets/p5catalyst-logo-darkmode.svg");
 }
-#gui .footer-logo {
-	display: inline-block;
-	min-height: 1.63em;
-	width: 5.7em;
-	position: relative;
-	top: 0.24em;
-	/*display: inline-block;
-	min-height: 2.8em;
-	width: 8.7em;
-	position: relative;
-	bottom: 0.25em;*/
-}
 
-.powered-by-logo {
-	position: fixed;
-	bottom: 1.3rem;
-	right: 2rem;
-}
+
 
 
 /********************************* TITLE *********************************/

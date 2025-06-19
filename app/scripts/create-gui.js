@@ -53,7 +53,7 @@ function createGUI() {
 			// generator.setup();
 		},
 		(controller) => {
-			// controller.click();
+			// controller.click(); // randomize on startup
 		}
 	));
 

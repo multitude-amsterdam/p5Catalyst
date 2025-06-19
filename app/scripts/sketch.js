@@ -37,7 +37,7 @@ let changeSet;
 // ------------------------------------------------------------ PRELOAD
 function preload() {
 	// theShader = loadShader('scripts/shader/shader.vert', 'scripts/shader/shader.frag');
-	img = loadImage('assets/tomfisk.jpg', (img) => img.isLoaded = true);
+	img = loadImage('assets/felix.jpg', (img) => img.isLoaded = true);
 }
 
 
