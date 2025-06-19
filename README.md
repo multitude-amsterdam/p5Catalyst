@@ -21,6 +21,8 @@ p5Catalyst is a GUI framework that wraps your `p5.js` sketches into polished, in
 
 Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew out of real-world branding needs, and is now shared as a creative coding tool for everyone.
 
+![p5Catalyst in use.](./p5catalyst-in-use.png)
+
 
 # 🛠️ Features
 
