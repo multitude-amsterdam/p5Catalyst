@@ -442,17 +442,20 @@ class XYSlider extends ValuedController {
 		let normX = map(x, -handleW/2, rect.width - handleW/2, -1, 1);
 		let normY = map(y, -handleH/2, rect.height - handleH/2, -1, 1);
 
-		if (abs(normX) < 0.033) normX = 0;
-		if (abs(normY) < 0.033) normY = 0;
+		return this.mapSteppedFromNormedVec({x: normX, y: normY});
+	}
+
+	mapSteppedFromNormedVec(normedVec) {
+		// snap to axes
+		if (abs(normedVec.x) < 0.033) normedVec.x = 0;
+		if (abs(normedVec.y) < 0.033) normedVec.y = 0;
 
 		const nStepsX = round((this.maxValX - this.minValX) / this.stepSizeX);
-		const valX = this.minValX + round((normX * 0.5 + 0.5) * nStepsX) / nStepsX * (this.maxValX - this.minValX);
 		const nStepsY = round((this.maxValY - this.minValY) / this.stepSizeY);
-		const valY = this.minValY + round((normY * 0.5 + 0.5) * nStepsY) / nStepsY * (this.maxValY - this.minValY);
-
-		print(normX, normY)
-
-		return {x: valX, y: valY};
+		return {
+			x: this.minValX + round((normedVec.x * 0.5 + 0.5) * nStepsX) / nStepsX * (this.maxValX - this.minValX),
+			y: this.minValY + round((normedVec.y * 0.5 + 0.5) * nStepsY) / nStepsY * (this.maxValY - this.minValY)
+		};
 	}
 
 	setValue(vec) {
@@ -479,6 +482,13 @@ class XYSlider extends ValuedController {
 
 		this.handle.elt.style.left = `${feedbackX}px`;
 		this.handle.elt.style.top = `${feedbackY}px`;
+	}
+
+	randomize() {
+		this.setValue(this.mapSteppedFromNormedVec({
+			x: random(-1, 1),
+			y: random(-1, 1)
+		}));
 	}
 }
 
