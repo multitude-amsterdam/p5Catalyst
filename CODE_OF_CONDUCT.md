@@ -30,3 +30,5 @@ p5Catalyst is intended to be a platform where creative coding thrives through sh
 This document was adapted from the Speak Up! and Fedora Project community guidelines, modified to suit the context of this open-source generative design project.
 
 Thanks for being a part of p5Catalyst!
+
+---

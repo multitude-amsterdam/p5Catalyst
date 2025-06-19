@@ -11,3 +11,5 @@ Grateful thanks to [Multitude](https://www.multitude.nl/) for supporting the dev
 Thank you, lovely people of the [Creative Coding Amsterdam](https://cca.codes/) community for your continual support, feedback and enthusiasm.
 
 And last but not least, to the creators of [`p5.js`](https://p5js.org/) for revolutionaising the way designers can create.
+
+---
