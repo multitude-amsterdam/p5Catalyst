@@ -128,7 +128,7 @@ gui.addController(new XYSlider(
 ), doAddToRandomizerAs=true);
 ...
 ```
-Adding the `doAddToRandomizerAs` argument will add a die button (🎲) to the controller that indicates whether the controller will be randomized when the Randomize button is clicked. Adding it as `false` will also add it to the controller, but it will load as the 'off' state. See how this works in the [demo](https://multitude-amsterdam.github.io/p5Catalyst/app/).
+Note: adding the `doAddToRandomizerAs` argument will add a die button (🎲) to the controller. It indicates whether the controller will be randomized when the Randomize button is clicked. Adding it as `false` will also add it to the controller, but it will load as the 'off' state. See how this works in the [demo](https://multitude-amsterdam.github.io/p5Catalyst/app/). This is practical for users to take control of the randomization of the sketch.
 
 ## 5. Customize the styling in `style.css`
 Most of the styling variables can be found under `:root`, like colours, sizes and font settings.
