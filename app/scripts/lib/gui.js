@@ -8,7 +8,6 @@ class GUIForP5 {
 	isTypingText = false;
 
 
-
 	constructor() {
 		this.div = createDiv();
 		this.div.id('gui');
@@ -21,13 +20,11 @@ class GUIForP5 {
 	}
 
 
-
 	setup() {
 		for (let controller of this.controllers) {
 			controller.setup();
 		}
 	}
-
 
 
 	setLeft() {
@@ -43,7 +40,6 @@ class GUIForP5 {
 	toggleSide() {
 		this.isOnLeftSide ? this.setRight() : this.setLeft();
 	}
-
 
 
 	loadLightDarkMode() {
@@ -91,7 +87,6 @@ class GUIForP5 {
 
 	toggleLightDarkMode() {
 		// cycle modes
-		print('dark mode', this.darkMode);
 		switch (this.darkMode) {
 		case 'false':
 			this.setDarkMode();
@@ -102,7 +97,6 @@ class GUIForP5 {
 		default:
 			this.setLightMode();
 		}
-		print('dark mode set to:', this.darkMode);
 	}
 
 	createDarkModeButton() {
@@ -136,7 +130,6 @@ class GUIForP5 {
 			this.darkModeButton.setAutoLightDarkMode();
 		}
 	}
-
 
 
 	addField(field) {
@@ -193,7 +186,6 @@ class GUIForP5 {
 	}
 
 
-
  	hasName(name) {
 		return this.controllers.some(controller =>
 			controller.name == name
@@ -221,7 +213,6 @@ class GUIForP5 {
 	}
 
 
-
 	getState() {
 		return this.controllers
 			.filter(controller => 
@@ -237,9 +228,7 @@ class GUIForP5 {
 	restoreState(state) {
 		Controller._doUpdateChangeSet = false;
 		for (let {name, value} of state) {
-			print(name);
 			const controller = gui.getController(name);
-			print(controller, value)
 			if (controller.setValue && value !== undefined) {
 				value = restoreSerializedP5Color(value);
 				value = restoreSerializedVec2D(value);

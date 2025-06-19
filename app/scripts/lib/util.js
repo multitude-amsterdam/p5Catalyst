@@ -14,16 +14,16 @@ function restoreSerializedP5Color(obj) {
 
 
 function restoreSerializedVec3D(obj) {
-        // always use before Vec2D version when used in combination
-        if ([obj.x, obj.y, obj.z].some(v => v === undefined))
-                return obj;
-        return new Vec3D(obj.x, obj.y, obj.z);
+    // always use before Vec2D version when used in combination
+    if ([obj.x, obj.y, obj.z].some(v => v === undefined))
+        return obj;
+    return new Vec3D(obj.x, obj.y, obj.z);
 }
 
 function restoreSerializedVec2D(obj) {
-        if ([obj.x, obj.y].some(v => v === undefined))
-                return obj;
-        return new Vec2D(obj.x, obj.y);
+	if ([obj.x, obj.y].some(v => v === undefined))
+        return obj;
+    return new Vec2D(obj.x, obj.y);
 }
 
 

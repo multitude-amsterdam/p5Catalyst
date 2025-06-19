@@ -41,7 +41,6 @@ function preload() {
 }
 
 
-
 // ------------------------------------------------------------ SETUP
 function setup() {
 	initUtils(10, ffmpegFR || 30);
@@ -71,7 +70,6 @@ function setup() {
 }
 
 
-
 // ------------------------------------------------------------ DRAW
 function draw() {
 	if (!isFfmpegInit && ffmpegWaiter < FR) {
@@ -90,7 +88,6 @@ function draw() {
 }
 
 
-
 // ------------------------------------------------------------ SVG CANVAS
 function theSvgCanvasSketch(sketch) {
 	sketch.setup = () => {
@@ -105,7 +102,6 @@ function theSvgCanvasSketch(sketch) {
 }
 
 
-
 // ------------------------------------------------------------ HELP ME
 function helpMe() {
 	alert(
@@ -115,7 +111,6 @@ function helpMe() {
 		lang.process(`LANG_UNDO/LANG_REDO: ‘CTRL’/‘CMD’ + ‘Z’\n`, true) +
 		``);
 }
-
 
 
 // ------------------------------------------------------------ RESIZE
@@ -139,7 +134,6 @@ function resize(w, h) {
 	containCanvasInWrapper();
 	containCanvasInWrapper(); // needs a double call
 }
-
 
 
 // ------------------------------------------------------------ CONTAIN CANVAS
@@ -183,7 +177,6 @@ function containCanvasInWrapper() {
 }
 
 
-
 // ------------------------------------------------------------ FRAME CAPTURING
 function handleFrameCapture() {
 	if (isCapturingFrames) {
@@ -200,7 +193,6 @@ function handleFrameCapture() {
 		}
 	}
 }
-
 
 
 // ------------------------------------------------------------ EVENT HANDLERS
@@ -292,7 +284,6 @@ function windowResized() {
 }
 
 
-
 // ------------------------------------------------------------ INIT UTILS
 
 let SSID, SSIDindex = 0;
@@ -327,8 +318,6 @@ function initUtils(_duration, _frameRate) {
 
 	document.title = Generator.name + ' Generator';
 }
-
-
 
 function generateSSID() {
 	// randomSeed(getUNIX());

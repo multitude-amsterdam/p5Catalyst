@@ -29,7 +29,6 @@ class Controller extends Field {
 	}
 
 
-
 	disable() {
 		if (this.controllerElement instanceof p5.Element)
 			this.controllerElement.elt.disabled = true;
@@ -54,7 +53,6 @@ class Controller extends Field {
 	setDisabled(doSetDisabled) {
 		doSetDisabled ? this.disable() : this.enable();
 	}
-
 
 
 	createConsole() {
@@ -92,7 +90,6 @@ class Controller extends Field {
 	}
 
 
-
 	addToRandomizer(randomizer) {
 		randomizer.addController(this);
 	}
@@ -101,7 +98,6 @@ class Controller extends Field {
 		die.img.parent(this.controllerWrapper);
 		this.die = die;
 	}
-
 
 
 	doUpdateChangeSet() {
@@ -387,7 +383,14 @@ class XYSlider extends ValuedController {
 		minValY, maxValY, defaultValY, stepSizeY, 
 		valueCallback, setupCallback=undefined) {
 		super(gui, name, labelStr, setupCallback);
-
+		this.minValX = minValX;
+		this.minValY = minValY;
+		this.maxValX = maxValX;
+		this.maxValY = maxValY;
+		this.defaultValX = defaultValX;
+		this.defaultValY = defaultValY;
+		this.stepSizeX = stepSizeX;
+		this.stepSizeY = stepSizeY;
 		this.valueCallback = valueCallback;
 
 		this.controllerElement = createDiv();
@@ -396,84 +399,72 @@ class XYSlider extends ValuedController {
 		const handle = createDiv();
 		handle.class('handle');
 		handle.parent(this.controllerElement);
-		
+		this.handle = handle;
+
 		this.isDragging = false;
 		this.controllerElement.elt.addEventListener('mousedown', (e) => {
 			this.isDragging = true;
+			this._doUpdateChangeSet = false;
 		});
 		handle.elt.addEventListener('mousedown', (e) => {
 			this.isDragging = true;
+			this._doUpdateChangeSet = false;
 		});
-
-		document.addEventListener('mouseup', (e) => {
+		handle.elt.addEventListener('mouseup', (e) => {
 			this.isDragging = false;
+			this._doUpdateChangeSet = true;
+			this.setValue(this.getValueFromHandlePosition(e));
 		});
-
 		document.addEventListener('mousemove', (e) => {
 			if (!this.isDragging) return;
-
-			const compStyle = window.getComputedStyle(this.controllerElement.elt);
-			const borderW = parseFloat(compStyle.borderWidth);
-
-			const rect = this.controllerElement.elt.getBoundingClientRect();
-			rect.width -= borderW * 2;
-			rect.height -= borderW * 2;
-
-			let x = e.clientX - rect.left - handle.elt.offsetWidth / 2;
-			let y = e.clientY - rect.top - handle.elt.offsetHeight / 2;
-
-			const handleW = handle.elt.offsetWidth;
-			const handleH = handle.elt.offsetHeight;
-			x = constrain(x, -handleW/2, rect.width - handleW/2);
-			y = constrain(y, -handleH/2, rect.height - handleH/2);
-
-			let normX = map(x, -handleW/2, rect.width - handleW/2, -1, 1);
-			let normY = map(y, -handleH/2, rect.height - handleH/2, -1, 1);
-
-			if (abs(normX) < 0.033) normX = 0;
-			if (abs(normY) < 0.033) normY = 0;
-
-			const nStepsX = round((maxValX - minValX) / stepSizeX);
-			const valX = minValX + round((normX * 0.5 + 0.5) * nStepsX) / nStepsX * (maxValX - minValX);
-			const nStepsY = round((maxValY - minValY) / stepSizeY);
-			const valY = minValY + round((normY * 0.5 + 0.5) * nStepsY) / nStepsY * (maxValY - minValY);
-
-			this.setValue({x: valX, y: valY});
+			this.setValue(this.getValueFromHandlePosition(e));
 		});
-		this.minValX = minValX;
-		this.minValY = minValY;
-		this.maxValX = maxValX;
-		this.maxValY = maxValY;
-		this.handle = handle;
 
-		this.setValue({x: defaultValX, y: defaultValY});
+		this.setValue({x: this.defaultValX, y: this.defaultValY});
+	}
+
+	getValueFromHandlePosition(mouseEvent) {
+		const compStyle = window.getComputedStyle(this.controllerElement.elt);
+		const borderW = parseFloat(compStyle.borderWidth);
+
+		const rect = this.controllerElement.elt.getBoundingClientRect();
+		rect.width -= borderW * 2;
+		rect.height -= borderW * 2;
+
+		let x = mouseEvent.clientX - rect.left - this.handle.elt.offsetWidth / 2;
+		let y = mouseEvent.clientY - rect.top - this.handle.elt.offsetHeight / 2;
+
+		const handleW = this.handle.elt.offsetWidth;
+		const handleH = this.handle.elt.offsetHeight;
+		x = constrain(x, -handleW/2, rect.width - handleW/2);
+		y = constrain(y, -handleH/2, rect.height - handleH/2);
+
+		let normX = map(x, -handleW/2, rect.width - handleW/2, -1, 1);
+		let normY = map(y, -handleH/2, rect.height - handleH/2, -1, 1);
+
+		if (abs(normX) < 0.033) normX = 0;
+		if (abs(normY) < 0.033) normY = 0;
+
+		const nStepsX = round((this.maxValX - this.minValX) / this.stepSizeX);
+		const valX = this.minValX + round((normX * 0.5 + 0.5) * nStepsX) / nStepsX * (this.maxValX - this.minValX);
+		const nStepsY = round((this.maxValY - this.minValY) / this.stepSizeY);
+		const valY = this.minValY + round((normY * 0.5 + 0.5) * nStepsY) / nStepsY * (this.maxValY - this.minValY);
+
+		print(normX, normY)
+
+		return {x: valX, y: valY};
 	}
 
 	setValue(vec) {
-		this.value = {x: vec.x, y: vec.y};
+		if (vec.x === undefined || vec.y === undefined) {
+			console.error('Value must be a vector {x: X, y: Y}, not this: ', vec);
+			return;
+		}
+		this.value = vec;
 		this.setDisplay();
 		this.valueCallback(this, this.value);
-
-		/*
-			TODO
-			- now when xy slider is moved, the hide image toggle changes
-			- redo also always resets the xyslider to 0,0
-			- possible that the falling edge detected below is too late,
-				as the setValue method is called only when the move is moving
-			- add setValue to mouseUp
-			- add param to set value : (doUpdate=true)
-				and put false for mousemove
-		*/
-
-		// not working:
-		// this.isMouseDown = mouseIsPressed;
-		// this.prevIsMouseDown = this.isMouseDown;
-		// const isLetMouseGo = !this.isMouseDown && this.prevIsMouseDown;
-		// if (!isLetMouseGo) return;
-
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
-
 
 	setDisplay() {
 		const compStyle = window.getComputedStyle(this.controllerElement.elt);

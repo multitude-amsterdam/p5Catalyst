@@ -4,9 +4,7 @@ class ChangeSet {
 
 	changeset = [];
 	index = -1; // no state yet
-	
-
-	
+		
 	constructor(doInitFromLocalStorage=false) {
 		this.doInitFromLocalStorage = doInitFromLocalStorage;
 		if (this.doInitFromLocalStorage) {
@@ -16,16 +14,12 @@ class ChangeSet {
 		}
 	}
 
-
-
 	getStates() {
 		return {
 			generator: generator.getState(),
 			gui: gui.getState()
 		};
 	}
-
-
 
 	cutToIndex() {
 		// cut future redo history
@@ -60,15 +54,11 @@ class ChangeSet {
 		this.restore(this.changeset[this.index]);
 	}
 
-
-
 	restore(json) {
 		const state = JSON.parse(json);
 		if (state.generator) generator.restoreState(state.generator);
 		if (state.gui) gui.restoreState(state.gui);
 	}
-
-
 
 	saveToLocalStorage(json) {
 		localStorage[ChangeSet.localStorageKey] = json;
@@ -77,22 +67,13 @@ class ChangeSet {
 	restoreFromLocalStorage() {
 		const json = localStorage[ChangeSet.localStorageKey];
 		if (!json || json.length <= 2) {
-			// generator.randomizer.randomize();
 			return;
 		}
 		this.restore(json);
 	}
 
-
-
 	download(fileName) {
 		const json = this.changeset[this.index];
-		// saveStrings(
-		// 	json, 
-		// 	fileName + '_' + Generator.getOutputFileName('settings'), 
-		// 	'json',
-		// 	true
-		// );
 		saveJSON(JSON.parse(json), fileName + '_' + Generator.getOutputFileName('settings'), false);
 	}
 

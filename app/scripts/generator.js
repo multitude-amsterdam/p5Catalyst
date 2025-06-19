@@ -15,7 +15,6 @@ class Generator {
 
 
 	// ------------------------------------------------------------ CONSTRUCTOR
-
 	constructor() {
 		this.doShowImage = false;
 		this.doDrawBackground = true;
@@ -28,12 +27,8 @@ class Generator {
 	}
 
 
-
 	// ------------------------------------------------------------ SETUP
-	// runs after 
-
 	setup() {}
-
 
 
 	// ------------------------------------------------------------ DRAW
@@ -63,9 +58,7 @@ class Generator {
 	}
 
 
-
 	// ------------------------------------------------------------ SHADER
-
 	setShaderUniforms() {
 		theShader.setUniform("resolution", [width, height]);
 		theShader.setUniform("progress", progress);
@@ -89,9 +82,7 @@ class Generator {
 	}
 
 
-
 	// ------------------------------------------------------------ UTILITY
-
 	getState() {
 		return {
 			...this,

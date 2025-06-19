@@ -154,10 +154,10 @@ const dictionary = {
 		'en': 'usage', 
 		'nl': 'gebruik'
 	},
-        'LANG_HELP': {
-                'en': 'help',
-                'nl': 'help'
-        }
+	'LANG_HELP': {
+		'en': 'help',
+		'nl': 'help'
+	}
 };
 
 const availableLangKeys = Object.keys(dictionary[Object.keys(dictionary)[0]]);
