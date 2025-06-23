@@ -5,7 +5,7 @@
 const { fetchFile } = FFmpegUtil;
 const { FFmpeg } = FFmpegWASM;
 
-const ffmpegFR = 30;
+let ffmpegFR = 30;
 
 let ffmpeg = null;
 let isFfmpegInit = false;
@@ -77,10 +77,8 @@ function convertDataURIToBinary(dataURI) {
 	return array;
 }
 function saveToLocalFFMPEG(frameId) {
-	// console.log('Saving local frame...', frameId);
 	let dataURI = canvas.elt.toDataURL('image/png');
 	let pngData = convertDataURIToBinary(dataURI);
-	// console.log(dataURI, pngData);
 	ffmpegSaveFrame(frameId, pngData);
 }
 
@@ -95,12 +93,10 @@ async function ffmpegInit() {
 	ffmpeg = new FFmpeg();
 
 	ffmpeg.on('log', ({ logMsg }) => {
-		// console.log(logMsg);
 		updateConversionProgress();
 	});
 
 	ffmpeg.on('progress', ({ progress, time }) => {
-		// console.log(progress, time);
 		updateConversionProgress(progress);
 	});
 
@@ -174,7 +170,6 @@ async function ffmpegCreateMP4() {
 	case 'webm':
 		args = `-i frames/%06d.png -progress pipe:2 -r ${ffmpegFR} -crf ${ffmpegExportSettings.crf} -c:v libvpx -pix_fmt yuva420p -auto-alt-ref 0 ${outputFile}`.split(' ');
 		break;
-
 	}
 
 	print('ffmpeg.wasm arguments:', args.join(' '));
