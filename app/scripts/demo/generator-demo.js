@@ -4,11 +4,11 @@ class Generator {
 	static supportEmail = 'aidan.wyber@multitude.nl';
 
 	palette = [
+		color('#F2EDEB'),
 		color('#DDA702'),
-		color('#E06F71'),
-		color('#1DB9AA'),
-		color('#FFFFFF'),
+		color('#F05365'),
 	];
+	white = this.palette.at(0);
 
 
 	// ------------------------------------------------------------ CONSTRUCTOR
@@ -19,11 +19,99 @@ class Generator {
 		this.img = loadImage('assets/demo/felix.jpg', (img) => img.isLoaded = true);
 		this.imageScale = 1;
 		this.imagePosition = new Vec2D(0, 0);
+
+		this.logoScale = 1;
+		this.logo = loadImage('assets/demo/meowtrition.png');
+
+		this.cat = {
+			steerPos: new Vec2D(),
+			shoulderT: 0.35,
+			shoulderPos: new Vec2D(),
+			hipPos: new Vec2D(),
+			dir: new Vec2D(0, 1),
+			speed: 0.1,
+			paws: [new Vec2D(), new Vec2D(), new Vec2D(), new Vec2D()],
+			shoulderHipLengthFac: 0.6,
+			pawSizeFac: 0.1,
+			minPawDistFac : 0.35,
+			pawStepAngle: PI * 0.15,
+			scaleAll: 1,
+		};
 	}
 
 
 	// ------------------------------------------------------------ SETUP
 	setup() {}
+
+
+	// ------------------------------------------------------------ UPDATE
+	update() {
+		const minWH = min(width, height);
+
+		let newSteerPos = new Vec2D(
+			simplexNoise(time * this.cat.speed, PHI),
+			simplexNoise(time * this.cat.speed + TAU * 10, PHI)
+			)
+			.scale(width * 0.5, height * 0.5)
+			.add(width * 0.5, height * 0.5);
+
+		this.cat.dir = newSteerPos.sub(this.cat.steerPos).getNormalized();
+		this.cat.steerPos = newSteerPos;
+
+		this.cat.shoulderPos = this.cat.steerPos.add(this.cat.dir.scale(
+			this.cat.shoulderHipLengthFac * this.cat.shoulderT * minWH * this.cat.scaleAll));
+
+		this.cat.hipPos = this.cat.shoulderPos.sub(this.cat.dir.scale(
+			this.cat.shoulderHipLengthFac * minWH * this.cat.scaleAll));
+
+		const isPawValid = (index) => {
+			return this.cat.paws[index].distanceTo(
+				index < 2 ? this.cat.shoulderPos : this.cat.hipPos
+			) <= this.cat.minPawDistFac * minWH * this.cat.scaleAll;
+		};
+		if (!isPawValid(0)) {
+			this.cat.paws[0] = this.cat.shoulderPos.add(
+				this.cat.dir
+					.getRotated(-this.cat.pawStepAngle)
+					.scale(this.cat.minPawDistFac * minWH * this.cat.scaleAll)
+			);
+			this.cat.paws[0].age = 0;
+			this.cat.paws[0].dir = this.cat.dir.copy();
+		}
+		if (!isPawValid(1)) {
+			this.cat.paws[1] = this.cat.shoulderPos.add(
+				this.cat.dir
+					.getRotated(+this.cat.pawStepAngle)
+					.scale(this.cat.minPawDistFac * minWH * this.cat.scaleAll)
+			);
+			this.cat.paws[1].age = 0;
+			this.cat.paws[1].dir = this.cat.dir.copy();
+		}
+		if (!isPawValid(2)) {
+			this.cat.paws[2] = this.cat.hipPos.add(
+				this.cat.dir
+					.getRotated(-this.cat.pawStepAngle)
+					.scale(this.cat.minPawDistFac * minWH * this.cat.scaleAll)
+			);
+			this.cat.paws[2].age = 0;
+			this.cat.paws[2].dir = this.cat.dir.copy();
+		}
+		if (!isPawValid(3)) {
+			this.cat.paws[3] = this.cat.hipPos.add(
+				this.cat.dir
+					.getRotated(+this.cat.pawStepAngle)
+					.scale(this.cat.minPawDistFac * minWH * this.cat.scaleAll)
+			);
+			this.cat.paws[3].age = 0;
+			this.cat.paws[3].dir = this.cat.dir.copy();
+		}
+
+		for (let paw of this.cat.paws) {
+			// add property to Vec2D
+			if (paw.age === undefined) paw.age = 0;
+			else paw.age += 0.02;
+		}
+	}
 
 
 	// ------------------------------------------------------------ DRAW
@@ -34,66 +122,85 @@ class Generator {
 
 		if (this.doShowImage) this.drawImg();
 
-		let nPaws = 12;
-		let pawSize = height / nPaws * 0.5;
-		noStroke();
-		for (let i = 0; i < nPaws; i++) {
-			let y = map(i / nPaws, 0, 1, -pawSize/2, height + pawSize/2);
-			let x = width - (0.33 + i % 2) * pawSize * 2;
-			
-			if (fract(i / nPaws + time * 0.2) >= 1 / 4) {
-				fill(this.col);
-			} else {
-				fill(255);
-			}
+		this.update();
 
-			this.paw(x, y, pawSize, radians(noise(i*10) * 10 - 5));
+		// // debug
+		// fill('red');
+		// circle(this.cat.steerPos.x, this.cat.steerPos.y, 50);
+		// circle(this.cat.shoulderPos.x, this.cat.shoulderPos.y, 30);
+		// circle(this.cat.hipPos.x, this.cat.hipPos.y, 15);
+		// circle(this.cat.paws[0].x, this.cat.paws[0].y, 5);
+		// circle(this.cat.paws[1].x, this.cat.paws[1].y, 5);
+		// circle(this.cat.paws[2].x, this.cat.paws[2].y, 5);
+		// circle(this.cat.paws[3].x, this.cat.paws[3].y, 5);
+
+		const minWH = min(width, height);
+		const drawPaw = (paw) => {
+			const pawAngle = paw.dir ? paw.dir.heading() + HALF_PI : 0;
+			const t = constrain(paw.age, 0, 1);
+			this.paw(paw.x, paw.y, 
+				this.cat.pawSizeFac * minWH * this.cat.scaleAll, pawAngle, t);
+		};
+		noStroke();
+		fill(this.col);
+		drawPaw(this.cat.paws[0]);
+		drawPaw(this.cat.paws[1]);
+		drawPaw(this.cat.paws[2]);
+		drawPaw(this.cat.paws[3]);
+
+		push();
+		{
+			tint(this.white);
+			const logoScale = this.logoScale * width / this.logo.width * 0.5;
+			const lw = this.logo.width * logoScale;
+			const lh = this.logo.height * logoScale;
+			const loffs = lh / 4;
+			image(this.logo, loffs, height - loffs - lh, lw, lh);
 		}
+		pop();
 
-		fill(255);
-		noStroke();
-		textFont('Georgia');
-		let ts = min(width, height) * 0.1;
-		let offs = ts * 0.5;
-		textSize(ts);
-		textAlign(LEFT, BASELINE);
-		text('Meowtrition', offs, ph - ts * 1);
-		let ts2 = min(width, height) * 0.05;
-		textSize(ts2);
-		textAlign(LEFT, BASELINE);
-		text('Good food. Great meows.', offs, ph - ts2 * 1);
 	}
 
-	paw(x, y, size, angle) {
+	paw(x, y, size, angle, t) {
+		const tToe1 = nmc(PI * nmc(PI * constrain(t * 10 - 0.5, 0, 1)));
+		const tToe2 = nmc(PI * nmc(PI * constrain(t * 10 - 1, 0, 1)));
+		const tPalm = nmc(PI * nmc(PI * constrain(t * 10 - 1.5, 0, 1)));
 		push();
 		{
 			translate(x, y);
 			rotate(angle);
 			scale(size / 82);
 
-			beginShape();
-			vertex(0, 0);
-			bezierVertex(22, 0, 55, 40, 55, 63);
-			bezierVertex(55, 86, 41, 90, 32, 90);
-			bezierVertex(23, 90, 12, 83, 0, 83);
-			bezierVertex(-12, 83, -23, 90, -32, 90);
-			bezierVertex(-41, 90, -55, 86, -55, 63);
-			bezierVertex(-55, 40, -22, 0, 0, 0);
-			endShape(CLOSE);
+			push();
+			{
+				translate(0, 45);
+				scale(tPalm);
+				translate(0, -45);
+				beginShape();
+				vertex(0, 0);
+				bezierVertex(22, 0, 55, 40, 55, 63);
+				bezierVertex(55, 86, 41, 90, 32, 90);
+				bezierVertex(23, 90, 12, 83, 0, 83);
+				bezierVertex(-12, 83, -23, 90, -32, 90);
+				bezierVertex(-41, 90, -55, 86, -55, 63);
+				bezierVertex(-55, 40, -22, 0, 0, 0);
+				endShape(CLOSE);
+			}
+			pop();
 
-			for (let m = -1; m <= 1; m += 2) {
+			for (let mirror = -1; mirror <= 1; mirror += 2) {
 				push();
 				{
-					translate(26 * m, -46);
-					rotate(radians(10 * m));
-					ellipse(0, 0, 44, 68);
+					translate(26 * mirror, -46);
+					rotate(radians(10 * mirror));
+					ellipse(0, 0, 44 * tToe1, 68 * tToe1);
 				}
 				pop();
 				push();
 				{
-					translate(63 * m, -5);
-					rotate(radians(35 * m));
-					ellipse(0, 0, 40, 61);
+					translate(63 * mirror, -5);
+					rotate(radians(35 * mirror));
+					ellipse(0, 0, 40 * tToe2, 61 * tToe2);
 				}
 				pop();
 			}
@@ -138,7 +245,8 @@ class Generator {
 		return {
 			...this,
 			// add custom parameters here
-			img: undefined
+			img: undefined,
+			logo: undefined
 		};
 	}
 
