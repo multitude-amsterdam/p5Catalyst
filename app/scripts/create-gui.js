@@ -4,18 +4,15 @@ function createGUI() {
 	gui = new GUIForP5();
 
 	gui.setLeft();
-	// gui.setRight();
 	
-	// add logo up top (uses 'assets/generator-logo9.svg', see style.css)	
+	// add logo up top (uses 'assets/generator-logo.svg', see style.css)	
 	let logo = gui.addField(new Field(gui.div, 'logo', ''));
-
-	// gui.addImage('assets/generator-logo.svg', 'Logo', '4rem', true);
 
 
 	// ------------------------------ FORMAT ------------------------------
 	gui.addTitle(2, 'LANG_FORMAT', false);
 	gui.addController(new ResolutionSelect(
-		gui, 'Presets:', 0,
+		gui, 'Presets:', resolutionOptions, 0,
 		(controller, value) => {
 			const resBox = gui.getController('resolutionTextboxes');
 			if (resBox) resBox.setValueOnlyDisplay(pw, ph);
@@ -165,7 +162,6 @@ function createGUI() {
 	gui.addTitle(2, 'LANG_SETTINGS', false);
 	
 	gui.addController(new Button(
-		// gui, 'buttonUndo', '❰❰❰ LANG_UNDO ❰❰❰',
 		gui, 'buttonUndo', 'LANG_UNDO',
 		(controller) => {
 			changeSet.undo();
@@ -176,7 +172,6 @@ function createGUI() {
 	));
 
 	gui.addController(new Button(
-		// gui, 'buttonRedo', '❱❱❱ LANG_REDO ❱❱❱',
 		gui, 'buttonRedo', 'LANG_REDO',
 		(controller) => {
 			changeSet.redo();
@@ -191,7 +186,6 @@ function createGUI() {
 	gui.addController(new Button(
 		gui, 'buttonSaveSettings', 'LANG_SAVE_SETTINGS',
 		(controller) => {
-			// const result = await window.chooseFileSystemEntries({type: 'save-file'});
 			const fileName = prompt(lang.process('LANG_CHOOSE_FILE_NAME_MSG', true));
 			changeSet.download(fileName);
 		}, (controller) => {
@@ -237,8 +231,6 @@ function createGUI() {
 		contactField.div.id('contact');
 		contactField.div.parent(gui.div);
 	}
-
-
 
 	gui.addP5CatalystLogo();
 
@@ -303,7 +295,7 @@ const resolutionOptions = [
 	getAPaperResolutionOptionAtDpi(2, 300, false),
 	getAPaperResolutionOptionAtDpi(1, 300, false),
 	getAPaperResolutionOptionAtDpi(0, 300, false)
-].map(s => lang.process(s, true));
+];
 
 function getAPaperResolutionOptionAtDpi(aNumber, dpi, isPortrait=true) {
 	// A0 paper size in mm
