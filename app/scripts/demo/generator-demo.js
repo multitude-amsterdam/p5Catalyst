@@ -7,7 +7,7 @@ class Generator {
 		color('#DDA702'),
 		color('#E06F71'),
 		color('#1DB9AA'),
-		color('#ffffff'),
+		color('#FFFFFF'),
 	];
 
 
@@ -15,8 +15,8 @@ class Generator {
 	constructor() {
 		this.col = undefined;
 
-		this.doShowImage = false;
-		this.img = loadImage('assets/felix.jpg', (img) => img.isLoaded = true);
+		this.doShowImage = true;
+		this.img = loadImage('assets/demo/felix.jpg', (img) => img.isLoaded = true);
 		this.imageScale = 1;
 		this.imagePosition = new Vec2D(0, 0);
 	}
@@ -30,14 +30,9 @@ class Generator {
 	draw(doSVGToo=false) {
 		this.doSVGToo = doSVGToo;
 
-		if (theShader !== undefined) {
-			this.setShaderUniforms();
-			this.drawShader();
-			resetMatrix();
-			translate(-width/2, -height/2);
-		} else {
-			clear();
-		}
+		clear();
+
+		if (theShader !== undefined) this.drawShader();
 
 		if (this.doShowImage) this.drawImg();
 
@@ -54,7 +49,7 @@ class Generator {
 				fill(255);
 			}
 
-			paw(x, y, pawSize, radians(noise(i*10) * 10 - 5));
+			this.paw(x, y, pawSize, radians(noise(i*10) * 10 - 5));
 		}
 
 		fill(255);
@@ -116,16 +111,15 @@ class Generator {
 
 
 	// ------------------------------------------------------------ SHADER
-	setShaderUniforms() {
+	drawShader() {
 		theShader.setUniform("resolution", [width, height]);
 		theShader.setUniform("progress", progress);
 		theShader.setUniform("time", time);
 		theShader.setUniform("mouse", [mouseX, mouseY, mouseIsPressed ? 1.0 : 0.0]);
 		theShader.setUniform("SSIDHash", SSID / 1e8);
 		theShader.setUniform("utilBools", utilBools);
-	}
 
-	drawShader() {
+		resetMatrix();
 		push();
 		{
 			resetMatrix();
@@ -136,6 +130,8 @@ class Generator {
 			rect(0, 0, width, height);
 		}
 		pop();
+		// ensures 0–width and 0–height range in WEBGL mode
+		translate(-width/2, -height/2); 
 	}
 
 

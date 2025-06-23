@@ -4,11 +4,8 @@ class Generator {
 	static supportEmail = '';
 
 	palette = [
-		color('#F1FD53'),
-		color('#BFFB50'),
-		color('#E95E2A'),
 		color('#7685F7'),
-		color('#A830F6'),
+		color('#BFFB50'),
 		color('#000000'),
 		color('#FFFFFF'),
 	];
@@ -17,11 +14,6 @@ class Generator {
 	// ------------------------------------------------------------ CONSTRUCTOR
 	constructor() {
 		this.col = undefined;
-
-		this.doShowImage = false;
-		this.img = loadImage('assets/felix.jpg', (img) => img.isLoaded = true);
-		this.imageScale = 1;
-		this.imagePosition = new Vec2D(0, 0);
 	}
 
 
@@ -33,40 +25,27 @@ class Generator {
 	draw(doSVGToo=false) {
 		this.doSVGToo = doSVGToo;
 
-		if (theShader !== undefined) {
-			this.setShaderUniforms();
-			this.drawShader();
-			resetMatrix();
-			translate(-width/2, -height/2);
-		} else {
-			clear();
-		}
+		clear();
 
-		if (this.doShowImage) this.drawImg();
+		if (theShader !== undefined) this.drawShader();
 
+		// floating circle
 		noStroke();
 		fill(this.col);
 		circle(pw / 2, ph / 2 + sin(time) * 200, min(pw, ph) / 10);
 	}
 
 
-	drawImg() {
-		if (this.img === undefined) return;
-		imageCenteredXYScale(this.img, true, this.imagePosition.x, this.imagePosition.y, this.imageScale);
-	}
-
-
 	// ------------------------------------------------------------ SHADER
-	setShaderUniforms() {
+	drawShader() {
 		theShader.setUniform("resolution", [width, height]);
 		theShader.setUniform("progress", progress);
 		theShader.setUniform("time", time);
 		theShader.setUniform("mouse", [mouseX, mouseY, mouseIsPressed ? 1.0 : 0.0]);
 		theShader.setUniform("SSIDHash", SSID / 1e8);
 		theShader.setUniform("utilBools", utilBools);
-	}
 
-	drawShader() {
+		resetMatrix();
 		push();
 		{
 			resetMatrix();
@@ -77,6 +56,8 @@ class Generator {
 			rect(0, 0, width, height);
 		}
 		pop();
+		// ensures 0–width and 0–height range in WEBGL mode
+		translate(-width/2, -height/2); 
 	}
 
 
