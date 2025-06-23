@@ -1,16 +1,13 @@
 
 class Generator {
-	static name = 'p5Catalyst Generator';
-	static supportEmail = '';
+	static name = 'p5Catalyst Demo';
+	static supportEmail = 'aidan.wyber@multitude.nl';
 
 	palette = [
-		color('#F1FD53'),
-		color('#BFFB50'),
-		color('#E95E2A'),
-		color('#7685F7'),
-		color('#A830F6'),
-		color('#000000'),
-		color('#FFFFFF'),
+		color('#DDA702'),
+		color('#E06F71'),
+		color('#1DB9AA'),
+		color('#ffffff'),
 	];
 
 
@@ -44,9 +41,71 @@ class Generator {
 
 		if (this.doShowImage) this.drawImg();
 
+		let nPaws = 12;
+		let pawSize = height / nPaws * 0.5;
 		noStroke();
-		fill(this.col);
-		circle(pw / 2, ph / 2 + sin(time) * 200, min(pw, ph) / 10);
+		for (let i = 0; i < nPaws; i++) {
+			let y = map(i / nPaws, 0, 1, -pawSize/2, height + pawSize/2);
+			let x = width - (0.33 + i % 2) * pawSize * 2;
+			
+			if (fract(i / nPaws + time * 0.2) >= 1 / 4) {
+				fill(this.col);
+			} else {
+				fill(255);
+			}
+
+			paw(x, y, pawSize, radians(noise(i*10) * 10 - 5));
+		}
+
+		fill(255);
+		noStroke();
+		textFont('Georgia');
+		let ts = min(width, height) * 0.1;
+		let offs = ts * 0.5;
+		textSize(ts);
+		textAlign(LEFT, BASELINE);
+		text('Meowtrition', offs, ph - ts * 1);
+		let ts2 = min(width, height) * 0.05;
+		textSize(ts2);
+		textAlign(LEFT, BASELINE);
+		text('Good food. Great meows.', offs, ph - ts2 * 1);
+	}
+
+	paw(x, y, size, angle) {
+		push();
+		{
+			translate(x, y);
+			rotate(angle);
+			scale(size / 82);
+
+			beginShape();
+			vertex(0, 0);
+			bezierVertex(22, 0, 55, 40, 55, 63);
+			bezierVertex(55, 86, 41, 90, 32, 90);
+			bezierVertex(23, 90, 12, 83, 0, 83);
+			bezierVertex(-12, 83, -23, 90, -32, 90);
+			bezierVertex(-41, 90, -55, 86, -55, 63);
+			bezierVertex(-55, 40, -22, 0, 0, 0);
+			endShape(CLOSE);
+
+			for (let m = -1; m <= 1; m += 2) {
+				push();
+				{
+					translate(26 * m, -46);
+					rotate(radians(10 * m));
+					ellipse(0, 0, 44, 68);
+				}
+				pop();
+				push();
+				{
+					translate(63 * m, -5);
+					rotate(radians(35 * m));
+					ellipse(0, 0, 40, 61);
+				}
+				pop();
+			}
+		}
+		pop();
 	}
 
 
@@ -109,4 +168,5 @@ class Generator {
 			pw + 'x' + ph + '_' + getTimestamp();
 	}
 }
+
 
