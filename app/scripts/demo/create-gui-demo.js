@@ -42,6 +42,22 @@ function createGUI() {
 		}
 	), doAddToRandomizerAs=true);
 
+	gui.addController(new Slider(
+		gui, 'sliderLogoScale', 'LANG_SCALE logo',
+		-1, 1, log(generator.logoScale)/log(2), 0.05,
+		(controller, value) => {
+			generator.logoScale = pow(2, value);
+		}
+	), doAddToRandomizerAs=false);
+
+	gui.addController(new Slider(
+		gui, 'sliderLogoScale', 'LANG_SCALE cat',
+		-1, 1, log(generator.cat.scaleAll)/log(2), 0.05,
+		(controller, value) => {
+			generator.cat.scaleAll = pow(2, value);
+		}
+	), doAddToRandomizerAs=false);
+
 	gui.addController(new Button(
 		gui, 'buttonRandomize', 'LANG_RANDOMIZE',
 		(controller) => {
@@ -97,23 +113,15 @@ function createGUI() {
 				generator.img = img;
 				gui.getController('toggleShowImage').setValue(true);
 			};
-		},
-		(controller) => controller.hide()
+		}
 	));
-
-	// gui.addController(new Toggle(
-	//   gui, 'Contain', 'Cover', generator.doFillImage,
-	//   (controller, value) => {
-	//     generator.doFillImage = value;
-	//   }));
 
 	gui.addController(new Slider(
 		gui, 'sliderImageScale', 'LANG_SCALE LANG_IMAGE',
 		-1, 1, log(generator.imageScale)/log(2), 0.05,
 		(controller, value) => {
 			generator.imageScale = pow(2, value);
-		},
-		(controller) => controller.hide()
+		}
 	), doAddToRandomizerAs=false);
 
 	gui.addController(new XYSlider(
@@ -122,9 +130,6 @@ function createGUI() {
 		-1, 1, 0, 0.001,
 		(controller, value) => {
 			generator.imagePosition.set(value.x, value.y);
-		},
-		(controller) => {
-			controller.hide();
 		}
 	), doAddToRandomizerAs=false);
 
