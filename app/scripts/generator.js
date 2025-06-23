@@ -24,9 +24,7 @@ class Generator {
 	// ------------------------------------------------------------ DRAW
 	draw(doSVGToo=false) {
 		this.doSVGToo = doSVGToo;
-
 		clear();
-
 		if (theShader !== undefined) this.drawShader();
 
 		// floating circle
