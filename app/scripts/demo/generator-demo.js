@@ -29,9 +29,7 @@ class Generator {
 	// ------------------------------------------------------------ DRAW
 	draw(doSVGToo=false) {
 		this.doSVGToo = doSVGToo;
-
 		clear();
-
 		if (theShader !== undefined) this.drawShader();
 
 		if (this.doShowImage) this.drawImg();

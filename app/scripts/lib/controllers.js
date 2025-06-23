@@ -356,12 +356,12 @@ class Slider extends ValuedController {
 		this.valueCallback = valueCallback;
 	}
 
-        validateValue(v) {
-                if (typeof v !== 'number' || Number.isNaN(v)) {
-                        throw new Error(v + ' is not a number');
-                }
-                return v;
+    validateValue(v) {
+        if (typeof v !== 'number' || Number.isNaN(v)) {
+            throw new Error(v + ' is not a number');
         }
+        return v;
+    }
 
 	setValue(v) {
 		// if (abs(v - this.defaultVal) < (this.maxVal - this.minVal) * 0.0167) 
