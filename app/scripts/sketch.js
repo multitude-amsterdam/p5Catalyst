@@ -40,16 +40,16 @@ function preload() {
 
 
 // ------------------------------------------------------------ SETUP
-function setup() {
+function setup() {	
 	initUtils(10, ffmpegFR || 30);
 
-	canvas = theShader == undefined ?
-	createCanvas(1, 1) :
-	createCanvas(1, 1, WEBGL);
-
+	canvas = theShader === undefined ? 
+		createCanvas(1, 1) :
+		createCanvas(1, 1, WEBGL);
 	// svgCanvas = new p5(theSvgCanvasSketch);
-
 	createCanvasWrapper();
+
+	lang.setup('en');
 
 	generator = new Generator();
 
@@ -291,13 +291,15 @@ let FR, duration, nFrames;
 let noiseOffs;
 
 function initUtils(_duration, _frameRate) {
+	console.log('p5Catalyst initiated as ' + Generator.name);
+	console.log('Project page: https://github.com/multitude-amsterdam/p5Catalyst');
+
 	// SSID-based seed initialisation
 	SSID = SSIDs[SSIDindex];
 	SSIDHash = SSID / 1e8;
 	randomSeed(SSID);
 	noiseSeed(SSID);
 	noiseOffs = SSIDHash * 1000;
-	print("\tSSID: " + SSID);
 
 	// set framerate and animation duration
 	FR = _frameRate;
