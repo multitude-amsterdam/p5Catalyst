@@ -11,7 +11,6 @@ let generator;
 
 let bodyFont, titleFont;
 
-let img;
 const maxImgResIncrease = 0.25;
 
 const doRunRealTime = false;
@@ -37,7 +36,6 @@ let changeSet;
 // ------------------------------------------------------------ PRELOAD
 function preload() {
 	// theShader = loadShader('scripts/shader/shader.vert', 'scripts/shader/shader.frag');
-	img = loadImage('assets/felix.jpg', (img) => img.isLoaded = true);
 }
 
 
@@ -54,7 +52,6 @@ function setup() {
 	createCanvasWrapper();
 
 	generator = new Generator();
-	if (img) generator.img = img;
 
 	createGUI();
 
@@ -196,7 +193,6 @@ function handleFrameCapture() {
 
 
 // ------------------------------------------------------------ EVENT HANDLERS
-const frameJump = 100;
 function keyPressed(e) {
 	if (gui.isTypingText) return;
 
@@ -214,6 +210,7 @@ function keyPressed(e) {
 		utilBools[utilInd] = !utilBools[utilInd];
 	}
 
+	const frameJump = 100;
 	switch (key.toLowerCase()) {
 	case ' ':
 		isPlaying = !isPlaying;
@@ -293,34 +290,27 @@ let utilBools = [];
 let FR, duration, nFrames;
 let noiseOffs;
 
-
-
 function initUtils(_duration, _frameRate) {
-	print("\nSETUP " + nf(SSIDindex, 2, 0) + " }------------------------------");
-
-	// init util bools [1-9 + 0]
-	for (let i = 0; i < 10; i++) utilBools.push(false);
-
 	// SSID-based seed initialisation
 	SSID = SSIDs[SSIDindex];
 	SSIDHash = SSID / 1e8;
 	randomSeed(SSID);
 	noiseSeed(SSID);
-	noiseOffs = SSID + sqrt(2) * sqrt(3) * PI;
+	noiseOffs = SSIDHash * 1000;
 	print("\tSSID: " + SSID);
 
 	// set framerate and animation duration
 	FR = _frameRate;
+	ffmpegFR = FR;
 	setDuration(_duration);
 	frameRate(FR);
-	print("\tduration: " + nf(duration, 0, 1) + " s, nFrames: " + nFrames);
-	print("\tframeRate: " + FR + " fps");
 
-	document.title = Generator.name + ' Generator';
+	document.title = Generator.name;
+
+	for (let i = 0; i < 10; i++) utilBools.push(false);
 }
 
 function generateSSID() {
-	// randomSeed(getUNIX());
 	return Math.floor(Math.random() * 1e8);
 }
 
