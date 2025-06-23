@@ -314,8 +314,10 @@ class Select extends ValuedController {
 
 
 class ResolutionSelect extends Select {
-	constructor(gui, labelStr, defaultIndex, valueCallback, setupCallback=undefined) {
-		super(gui, 'resolutionSelect', labelStr, resolutionOptions, defaultIndex, 
+	constructor(gui, labelStr, resOptions, defaultIndex, valueCallback, setupCallback=undefined) {
+		super(gui, 'resolutionSelect', labelStr, 
+			resOptions.map(s => lang.process(s, true)), 
+			defaultIndex, 
 			(controller, value) => {
 				if (value.indexOf(' x ') >= 0) {
 					const resStr = value.split(': ')[1];
