@@ -1,12 +1,10 @@
----
-- type: textarea
-  attributes:
-    label: Operating System
-    description: What operating system are you using?
-    placeholder: "Example: macOS Big Sur"
-    value: operating system
-  validations:
-    required: true
----
+**Description**
+A description of this PR.
 
-Test template
+
+**Checklist**
+*Thank you for contributing to p5Catalyst. Before submitting this PR into the main branch, please sure:*
+- [ ] *You have tested the feature*
+- [ ] *The code doesn't cause any errors*
+
+*Please mention any relations to issues with "#".*
