@@ -1,4 +1,4 @@
-# Authors
+# ✍️ Authors
 
 ## Maintainer & creator
 **Aidan Wyber**

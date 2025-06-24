@@ -141,6 +141,9 @@ Most of the styling variables can be found under `:root`, like colours, sizes an
 }
 ```
 
+> [!TIP]
+> For more insight into the relationship between script files, visit the [documentation of the code architecture](https://multitude-amsterdam.github.io/p5Catalyst/docs/architecture.md).
+
 ## 6. Plop it on a server!
 
 That's it! You can now host the application 😶‍🌫️ and send it to your client or users for testing. Just copy the contents of the `/app` folder into the root of your server environment using FTP or otherwise.

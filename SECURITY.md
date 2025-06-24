@@ -1,4 +1,4 @@
-# Security policy
+# 🔐 Security policy
 
 Welcome to the `p5Catalyst` security policy. We take the security of this open-source project seriously and encourage responsible disclosure of any vulnerabilities.
 
