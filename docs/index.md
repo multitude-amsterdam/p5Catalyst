@@ -1,4 +1,4 @@
-# 📚 Welcome to the [p5Catalyst](https://github.com/multitude-amsterdam/p5Catalyst) docs
+# 📚 Welcome to the p5Catalyst docs
 
 These docs are here to help you understand, customize, and contribute to p5Catalyst.
 
@@ -11,3 +11,5 @@ These docs are here to help you understand, customize, and contribute to p5Catal
 Looking to get started fast? Head over to [Architecture](./architecture).
 
 ---
+
+[To the main GitHub page](https://github.com/multitude-amsterdam/p5Catalyst).
