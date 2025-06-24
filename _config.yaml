@@ -1,5 +1,14 @@
-theme: jekyll-theme-slate
 title: p5Catalyst Docs
 description: Documentation for p5Catalyst.
-# minima:
-#   skin: auto
+
+# theme: jekyll-theme-slate
+minima:
+  skin: auto
+
+source: docs
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: default
