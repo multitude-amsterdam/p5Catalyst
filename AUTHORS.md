@@ -4,6 +4,7 @@
 **Aidan Wyber**
 Lead developer and designer of the p5Catalyst project, creative coder at Multitude.
 Email: [aidan.wyber@multitude.nl](mailto:aidan.wyber@multitude.nl)
+Discord: [aidanwyber](https://discordapp.com/users/603927521691435019)
 
 ## Special thanks
 Grateful thanks to [Multitude](https://www.multitude.nl/) for supporting the development of this project and for open-sourcing the code I worked on while employed there. Their commitment to creative collaboration made this project possible.
