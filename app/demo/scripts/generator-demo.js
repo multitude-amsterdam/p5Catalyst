@@ -5,8 +5,8 @@ class Generator {
 
 	palette = [
 		color('#F2EDEB'),
+		color('#120D09'),
 		color('#DDA702'),
-		color('#F05365'),
 	];
 	white = this.palette.at(0);
 
@@ -16,12 +16,12 @@ class Generator {
 		this.col = undefined;
 
 		this.doShowImage = true;
-		this.img = loadImage('assets/demo/felix.jpg', (img) => img.isLoaded = true);
+		this.img = loadImage('demo/assets/felix.jpg', (img) => img.isLoaded = true);
 		this.imageScale = 1;
 		this.imagePosition = new Vec2D(0, 0);
 
 		this.logoScale = 1;
-		this.logo = loadImage('assets/demo/meowtrition.png');
+		this.logo = loadImage('demo/assets/meowtrition.png');
 
 		this.cat = {
 			steerPos: new Vec2D(),
