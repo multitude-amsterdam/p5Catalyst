@@ -25,16 +25,16 @@ class Generator {
 
 		this.cat = {
 			steerPos: new Vec2D(),
-			shoulderT: 0.35,
+			dir: new Vec2D(),
 			shoulderPos: new Vec2D(),
 			hipPos: new Vec2D(),
-			dir: new Vec2D(0, 1),
-			speed: 0.1,
 			paws: [new Vec2D(), new Vec2D(), new Vec2D(), new Vec2D()],
+			speed: 0.15,
+			shoulderT: 0.35,
 			shoulderHipLengthFac: 0.6,
 			pawSizeFac: 0.1,
-			minPawDistFac : 0.35,
 			pawStepAngle: PI * 0.15,
+			minPawDistFac : 0.35,
 			scaleAll: 1,
 		};
 	}
