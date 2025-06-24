@@ -181,7 +181,6 @@ Randomness, color parsing, hashing, time logic and more. Utility animation math,
 ---
 
 > [!NOTE]
-> If you've made something cool, please [share it]()(https://github.com/multitude-amsterdam/p5Catalyst/discussions/categories/show-and-tell), or consider [contributing it](./contributing.md)!
-See [Contributing](./contributing.md).
+> If you've made something cool, please [share it](https://github.com/multitude-amsterdam/p5Catalyst/discussions/categories/show-and-tell), or consider [contributing it](./contributing.md)!
 
 ---

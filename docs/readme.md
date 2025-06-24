@@ -1,0 +1,1 @@
+[View these docs on GitHub pages.](https://multitude-amsterdam.github.io/p5Catalyst/docs/)
