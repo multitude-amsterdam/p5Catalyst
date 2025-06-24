@@ -21,7 +21,7 @@ p5Catalyst is a GUI framework that wraps your `p5.js` sketches into polished, in
 
 Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew out of real-world branding needs, and is now shared as a creative coding tool for everyone.
 
-![p5Catalyst in use.](./p5catalyst-in-use.png)
+[![p5Catalyst in use.](./p5catalyst-in-use.png)](https://multitude-amsterdam.github.io/p5Catalyst/app/demo)
 
 
 # 🛠️ Features
@@ -39,7 +39,7 @@ Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew
 
 # 👀 Demo
 
-See it in action: [launch p5Catalyst from GitHub Pages](https://multitude-amsterdam.github.io/p5Catalyst/app/).
+[See it in action!](https://multitude-amsterdam.github.io/p5Catalyst/app/demo)
 
 
 # 🔁 Why open-source?
@@ -128,7 +128,7 @@ gui.addController(new XYSlider(
 ), doAddToRandomizerAs=true);
 ...
 ```
-Note: adding the `doAddToRandomizerAs` argument will add a die button (🎲) to the controller. It indicates whether the controller will be randomized when the Randomize button is clicked. Adding it as `false` will also add it to the controller, but it will load as the 'off' state. See how this works in the [demo](https://multitude-amsterdam.github.io/p5Catalyst/app/). This is practical for users to take control of the randomization of the sketch.
+Note: adding the `doAddToRandomizerAs` argument will add a die button (🎲) to the controller. It indicates whether the controller will be randomized when the Randomize button is clicked. Adding it as `false` will also add it to the controller, but it will load as the 'off' state. See how this works in the [demo](https://multitude-amsterdam.github.io/p5Catalyst/app/demo). This is practical for users to take control of the randomization of the sketch.
 
 ## 5. Customize the styling in `style.css`
 Most of the styling variables can be found under `:root`, like colours, sizes and font settings.
