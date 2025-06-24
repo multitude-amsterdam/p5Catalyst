@@ -142,7 +142,7 @@ Most of the styling variables can be found under `:root`, like colours, sizes an
 ```
 
 > [!TIP]
-> For more insight into the relationship between script files, visit the [documentation of the code architecture](https://multitude-amsterdam.github.io/p5Catalyst/docs/architecture.html).
+> For more insight into the relationship between script files, visit the [documentation of the code architecture](https://multitude-amsterdam.github.io/p5Catalyst/docs/architecture).
 
 ## 6. Plop it on a server!
 
@@ -151,9 +151,15 @@ That's it! You can now host the application 😶‍🌫️ and send it to your c
 
 # 🤝 Contributing
 
-We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more information on contributing, continue reading [here](https://multitude-amsterdam.github.io/p5Catalyst/docs/contributing.html). 
+We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more information on contributing, continue reading [here](./CONTRIBUTING.md). 
 
 For security concerns, please review the [security policy](./SECURITY.md).
+
+
+# 📄 Documentation
+
+You can find more information on the specifics of the codebase in the [online documentation](https://multitude-amsterdam.github.io/p5Catalyst/docs).
+
 
 # 🌍 Sharing your work
 
