@@ -1,5 +1,5 @@
-theme: jekyll-theme-minima
+theme: jekyll-theme-slate
 title: p5Catalyst Docs
 description: Documentation for p5Catalyst.
-minima:
-  skin: auto
+# minima:
+#   skin: auto
