@@ -5,9 +5,9 @@ These docs are here to help you understand, customize, and contribute to p5Catal
 ---
 
 ## 👀 What’s in here?
-- [Architecture](./architecture.md): Understand how the code is structured
-- [Contributing](./contributing.md): Set up your dev environment and make changes
+- [Architecture](./architecture): Understand how the code is structured
+- [Contributing](./contributing): Set up your dev environment and make changes
 
-Looking to get started fast? Head over to [Architecture](./architecture.md).
+Looking to get started fast? Head over to [Architecture](./architecture).
 
 ---
