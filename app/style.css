@@ -1,29 +1,6 @@
-/*@font-face {
-	font-family: 'GUIFontBody';
-	src: url('fonts/Athletics-Regular.woff2');
-	font-weight: normal;
-	font-style: normal;
-	font-display: swap;
-}*/
-/*@font-face {
-	font-family: 'GUIFontBody';
-	src: url('fonts/Athletics-Bold.woff2');
-	font-weight: bold;
-	font-style: normal;
-	font-display: swap;
-}*/
-/*@font-face {
-	font-family: 'GUIFontHeading';
-	src: url('fonts/VCHenrietta-Regular.otf');
-	font-weight: regular;
-	font-style: normal;
-	font-display: swap;
-}*/
-
 
 /********************************* GLOBALS *********************************/
 :root {
-/*	--gui-font: 'GUIFontBody', Arial, sans-serif;*/
 	--gui-font: "Aeonik", Arial, sans-serif;
 }
 *,
@@ -39,10 +16,6 @@ body {
 	--whiteRGB: 255, 255, 255;
 	--white: rgb(var(--whiteRGB));
 	--black: rgb(var(--blackRGB));
-
-	/* light mode */
-	/*--gui-bgRGB: var(--whiteRGB);
-	--gui-fgRGB: var(--blackRGB);*/
 	
 	/* light mode */
 	--gui-bgRGB: var(--whiteRGB);
@@ -51,15 +24,10 @@ body {
 	--gui-bg-col: rgb(var(--gui-bgRGB));
 	--gui-fg-col: rgb(var(--gui-fgRGB));
 
-
 	--transpSquareCol0: var(--gui-bg-col);
-	--transpSquareCol1: rgba(var(--gui-fgRGB), 0.1); /* transp gui col */
-/*	--canvasBorderCol: #000;*/
+	--transpSquareCol1: rgba(var(--gui-fgRGB), 0.1); /* transp version of gui col */
 	--squareSize: 30px;
 
-
-/*	--gui-bg-col: var(--gui-bg-col);*/
-/*	--gui-text-col: var(--gui-fg-col);*/
 	--gui-text-col: var(--gui-base-col);
 	--gui-text-align: left;
 
@@ -89,7 +57,7 @@ body {
 	--gui-target-col: var(--gui-base-col); /* click target (radio button) */
 	--gui-target-diameter: 1.5rem;
 
-	--gui-corner-radius: 0; /*1.25rem;*/ 
+	--gui-corner-radius: 0;
 	--gui-line-width: 2px;
 	--gui-focus-outline-offset: calc(1.5 * var(--gui-line-width));
 	--gui-focus-outline: var(--gui-line-width) dotted var(--gui-focus-col);
@@ -172,8 +140,20 @@ body:where(.dark-mode) #gui #logo {
 	background-image: url("assets/generator-logo.svg");
 }
 
+
+.footer-logo {
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+}
+
 #gui .p5catalyst-logo {
-	background-image: url(assets/p5catalyst-logo-lightmode.svg);
+	height: 2.8rem;
+	width: 6rem;
+	position: relative;
+	right: -0.5rem;
+	bottom: -0.5rem;
+	background-image: url("assets/p5catalyst-logo-lightmode.svg");
 	background-position-x: left;
 	background-position-y: center;
 	background-size: contain;
@@ -182,24 +162,8 @@ body:where(.dark-mode) #gui #logo {
 body:where(.dark-mode) #gui .p5catalyst-logo {
 	background-image: url("assets/p5catalyst-logo-darkmode.svg");
 }
-#gui .footer-logo {
-	display: inline-block;
-	min-height: 1.63em;
-	width: 5.7em;
-	position: relative;
-	top: 0.24em;
-	/*display: inline-block;
-	min-height: 2.8em;
-	width: 8.7em;
-	position: relative;
-	bottom: 0.25em;*/
-}
 
-.powered-by-logo {
-	position: fixed;
-	bottom: 1.3rem;
-	right: 2rem;
-}
+
 
 
 /********************************* TITLE *********************************/

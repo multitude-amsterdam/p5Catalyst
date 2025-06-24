@@ -171,7 +171,8 @@ class Lang {
 		const urlParams = new URLSearchParams(window.location.search);
 		let urlLangKey = urlParams.get('lang');
 		if (urlLangKey == null) {
-			console.log('No lang key set in URL.');
+			if (Lang.verbose) 
+				console.log('No lang key set in URL.');
 			return;
 		}
 		urlLangKey = urlLangKey.toLowerCase();
@@ -179,12 +180,15 @@ class Lang {
 			console.error('Lang key set in URL but is invalid: ' + urlLangKey);
 			return;
 		}
-		console.log('Lang key set: ' + urlLangKey);
+		if (Lang.verbose) 
+			console.log('Lang key set: ' + urlLangKey);
 		return urlLangKey;
 	}
 
+	constructor() {}
 
-	constructor(langKey) {
+	setup(langKey) {
+		this.langKey = langKey;
 		this.langKey = Lang.getURLLangKey() || langKey;
 	}
 
@@ -213,6 +217,4 @@ class Lang {
 	}
 }
 
-const lang = new Lang(language);
-
-
+const lang = new Lang();

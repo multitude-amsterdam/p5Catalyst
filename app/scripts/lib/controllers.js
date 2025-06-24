@@ -314,8 +314,10 @@ class Select extends ValuedController {
 
 
 class ResolutionSelect extends Select {
-	constructor(gui, labelStr, defaultIndex, valueCallback, setupCallback=undefined) {
-		super(gui, 'resolutionSelect', labelStr, resolutionOptions, defaultIndex, 
+	constructor(gui, labelStr, resOptions, defaultIndex, valueCallback, setupCallback=undefined) {
+		super(gui, 'resolutionSelect', labelStr, 
+			resOptions.map(s => lang.process(s, true)), 
+			defaultIndex, 
 			(controller, value) => {
 				if (value.indexOf(' x ') >= 0) {
 					const resStr = value.split(': ')[1];
@@ -354,12 +356,12 @@ class Slider extends ValuedController {
 		this.valueCallback = valueCallback;
 	}
 
-        validateValue(v) {
-                if (typeof v !== 'number' || Number.isNaN(v)) {
-                        throw new Error(v + ' is not a number');
-                }
-                return v;
+    validateValue(v) {
+        if (typeof v !== 'number' || Number.isNaN(v)) {
+            throw new Error(v + ' is not a number');
         }
+        return v;
+    }
 
 	setValue(v) {
 		// if (abs(v - this.defaultVal) < (this.maxVal - this.minVal) * 0.0167) 

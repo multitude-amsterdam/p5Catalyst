@@ -5,9 +5,8 @@ function createGUI() {
 
 	gui.setLeft();
 	
-	// add logo up top (uses 'assets/generator-logo.svg', see style.css)	
+	// add logo up top (uses 'assets/generator-logo9.svg', see style.css)	
 	let logo = gui.addField(new Field(gui.div, 'logo', ''));
-
 
 	// ------------------------------ FORMAT ------------------------------
 	gui.addTitle(2, 'LANG_FORMAT', false);
@@ -43,6 +42,22 @@ function createGUI() {
 		}
 	), doAddToRandomizerAs=true);
 
+	gui.addController(new Slider(
+		gui, 'sliderLogoScale', 'LANG_SCALE logo',
+		-1, 1, log(generator.logoScale)/log(2), 0.05,
+		(controller, value) => {
+			generator.logoScale = pow(2, value);
+		}
+	), doAddToRandomizerAs=false);
+
+	gui.addController(new Slider(
+		gui, 'sliderLogoScale', 'LANG_SCALE cat',
+		-1, 1, log(generator.cat.scaleAll)/log(2), 0.05,
+		(controller, value) => {
+			generator.cat.scaleAll = pow(2, value);
+		}
+	), doAddToRandomizerAs=false);
+
 	gui.addController(new Button(
 		gui, 'buttonRandomize', 'LANG_RANDOMIZE',
 		(controller) => {
@@ -53,6 +68,70 @@ function createGUI() {
 			// controller.click(); // randomize on startup
 		}
 	));
+
+
+	// ------------------------------ IMAGE ------------------------------
+	gui.addDivider();
+	gui.addTitle(2, 'LANG_IMAGE', false);
+
+	gui.addController(new Toggle(
+		gui, 'toggleShowImage',
+		'LANG_HIDE LANG_IMAGE', 'LANG_SHOW LANG_IMAGE', generator.doShowImage,
+		(controller, value) => {
+			generator.doShowImage = value;
+			gui.getControllers(
+				'imageLoader0,sliderImageScale,xyImagePosition,sliderImageX,sliderImageY'.split(',')
+			).forEach(controller => 
+				generator.doShowImage ? controller.show() : controller.hide()
+			);
+		}
+	), doAddToRandomizerAs=false);
+
+	gui.addController(new ImageLoader(
+		gui, 'imageLoader0', 'LANG_SELECT LANG_IMAGE...',
+		(controller, img) => {
+			if (img instanceof p5.Image && img.isLoaded) return;
+			if (img instanceof p5.Element && img.isLoaded) {
+				// check if img isn't default image
+				img.elt.onload();
+				return;
+			}
+			print('Loading image...');
+			img.elt.onload = () => {
+				img.isLoaded = true;
+				print('Image loaded.');
+				const minW = floor(pw / (1 + maxImgResIncrease));
+				const minH = floor(ph / (1 + maxImgResIncrease));
+				if (img.width < minW || img.height < minH) {
+					controller.setWarning(`Kleiner dan minimum afmetingen: ${minW} x ${minH} pixels.`);
+					alert(`De afmetingen van de afbeelding (${img.width} x ${img.height}) ` + 
+						`zijn te laag voor een mooi optisch effect.\n` + 
+						`Kies een afbeelding van ten minste ${minW} x ${minH} pixels.`);
+				} else {
+					controller.setConsole(controller.fileName, '');
+				}
+				generator.img = img;
+				gui.getController('toggleShowImage').setValue(true);
+			};
+		}
+	));
+
+	gui.addController(new Slider(
+		gui, 'sliderImageScale', 'LANG_SCALE LANG_IMAGE',
+		-1, 1, log(generator.imageScale)/log(2), 0.05,
+		(controller, value) => {
+			generator.imageScale = pow(2, value);
+		}
+	), doAddToRandomizerAs=false);
+
+	gui.addController(new XYSlider(
+		gui, 'xyImagePosition', 'LANG_IMAGE_POSITION', 
+		-1, 1, 0, 0.001,
+		-1, 1, 0, 0.001,
+		(controller, value) => {
+			generator.imagePosition.set(value.x, value.y);
+		}
+	), doAddToRandomizerAs=false);
 
 
 	// ------------------------------ EXPORT ------------------------------
