@@ -119,15 +119,16 @@ function ffmpegSetup() {
 
 function updateConversionProgress(progress=undefined) {
 	if (progress === undefined) return;
-	
+
 	let progText;
 	switch (ffmpegExportSettings.ext) {
-	case 'mp4':
-		progText = 'Progress: ' + conversionProgress;  
-		break;
-	case 'webm':
-		progText = 'Progress: ' + round(progress * 1000) / 10 + '%';  
-		break;
+		case 'mp4':
+			conversionProgress += dConversionProgress;
+			progText = 'Progress: ' + conversionProgress;
+			break;
+		case 'webm':
+			progText = 'Progress: ' + round(progress * 1000) / 10 + '%';
+			break;
 	}
 	guiCaptureButtonChoice.controllerElement.html(progText);
 }
