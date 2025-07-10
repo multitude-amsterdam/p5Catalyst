@@ -1,0 +1,13 @@
+{
+    "prettier.useEditorConfig": false,
+    "prettier.arrowParens": "avoid",
+    "prettier.experimentalTernaries": true,
+    "prettier.quoteProps": "consistent",
+    "prettier.singleQuote": true,
+    "prettier.useTabs": true,
+    "prettier.tabWidth": 4,
+    "prettier.semi": true,
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+}

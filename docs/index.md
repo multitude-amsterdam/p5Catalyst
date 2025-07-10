@@ -5,8 +5,9 @@ These docs are here to help you understand, customize, and contribute to p5Catal
 ---
 
 ## 👀 What’s in here?
-- [Architecture](./architecture): understand how the code is structured.
-- [Controllers](./controllers): an overview of the `Controller` subclasses.
+
+-   [Architecture](./architecture): understand how the code is structured.
+-   [Controllers](./controllers): an overview of the `Controller` subclasses.
 
 Looking to get started fast? Head over to [Architecture](./architecture).
 

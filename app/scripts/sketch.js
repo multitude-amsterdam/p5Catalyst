@@ -1,8 +1,8 @@
-
 let canvas;
 let svgCanvas;
 let canvWrapper;
-let pw = 1, ph = 1;
+let pw = 1,
+	ph = 1;
 let canvScale = 1;
 
 let theShader;
@@ -38,14 +38,14 @@ function preload() {
 	// theShader = loadShader('scripts/shader/shader.vert', 'scripts/shader/shader.frag');
 }
 
-
 // ------------------------------------------------------------ SETUP
-function setup() {	
+function setup() {
 	initUtils(10, ffmpegFR || 30);
 
-	canvas = theShader === undefined ? 
-		createCanvas(1, 1) :
-		createCanvas(1, 1, WEBGL);
+	canvas =
+		theShader === undefined
+			? createCanvas(1, 1)
+			: createCanvas(1, 1, WEBGL);
 	// svgCanvas = new p5(theSvgCanvasSketch);
 	createCanvasWrapper();
 
@@ -66,7 +66,6 @@ function setup() {
 	// setTimeout(helpMe, 500);
 }
 
-
 // ------------------------------------------------------------ DRAW
 function draw() {
 	if (!isFfmpegInit && ffmpegWaiter < FR) {
@@ -77,13 +76,12 @@ function draw() {
 	if (keyIsDown('-')) frameCount--;
 	if (keyIsDown('=')) frameCount++;
 	setTime();
-	mouse.set(mouseX, mouseY);//.scale(1 / generator.canvScale);
+	mouse.set(mouseX, mouseY); //.scale(1 / generator.canvScale);
 
 	generator.draw();
 
 	handleFrameCapture();
 }
-
 
 // ------------------------------------------------------------ SVG CANVAS
 function theSvgCanvasSketch(sketch) {
@@ -98,17 +96,16 @@ function theSvgCanvasSketch(sketch) {
 	sketch.draw = () => {};
 }
 
-
 // ------------------------------------------------------------ HELP ME
 function helpMe() {
 	alert(
 		lang.process(`LANG_USE:\n`, true) +
-		`Laat deze popup zien: ‘H’ toets\n` +
-		`Pauzeren / afspelen animatie: spatiebalk\n` +
-		lang.process(`LANG_UNDO/LANG_REDO: ‘CTRL’/‘CMD’ + ‘Z’\n`, true) +
-		``);
+			`Laat deze popup zien: ‘H’ toets\n` +
+			`Pauzeren / afspelen animatie: spatiebalk\n` +
+			lang.process(`LANG_UNDO/LANG_REDO: ‘CTRL’/‘CMD’ + ‘Z’\n`, true) +
+			``
+	);
 }
-
 
 // ------------------------------------------------------------ RESIZE
 function resize(w, h) {
@@ -132,7 +129,6 @@ function resize(w, h) {
 	containCanvasInWrapper(); // needs a double call
 }
 
-
 // ------------------------------------------------------------ CONTAIN CANVAS
 function createCanvasWrapper() {
 	canvWrapper = createDiv();
@@ -142,9 +138,8 @@ function createCanvasWrapper() {
 		canvWrapper.elt.append(svgCanvas.canvas.wrapper);
 		svgCanvas.parent(canvWrapper);
 	}
-	document.querySelector('main').append(canvWrapper.elt);  
+	document.querySelector('main').append(canvWrapper.elt);
 }
-
 
 function containCanvasInWrapper() {
 	const canvAsp = pw / ph;
@@ -158,7 +153,7 @@ function containCanvasInWrapper() {
 		canvas.elt.style.height = '';
 		canvas.elt.style.width = '100%';
 	} else {
-		canvas.elt.style.width = ''; 
+		canvas.elt.style.width = '';
 		canvas.elt.style.height = 'calc(100vh - 2rem)';
 	}
 
@@ -170,14 +165,15 @@ function containCanvasInWrapper() {
 		svgCanvas.canvas.svg.style.height = ph;
 	}
 
-	canvScale = sqrt(pw * ph / (1920 * 1080));
+	canvScale = sqrt((pw * ph) / (1920 * 1080));
 }
-
 
 // ------------------------------------------------------------ FRAME CAPTURING
 function handleFrameCapture() {
 	if (isCapturingFrames) {
-		const vidButton = gui.getController('buttonVidCapture' + ffmpegExportSettings.ext.toUpperCase()).controllerElement;
+		const vidButton = gui.getController(
+			'buttonVidCapture' + ffmpegExportSettings.ext.toUpperCase()
+		).controllerElement;
 		if (savedFrameCount < nFrames) {
 			saveToLocalFFMPEG(savedFrameCount);
 			vidButton.elt.style.backgroundColor = 'var(--gui-hover-col)';
@@ -191,19 +187,18 @@ function handleFrameCapture() {
 	}
 }
 
-
 // ------------------------------------------------------------ EVENT HANDLERS
 function keyPressed(e) {
 	if (gui.isTypingText) return;
 
 	// controls changeSet with CTRL/CMD + Z
 	const evt = window.event ? event : e;
-	const doChangeSet = evt.keyCode == 90 && (
-		(evt.ctrlKey && !evt.metaKey) || (!evt.ctrlKey && evt.metaKey) 
-		) && !evt.altKey;
+	const doChangeSet =
+		evt.keyCode == 90 &&
+		((evt.ctrlKey && !evt.metaKey) || (!evt.ctrlKey && evt.metaKey)) &&
+		!evt.altKey;
 	if (doChangeSet && !evt.shiftKey) changeSet.undo();
 	else if (doChangeSet && evt.shiftKey) changeSet.redo();
-	
 
 	if (keyCode >= 48 && keyCode <= 57) {
 		let utilInd = keyCode - 48;
@@ -212,55 +207,53 @@ function keyPressed(e) {
 
 	const frameJump = 100;
 	switch (key.toLowerCase()) {
-	case ' ':
-		isPlaying = !isPlaying;
-		break;
-	case 'h':
-		helpMe();
-		break;
-	case '[':
-		frameCount -= frameJump;
-		break;
-	case ']':
-		frameCount += frameJump;
-		break;
-	case 's':
-		save(Generator.getOutputFileName() + '.png');
-		break;
-	case 'f':
-		let fs = fullscreen();
-		fullscreen(!fs);
-		break;
-	case 'b':
-		gui.toggleSide();
-		break;
-	case 'm':
-		gui.toggleLightDarkMode();
-		break;
+		case ' ':
+			isPlaying = !isPlaying;
+			break;
+		case 'h':
+			helpMe();
+			break;
+		case '[':
+			frameCount -= frameJump;
+			break;
+		case ']':
+			frameCount += frameJump;
+			break;
+		case 's':
+			save(Generator.getOutputFileName() + '.png');
+			break;
+		case 'f':
+			let fs = fullscreen();
+			fullscreen(!fs);
+			break;
+		case 'b':
+			gui.toggleSide();
+			break;
+		case 'm':
+			gui.toggleLightDarkMode();
+			break;
 
-	case 'ArrowRight':
-		if (SSID == SSIDs[SSIDs.length - 1])
-			addNextSSID();
-		else
-			SSIDindex++;
-		setup();
-		break;
-	case 'ArrowLeft':
-		if (SSIDindex > 0) {
-			SSIDindex--;
+		case 'ArrowRight':
+			if (SSID == SSIDs[SSIDs.length - 1]) addNextSSID();
+			else SSIDindex++;
 			setup();
-		}
-		break;
+			break;
+		case 'ArrowLeft':
+			if (SSIDindex > 0) {
+				SSIDindex--;
+				setup();
+			}
+			break;
 
-	case 'ArrowUp': 
-		K++;
-		print("K: " + K);
-		break;
-	case 'ArrowDown':
-		if (K <= 0) break;
-		K--;
-		print("K: " + K);
-		break;
+		case 'ArrowUp':
+			K++;
+			print('K: ' + K);
+			break;
+		case 'ArrowDown':
+			if (K <= 0) break;
+			K--;
+			print('K: ' + K);
+			break;
 	}
 }
 
@@ -280,10 +273,10 @@ function windowResized() {
 	containCanvasInWrapper();
 }
 
-
 // ------------------------------------------------------------ INIT UTILS
 
-let SSID, SSIDindex = 0;
+let SSID,
+	SSIDindex = 0;
 let SSIDs = [generateSSID()];
 let K = 0; // util constant
 let utilBools = [];
@@ -292,7 +285,9 @@ let noiseOffs;
 
 function initUtils(_duration, _frameRate) {
 	console.log('p5Catalyst initiated as ' + Generator.name);
-	console.log('Project page: https://github.com/multitude-amsterdam/p5Catalyst');
+	console.log(
+		'Project page: https://github.com/multitude-amsterdam/p5Catalyst'
+	);
 
 	// SSID-based seed initialisation
 	SSID = SSIDs[SSIDindex];

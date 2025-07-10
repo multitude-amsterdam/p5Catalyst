@@ -1,4 +1,3 @@
-
 class GUIForP5 {
 	static verbose = !false;
 
@@ -6,7 +5,6 @@ class GUIForP5 {
 	controllers = [];
 
 	isTypingText = false;
-
 
 	constructor() {
 		this.div = createDiv();
@@ -19,13 +17,11 @@ class GUIForP5 {
 		this.setLeft();
 	}
 
-
 	setup() {
 		for (let controller of this.controllers) {
 			controller.setup();
 		}
 	}
-
 
 	setLeft() {
 		document.querySelector('main').prepend(this.div.elt);
@@ -41,18 +37,17 @@ class GUIForP5 {
 		this.isOnLeftSide ? this.setRight() : this.setLeft();
 	}
 
-
 	loadLightDarkMode() {
 		const setting = window.localStorage['isDarkMode'];
 		switch (setting) {
-		case 'true':
-			this.setDarkMode();
-			break;
-		case 'false':
-			this.setLightMode();
-			break;
-		default:
-			this.setAutoLightDarkMode();
+			case 'true':
+				this.setDarkMode();
+				break;
+			case 'false':
+				this.setLightMode();
+				break;
+			default:
+				this.setAutoLightDarkMode();
 		}
 	}
 
@@ -60,20 +55,20 @@ class GUIForP5 {
 		document.body.className = '';
 		window.localStorage['isDarkMode'] = 'false';
 		this.darkMode = 'false';
-		if (this.darkModeButton)
-			this.darkModeButton.setLightMode();
+		if (this.darkModeButton) this.darkModeButton.setLightMode();
 	}
 
 	setDarkMode() {
 		document.body.className = 'dark-mode';
 		window.localStorage['isDarkMode'] = 'true';
 		this.darkMode = 'true';
-		if (this.darkModeButton)
-			this.darkModeButton.setDarkMode();
+		if (this.darkModeButton) this.darkModeButton.setDarkMode();
 	}
 
 	setAutoLightDarkMode() {
-		const isSystemDarkMode = () => window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+		const isSystemDarkMode = () =>
+			window.matchMedia &&
+			window.matchMedia('(prefers-color-scheme: dark)').matches;
 		if (isSystemDarkMode()) {
 			this.setDarkMode();
 		} else {
@@ -81,63 +76,70 @@ class GUIForP5 {
 		}
 		window.localStorage['isDarkMode'] = 'auto';
 		this.darkMode = 'auto';
-		if (this.darkModeButton)
-			this.darkModeButton.setAutoLightDarkMode();
+		if (this.darkModeButton) this.darkModeButton.setAutoLightDarkMode();
 	}
 
 	toggleLightDarkMode() {
 		// cycle modes
 		switch (this.darkMode) {
-		case 'false':
-			this.setDarkMode();
-			break;
-		case 'true':
-			this.setAutoLightDarkMode();
-			break;
-		default:
-			this.setLightMode();
+			case 'false':
+				this.setDarkMode();
+				break;
+			case 'true':
+				this.setAutoLightDarkMode();
+				break;
+			default:
+				this.setLightMode();
 		}
 	}
 
 	createDarkModeButton() {
-		this.darkModeButton = this.addController(new Button(
-			this, 'buttonDarkMode', '', 
-			(controller) => {
+		this.darkModeButton = this.addController(
+			new Button(this, 'buttonDarkMode', '', controller => {
 				this.toggleLightDarkMode();
-			}
-		));
+			})
+		);
 		this.darkModeButton.controllerElement.id('dark-mode-button');
 		this.darkModeButton.setLightMode = () => {
-			this.darkModeButton.controllerElement.style('background-image', 'url("assets/dark-mode/light-mode-icon.svg")');
+			this.darkModeButton.controllerElement.style(
+				'background-image',
+				'url("assets/dark-mode/light-mode-icon.svg")'
+			);
 			this.darkModeButton.controllerElement.elt.title = 'Light mode';
 		};
 		this.darkModeButton.setDarkMode = () => {
-			this.darkModeButton.controllerElement.style('background-image', 'url("assets/dark-mode/dark-mode-icon.svg")');
+			this.darkModeButton.controllerElement.style(
+				'background-image',
+				'url("assets/dark-mode/dark-mode-icon.svg")'
+			);
 			this.darkModeButton.controllerElement.elt.title = 'Dark mode';
 		};
 		this.darkModeButton.setAutoLightDarkMode = () => {
-			this.darkModeButton.controllerElement.style('background-image', 'url("assets/dark-mode/auto-mode-icon.svg")');
-			this.darkModeButton.controllerElement.elt.title = 'Auto light/dark mode';
+			this.darkModeButton.controllerElement.style(
+				'background-image',
+				'url("assets/dark-mode/auto-mode-icon.svg")'
+			);
+			this.darkModeButton.controllerElement.elt.title =
+				'Auto light/dark mode';
 		};
 		switch (this.darkMode) {
-		case 'false':
-			this.darkModeButton.setLightMode();
-			break;
-		case 'true':
-			this.darkModeButton.setDarkMode();
-			break;
-		default:
-			this.darkModeButton.setAutoLightDarkMode();
+			case 'false':
+				this.darkModeButton.setLightMode();
+				break;
+			case 'true':
+				this.darkModeButton.setDarkMode();
+				break;
+			default:
+				this.darkModeButton.setAutoLightDarkMode();
 		}
 	}
-
 
 	addField(field) {
 		this.fields.push(field);
 		return field;
 	}
 
-	addHTMLToNewField(html, className='') {
+	addHTMLToNewField(html, className = '') {
 		let field = this.addField(new Field(this.div, '', className));
 		field.div.html(html);
 		return field;
@@ -145,9 +147,9 @@ class GUIForP5 {
 
 	addP5CatalystLogo() {
 		let logo = this.addHTMLToNewField(
-			`<a href="https://github.com/multitude-amsterdam/p5Catalyst" target="_blank">` + 
-				`<div class="p5catalyst-logo"></div>` + 
-			`</a>`,
+			`<a href="https://github.com/multitude-amsterdam/p5Catalyst" target="_blank">` +
+				`<div class="p5catalyst-logo"></div>` +
+				`</a>`,
 			'footer-logo'
 		);
 		return logo;
@@ -159,7 +161,7 @@ class GUIForP5 {
 		return divider;
 	}
 
-	addController(controller, doAddToRandomizerAs=undefined) {
+	addController(controller, doAddToRandomizerAs = undefined) {
 		this.addField(controller);
 		this.controllers.push(controller);
 		if (doAddToRandomizerAs !== undefined)
@@ -173,23 +175,30 @@ class GUIForP5 {
 		return label;
 	}
 
-	addTitle(hSize, titleText, doAlignCenter=false) {
-		let title = new Title(this.div, hSize, titleText, doAlignCenter=doAlignCenter);
+	addTitle(hSize, titleText, doAlignCenter = false) {
+		let title = new Title(
+			this.div,
+			hSize,
+			titleText,
+			(doAlignCenter = doAlignCenter)
+		);
 		this.addField(title);
 		return title;
 	}
 
-	addImage(url, altText, doAlignCenter=true) {
-		let img = new GUIImage(this.div, url, altText, doAlignCenter=doAlignCenter);
+	addImage(url, altText, doAlignCenter = true) {
+		let img = new GUIImage(
+			this.div,
+			url,
+			altText,
+			(doAlignCenter = doAlignCenter)
+		);
 		this.addField(img);
 		return img;
 	}
 
-
- 	hasName(name) {
-		return this.controllers.some(controller =>
-			controller.name == name
-		);
+	hasName(name) {
+		return this.controllers.some(controller => controller.name == name);
 	}
 
 	getController(name) {
@@ -212,22 +221,18 @@ class GUIForP5 {
 		);
 	}
 
-
 	getState() {
 		return this.controllers
-			.filter(controller => 
-				controller.value !== undefined
-			)
+			.filter(controller => controller.value !== undefined)
 			.map(controller => ({
 				name: controller.name,
-				value: controller.getValueForJSON()
-			}))
-			;
+				value: controller.getValueForJSON(),
+			}));
 	}
 
 	restoreState(state) {
 		Controller._doUpdateChangeSet = false;
-		for (let {name, value} of state) {
+		for (let { name, value } of state) {
 			const controller = gui.getController(name);
 			if (controller.setValue && value !== undefined) {
 				value = restoreSerializedP5Color(value);
@@ -239,11 +244,9 @@ class GUIForP5 {
 	}
 }
 
-
-
 class Randomizer {
 	controllers = [];
-	
+
 	constructor() {}
 
 	addController(controller, doRandomize) {
@@ -264,7 +267,8 @@ class Randomizer {
 
 	randomize() {
 		const controllersToRandomize = this.controllers.filter(
-			controller => controller.doRandomize === true && !controller.isHidden()
+			controller =>
+				controller.doRandomize === true && !controller.isHidden()
 		);
 		for (let controller of controllersToRandomize) {
 			if (controller instanceof ValuedController) {
@@ -282,12 +286,11 @@ class Randomizer {
 			console.error('Die not in list.', controller);
 			return;
 		}
-		this.controllers[index].doRandomize = this.controllers[index].doRandomize !== true;
+		this.controllers[index].doRandomize =
+			this.controllers[index].doRandomize !== true;
 		die.setActive(this.controllers[index].doRandomize);
 	}
 }
-
-
 
 class DieIcon {
 	static iconURLs = [
@@ -298,7 +301,6 @@ class DieIcon {
 		'assets/dice/die (5).svg',
 		'assets/dice/die (6).svg',
 	];
-
 
 	constructor(randomizer, controller, isActive) {
 		this.randomizer = randomizer;
@@ -323,7 +325,7 @@ class DieIcon {
 		let curRot = this.rot;
 		do this.rot = int(random(4));
 		while (this.rot == curRot);
-		let angle = this.rot * TAU / 3;
+		let angle = (this.rot * TAU) / 3;
 		this.img.style('rotate', angle + 'rad');
 	}
 
@@ -341,8 +343,7 @@ class DieIcon {
 		if (this.isActive) {
 			this.img.removeClass('disabled');
 			this.randomizeIcon();
-		}
-		else {
+		} else {
 			this.img.addClass('disabled');
 		}
 	}
@@ -352,14 +353,11 @@ class DieIcon {
 	}
 }
 
-
-
 class Field {
 	constructor(parentDiv, id, className) {
 		this.div = createDiv();
 		this.div.parent(parentDiv);
-		if (id !== undefined && id !== null && id != '')
-			this.div.id(id);
+		if (id !== undefined && id !== null && id != '') this.div.id(id);
 		this.div.class(className);
 	}
 
@@ -381,7 +379,6 @@ class Field {
 	}
 }
 
-
 class Label extends Field {
 	constructor(controller, text) {
 		super(controller.div, null, 'gui-label');
@@ -396,21 +393,19 @@ class Label extends Field {
 	}
 }
 
-
 class Title extends Field {
-	constructor(parentDiv, hSize, text, doAlignCenter=false) {
+	constructor(parentDiv, hSize, text, doAlignCenter = false) {
 		super(parentDiv, null, 'gui-title');
 		text = lang.process(text, true);
 		this.div.html(`<h${hSize}>${text}</h${hSize}>`);
 		if (doAlignCenter) {
 			this.div.style('text-align', 'center');
 		}
-	} 
+	}
 }
 
-
 class Textfield extends Field {
-	constructor(parentDiv, text, className=undefined, doAlignCenter=false) {
+	constructor(parentDiv, text, className = undefined, doAlignCenter = false) {
 		super(parentDiv, null, 'gui-textfield');
 		text = lang.process(text, true);
 		this.div.html(`<span>${text}</span>`);
@@ -420,12 +415,11 @@ class Textfield extends Field {
 		if (doAlignCenter) {
 			this.div.style('text-align', 'center');
 		}
-	} 
+	}
 }
 
-
 class GUIImage extends Field {
-	constructor(parentDiv, url, altText, doAlignCenter=true) {
+	constructor(parentDiv, url, altText, doAlignCenter = true) {
 		super(parentDiv, null, 'gui-image');
 		altText = lang.process(altText, true);
 		this.div.html(`<img src='${url}' alt='${altText}'>`);
@@ -435,11 +429,9 @@ class GUIImage extends Field {
 	}
 }
 
-
 class Divider extends Field {
 	constructor(parentDiv) {
 		super(parentDiv, null, 'gui-divider');
 		this.div.html('<hr>');
 	}
 }
-
