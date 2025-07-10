@@ -115,13 +115,6 @@ class ValuedController extends Controller {
 	}
 
 	getValueForJSON() {
-		// if (this.value.mode && this.value.levels) {
-		// 	// p5.Color
-		// 	return {
-		// 		mode: this.value.mode,
-		// 		levels: this.value.levels
-		// 	};
-		// }
 		return this.value;
 	}
 }
@@ -312,8 +305,8 @@ class Select extends ValuedController {
 		this.afterSetOptions();
 	}
 
-	optionToString(optionString) {
-		return optionString;
+	optionToString(option) {
+		return option.toString();
 	}
 
 	afterSetOptions() {}
