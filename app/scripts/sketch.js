@@ -200,11 +200,26 @@ function keyPressed(e) {
 	if (doChangeSet && !evt.shiftKey) changeSet.undo();
 	else if (doChangeSet && evt.shiftKey) changeSet.redo();
 
+	// set utilBools with keys 0 through 9
 	if (keyCode >= 48 && keyCode <= 57) {
 		let utilInd = keyCode - 48;
 		utilBools[utilInd] = !utilBools[utilInd];
 	}
 
+	// case-sensitive keys
+	switch (key) {
+		case 'ArrowUp':
+			K++;
+			print('K: ' + K);
+			break;
+		case 'ArrowDown':
+			if (K <= 0) break;
+			K--;
+			print('K: ' + K);
+			break;
+	}
+
+	// case-insensitive keys
 	const frameJump = 100;
 	switch (key.toLowerCase()) {
 		case ' ':
@@ -232,28 +247,6 @@ function keyPressed(e) {
 		case 'm':
 			gui.toggleLightDarkMode();
 			break;
-
-		case 'ArrowRight':
-			if (SSID == SSIDs[SSIDs.length - 1]) addNextSSID();
-			else SSIDindex++;
-			setup();
-			break;
-		case 'ArrowLeft':
-			if (SSIDindex > 0) {
-				SSIDindex--;
-				setup();
-			}
-			break;
-
-		case 'ArrowUp':
-			K++;
-			print('K: ' + K);
-			break;
-		case 'ArrowDown':
-			if (K <= 0) break;
-			K--;
-			print('K: ' + K);
-			break;
 	}
 }
 
@@ -261,6 +254,7 @@ function mousePressed() {}
 
 function mouseReleased() {}
 
+// differential scrolling speed with Apple trackpad & mouse
 const relScrollVel = (isMac() ? 0.1 : 1) * 0.06;
 function mouseWheel(event) {
 	let wheelDist = getWheelDistance(event);
@@ -275,10 +269,8 @@ function windowResized() {
 
 // ------------------------------------------------------------ INIT UTILS
 
-let SSID,
-	SSIDindex = 0;
-let SSIDs = [generateSSID()];
-let K = 0; // util constant
+let SSID;
+let K = 0; // util constant (controlled with up and down arrows)
 let utilBools = [];
 let FR, duration, nFrames;
 let noiseOffs;
@@ -286,11 +278,12 @@ let noiseOffs;
 function initUtils(_duration, _frameRate) {
 	console.log('p5Catalyst initiated as ' + Generator.name);
 	console.log(
-		'Project page: https://github.com/multitude-amsterdam/p5Catalyst'
+		'Visit the project: https://github.com/multitude-amsterdam/p5Catalyst'
 	);
 
 	// SSID-based seed initialisation
-	SSID = SSIDs[SSIDindex];
+	SSID = generateSSID();
+	SSIDHash = SSID / 1e8;
 	SSIDHash = SSID / 1e8;
 	randomSeed(SSID);
 	noiseSeed(SSID);
@@ -309,11 +302,4 @@ function initUtils(_duration, _frameRate) {
 
 function generateSSID() {
 	return Math.floor(Math.random() * 1e8);
-}
-
-function addNextSSID() {
-	SSIDs.push(generateSSID());
-	SSIDindex = SSIDs.length - 1;
-	SSID = SSIDs[SSIDindex];
-	SSIDHash = SSID / 1e8;
 }
