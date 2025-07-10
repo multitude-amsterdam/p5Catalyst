@@ -1,11 +1,10 @@
-
 class ChangeSet {
 	static localStorageKey = 'changeset';
 
 	changeset = [];
 	index = -1; // no state yet
-		
-	constructor(doInitFromLocalStorage=false) {
+
+	constructor(doInitFromLocalStorage = false) {
 		this.doInitFromLocalStorage = doInitFromLocalStorage;
 		if (this.doInitFromLocalStorage) {
 			this.restoreFromLocalStorage();
@@ -17,7 +16,7 @@ class ChangeSet {
 	getStates() {
 		return {
 			generator: generator.getState(),
-			gui: gui.getState()
+			gui: gui.getState(),
 		};
 	}
 
@@ -38,8 +37,7 @@ class ChangeSet {
 		const json = JSON.stringify(this.getStates());
 		this.addState(json);
 
-		if (this.doInitFromLocalStorage)
-			this.saveToLocalStorage(json);
+		if (this.doInitFromLocalStorage) this.saveToLocalStorage(json);
 	}
 
 	undo() {
@@ -74,7 +72,11 @@ class ChangeSet {
 
 	download(fileName) {
 		const json = this.changeset[this.index];
-		saveJSON(JSON.parse(json), fileName + '_' + Generator.getOutputFileName('settings'), false);
+		saveJSON(
+			JSON.parse(json),
+			fileName + '_' + Generator.getOutputFileName('settings'),
+			false
+		);
 	}
 
 	loadFromJSON(json) {
@@ -82,5 +84,3 @@ class ChangeSet {
 		this.restore(this.changeset[this.index]);
 	}
 }
-
-

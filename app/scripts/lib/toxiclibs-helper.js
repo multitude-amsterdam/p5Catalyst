@@ -1,4 +1,3 @@
-
 const Rect = toxi.geom.Rect;
 const Circle = toxi.geom.Circle;
 const Polygon2D = toxi.geom.Polygon2D;

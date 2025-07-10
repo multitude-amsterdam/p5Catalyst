@@ -1,4 +1,3 @@
-
 class Controller extends Field {
 	static _doUpdateChangeSet = true;
 	_doUpdateChangeSet = true;
@@ -6,7 +5,7 @@ class Controller extends Field {
 	controllerElement = null;
 	doRandomize = undefined;
 
-	constructor(gui, name, labelStr, setupCallback=undefined) {
+	constructor(gui, name, labelStr, setupCallback = undefined) {
 		super(gui.div, name, 'gui-controller');
 		this.gui = gui;
 		this.name = name;
@@ -28,32 +27,27 @@ class Controller extends Field {
 		this.setupCallback(this);
 	}
 
-
 	disable() {
 		if (this.controllerElement instanceof p5.Element)
 			this.controllerElement.elt.disabled = true;
-		else
-			this.controllerElement.disabled = true;
+		else this.controllerElement.disabled = true;
 	}
 
 	enable() {
 		if (this.controllerElement instanceof p5.Element)
 			this.controllerElement.elt.disabled = false;
-		else
-			this.controllerElement.disabled = false;
+		else this.controllerElement.disabled = false;
 	}
 
 	isDisabled() {
 		if (this.controllerElement instanceof p5.Element)
 			return this.controllerElement.elt.disabled;
-		else
-			return this.controllerElement.disabled;
+		else return this.controllerElement.disabled;
 	}
 
 	setDisabled(doSetDisabled) {
 		doSetDisabled ? this.disable() : this.enable();
 	}
-
 
 	createConsole() {
 		this.console = createDiv();
@@ -71,9 +65,8 @@ class Controller extends Field {
 			return;
 		}
 
-		if (type === undefined)
-			text = '🔺 ' + text; 
-		
+		if (type === undefined) text = '🔺 ' + text;
+
 		this.consoleText = text;
 		this.console.class('gui-console');
 		this.console.addClass('gui-console-' + type);
@@ -89,7 +82,6 @@ class Controller extends Field {
 		this.setConsole('⚠️ ' + text, 'warning');
 	}
 
-
 	addToRandomizer(randomizer) {
 		randomizer.addController(this);
 	}
@@ -99,18 +91,17 @@ class Controller extends Field {
 		this.die = die;
 	}
 
-
 	doUpdateChangeSet() {
-		return changeSet !== undefined 
-			&& this._doUpdateChangeSet 
-			&& Controller._doUpdateChangeSet;
+		return (
+			changeSet !== undefined &&
+			this._doUpdateChangeSet &&
+			Controller._doUpdateChangeSet
+		);
 	}
 }
 
-
-
 class ValuedController extends Controller {
-	constructor(gui, name, labelStr, setupCallback=undefined) {
+	constructor(gui, name, labelStr, setupCallback = undefined) {
 		super(gui, name, labelStr, setupCallback);
 	}
 
@@ -135,10 +126,8 @@ class ValuedController extends Controller {
 	}
 }
 
-
-
 class Button extends Controller {
-	constructor(gui, name, labelStr, callback, setupCallback=undefined) {
+	constructor(gui, name, labelStr, callback, setupCallback = undefined) {
 		super(gui, name, undefined, setupCallback);
 		labelStr = lang.process(labelStr, true);
 		this.controllerElement = createButton(labelStr);
@@ -154,21 +143,31 @@ class Button extends Controller {
 	}
 }
 
-
-
 class FileLoader extends Button {
-	constructor(gui, name, fileType, labelStr, fileReadyCallback, valueCallback, setupCallback=undefined) {
-		super(gui, name, labelStr, () => {
+	constructor(
+		gui,
+		name,
+		fileType,
+		labelStr,
+		fileReadyCallback,
+		valueCallback,
+		setupCallback = undefined
+	) {
+		super(
+			gui,
+			name,
+			labelStr,
+			() => {
 				this.controllerElement.elt.click();
 			},
 			setupCallback
 		);
 		this.fileType = fileType;
 
-		this.callback = (value) => {
+		this.callback = value => {
 			valueCallback(this, value);
 		};
-		
+
 		this.controllerElement = createFileInput(file => {
 			this.file = file;
 			this.fileName = file.file.name;
@@ -181,38 +180,64 @@ class FileLoader extends Button {
 }
 
 class TextFileLoader extends FileLoader {
-	constructor(gui, name, labelStr, valueCallback, setupCallback=undefined) {
-		super(gui, name, 'text', labelStr, (file) => {}, valueCallback, setupCallback);
+	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
+		super(
+			gui,
+			name,
+			'text',
+			labelStr,
+			file => {},
+			valueCallback,
+			setupCallback
+		);
 		this.controllerElement.elt.accept = '.txt';
 	}
 }
 
 class JSONFileLoader extends FileLoader {
-	constructor(gui, name, labelStr, valueCallback, setupCallback=undefined) {
-		super(gui, name, 'json', labelStr, (file) => {}, valueCallback, setupCallback);
+	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
+		super(
+			gui,
+			name,
+			'json',
+			labelStr,
+			file => {},
+			valueCallback,
+			setupCallback
+		);
 		this.controllerElement.elt.accept = '.json';
 	}
 }
 
 class ImageLoader extends FileLoader {
-	constructor(gui, name, labelStr, valueCallback, setupCallback=undefined) {
+	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
-			gui, name, 'image', labelStr, 
-			(file) => {
+			gui,
+			name,
+			'image',
+			labelStr,
+			file => {
 				this.img = createImg(file.data, '');
 				this.img.hide();
 				this.file = this.img;
 			},
-			valueCallback, setupCallback
+			valueCallback,
+			setupCallback
 		);
 		this.controllerElement.elt.accept = '.jpg,.png,.gif,.tif';
 	}
 }
 
-
-
 class Toggle extends ValuedController {
-	constructor(gui, name, labelStr0, labelStr1, isToggled, callback, setupCallback=undefined) {
+	constructor(
+		gui,
+		name,
+		labelStr0,
+		labelStr1,
+		isToggled,
+		callback,
+		setupCallback = undefined
+	) {
 		super(gui, name, undefined, setupCallback);
 		this.controllerElement = createButton('');
 		this.controllerElement.parent(this.controllerWrapper);
@@ -251,16 +276,22 @@ class Toggle extends ValuedController {
 	}
 }
 
-
-
 class Select extends ValuedController {
-	constructor(gui, name, labelStr, options, defaultIndex, valueCallback, setupCallback=undefined) {
+	constructor(
+		gui,
+		name,
+		labelStr,
+		options,
+		defaultIndex,
+		valueCallback,
+		setupCallback = undefined
+	) {
 		super(gui, name, labelStr, setupCallback);
-		
+
 		this.controllerElement = createSelect(); // (add true for multiple selections)
 		this.setOptions(options);
 
-		const callback = (event) => {
+		const callback = event => {
 			const valueStr = event.srcElement.value;
 			const ind = this.optionStrs.indexOf(valueStr);
 			this.value = this.options[ind];
@@ -276,7 +307,7 @@ class Select extends ValuedController {
 		this.controllerElement.parent(this.controllerWrapper);
 		this.options = options;
 		this.optionStrs = options.map(option => this.optionToString(option));
-		for (const optionStr of this.optionStrs) 
+		for (const optionStr of this.optionStrs)
 			this.controllerElement.option(optionStr);
 		this.afterSetOptions();
 	}
@@ -311,13 +342,21 @@ class Select extends ValuedController {
 	}
 }
 
-
-
 class ResolutionSelect extends Select {
-	constructor(gui, labelStr, resOptions, defaultIndex, valueCallback, setupCallback=undefined) {
-		super(gui, 'resolutionSelect', labelStr, 
-			resOptions.map(s => lang.process(s, true)), 
-			defaultIndex, 
+	constructor(
+		gui,
+		labelStr,
+		resOptions,
+		defaultIndex,
+		valueCallback,
+		setupCallback = undefined
+	) {
+		super(
+			gui,
+			'resolutionSelect',
+			labelStr,
+			resOptions.map(s => lang.process(s, true)),
+			defaultIndex,
 			(controller, value) => {
 				if (value.indexOf(' x ') >= 0) {
 					const resStr = value.split(': ')[1];
@@ -333,20 +372,32 @@ class ResolutionSelect extends Select {
 	}
 }
 
-
-
 class Slider extends ValuedController {
-	constructor(gui, name, labelStr, minVal, maxVal, defaultVal, stepSize, 
-		valueCallback, setupCallback=undefined) {
+	constructor(
+		gui,
+		name,
+		labelStr,
+		minVal,
+		maxVal,
+		defaultVal,
+		stepSize,
+		valueCallback,
+		setupCallback = undefined
+	) {
 		super(gui, name, labelStr, setupCallback);
-		this.controllerElement = createSlider(minVal, maxVal, defaultVal, stepSize);
+		this.controllerElement = createSlider(
+			minVal,
+			maxVal,
+			defaultVal,
+			stepSize
+		);
 		this.controllerElement.parent(this.controllerWrapper);
 		this.minVal = minVal;
 		this.maxVal = maxVal;
 		this.defaultVal = defaultVal;
 		this.stepSize = stepSize;
 
-		const callback = (event) => {
+		const callback = event => {
 			const value = parseFloat(event.srcElement.value);
 			valueCallback(this, value);
 		};
@@ -356,15 +407,15 @@ class Slider extends ValuedController {
 		this.valueCallback = valueCallback;
 	}
 
-    validateValue(v) {
-        if (typeof v !== 'number' || Number.isNaN(v)) {
-            throw new Error(v + ' is not a number');
-        }
-        return v;
-    }
+	validateValue(v) {
+		if (typeof v !== 'number' || Number.isNaN(v)) {
+			throw new Error(v + ' is not a number');
+		}
+		return v;
+	}
 
 	setValue(v) {
-		// if (abs(v - this.defaultVal) < (this.maxVal - this.minVal) * 0.0167) 
+		// if (abs(v - this.defaultVal) < (this.maxVal - this.minVal) * 0.0167)
 		// 	v = this.defaultVal;
 		v = round(v / this.stepSize) * this.stepSize;
 		this.valueCallback(this, v);
@@ -377,13 +428,22 @@ class Slider extends ValuedController {
 	}
 }
 
-
-
 class XYSlider extends ValuedController {
-	constructor(gui, name, labelStr, 
-		minValX, maxValX, defaultValX, stepSizeX, 
-		minValY, maxValY, defaultValY, stepSizeY, 
-		valueCallback, setupCallback=undefined) {
+	constructor(
+		gui,
+		name,
+		labelStr,
+		minValX,
+		maxValX,
+		defaultValX,
+		stepSizeX,
+		minValY,
+		maxValY,
+		defaultValY,
+		stepSizeY,
+		valueCallback,
+		setupCallback = undefined
+	) {
 		super(gui, name, labelStr, setupCallback);
 		this.minValX = minValX;
 		this.minValY = minValY;
@@ -404,25 +464,25 @@ class XYSlider extends ValuedController {
 		this.handle = handle;
 
 		this.isDragging = false;
-		this.controllerElement.elt.addEventListener('mousedown', (e) => {
+		this.controllerElement.elt.addEventListener('mousedown', e => {
 			this.isDragging = true;
 			this._doUpdateChangeSet = false;
 		});
-		handle.elt.addEventListener('mousedown', (e) => {
+		handle.elt.addEventListener('mousedown', e => {
 			this.isDragging = true;
 			this._doUpdateChangeSet = false;
 		});
-		handle.elt.addEventListener('mouseup', (e) => {
+		handle.elt.addEventListener('mouseup', e => {
 			this.isDragging = false;
 			this._doUpdateChangeSet = true;
 			this.setValue(this.getValueFromHandlePosition(e));
 		});
-		document.addEventListener('mousemove', (e) => {
+		document.addEventListener('mousemove', e => {
 			if (!this.isDragging) return;
 			this.setValue(this.getValueFromHandlePosition(e));
 		});
 
-		this.setValue({x: this.defaultValX, y: this.defaultValY});
+		this.setValue({ x: this.defaultValX, y: this.defaultValY });
 	}
 
 	getValueFromHandlePosition(mouseEvent) {
@@ -433,18 +493,20 @@ class XYSlider extends ValuedController {
 		rect.width -= borderW * 2;
 		rect.height -= borderW * 2;
 
-		let x = mouseEvent.clientX - rect.left - this.handle.elt.offsetWidth / 2;
-		let y = mouseEvent.clientY - rect.top - this.handle.elt.offsetHeight / 2;
+		let x =
+			mouseEvent.clientX - rect.left - this.handle.elt.offsetWidth / 2;
+		let y =
+			mouseEvent.clientY - rect.top - this.handle.elt.offsetHeight / 2;
 
 		const handleW = this.handle.elt.offsetWidth;
 		const handleH = this.handle.elt.offsetHeight;
-		x = constrain(x, -handleW/2, rect.width - handleW/2);
-		y = constrain(y, -handleH/2, rect.height - handleH/2);
+		x = constrain(x, -handleW / 2, rect.width - handleW / 2);
+		y = constrain(y, -handleH / 2, rect.height - handleH / 2);
 
-		let normX = map(x, -handleW/2, rect.width - handleW/2, -1, 1);
-		let normY = map(y, -handleH/2, rect.height - handleH/2, -1, 1);
+		let normX = map(x, -handleW / 2, rect.width - handleW / 2, -1, 1);
+		let normY = map(y, -handleH / 2, rect.height - handleH / 2, -1, 1);
 
-		return this.mapSteppedFromNormedVec({x: normX, y: normY});
+		return this.mapSteppedFromNormedVec({ x: normX, y: normY });
 	}
 
 	mapSteppedFromNormedVec(normedVec) {
@@ -455,14 +517,23 @@ class XYSlider extends ValuedController {
 		const nStepsX = round((this.maxValX - this.minValX) / this.stepSizeX);
 		const nStepsY = round((this.maxValY - this.minValY) / this.stepSizeY);
 		return {
-			x: this.minValX + round((normedVec.x * 0.5 + 0.5) * nStepsX) / nStepsX * (this.maxValX - this.minValX),
-			y: this.minValY + round((normedVec.y * 0.5 + 0.5) * nStepsY) / nStepsY * (this.maxValY - this.minValY)
+			x:
+				this.minValX +
+				(round((normedVec.x * 0.5 + 0.5) * nStepsX) / nStepsX) *
+					(this.maxValX - this.minValX),
+			y:
+				this.minValY +
+				(round((normedVec.y * 0.5 + 0.5) * nStepsY) / nStepsY) *
+					(this.maxValY - this.minValY),
 		};
 	}
 
 	setValue(vec) {
 		if (vec.x === undefined || vec.y === undefined) {
-			console.error('Value must be a vector {x: X, y: Y}, not this: ', vec);
+			console.error(
+				'Value must be a vector {x: X, y: Y}, not this: ',
+				vec
+			);
 			return;
 		}
 		this.value = vec;
@@ -479,26 +550,45 @@ class XYSlider extends ValuedController {
 		rect.height -= borderW * 2;
 		const handleW = this.handle.elt.offsetWidth;
 		const handleH = this.handle.elt.offsetHeight;
-		const feedbackX = map(this.value.x, this.minValX, this.maxValX, -handleW/2, rect.width - handleW/2);
-		const feedbackY = map(this.value.y, this.minValY, this.maxValY, -handleH/2, rect.height - handleH/2);
+		const feedbackX = map(
+			this.value.x,
+			this.minValX,
+			this.maxValX,
+			-handleW / 2,
+			rect.width - handleW / 2
+		);
+		const feedbackY = map(
+			this.value.y,
+			this.minValY,
+			this.maxValY,
+			-handleH / 2,
+			rect.height - handleH / 2
+		);
 
 		this.handle.elt.style.left = `${feedbackX}px`;
 		this.handle.elt.style.top = `${feedbackY}px`;
 	}
 
 	randomize() {
-		this.setValue(this.mapSteppedFromNormedVec({
-			x: random(-1, 1),
-			y: random(-1, 1)
-		}));
+		this.setValue(
+			this.mapSteppedFromNormedVec({
+				x: random(-1, 1),
+				y: random(-1, 1),
+			})
+		);
 	}
 }
 
-
-
 class ColourBoxes extends ValuedController {
-	constructor(gui, name, labelStr, colours, defaultIndex, 
-		valueCallback, setupCallback=undefined) {
+	constructor(
+		gui,
+		name,
+		labelStr,
+		colours,
+		defaultIndex,
+		valueCallback,
+		setupCallback = undefined
+	) {
 		super(gui, name, labelStr, setupCallback);
 
 		this.valueCallback = valueCallback;
@@ -530,20 +620,20 @@ class ColourBoxes extends ValuedController {
 			const hexCol = colorToHexString(colours[i++]).toUpperCase();
 			elt.style.backgroundColor = hexCol;
 			elt.title = hexCol;
-			elt.onclick = (evt) => {
+			elt.onclick = evt => {
 				this.setValue(this.colours[parseInt(elt.value)]);
 			};
-		};
+		}
 
 		this.colours = colours;
 		this.controllerElement = radio;
 	}
 
-    setValue(colObj) {
-        if (!(colObj instanceof p5.Color))
-            throw new Error(colObj + ' is not a p5.Color.');
+	setValue(colObj) {
+		if (!(colObj instanceof p5.Color))
+			throw new Error(colObj + ' is not a p5.Color.');
 
-		const index = this.colours.findIndex((col) =>
+		const index = this.colours.findIndex(col =>
 			isArraysEqual(col.levels, colObj.levels)
 		);
 
@@ -559,23 +649,34 @@ class ColourBoxes extends ValuedController {
 	}
 }
 
-
-
 class Textbox extends ValuedController {
-	constructor(gui, name, labelStr, defaultVal, valueCallback, setupCallback=undefined) {
+	constructor(
+		gui,
+		name,
+		labelStr,
+		defaultVal,
+		valueCallback,
+		setupCallback = undefined
+	) {
 		super(gui, name, labelStr, setupCallback);
 		this.controllerElement = createInput();
 		this.controllerElement.parent(this.controllerWrapper);
 
-		this.controllerElement.elt.oninput = (event) => {
+		this.controllerElement.elt.oninput = event => {
 			const value = event.srcElement.value;
 			valueCallback(this, value);
 		};
 
 		this.valueCallback = valueCallback;
-		
-		this.controllerElement.elt.addEventListener("focusin", (event) => gui.isTypingText = true);
-		this.controllerElement.elt.addEventListener("focusout", (event) => gui.isTypingText = false);
+
+		this.controllerElement.elt.addEventListener(
+			'focusin',
+			event => (gui.isTypingText = true)
+		);
+		this.controllerElement.elt.addEventListener(
+			'focusout',
+			event => (gui.isTypingText = false)
+		);
 	}
 
 	setValue(v) {
@@ -587,18 +688,17 @@ class Textbox extends ValuedController {
 	randomize() {}
 }
 
-
-
 class ResolutionTextboxes extends ValuedController {
-	constructor(gui, defW, defH, valueCallback, setupCallback=undefined) {
+	constructor(gui, defW, defH, valueCallback, setupCallback = undefined) {
 		super(gui, 'resolutionTextboxes', undefined, setupCallback);
 		this.w = defW;
 		this.h = defH;
-		this.wBox = new Textbox(gui,
+		this.wBox = new Textbox(
+			gui,
 			'resolutionTextBoxes-Width',
-			// lang.process('↔️ LANG_WIDTH:', true), 
-			lang.process('LANG_WIDTH:', true), 
-			defW, 
+			// lang.process('↔️ LANG_WIDTH:', true),
+			lang.process('LANG_WIDTH:', true),
+			defW,
 			(controller, value) => {
 				const pxDim = parseInt(value);
 				if (isNaN(pxDim)) {
@@ -606,14 +706,15 @@ class ResolutionTextboxes extends ValuedController {
 				}
 				this.w = pxDim;
 				resize(this.w, this.h);
-				valueCallback(this, {w: this.w, h: this.h});
+				valueCallback(this, { w: this.w, h: this.h });
 			}
 		);
-		this.hBox = new Textbox(gui,
+		this.hBox = new Textbox(
+			gui,
 			'resolutionTextBoxes-Height',
-			// lang.process('↕️ LANG_HEIGHT:', true), 
-			lang.process('LANG_HEIGHT:', true), 
-			defH, 
+			// lang.process('↕️ LANG_HEIGHT:', true),
+			lang.process('LANG_HEIGHT:', true),
+			defH,
 			(controller, value) => {
 				const pxDim = parseInt(value);
 				if (isNaN(pxDim)) {
@@ -621,7 +722,7 @@ class ResolutionTextboxes extends ValuedController {
 				}
 				this.h = pxDim;
 				resize(this.w, this.h);
-				valueCallback(this, {w: this.w, h: this.h});
+				valueCallback(this, { w: this.w, h: this.h });
 			}
 		);
 
@@ -642,27 +743,38 @@ class ResolutionTextboxes extends ValuedController {
 
 	setValueOnlyDisplay(w, h) {
 		this.wBox.controllerElement.value(w);
-		this.hBox.controllerElement.value(h);		
+		this.hBox.controllerElement.value(h);
 	}
 }
 
-
-
 class Textarea extends ValuedController {
-	constructor(gui, name, labelStr, defaultVal, valueCallback, setupCallback=undefined) {
-	super(gui, name, labelStr, setupCallback);
-	this.controllerElement = createElement('textarea');
-	this.controllerElement.parent(this.controllerWrapper);
-	this.controllerElement.html(defaultVal);
+	constructor(
+		gui,
+		name,
+		labelStr,
+		defaultVal,
+		valueCallback,
+		setupCallback = undefined
+	) {
+		super(gui, name, labelStr, setupCallback);
+		this.controllerElement = createElement('textarea');
+		this.controllerElement.parent(this.controllerWrapper);
+		this.controllerElement.html(defaultVal);
 
-	this.controllerElement.elt.oninput = (event) => {
+		this.controllerElement.elt.oninput = event => {
 			const value = event.srcElement.value;
 			valueCallback(this, value);
 		};
 		this.valueCallback = valueCallback;
 
-	this.controllerElement.elt.addEventListener("focusin", (event) => gui.isTypingText = true);
-		this.controllerElement.elt.addEventListener("focusout", (event) => gui.isTypingText = false);
+		this.controllerElement.elt.addEventListener(
+			'focusin',
+			event => (gui.isTypingText = true)
+		);
+		this.controllerElement.elt.addEventListener(
+			'focusout',
+			event => (gui.isTypingText = false)
+		);
 	}
 
 	setValue(v) {
@@ -673,15 +785,22 @@ class Textarea extends ValuedController {
 	randomize() {}
 }
 
-
-
 class ColourTextArea extends Textarea {
-	constructor(gui, name, labelStr, colours, valueCallback, setupCallback=undefined) {
+	constructor(
+		gui,
+		name,
+		labelStr,
+		colours,
+		valueCallback,
+		setupCallback = undefined
+	) {
 		const colourList = ColourTextArea.colourListToString(colours);
 		super(gui, name, labelStr, colourList, valueCallback, setupCallback);
 
-		this.controllerElement.elt.oninput = (event) => {
-			const value = ColourTextArea.parseColourList(event.srcElement.value);
+		this.controllerElement.elt.oninput = event => {
+			const value = ColourTextArea.parseColourList(
+				event.srcElement.value
+			);
 			this.valueCallback(this, value);
 
 			this.displayColours(value);
@@ -709,11 +828,10 @@ class ColourTextArea extends Textarea {
 	}
 
 	static parseColourList(str) {
-		return str.split(',')
+		return str
+			.split(',')
 			.map(cstr => cstr.trim())
 			.filter(cstr => cstr.length == 7 && cstr[0] == '#')
 			.map(cstr => color(cstr));
 	}
 }
-
-
