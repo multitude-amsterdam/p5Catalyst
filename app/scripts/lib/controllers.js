@@ -377,6 +377,71 @@ class Slider extends ValuedController {
 	}
 }
 
+class RangeSlider extends ValuedController {
+  constructor(
+    gui,
+    name,
+    labelStr,
+    minVal,
+    maxVal,
+    defaultValMin,
+    defaultValMax,
+    stepSize,
+    valueCallback,
+    setupCallback = undefined
+  ) {
+    super(gui, name, labelStr, setupCallback);
+    this.controllerElement = createDiv()
+      .class("dual-range-input")
+      .parent(this.controllerWrapper);
+    this.minSlider = createSlider(minVal, maxVal, defaultValMin, stepSize)
+      .id("min")
+      .parent(this.controllerElement);
+    this.maxSlider = createSlider(minVal, maxVal, defaultValMax, stepSize)
+      .id("max")
+      .parent(this.controllerElement);
+    new DualRangeInput(this.minSlider.elt, this.maxSlider.elt);
+
+    this.minVal = minVal;
+    this.maxVal = maxVal;
+    this.defaultValMin = defaultValMin;
+    this.defaultValMax = defaultValMax;
+    this.stepSize = stepSize;
+
+    const callback = (event) => {
+      const minValue = parseFloat(this.minSlider.elt.value);
+      const maxValue = parseFloat(this.maxSlider.elt.value);
+      valueCallback(this, { min: minValue, max: maxValue });
+    };
+
+    this.minSlider.elt.onchange = callback;
+    this.minSlider.elt.oninput = callback;
+    this.maxSlider.elt.onchange = callback;
+    this.maxSlider.elt.oninput = callback;
+    this.valueCallback = valueCallback;
+  }
+
+  // validateValue(v) {
+  //   if (typeof v !== "number" || Number.isNaN(v)) {
+  //     throw new Error(v + " is not a number");
+  //   }
+  //   return v;
+  // }
+
+  // setValue(v) {
+  //   // if (abs(v - this.defaultVal) < (this.maxVal - this.minVal) * 0.0167)
+  //   // 	v = this.defaultVal;
+  //   v = round(v / this.stepSize) * this.stepSize;
+  //   this.valueCallback(this, v);
+  //   this.controllerElement.value(v);
+  //   if (this.doUpdateChangeSet()) changeSet.save();
+  // }
+
+  // randomize() {
+  //   this.setValue(random(this.minVal, this.maxVal));
+  // }
+}
+
 
 
 class XYSlider extends ValuedController {
