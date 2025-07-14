@@ -1,161 +1,176 @@
 const language = 'en';
 
+// dictionary keys should be sorted alphabetically in reverse order,
+// so that the longest keys are replaced first
+// (use VS Code "Sort JS Object keys" extension to sort the keys)
 const dictionary = {
-	LANG_BUTTON: {
-		en: 'button',
-		nl: 'knop',
-	},
-	LANG_PORTRAIT: {
-		en: 'portrait',
-		nl: 'staand',
-	},
-	LANG_LANDSCAPE: {
-		en: 'landscape',
-		nl: 'liggend',
-	},
-	LANG_PROFILEPIC: {
-		en: 'profile picture',
-		nl: 'profielfoto',
-	},
-	LANG_SQUARE: {
-		en: 'square',
-		nl: 'vierkant',
+	LANG_WRONG_FILE_TYPE_MSG: {
+		nl: 'Het verkeerde bestandtype was geselecteerd.',
+		en: 'The wrong file type was selected.',
 	},
 	LANG_WIDTH: {
-		en: 'width',
 		nl: 'breedte',
-	},
-	LANG_HEIGHT: {
-		en: 'height',
-		nl: 'hoogte',
-	},
-	LANG_HIDE: {
-		en: 'hide',
-		nl: 'verberg',
-	},
-	LANG_SHOW: {
-		en: 'show',
-		nl: 'toon',
-	},
-	LANG_IMAGE_POSITION: {
-		en: 'image position',
-		nl: 'positie afbeelding',
-	},
-	LANG_IMAGE: {
-		en: 'image',
-		nl: 'afbeelding',
+		en: 'width',
 	},
 	LANG_VIDEO_READY_MSG: {
-		en: 'The video is ready and will be downloaded.',
 		nl: 'De video is gereed and wordt gedownload.',
+		en: 'The video is ready and will be downloaded.',
 	},
 	LANG_VIDEO: {
-		en: 'video',
 		nl: 'video',
-	},
-	LANG_SCALE: {
-		en: 'scale',
-		nl: 'schaal',
-	},
-	LANG_EXPORT: {
-		en: 'export',
-		nl: 'exporteren',
-	},
-	LANG_SPEED: {
-		en: 'speed',
-		nl: 'snelheid',
-	},
-	LANG_TEXT: {
-		en: 'text',
-		nl: 'tekst',
-	},
-	LANG_BODY_TEXT: {
-		en: 'body text',
-		nl: 'bodytekst',
-	},
-	LANG_TITLE_TEXT: {
-		en: 'title text',
-		nl: 'titeltekst',
-	},
-	LANG_SUPPORT: {
-		en: 'support',
-		nl: 'ondersteuning',
-	},
-	LANG_CONTACT_MSG: {
-		en: 'Contact for support & feedback',
-		nl: 'Contact voor ondersteuning & feedback',
-	},
-	LANG_FORMAT: {
-		en: 'format',
-		nl: 'formaat',
+		en: 'video',
 	},
 	LANG_VID_DURATION: {
-		en: 'video duration',
 		nl: 'duur video',
+		en: 'video duration',
 	},
 	LANG_VID_CAPTURE: {
-		en: 'video capture',
 		nl: 'video-opname',
-	},
-	LANG_SELECT: {
-		en: 'select',
-		nl: 'selecteer',
-	},
-	LANG_COPY_TO_CLIPBOARD: {
-		en: 'copy image',
-		nl: 'afbeelding kopiëren',
-	},
-	LANG_APPEARANCE: {
-		en: 'appearance',
-		nl: 'verschijning',
-	},
-	LANG_BGCOL: {
-		en: 'background colour',
-		nl: 'achtergrondkleur',
-	},
-	LANG_FGCOL: {
-		en: 'foreground colour',
-		nl: 'voorgrondkleur',
-	},
-	LANG_SETTINGS: {
-		en: 'settings',
-		nl: 'instellingen',
-	},
-	LANG_RANDOMIZE: {
-		en: 'randomize',
-		nl: 'doe maar wat',
-	},
-	LANG_SAVE_SETTINGS: {
-		en: 'save settings as file',
-		nl: 'instellingen opslaan als bestand',
-	},
-	LANG_LOAD_SETTINGS: {
-		en: 'open settings file',
-		nl: 'open instellingen',
-	},
-	LANG_WRONG_FILE_TYPE_MSG: {
-		en: 'The wrong file type was selected.',
-		nl: 'Het verkeerde bestandtype was geselecteerd.',
-	},
-	LANG_CHOOSE_FILE_NAME_MSG: {
-		en: 'Choose a file name:',
-		nl: 'Kies een bestandsnaam:',
-	},
-	LANG_UNDO: {
-		en: 'undo',
-		nl: 'ongedaan maken',
-	},
-	LANG_REDO: {
-		en: 'redo',
-		nl: 'opnieuw',
+		en: 'video capture',
 	},
 	LANG_USE: {
-		en: 'usage',
 		nl: 'gebruik',
+		en: 'usage',
+	},
+	LANG_UNDO: {
+		nl: 'ongedaan maken',
+		en: 'undo',
+	},
+	LANG_TITLE_TEXT: {
+		nl: 'titeltekst',
+		en: 'title text',
+	},
+	LANG_TEXT: {
+		nl: 'tekst',
+		en: 'text',
+	},
+	LANG_SUPPORT: {
+		nl: 'ondersteuning',
+		en: 'support',
+	},
+	LANG_SQUARE: {
+		nl: 'vierkant',
+		en: 'square',
+	},
+	LANG_SPEED: {
+		nl: 'snelheid',
+		en: 'speed',
+	},
+	LANG_SHOW: {
+		nl: 'toon',
+		en: 'show',
+	},
+	LANG_SETTINGS: {
+		nl: 'instellingen',
+		en: 'settings',
+	},
+	LANG_SELECT: {
+		nl: 'selecteer',
+		en: 'select',
+	},
+	LANG_SCALE: {
+		nl: 'schaal',
+		en: 'scale',
+	},
+	LANG_SAVE_SETTINGS: {
+		nl: 'instellingen opslaan als bestand',
+		en: 'save settings as file',
+	},
+	LANG_REDO: {
+		nl: 'opnieuw',
+		en: 'redo',
+	},
+	LANG_RANDOMIZE: {
+		nl: 'doe maar wat',
+		en: 'randomize',
+	},
+	LANG_PROFILEPIC: {
+		nl: 'profielfoto',
+		en: 'profile picture',
+	},
+	LANG_PORTRAIT: {
+		nl: 'staand',
+		en: 'portrait',
+	},
+	LANG_LOAD_SETTINGS: {
+		nl: 'open instellingen',
+		en: 'open settings file',
+	},
+	LANG_LANDSCAPE: {
+		nl: 'liggend',
+		en: 'landscape',
+	},
+	LANG_IMAGE_POSITION: {
+		nl: 'positie afbeelding',
+		en: 'image position',
+	},
+	LANG_IMAGE: {
+		nl: 'afbeelding',
+		en: 'image',
+	},
+	LANG_HIDE: {
+		nl: 'verberg',
+		en: 'hide',
+	},
+	LANG_HELPME_MSG: {
+		nl:
+			`LANG_USE:\n` +
+			`Laat deze popup zien: 'H' toets\n` +
+			`Pauzeren / afspelen animatie: spatiebalk\n` +
+			`LANG_UNDO/LANG_REDO: 'CTRL'/'CMD' + 'Z'\n`,
+		en:
+			`LANG_USE:\n` +
+			`Show this popup: 'H' key\n` +
+			`Pause / play animation: spacebar\n` +
+			`LANG_UNDO/LANG_REDO: 'CTRL'/'CMD' + 'Z'\n`,
 	},
 	LANG_HELP: {
-		en: 'help',
 		nl: 'help',
+		en: 'help',
+	},
+	LANG_HEIGHT: {
+		nl: 'hoogte',
+		en: 'height',
+	},
+	LANG_FORMAT: {
+		nl: 'formaat',
+		en: 'format',
+	},
+	LANG_FGCOL: {
+		nl: 'voorgrondkleur',
+		en: 'foreground colour',
+	},
+	LANG_EXPORT: {
+		nl: 'exporteren',
+		en: 'export',
+	},
+	LANG_COPY_TO_CLIPBOARD: {
+		nl: 'afbeelding kopiëren',
+		en: 'copy image',
+	},
+	LANG_CONTACT_MSG: {
+		nl: 'Contact voor ondersteuning & feedback',
+		en: 'Contact for support & feedback',
+	},
+	LANG_CHOOSE_FILE_NAME_MSG: {
+		nl: 'Kies een bestandsnaam:',
+		en: 'Choose a file name:',
+	},
+	LANG_BUTTON: {
+		nl: 'knop',
+		en: 'button',
+	},
+	LANG_BODY_TEXT: {
+		nl: 'bodytekst',
+		en: 'body text',
+	},
+	LANG_BGCOL: {
+		nl: 'achtergrondkleur',
+		en: 'background colour',
+	},
+	LANG_APPEARANCE: {
+		nl: 'verschijning',
+		en: 'appearance',
 	},
 };
 
@@ -188,7 +203,8 @@ class Lang {
 		this.langKey = Lang.getURLLangKey() || langKey;
 	}
 
-	process(str, doCapitalizeFirstLetter = false) {
+	process(str, doCapitalizeFirstLetter = false, depth = 10) {
+		// recursively replace all hotStrings in str with their translations
 		let replaced = str;
 		for (let hotString in dictionary) {
 			const translation = dictionary[hotString][this.langKey];
@@ -196,10 +212,20 @@ class Lang {
 				console.log(hotString, translation);
 			replaced = replaced.replaceAll(hotString, translation);
 		}
-		if (doCapitalizeFirstLetter) {
-			return this.capFirst(replaced);
+		if (str === replaced) {
+			return replaced;
 		}
-		return replaced;
+		if (depth <= 0) {
+			console.error(
+				'Lang.process() reached max depth without replacing all strings.'
+			);
+			return replaced;
+		}
+
+		if (doCapitalizeFirstLetter) {
+			replaced = this.capFirst(replaced);
+		}
+		return this.process(replaced, doCapitalizeFirstLetter, depth - 1);
 	}
 
 	capFirst(str) {
