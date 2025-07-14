@@ -153,12 +153,19 @@ function createGUI() {
 					const minH = floor(ph / (1 + maxImgResIncrease));
 					if (img.width < minW || img.height < minH) {
 						controller.setWarning(
-							`Kleiner dan minimum afmetingen: ${minW} x ${minH} pixels.`
+							lang.process(
+								'LANG_TOO_SMALL_IMG'.format(minW, minH)
+							)
 						);
-						alert(
-							`De afmetingen van de afbeelding (${img.width} x ${img.height}) ` +
-								`zijn te laag voor een mooi optisch effect.\n` +
-								`Kies een afbeelding van ten minste ${minW} x ${minH} pixels.`
+						dialog.alert(
+							lang.process(
+								'LANG_TOO_SMALL_IMG_ALERT'.format(
+									img.width,
+									img.height,
+									minW,
+									minH
+								)
+							)
 						);
 					} else {
 						controller.setConsole(controller.fileName, '');
