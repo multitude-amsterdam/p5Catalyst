@@ -395,10 +395,8 @@ class RangeSlider extends ValuedController {
       .class("dual-range-input")
       .parent(this.controllerWrapper);
     this.minSlider = createSlider(minVal, maxVal, defaultValMin, stepSize)
-      .id("min")
       .parent(this.controllerElement);
     this.maxSlider = createSlider(minVal, maxVal, defaultValMax, stepSize)
-      .id("max")
       .parent(this.controllerElement);
     new DualRangeInput(this.minSlider.elt, this.maxSlider.elt);
 
@@ -421,25 +419,20 @@ class RangeSlider extends ValuedController {
     this.valueCallback = valueCallback;
   }
 
-  // validateValue(v) {
-  //   if (typeof v !== "number" || Number.isNaN(v)) {
-  //     throw new Error(v + " is not a number");
-  //   }
-  //   return v;
-  // }
+  setValue(v) {
+    this.valueCallback(this, v);
+    this.minSlider.value(v.min);
+    this.maxSlider.value(v.max);
+    if (this.doUpdateChangeSet()) changeSet.save();
+  }
 
-  // setValue(v) {
-  //   // if (abs(v - this.defaultVal) < (this.maxVal - this.minVal) * 0.0167)
-  //   // 	v = this.defaultVal;
-  //   v = round(v / this.stepSize) * this.stepSize;
-  //   this.valueCallback(this, v);
-  //   this.controllerElement.value(v);
-  //   if (this.doUpdateChangeSet()) changeSet.save();
-  // }
-
-  // randomize() {
-  //   this.setValue(random(this.minVal, this.maxVal));
-  // }
+  randomize() {
+    const pivot = random(this.minVal, this.maxVal);
+    this.setValue({
+      min: random(this.minVal, pivot),
+      max: random(pivot, this.maxVal),
+    });
+  }
 }
 
 
