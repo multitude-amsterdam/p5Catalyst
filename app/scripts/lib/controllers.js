@@ -708,6 +708,87 @@ class ColourBoxes extends ValuedController {
 	}
 }
 
+class MultiColourBoxes extends ValuedController {
+	constructor(gui, name, labelStr, colours, defaultIndices,
+		valueCallback, setupCallback=undefined) {
+		super(gui, name, labelStr, setupCallback);
+
+		this.colours = colours;
+		this.valueCallback = valueCallback;
+
+		this.setControllerColours();
+
+		const defaultCols = defaultIndices.map(i => this.colours[i]);
+		this.setValue(defaultCols);
+	}
+
+	setControllerColours() {
+		if (this.controllerElement) {
+			this.controllerElement.remove();
+		}
+
+		const div = createDiv();
+		div.class('colour-boxes');
+		div.parent(this.controllerWrapper);
+		this.checkboxes = [];
+		for (let i = 0; i < this.colours.length; i++) {
+			const cb = createCheckbox();
+			cb.parent(div);
+			cb.value('' + i);
+			cb.elt.addEventListener('click', () => {
+				const indices = [];
+				this.checkboxes.forEach((c, idx) => {
+					if (c.checked()) indices.push(idx);
+				});
+				this.setValueFromIndices(indices);
+			});
+			this.checkboxes.push(cb);
+		}
+
+		div.elt.querySelectorAll('span').forEach(elt => {
+			elt.remove();
+		});
+		div.elt.querySelectorAll('input').forEach((elt, i) => {
+			const hexCol = colorToHexString(this.colours[i]).toUpperCase();
+			elt.style.backgroundColor = hexCol;
+			elt.title = hexCol;
+		});
+
+		this.controllerElement = div;
+	}
+
+	setValueFromIndices(indices) {
+		this.valueIndices = indices;
+		this.value = indices.map(i => this.colours[i]);
+		this.checkboxes.forEach((cb, i) => {
+			cb.checked(indices.includes(i));
+		});
+		this.valueCallback(this, this.value);
+		if (this.doUpdateChangeSet()) changeSet.save();
+	}
+
+	setValue(colArray) {
+		const indices = colArray.map(colObj => {
+			if (!(colObj instanceof p5.Color))
+				throw new Error(colObj + ' is not a p5.Color.');
+			return this.colours.findIndex(col =>
+				isArraysEqual(col.levels, colObj.levels)
+				);
+		});
+		this.setValueFromIndices(indices);
+	}
+
+	randomize() {
+		const indices = [];
+		for (let i = 0; i < this.colours.length; i++) {
+			if (random(1) < 0.5) indices.push(i);
+		}
+		if (indices.length === 0)
+			indices.push(floor(random(this.colours.length)));
+		this.setValueFromIndices(indices);
+	}
+}
+
 class Textbox extends ValuedController {
 	constructor(
 		gui,

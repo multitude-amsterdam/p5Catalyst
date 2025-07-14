@@ -868,6 +868,48 @@ h6 {
 	border-color: var(--dri-thumb-border-active-color);
 }
 
+/********************************* CHECKBOX *********************************/
+#gui input[type="checkbox"] {
+	-webkit-appearance: none;
+	appearance: none;
+
+	display: grid;
+	place-content: center;
+	background-color: var(--white);
+	width: var(--gui-target-diameter);
+	height: var(--gui-target-diameter);
+	border: var(--gui-line-width) solid var(--gui-base-col);
+	border-radius: var(--gui-corner-radius);
+
+	cursor: pointer;
+	transition: var(--gui-transition);
+	margin: 0;
+}
+#gui input[type="checkbox"]:hover {
+	border-color: var(--gui-hover-col);
+}
+#gui input[type="checkbox"]:focus {
+	outline: var(--gui-focus-outline);
+	outline-offset: var(--gui-focus-outline-offset);
+}
+#gui input[type="checkbox"]:hover::before {
+	transform: scale(1);
+	box-shadow: inset var(--gui-target-diameter) var(--gui-target-diameter) var(--gui-hover-col);
+}
+#gui input[type="checkbox"]::before {
+	content: "";
+	width: var(--gui-target-diameter);
+	height: var(--gui-target-diameter);
+	transform: scale(0.75, 0);
+	box-shadow: inset var(--gui-target-diameter) var(--gui-target-diameter) var(--gui-target-col);
+	border: none;
+	border-radius: var(--gui-corner-radius);
+	transition: var(--gui-transition);
+}
+#gui input[type="checkbox"]:checked::before {
+	transform: scale(1);
+}
+
 /********************************* XY SLIDER *********************************/
 #gui .xyslider {
 	width: 100%;
@@ -919,6 +961,7 @@ h6 {
 	border-radius: 100%;
 }
 
+/********************************* COLOUR BOXES *********************************/
 #gui .colour-boxes {
 	width: 100%;
 	display: flex;
@@ -952,6 +995,28 @@ h6 {
 }
 
 #gui .colour-boxes input[type='radio']:checked::before {
+	display: none;
+}
+
+/********************************* MULTI COLOUR BOXES *********************************/
+#gui .colour-boxes input[type="checkbox"] {
+	margin: 0;
+	border: none;
+}
+#gui .colour-boxes input[type="checkbox"]:hover,
+#gui .colour-boxes input[type="checkbox"]:checked:hover {
+	border: var(--gui-line-width) solid var(--gui-hover-col);
+}
+#gui .colour-boxes input[type="checkbox"]:checked {
+	border: var(--gui-line-width) solid var(--gui-base-col);
+}
+#gui .colour-boxes input[type="checkbox"]::before {
+	display: none;
+}
+#gui .colour-boxes input[type="checkbox"]:hover::before {
+	display: none;
+}
+#gui .colour-boxes input[type="checkbox"]:checked::before {
 	display: none;
 }
 
