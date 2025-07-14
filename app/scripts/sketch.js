@@ -63,7 +63,9 @@ function setup() {
 
 	generator.setup();
 
-	// setTimeout(helpMe, 500);
+	if (window.location.hostname !== 'localhost') {
+		setTimeout(helpMe, 500);
+	}
 }
 
 // ------------------------------------------------------------ DRAW
@@ -98,13 +100,7 @@ function theSvgCanvasSketch(sketch) {
 
 // ------------------------------------------------------------ HELP ME
 function helpMe() {
-	alert(
-		lang.process(`LANG_USE:\n`, true) +
-			`Laat deze popup zien: ‘H’ toets\n` +
-			`Pauzeren / afspelen animatie: spatiebalk\n` +
-			lang.process(`LANG_UNDO/LANG_REDO: ‘CTRL’/‘CMD’ + ‘Z’\n`, true) +
-			``
-	);
+	alert(lang.process(`LANG_HELPME_MSG`, true));
 }
 
 // ------------------------------------------------------------ RESIZE
