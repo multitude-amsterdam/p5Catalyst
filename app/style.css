@@ -19,7 +19,6 @@ body {
 	/* light mode */
 	--gui-bgRGB: var(--whiteRGB);
 	--gui-fgRGB: var(--blackRGB);
-
 	--gui-bg-col: rgb(var(--gui-bgRGB));
 	--gui-fg-col: rgb(var(--gui-fgRGB));
 
@@ -202,13 +201,18 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 }
 
 /* default behaviour */
+button,
+input,
+select,
+textarea {
+	font-family: var(--gui-font);
+	color: var(--black);
+}
 #gui button,
 #gui input,
 #gui select,
 #gui textarea {
 	width: 100%;
-	font-family: var(--gui-font);
-	color: var(--black);
 }
 
 /********************************* LABEL *********************************/
@@ -527,7 +531,7 @@ h6 {
 }
 
 /********************************* TEXTBOX *********************************/
-#gui input[type='text'] {
+input[type='text'] {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -539,11 +543,11 @@ h6 {
 	transition: var(--gui-transition);
 }
 
-#gui input[type='text']:hover {
+input[type='text']:hover {
 	border-color: var(--gui-hover-col);
 }
 
-#gui input[type='text']:focus {
+input[type='text']:focus {
 	outline: var(--gui-focus-outline);
 	outline-offset: var(--gui-focus-outline-offset);
 	border-radius: var(--gui-corner-radius);
@@ -869,7 +873,7 @@ h6 {
 }
 
 /********************************* CHECKBOX *********************************/
-#gui input[type="checkbox"] {
+#gui input[type='checkbox'] {
 	-webkit-appearance: none;
 	appearance: none;
 
@@ -885,28 +889,30 @@ h6 {
 	transition: var(--gui-transition);
 	margin: 0;
 }
-#gui input[type="checkbox"]:hover {
+#gui input[type='checkbox']:hover {
 	border-color: var(--gui-hover-col);
 }
-#gui input[type="checkbox"]:focus {
+#gui input[type='checkbox']:focus {
 	outline: var(--gui-focus-outline);
 	outline-offset: var(--gui-focus-outline-offset);
 }
-#gui input[type="checkbox"]:hover::before {
+#gui input[type='checkbox']:hover::before {
 	transform: scale(1);
-	box-shadow: inset var(--gui-target-diameter) var(--gui-target-diameter) var(--gui-hover-col);
+	box-shadow: inset var(--gui-target-diameter) var(--gui-target-diameter)
+		var(--gui-hover-col);
 }
-#gui input[type="checkbox"]::before {
-	content: "";
+#gui input[type='checkbox']::before {
+	content: '';
 	width: var(--gui-target-diameter);
 	height: var(--gui-target-diameter);
 	transform: scale(0.75, 0);
-	box-shadow: inset var(--gui-target-diameter) var(--gui-target-diameter) var(--gui-target-col);
+	box-shadow: inset var(--gui-target-diameter) var(--gui-target-diameter)
+		var(--gui-target-col);
 	border: none;
 	border-radius: var(--gui-corner-radius);
 	transition: var(--gui-transition);
 }
-#gui input[type="checkbox"]:checked::before {
+#gui input[type='checkbox']:checked::before {
 	transform: scale(1);
 }
 
@@ -999,24 +1005,24 @@ h6 {
 }
 
 /********************************* MULTI COLOUR BOXES *********************************/
-#gui .colour-boxes input[type="checkbox"] {
+#gui .colour-boxes input[type='checkbox'] {
 	margin: 0;
 	border: none;
 }
-#gui .colour-boxes input[type="checkbox"]:hover,
-#gui .colour-boxes input[type="checkbox"]:checked:hover {
+#gui .colour-boxes input[type='checkbox']:hover,
+#gui .colour-boxes input[type='checkbox']:checked:hover {
 	border: var(--gui-line-width) solid var(--gui-hover-col);
 }
-#gui .colour-boxes input[type="checkbox"]:checked {
+#gui .colour-boxes input[type='checkbox']:checked {
 	border: var(--gui-line-width) solid var(--gui-base-col);
 }
-#gui .colour-boxes input[type="checkbox"]::before {
+#gui .colour-boxes input[type='checkbox']::before {
 	display: none;
 }
-#gui .colour-boxes input[type="checkbox"]:hover::before {
+#gui .colour-boxes input[type='checkbox']:hover::before {
 	display: none;
 }
-#gui .colour-boxes input[type="checkbox"]:checked::before {
+#gui .colour-boxes input[type='checkbox']:checked::before {
 	display: none;
 }
 
@@ -1124,10 +1130,10 @@ button#dark-mode-button:focus:hover {
 	background-color: var(--transpSquareCol0);
 
 	/*	background-image: linear-gradient(45deg, var(--transpSquareCol1) 25%, transparent 25%),
-		linear-gradient(-45deg, var(--transpSquareCol1) 25%, transparent 25%),
-		linear-gradient(45deg, transparent 75%, var(--transpSquareCol1) 75%),
-		linear-gradient(-45deg, transparent 75%, var(--transpSquareCol1) 75%);
-
+	linear-gradient(-45deg, var(--transpSquareCol1) 25%, transparent 25%),
+	linear-gradient(45deg, transparent 75%, var(--transpSquareCol1) 75%),
+	linear-gradient(-45deg, transparent 75%, var(--transpSquareCol1) 75%);
+	
 	background-size: var(--squareSize) var(--squareSize);
 	background-position: 0 0, 0 calc(var(--squareSize)/2), calc(var(--squareSize)/2) calc(var(--squareSize)/-2), calc(var(--squareSize)/-2) 0px;
 	background-repeat: repeat;*/
@@ -1175,4 +1181,184 @@ canvas,
 	display: none;
 	position: relative;
 	z-index: 1000;
+}
+
+/********************************* DIALOG *********************************/
+/* based on implementation at: https://github.com/Stanko/cca/blob/dev/docs/index.html#L78-L91 */
+html:has(dialog[open]) {
+	overflow: hidden;
+	touch-action: none;
+}
+
+html:has(dialog[open]) dialog {
+	touch-action: auto;
+}
+
+html:has(dialog[open]) body {
+	margin-right: none; /*var(--scrollbar-width);*/
+}
+
+dialog::backdrop {
+	background: none;
+	-webkit-backdrop-filter: blur(1rem);
+	backdrop-filter: blur(1rem);
+}
+
+.dialog {
+	align-items: flex-end;
+	background-color: transparent;
+	border: none;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+	max-height: 100%;
+	max-width: 100%;
+	overflow: hidden;
+	position: fixed;
+	inset: 0;
+	width: 100%;
+}
+
+.dialog[open] {
+	display: flex;
+}
+
+@media (min-width: 600px) {
+	.dialog {
+		align-items: center;
+	}
+}
+
+@keyframes dialog-backdrop-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.dialog-backdrop-close {
+	inset: 0;
+	position: absolute;
+	background-color: rgba(var(--gui-bgRGB), 0.5);
+	opacity: 0;
+}
+
+.dialog[open] .dialog-backdrop-close {
+	animation: dialog-backdrop-in 250ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.dialog[open] .dialog-backdrop-close {
+		animation: none;
+		opacity: 1;
+	}
+}
+
+.dialog-close {
+	opacity: 1;
+	position: absolute;
+	transition: var(--gui-transition);
+	z-index: 1;
+	border-radius: var(--gui-corner-radius);
+	padding: 0;
+
+	right: -3rem;
+	top: 0;
+	height: 2rem;
+	width: 2rem;
+	border: none;
+	cursor: pointer;
+	background-color: var(--gui-base-col);
+	color: var(--gui-text-col-on-base);
+	text-align: none;
+}
+
+.dialog-close:focus-visible,
+.dialog-close:hover {
+	opacity: 1;
+	background-color: var(--gui-hover-col);
+	color: var(--gui-text-col-on-hover);
+}
+
+.dialog-content {
+	border-radius: var(--gui-corner-radius);
+	height: 90%;
+	max-height: 42rem;
+	max-width: 38rem;
+	/* overflow: hidden; */
+	position: relative;
+	width: 100%;
+	opacity: 0;
+
+	color: var(--gui-base-col);
+}
+
+.dialog[open] .dialog-content {
+	animation: dialog-content-scale-in 250ms ease-out forwards;
+}
+
+.dialog-content-wrapper > *:first-child {
+	margin-top: 0;
+}
+
+.dialog-prompt-form {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	gap: calc(var(--gui-target-diameter) / 2);
+}
+
+.dialog-content button:not(.dialog-close) {
+	cursor: pointer;
+	background-color: var(--gui-base-col);
+	color: var(--gui-text-col-on-base);
+	border: none;
+	transition: var(--gui-transition);
+	border-radius: var(--gui-corner-radius);
+	min-height: 2rem;
+	padding: 0.5rem var(--gui-button-padding-left);
+	font-size: inherit;
+	text-align: var(--gui-text-align);
+}
+
+.dialog-prompt-input {
+	width: 100%;
+}
+
+@keyframes dialog-content-scale-in {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.dialog[open] .dialog-content {
+		animation: none;
+		opacity: 1;
+	}
+}
+
+ul,
+ol {
+	line-height: 1.75em;
+	list-style: if(style(--gui-corner-radius: 0): square; else: disc);
+}
+
+code {
+	font-family: monospace;
+	font-size: 1.05em;
+	padding: 0.333em 0.667em;
+	background: var(--gui-base-col);
+	color: var(--gui-text-col-on-base);
+	border-radius: 3px;
 }
