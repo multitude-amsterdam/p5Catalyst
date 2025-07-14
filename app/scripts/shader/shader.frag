@@ -8,10 +8,8 @@ precision highp int;
 #define PHI            1.61803398874989484820459
 #define E              2.71828182845904523536028
 
-
 // ---------------------------------------------------------------- VARYINGS
 varying vec2 vTexCoord; // UV coordinate from shader.vert
-
 
 // ---------------------------------------------------------------- UNIFORMS
 uniform vec2 resolution;
@@ -23,7 +21,6 @@ uniform float time;
 uniform float SSIDHash;
 uniform bool utilBools[10];
 
-
 // ---------------------------------------------------------------- MAIN
 void main() {
 	vec2 uv = vTexCoord.xy;
@@ -32,5 +29,3 @@ void main() {
 	vec3 col = vec3(uv.xyy - mouseUV.xyx + cos(uv.yxx - mouseUV.xyy + time) * 0.5 + 0.5);
 	gl_FragColor = vec4(col, 1.);
 }
-
-

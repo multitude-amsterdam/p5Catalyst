@@ -1,4 +1,3 @@
-
 class Generator {
 	static name = 'p5Catalyst Generator';
 	static supportEmail = '';
@@ -10,19 +9,16 @@ class Generator {
 		color('#FFFFFF'),
 	];
 
-
 	// ------------------------------------------------------------ CONSTRUCTOR
 	constructor() {
 		this.col = undefined;
 	}
 
-
 	// ------------------------------------------------------------ SETUP
 	setup() {}
 
-
 	// ------------------------------------------------------------ DRAW
-	draw(doSVGToo=false) {
+	draw(doSVGToo = false) {
 		this.doSVGToo = doSVGToo;
 		clear();
 		if (theShader !== undefined) this.drawShader();
@@ -33,15 +29,18 @@ class Generator {
 		circle(pw / 2, ph / 2 + sin(time) * 200, min(pw, ph) / 10);
 	}
 
-
 	// ------------------------------------------------------------ SHADER
 	drawShader() {
-		theShader.setUniform("resolution", [width, height]);
-		theShader.setUniform("progress", progress);
-		theShader.setUniform("time", time);
-		theShader.setUniform("mouse", [mouseX, mouseY, mouseIsPressed ? 1.0 : 0.0]);
-		theShader.setUniform("SSIDHash", SSID / 1e8);
-		theShader.setUniform("utilBools", utilBools);
+		theShader.setUniform('resolution', [width, height]);
+		theShader.setUniform('progress', progress);
+		theShader.setUniform('time', time);
+		theShader.setUniform('mouse', [
+			mouseX,
+			mouseY,
+			mouseIsPressed ? 1.0 : 0.0,
+		]);
+		theShader.setUniform('SSIDHash', SSID / 1e8);
+		theShader.setUniform('utilBools', utilBools);
 
 		resetMatrix();
 		push();
@@ -55,16 +54,15 @@ class Generator {
 		}
 		pop();
 		// ensures 0–width and 0–height range in WEBGL mode
-		translate(-width/2, -height/2); 
+		translate(-width / 2, -height / 2);
 	}
-
 
 	// ------------------------------------------------------------ UTILITY
 	getState() {
 		return {
 			...this,
 			// add custom parameters here
-			img: undefined
+			img: undefined,
 		};
 	}
 
@@ -82,10 +80,16 @@ class Generator {
 		}
 	}
 
-	static getOutputFileName(insertion='') {
-		return Generator.name.replaceAll(' ', '-') + '_' + 
+	static getOutputFileName(insertion = '') {
+		return (
+			Generator.name.replaceAll(' ', '-') +
+			'_' +
 			(insertion != '' ? insertion.replaceAll(' ', '-') + '_' : '') +
-			pw + 'x' + ph + '_' + getTimestamp();
+			pw +
+			'x' +
+			ph +
+			'_' +
+			getTimestamp()
+		);
 	}
 }
-

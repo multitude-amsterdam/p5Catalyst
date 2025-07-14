@@ -1,138 +1,210 @@
-
 function createGUI() {
 	if (gui != undefined) gui.div.remove();
 	gui = new GUIForP5();
 
 	gui.setLeft();
-	
-	// add logo up top (uses 'assets/generator-logo9.svg', see style.css)	
+
+	// add logo up top (uses 'assets/generator-logo9.svg', see style.css)
 	let logo = gui.addField(new Field(gui.div, 'logo', ''));
 
 	// ------------------------------ FORMAT ------------------------------
 	gui.addTitle(2, 'LANG_FORMAT', false);
-	gui.addController(new ResolutionSelect(
-		gui, 'Presets:', resolutionOptions, 0,
-		(controller, value) => {
-			const resBox = gui.getController('resolutionTextboxes');
-			if (resBox) resBox.setValueOnlyDisplay(pw, ph);
-			generator.setup();
-		}
-	));
-	gui.addController(new ResolutionTextboxes(
-		gui, pw, ph,
-		(controller, value) => {
-			if (value.w * value.h < sq(10000) && (value.w != pw || value.h != ph)) {
+	gui.addController(
+		new ResolutionSelect(
+			gui,
+			'Presets:',
+			resolutionOptions,
+			0,
+			(controller, value) => {
+				const resBox = gui.getController('resolutionTextboxes');
+				if (resBox) resBox.setValueOnlyDisplay(pw, ph);
 				generator.setup();
 			}
-		},
-		(controller) => {
-			controller.setValueOnlyDisplay(pw, ph);
-		}
-	));
-
+		)
+	);
+	gui.addController(
+		new ResolutionTextboxes(
+			gui,
+			pw,
+			ph,
+			(controller, value) => {
+				if (
+					value.w * value.h < sq(10000) &&
+					(value.w != pw || value.h != ph)
+				) {
+					generator.setup();
+				}
+			},
+			controller => {
+				controller.setValueOnlyDisplay(pw, ph);
+			}
+		)
+	);
 
 	// ------------------------------ APPEARANCE ------------------------------
 	gui.addDivider();
 	gui.addTitle(2, 'LANG_APPEARANCE', false);
 
-	gui.addController(new ColourBoxes(
-		gui, 'colourBoxesFgCol', 'LANG_FGCOL', generator.palette, 0,
-		(controller, value) => {
-			generator.col = value;
-		}
-	), doAddToRandomizerAs=true);
+	gui.addController(
+		new ColourBoxes(
+			gui,
+			'colourBoxesFgCol',
+			'LANG_FGCOL',
+			generator.palette,
+			0,
+			(controller, value) => {
+				generator.col = value;
+			}
+		),
+		(doAddToRandomizerAs = true)
+	);
 
-	gui.addController(new Slider(
-		gui, 'sliderLogoScale', 'LANG_SCALE logo',
-		-1, 1, log(generator.logoScale)/log(2), 0.05,
-		(controller, value) => {
-			generator.logoScale = pow(2, value);
-		}
-	), doAddToRandomizerAs=false);
+	gui.addController(
+		new Slider(
+			gui,
+			'sliderLogoScale',
+			'LANG_SCALE logo',
+			-1,
+			1,
+			log(generator.logoScale) / log(2),
+			0.05,
+			(controller, value) => {
+				generator.logoScale = pow(2, value);
+			}
+		),
+		(doAddToRandomizerAs = false)
+	);
 
-	gui.addController(new Slider(
-		gui, 'sliderLogoScale', 'LANG_SCALE cat',
-		-1, 1, log(generator.cat.scaleAll)/log(2), 0.05,
-		(controller, value) => {
-			generator.cat.scaleAll = pow(2, value);
-		}
-	), doAddToRandomizerAs=false);
+	gui.addController(
+		new Slider(
+			gui,
+			'sliderLogoScale',
+			'LANG_SCALE cat',
+			-1,
+			1,
+			log(generator.cat.scaleAll) / log(2),
+			0.05,
+			(controller, value) => {
+				generator.cat.scaleAll = pow(2, value);
+			}
+		),
+		(doAddToRandomizerAs = false)
+	);
 
-	gui.addController(new Button(
-		gui, 'buttonRandomize', 'LANG_RANDOMIZE',
-		(controller) => {
-			gui.randomizer.randomize();
-			// generator.setup();
-		},
-		(controller) => {
-			// controller.click(); // randomize on startup
-		}
-	));
-
+	gui.addController(
+		new Button(
+			gui,
+			'buttonRandomize',
+			'LANG_RANDOMIZE',
+			controller => {
+				gui.randomizer.randomize();
+				// generator.setup();
+			},
+			controller => {
+				// controller.click(); // randomize on startup
+			}
+		)
+	);
 
 	// ------------------------------ IMAGE ------------------------------
 	gui.addDivider();
 	gui.addTitle(2, 'LANG_IMAGE', false);
 
-	gui.addController(new Toggle(
-		gui, 'toggleShowImage',
-		'LANG_HIDE LANG_IMAGE', 'LANG_SHOW LANG_IMAGE', generator.doShowImage,
-		(controller, value) => {
-			generator.doShowImage = value;
-			gui.getControllers(
-				'imageLoader0,sliderImageScale,xyImagePosition,sliderImageX,sliderImageY'.split(',')
-			).forEach(controller => 
-				generator.doShowImage ? controller.show() : controller.hide()
-			);
-		}
-	), doAddToRandomizerAs=false);
-
-	gui.addController(new ImageLoader(
-		gui, 'imageLoader0', 'LANG_SELECT LANG_IMAGE...',
-		(controller, img) => {
-			if (img instanceof p5.Image && img.isLoaded) return;
-			if (img instanceof p5.Element && img.isLoaded) {
-				// check if img isn't default image
-				img.elt.onload();
-				return;
+	gui.addController(
+		new Toggle(
+			gui,
+			'toggleShowImage',
+			'LANG_HIDE LANG_IMAGE',
+			'LANG_SHOW LANG_IMAGE',
+			generator.doShowImage,
+			(controller, value) => {
+				generator.doShowImage = value;
+				gui.getControllers(
+					'imageLoader0,sliderImageScale,xyImagePosition,sliderImageX,sliderImageY'.split(
+						','
+					)
+				).forEach(controller =>
+					generator.doShowImage
+						? controller.show()
+						: controller.hide()
+				);
 			}
-			print('Loading image...');
-			img.elt.onload = () => {
-				img.isLoaded = true;
-				print('Image loaded.');
-				const minW = floor(pw / (1 + maxImgResIncrease));
-				const minH = floor(ph / (1 + maxImgResIncrease));
-				if (img.width < minW || img.height < minH) {
-					controller.setWarning(`Kleiner dan minimum afmetingen: ${minW} x ${minH} pixels.`);
-					alert(`De afmetingen van de afbeelding (${img.width} x ${img.height}) ` + 
-						`zijn te laag voor een mooi optisch effect.\n` + 
-						`Kies een afbeelding van ten minste ${minW} x ${minH} pixels.`);
-				} else {
-					controller.setConsole(controller.fileName, '');
+		),
+		(doAddToRandomizerAs = false)
+	);
+
+	gui.addController(
+		new ImageLoader(
+			gui,
+			'imageLoader0',
+			'LANG_SELECT LANG_IMAGE...',
+			(controller, img) => {
+				if (img instanceof p5.Image && img.isLoaded) return;
+				if (img instanceof p5.Element && img.isLoaded) {
+					// check if img isn't default image
+					img.elt.onload();
+					return;
 				}
-				generator.img = img;
-				gui.getController('toggleShowImage').setValue(true);
-			};
-		}
-	));
+				print('Loading image...');
+				img.elt.onload = () => {
+					img.isLoaded = true;
+					print('Image loaded.');
+					const minW = floor(pw / (1 + maxImgResIncrease));
+					const minH = floor(ph / (1 + maxImgResIncrease));
+					if (img.width < minW || img.height < minH) {
+						controller.setWarning(
+							`Kleiner dan minimum afmetingen: ${minW} x ${minH} pixels.`
+						);
+						alert(
+							`De afmetingen van de afbeelding (${img.width} x ${img.height}) ` +
+								`zijn te laag voor een mooi optisch effect.\n` +
+								`Kies een afbeelding van ten minste ${minW} x ${minH} pixels.`
+						);
+					} else {
+						controller.setConsole(controller.fileName, '');
+					}
+					generator.img = img;
+					gui.getController('toggleShowImage').setValue(true);
+				};
+			}
+		)
+	);
 
-	gui.addController(new Slider(
-		gui, 'sliderImageScale', 'LANG_SCALE LANG_IMAGE',
-		-1, 1, log(generator.imageScale)/log(2), 0.05,
-		(controller, value) => {
-			generator.imageScale = pow(2, value);
-		}
-	), doAddToRandomizerAs=false);
+	gui.addController(
+		new Slider(
+			gui,
+			'sliderImageScale',
+			'LANG_SCALE LANG_IMAGE',
+			-1,
+			1,
+			log(generator.imageScale) / log(2),
+			0.05,
+			(controller, value) => {
+				generator.imageScale = pow(2, value);
+			}
+		),
+		(doAddToRandomizerAs = false)
+	);
 
-	gui.addController(new XYSlider(
-		gui, 'xyImagePosition', 'LANG_IMAGE_POSITION', 
-		-1, 1, 0, 0.001,
-		-1, 1, 0, 0.001,
-		(controller, value) => {
-			generator.imagePosition.set(value.x, value.y);
-		}
-	), doAddToRandomizerAs=false);
-
+	gui.addController(
+		new XYSlider(
+			gui,
+			'xyImagePosition',
+			'LANG_IMAGE_POSITION',
+			-1,
+			1,
+			0,
+			0.001,
+			-1,
+			1,
+			0,
+			0.001,
+			(controller, value) => {
+				generator.imagePosition.set(value.x, value.y);
+			}
+		),
+		(doAddToRandomizerAs = false)
+	);
 
 	// ------------------------------ EXPORT ------------------------------
 	gui.addDivider();
@@ -140,23 +212,33 @@ function createGUI() {
 
 	gui.addTitle(3, 'LANG_IMAGE', false);
 
-	gui.addController(new Button(
-		gui, 'buttonCopyPNG', 'LANG_COPY_TO_CLIPBOARD',
-		(controller) => {
-			copyCanvasToClipboard();
-		}, (controller) => {
-			controller._doUpdateChangeSet = false;
-		}
-	));
+	gui.addController(
+		new Button(
+			gui,
+			'buttonCopyPNG',
+			'LANG_COPY_TO_CLIPBOARD',
+			controller => {
+				copyCanvasToClipboard();
+			},
+			controller => {
+				controller._doUpdateChangeSet = false;
+			}
+		)
+	);
 
-	gui.addController(new Button(
-		gui, 'buttonDownloadPNG', 'Download PNG',
-		(controller) => {
-			save(Generator.getOutputFileName() + '.png');
-		}, (controller) => {
-			controller._doUpdateChangeSet = false;
-		}
-	));
+	gui.addController(
+		new Button(
+			gui,
+			'buttonDownloadPNG',
+			'Download PNG',
+			controller => {
+				save(Generator.getOutputFileName() + '.png');
+			},
+			controller => {
+				controller._doUpdateChangeSet = false;
+			}
+		)
+	);
 
 	// gui.addController(new Button(
 	//   gui, 'buttonDownloadSVG', 'Download SVG',
@@ -170,143 +252,207 @@ function createGUI() {
 
 	gui.addTitle(3, 'LANG_VIDEO', false);
 
-	gui.addController(new Slider(
-		gui, 'sliderSpeed', 'LANG_SPEED',
-		0.25, 2.5, speed, 0.25,
-		(controller, value) => {
-			speed = value;//pow(2, value * 2);
-			controller.label.div.html(lang.process(`LANG_SPEED: ${speed} x`, true));
-		}
-	), doAddToRandomizerAs=false);
-
-	gui.addController(new Slider(
-		gui, 'sliderVidDuration', 'LANG_VID_DURATION',
-		1, 30, round(duration), 1,
-		(controller, value) => {
-			setDuration(value);
-			controller.label.div.html(lang.process(`LANG_VID_DURATION: ${value} s`, true));
-		}
-	), doAddToRandomizerAs=false);
-
-	// ffmpeg.js var 
-	guiCaptureButtonMP4 = gui.addController(new Button(
-		gui, 'buttonVidCaptureMP4', lang.process('Start LANG_VID_CAPTURE MP4'),
-		(controller) => {
-			guiCaptureButtonChoice = guiCaptureButtonMP4;
-			ffmpegExportSettings = MP4;
-			if (!isCapturingFrames) {
-				startCapture();
-				controller.controllerElement.html(lang.process('Stop LANG_VID_CAPTURE'));
-			} else {
-				stopCapture();
-				controller.controllerElement.html(lang.process('Start LANG_VID_CAPTURE'));
-				clearFramesDir();
-				isPlaying = true;
+	gui.addController(
+		new Slider(
+			gui,
+			'sliderSpeed',
+			'LANG_SPEED',
+			0.25,
+			2.5,
+			speed,
+			0.25,
+			(controller, value) => {
+				speed = value; //pow(2, value * 2);
+				controller.label.div.html(
+					lang.process(`LANG_SPEED: ${speed} x`, true)
+				);
 			}
-		}, (controller) => {
-			controller._doUpdateChangeSet = false;
-		}
-	));
+		),
+		(doAddToRandomizerAs = false)
+	);
 
-	// ffmpeg.js var 
-	guiCaptureButtonMP4WEBM = gui.addController(new Button(
-		gui, 'buttonVidCaptureWEBM', lang.process('Start LANG_VID_CAPTURE (transparent WEBM)'),
-		(controller) => {
-			guiCaptureButtonChoice = guiCaptureButtonWEBM;
-			ffmpegExportSettings = WEBM_TRANSPARENT;
-			print(ffmpegExportSettings);
-			if (!isCapturingFrames) {
-				startCapture();
-				controller.controllerElement.html(lang.process('Stop LANG_VID_CAPTURE (transparent WEBM)'));
-			} else {
-				stopCapture();
-				controller.controllerElement.html(lang.process('Start LANG_VID_CAPTURE (transparent WEBM)'));
-				clearFramesDir();
-				isPlaying = true;
+	gui.addController(
+		new Slider(
+			gui,
+			'sliderVidDuration',
+			'LANG_VID_DURATION',
+			1,
+			30,
+			round(duration),
+			1,
+			(controller, value) => {
+				setDuration(value);
+				controller.label.div.html(
+					lang.process(`LANG_VID_DURATION: ${value} s`, true)
+				);
 			}
-		}, (controller) => {
-			controller._doUpdateChangeSet = false;
-		}
-	));
+		),
+		(doAddToRandomizerAs = false)
+	);
 
-	// ffmpeg.js var 
-	guiVideoLoadingDiv = gui.addField(new Field(gui.div, 'vidLoad', '', 'Video verwerken...'));
+	// ffmpeg.js var
+	guiCaptureButtonMP4 = gui.addController(
+		new Button(
+			gui,
+			'buttonVidCaptureMP4',
+			lang.process('Start LANG_VID_CAPTURE MP4'),
+			controller => {
+				guiCaptureButtonChoice = guiCaptureButtonMP4;
+				ffmpegExportSettings = MP4;
+				if (!isCapturingFrames) {
+					startCapture();
+					controller.controllerElement.html(
+						lang.process('Stop LANG_VID_CAPTURE')
+					);
+				} else {
+					stopCapture();
+					controller.controllerElement.html(
+						lang.process('Start LANG_VID_CAPTURE')
+					);
+					clearFramesDir();
+					isPlaying = true;
+				}
+			},
+			controller => {
+				controller._doUpdateChangeSet = false;
+			}
+		)
+	);
+
+	// ffmpeg.js var
+	guiCaptureButtonMP4WEBM = gui.addController(
+		new Button(
+			gui,
+			'buttonVidCaptureWEBM',
+			lang.process('Start LANG_VID_CAPTURE (transparent WEBM)'),
+			controller => {
+				guiCaptureButtonChoice = guiCaptureButtonWEBM;
+				ffmpegExportSettings = WEBM_TRANSPARENT;
+				print(ffmpegExportSettings);
+				if (!isCapturingFrames) {
+					startCapture();
+					controller.controllerElement.html(
+						lang.process('Stop LANG_VID_CAPTURE (transparent WEBM)')
+					);
+				} else {
+					stopCapture();
+					controller.controllerElement.html(
+						lang.process(
+							'Start LANG_VID_CAPTURE (transparent WEBM)'
+						)
+					);
+					clearFramesDir();
+					isPlaying = true;
+				}
+			},
+			controller => {
+				controller._doUpdateChangeSet = false;
+			}
+		)
+	);
+
+	// ffmpeg.js var
+	guiVideoLoadingDiv = gui.addField(
+		new Field(gui.div, 'vidLoad', '', 'Video verwerken...')
+	);
 	guiVideoLoadingDiv.div.hide();
 	let loaderDiv = createDiv();
 	loaderDiv.parent(guiVideoLoadingDiv.div);
 
-
 	// ------------------------------ SETTINGS ------------------------------
 	gui.addDivider();
 	gui.addTitle(2, 'LANG_SETTINGS', false);
-	
-	gui.addController(new Button(
-		gui, 'buttonUndo', 'LANG_UNDO',
-		(controller) => {
-			changeSet.undo();
-		}, (controller) => {
-			controller._doUpdateChangeSet = false;
-			controller.controllerElement.elt.title = 'CTRL/CMD + Z'
-		}
-	));
 
-	gui.addController(new Button(
-		gui, 'buttonRedo', 'LANG_REDO',
-		(controller) => {
-			changeSet.redo();
-		}, (controller) => {
-			controller._doUpdateChangeSet = false;
-			controller.controllerElement.elt.title = 'CTRL/CMD + SHIFT + Z'
-		}
-	));
-	
+	gui.addController(
+		new Button(
+			gui,
+			'buttonUndo',
+			'LANG_UNDO',
+			controller => {
+				changeSet.undo();
+			},
+			controller => {
+				controller._doUpdateChangeSet = false;
+				controller.controllerElement.elt.title = 'CTRL/CMD + Z';
+			}
+		)
+	);
+
+	gui.addController(
+		new Button(
+			gui,
+			'buttonRedo',
+			'LANG_REDO',
+			controller => {
+				changeSet.redo();
+			},
+			controller => {
+				controller._doUpdateChangeSet = false;
+				controller.controllerElement.elt.title = 'CTRL/CMD + SHIFT + Z';
+			}
+		)
+	);
+
 	gui.addDivider();
 
-	gui.addController(new Button(
-		gui, 'buttonSaveSettings', 'LANG_SAVE_SETTINGS',
-		(controller) => {
-			const fileName = prompt(lang.process('LANG_CHOOSE_FILE_NAME_MSG', true));
-			changeSet.download(fileName);
-		}, (controller) => {
-			controller._doUpdateChangeSet = false;
-		}
-	));
+	gui.addController(
+		new Button(
+			gui,
+			'buttonSaveSettings',
+			'LANG_SAVE_SETTINGS',
+			controller => {
+				const fileName = prompt(
+					lang.process('LANG_CHOOSE_FILE_NAME_MSG', true)
+				);
+				changeSet.download(fileName);
+			},
+			controller => {
+				controller._doUpdateChangeSet = false;
+			}
+		)
+	);
 
-	gui.addController(new JSONFileLoader(
-		gui, 'jsonFileLoaderSettings', 'LANG_LOAD_SETTINGS',
-		(controller, file) => {
-			print(controller, file);
-			controller.setConsole(controller.fileName, '');
-			changeSet.loadFromJSON(JSON.stringify(file.data));
-		}, (controller) => {
-			controller.controllerElement.elt.accept += ',.settings';
-		}, (controller) => {
-			controller._doUpdateChangeSet = false;
-		}
-	));
+	gui.addController(
+		new JSONFileLoader(
+			gui,
+			'jsonFileLoaderSettings',
+			'LANG_LOAD_SETTINGS',
+			(controller, file) => {
+				print(controller, file);
+				controller.setConsole(controller.fileName, '');
+				changeSet.loadFromJSON(JSON.stringify(file.data));
+			},
+			controller => {
+				controller.controllerElement.elt.accept += ',.settings';
+			},
+			controller => {
+				controller._doUpdateChangeSet = false;
+			}
+		)
+	);
 
 	gui.addDivider();
 
 	gui.createDarkModeButton();
 
-
 	// ------------------------------ SUPPORT ------------------------------
 	gui.addDivider();
 	gui.addTitle(3, 'LANG_SUPPORT', false);
 
-	gui.addController(new Button(
-		gui, 'buttonHelpMe', 'LANG_HELP',
-		(controller) => {
+	gui.addController(
+		new Button(gui, 'buttonHelpMe', 'LANG_HELP', controller => {
 			helpMe();
-		}
-	));
+		})
+	);
 
 	if (Generator.supportEmail?.indexOf('@') > -1) {
-		let contactField = gui.addHTMLToNewField(lang.process(
-			`<a href="mailto:${Generator.supportEmail}` + 
-			`?subject=${Generator.name} generator` + 
-			`">LANG_CONTACT_MSG</a>`
-		));
+		let contactField = gui.addHTMLToNewField(
+			lang.process(
+				`<a href="mailto:${Generator.supportEmail}` +
+					`?subject=${Generator.name} generator` +
+					`">LANG_CONTACT_MSG</a>`
+			)
+		);
 		contactField.div.id('contact');
 		contactField.div.parent(gui.div);
 	}
@@ -318,8 +464,6 @@ function createGUI() {
 
 	gui.setup();
 }
-
-
 
 const resolutionOptions = [
 	'Full-HD (1080p) LANG_PORTRAIT: 1080 x 1920',
@@ -373,18 +517,22 @@ const resolutionOptions = [
 	getAPaperResolutionOptionAtDpi(3, 300, false),
 	getAPaperResolutionOptionAtDpi(2, 300, false),
 	getAPaperResolutionOptionAtDpi(1, 300, false),
-	getAPaperResolutionOptionAtDpi(0, 300, false)
+	getAPaperResolutionOptionAtDpi(0, 300, false),
 ];
 
-function getAPaperResolutionOptionAtDpi(aNumber, dpi, isPortrait=true) {
+function getAPaperResolutionOptionAtDpi(aNumber, dpi, isPortrait = true) {
 	// A0 paper size in mm
 	const baseWidth = 841;
 	const baseHeight = 1189;
 	const factor = Math.pow(2, aNumber / 2);
 	const wMm = Math.floor(baseWidth / factor);
 	const hMm = Math.floor(baseHeight / factor);
-	const wPx = Math.round(wMm / 25.4 * dpi);
-	const hPx = Math.round(hMm / 25.4 * dpi);
-	return `A${aNumber} ${isPortrait ? 'LANG_PORTRAIT' : 'LANG_LANDSCAPE'} @ ${dpi} DPI: ` + 
-		`${isPortrait ? wPx : hPx} x ${isPortrait ? hPx : wPx}`;
+	const wPx = Math.round((wMm / 25.4) * dpi);
+	const hPx = Math.round((hMm / 25.4) * dpi);
+	return (
+		`A${aNumber} ${
+			isPortrait ? 'LANG_PORTRAIT' : 'LANG_LANDSCAPE'
+		} @ ${dpi} DPI: ` +
+		`${isPortrait ? wPx : hPx} x ${isPortrait ? hPx : wPx}`
+	);
 }
