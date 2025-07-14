@@ -1,14 +1,13 @@
-
 /********************************* GLOBALS *********************************/
 :root {
-	--gui-font: "Aeonik", Arial, sans-serif;
+	--gui-font: 'Aeonik', Arial, sans-serif;
 }
+
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
-
 
 /********************************* BODY *********************************/
 body {
@@ -16,7 +15,7 @@ body {
 	--whiteRGB: 255, 255, 255;
 	--white: rgb(var(--whiteRGB));
 	--black: rgb(var(--blackRGB));
-	
+
 	/* light mode */
 	--gui-bgRGB: var(--whiteRGB);
 	--gui-fgRGB: var(--blackRGB);
@@ -25,23 +24,25 @@ body {
 	--gui-fg-col: rgb(var(--gui-fgRGB));
 
 	--transpSquareCol0: var(--gui-bg-col);
-	--transpSquareCol1: rgba(var(--gui-fgRGB), 0.1); /* transp version of gui col */
+	--transpSquareCol1: rgba(var(--gui-fgRGB), 0.1);
+	/* transp version of gui col */
 	--squareSize: 30px;
 
 	--gui-text-col: var(--gui-base-col);
 	--gui-text-align: left;
 
-	--gui-base-col: #7685F7;
+	--gui-base-col: #7685f7;
 	--gui-text-col-on-base: var(--gui-bg-col);
-	--gui-hover-col: #BFFB50;
+	--gui-hover-col: #bffb50;
 	--gui-text-col-on-hover: var(--black);
 	--gui-focus-col: var(--gui-base-col);
-	
-	--gui-inactive-col: transparent; /* weak colour */
+
+	--gui-inactive-col: transparent;
+	/* weak colour */
 	--gui-text-on-inactive-col: var(--gui-text-col);
 	--gui-divider-col: rgba(var(--gui-fgRGB), 0.1);
-	--gui-info-col: #A830F6;
-	--gui-error-col: #E95E2A;
+	--gui-info-col: #a830f6;
+	--gui-error-col: #e95e2a;
 
 	--gui-link-col: var(--gui-base-col);
 	--gui-link-hover-col: var(--gui-hover-col);
@@ -54,7 +55,8 @@ body {
 
 	--gui-button-padding-left: 0.75rem;
 
-	--gui-target-col: var(--gui-base-col); /* click target (radio button) */
+	--gui-target-col: var(--gui-base-col);
+	/* click target (radio button) */
 	--gui-target-diameter: 1.5rem;
 
 	--gui-corner-radius: 0;
@@ -77,17 +79,17 @@ body:where(.dark-mode) {
 	--gui-fgRGB: var(--whiteRGB);
 }
 
-
 /********************************* SELECTIONS *********************************/
-::-moz-selection { /* Code for Firefox */
-  color: var(--gui-text-col-on-hover);
-  background: var(--gui-hover-col);
-}
-::selection {
-  color: var(--gui-text-col-on-hover);
-  background: var(--gui-hover-col);
+::-moz-selection {
+	/* Code for Firefox */
+	color: var(--gui-text-col-on-hover);
+	background: var(--gui-hover-col);
 }
 
+::selection {
+	color: var(--gui-text-col-on-hover);
+	background: var(--gui-hover-col);
+}
 
 /********************************* GUI *********************************/
 #gui {
@@ -109,14 +111,13 @@ body:where(.dark-mode) {
 	font-size: 1rem;
 }
 
-
 /********************************* GUI SCROLLBARS *********************************/
 #gui::-webkit-scrollbar-track {
 	background-color: var(--gui-bg-col);
 }
 
 #gui::-webkit-scrollbar {
-/*	width: 1rem;*/
+	/*	width: 1rem;*/
 	width: calc(0.5 * var(--gui-target-diameter));
 	background-color: var(--gui-bg-col);
 }
@@ -127,19 +128,18 @@ body:where(.dark-mode) {
 	border-radius: var(--gui-corner-radius);
 }
 
-
 #gui #logo {
 	min-height: 3rem;
-	background-image: url("assets/generator-logo.svg");
+	background-image: url('assets/generator-logo.svg');
 	background-position-x: center;
 	background-position-y: center;
 	background-size: contain;
 	background-repeat: no-repeat;
 }
-body:where(.dark-mode) #gui #logo {
-	background-image: url("assets/generator-logo.svg");
-}
 
+body:where(.dark-mode) #gui #logo {
+	background-image: url('assets/generator-logo.svg');
+}
 
 .footer-logo {
 	position: fixed;
@@ -153,36 +153,33 @@ body:where(.dark-mode) #gui #logo {
 	position: relative;
 	right: -0.5rem;
 	bottom: -0.5rem;
-	background-image: url("assets/p5catalyst-logo-lightmode.svg");
+	background-image: url('assets/p5catalyst-logo-lightmode.svg');
 	background-position-x: left;
 	background-position-y: center;
 	background-size: contain;
 	background-repeat: no-repeat;
 }
+
 body:where(.dark-mode) #gui .p5catalyst-logo {
-	background-image: url("assets/p5catalyst-logo-darkmode.svg");
+	background-image: url('assets/p5catalyst-logo-darkmode.svg');
 }
-
-
-
 
 /********************************* TITLE *********************************/
 .gui-title {
 	font-weight: bold;
 }
 
-
 /********************************* TEXTFIELD *********************************/
 .gui-textfield {
 	margin: 0.5em 0;
 }
+
 .gui-textfield.info {
 	background-color: var(--gui-info-col);
 	border-radius: 100em;
 	padding: 0.5em 1em;
 	color: var(--black);
 }
-
 
 /********************************* CONTROLLER *********************************/
 .controller-wrapper {
@@ -198,17 +195,21 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	flex-direction: column;
 	gap: 0.33em;
 }
+
 .gui-controller[disabled] {
 	background-color: var(--gui-inactive-col);
 	opacity: 0.5;
 }
+
 /* default behaviour */
-#gui button, #gui input, #gui select, #gui textarea {
+#gui button,
+#gui input,
+#gui select,
+#gui textarea {
 	width: 100%;
 	font-family: var(--gui-font);
 	color: var(--black);
 }
-
 
 /********************************* LABEL *********************************/
 .gui-label {
@@ -218,7 +219,6 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	font-weight: bold;
 }
 
-
 /********************************* CONSOLE *********************************/
 .gui-console {
 	text-align: center;
@@ -227,13 +227,11 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	color: var(--gui-console-textcol);
 	border-radius: 3px;
 }
+
 .gui-console-error {
 	color: var(--gui-error-col);
 	font-weight: bold;
 }
-
-
-
 
 /********************************* DIVIDER *********************************/
 #gui hr {
@@ -244,16 +242,19 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	width: 100%;
 }
 
-
 /********************************* HEADINGS *********************************/
-#gui h1, h2, h3, h4, h5, h6 {
+#gui h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
 	margin: 0;
 	padding: 0;
 	margin-bottom: 0.25em;
-/*	font-family: 'GUIFontHeading';*/
-/*	font-weight: normal;*/
+	/*	font-family: 'GUIFontHeading';*/
+	/*	font-weight: normal;*/
 }
-
 
 /********************************* BUTTON *********************************/
 #gui button {
@@ -268,23 +269,25 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	font-size: inherit;
 	text-align: var(--gui-text-align);
 }
+
 #gui button:hover {
 	background-color: var(--gui-hover-col);
 	color: var(--gui-text-col-on-hover);
 }
+
 #gui button:focus:hover {
 	outline: var(--gui-focus-outline);
 	outline-offset: var(--gui-focus-outline-offset);
 	border-radius: var(--gui-corner-radius);
-/*	filter: drop-shadow(var(--gui-control-dropshadow) var(--gui-hover-col));*/
+	/*	filter: drop-shadow(var(--gui-control-dropshadow) var(--gui-hover-col));*/
 }
+
 #gui button:focus {
 	outline: var(--gui-focus-outline);
 	outline-offset: var(--gui-focus-outline-offset);
 	border-radius: var(--gui-corner-radius);
-/*	filter: drop-shadow(var(--gui-control-dropshadow) var(--gui-base-col));*/
+	/*	filter: drop-shadow(var(--gui-control-dropshadow) var(--gui-base-col));*/
 }
-
 
 /********************************* TOGGLE *********************************/
 #gui button.toggle {
@@ -295,9 +298,11 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	padding: 0;
 	align-items: stretch;
 }
+
 #gui button.toggle:focus {
 	outline: none;
 }
+
 /* Span elements within the toggle button */
 #gui button.toggle span {
 	display: inline-block;
@@ -308,7 +313,6 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	padding: 0 var(--gui-button-padding-left);
 }
 
-
 #gui button.toggle span:first-child {
 	border-bottom-right-radius: 0;
 	border-top-right-radius: 0;
@@ -318,6 +322,7 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	background-color: var(--gui-base-col);
 	color: var(--gui-text-col-on-base);
 }
+
 #gui button.toggle span:last-child {
 	border-bottom-right-radius: var(--gui-corner-radius);
 	border-top-right-radius: var(--gui-corner-radius);
@@ -332,6 +337,7 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	background-color: var(--gui-inactive-col);
 	color: var(--gui-text-on-inactive-col);
 }
+
 #gui button.toggle[toggled] span:last-child {
 	background-color: var(--gui-base-col);
 	color: var(--gui-text-col-on-base);
@@ -341,6 +347,7 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	background-color: var(--gui-base-col);
 	color: var(--gui-text-col-on-base);
 }
+
 #gui button.toggle span:last-child:hover {
 	background-color: var(--gui-hover-col);
 	color: var(--gui-text-col-on-hover);
@@ -350,18 +357,19 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	background-color: var(--gui-hover-col);
 	color: var(--gui-text-col-on-hover);
 }
+
 #gui button.toggle[toggled] span:last-child:hover {
 	background-color: var(--gui-base-col);
 	color: var(--gui-text-col-on-base);
-
 }
 
 #gui button.toggle:focus span:first-child {
 	outline: var(--gui-focus-outline);
 	outline-offset: var(--gui-focus-outline-offset);
 	z-index: 1;
-/*	filter: drop-shadow(var(--gui-control-dropshadow) var(--gui-base-col));*/
+	/*	filter: drop-shadow(var(--gui-control-dropshadow) var(--gui-base-col));*/
 }
+
 #gui button.toggle:focus span:last-child {
 	outline: none;
 	z-index: 0;
@@ -371,13 +379,13 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	outline: none;
 	z-index: 0;
 }
+
 #gui button.toggle[toggled]:focus span:last-child {
 	outline: var(--gui-focus-outline);
 	outline-offset: var(--gui-focus-outline-offset);
 	z-index: 1;
-/*	filter: drop-shadow(var(--gui-control-dropshadow) var(--gui-base-col));*/
+	/*	filter: drop-shadow(var(--gui-control-dropshadow) var(--gui-base-col));*/
 }
-
 
 /********************************* SELECT *********************************/
 #gui select {
@@ -401,11 +409,12 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	border-radius: var(--gui-corner-radius);
 	border: var(--gui-line-width) solid var(--gui-base-col);
 	transition: var(--gui-transition);
-
-	--arrow-url: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20width%3D%2222.498px%22%20height%3D%2222.11px%22%20version%3D%221.1%22%20viewBox%3D%22352.21%20170.29%2022.498%2022.11%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Abx%3D%22https%3A%2F%2Fboxy-svg.com%22%3E%3Cpath%20class%3D%22select-arrow-svg%22%20d%3D%22m363.46%20183.85-4.9997-5.0233h10z%22%20fill%3D%22%23\7685F7\%22%20stroke-width%3D%220px%22%20bx%3Ashape%3D%22triangle%20-373.34%20-187.05%2019.493%209.792%200.5%200%201%406f3e846f%22%2F%3E%3C%2Fsvg%3E");
-	/* Some browsers will not display the caret when using calc, so we put the fallback first */ 
+	
+  --arrow-url: url('data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20width%3D%2222.498px%22%20height%3D%2222.11px%22%20version%3D%221.1%22%20viewBox%3D%22352.21%20170.29%2022.498%2022.11%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Abx%3D%22https%3A%2F%2Fboxy-svg.com%22%3E%3Cpath%20class%3D%22select-arrow-svg%22%20d%3D%22m363.46%20183.85-4.9997-5.0233h10z%22%20fill%3D%22%237685F7%22%20stroke-width%3D%220px%22%20bx%3Ashape%3D%22triangle%20-373.34%20-187.05%2019.493%209.792%200.5%200%201%406f3e846f%22%2F%3E%3C%2Fsvg%3E');
+	/* Some browsers will not display the caret when using calc, so we put the fallback first */
 	background: var(--arrow-url) var(--gui-input-text-bg-col) no-repeat 98.5%;
-	background: var(--arrow-url) var(--gui-input-text-bg-col) no-repeat calc(100% - var(--gui-button-padding-left));
+	background: var(--arrow-url) var(--gui-input-text-bg-col) no-repeat
+		calc(100% - var(--gui-button-padding-left));
 	color: var(--gui-input-text-text-col);
 }
 
@@ -413,47 +422,64 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	/* remove arrow */
 	display: none;
 }
+
 #gui select:hover {
 	border-color: var(--gui-hover-col);
 }
+
 #gui select:focus {
 	outline: var(--gui-focus-outline);
-	outline-offset: var(--gui-focus-outline-offset); 
+	outline-offset: var(--gui-focus-outline-offset);
 }
+
 #gui option {
 	max-width: inherit;
 	background-color: var(--gui-bg-col);
 	color: var(--gui-fg-col);
 }
+
 #gui .select {
 	position: relative;
 }
+
 #gui .select::after {
 	--size: 0.3rem;
-	content: "";
+	content: '';
 	position: absolute;
 	right: 1rem;
 	pointer-events: none;
 	transition: var(--gui-transition);
 }
+
 #gui .select::after {
-	border: 1rem solid var(--gui-base-col); /* half min-height 2rem */
+	border: 1rem solid var(--gui-base-col);
+	/* half min-height 2rem */
 	right: 0.6rem;
 	transform: scale(0.6, 0.4);
-	clip-path: polygon(0 0, 100% 0, 100% 25%, 0 25%, 0 37.5%, 100% 37.5%, 100% 62.5%, 0 62.5%, 0 75%, 100% 75%, 100% 100%, 0 100%);
+	clip-path: polygon(
+		0 0,
+		100% 0,
+		100% 25%,
+		0 25%,
+		0 37.5%,
+		100% 37.5%,
+		100% 62.5%,
+		0 62.5%,
+		0 75%,
+		100% 75%,
+		100% 100%,
+		0 100%
+	);
 }
+
 #gui .select:hover::after {
 	border-color: var(--gui-hover-col);
 }
+
 /* svg arrow */
 #gui .select-arrow-svg {
 	fill: var(--gui-base-col) !important;
 }
-
-
-#gui select.colour-select {
-}
-
 
 /********************************* TEXTAREA *********************************/
 #gui textarea {
@@ -473,15 +499,15 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	overflow-y: auto;
 	transition: var(--gui-transition);
 }
+
 #gui textarea:hover {
 	border-color: var(--gui-hover-col);
 }
+
 #gui textarea:focus {
 	outline: var(--gui-focus-outline);
 	outline-offset: var(--gui-focus-outline-offset);
 }
-
-
 
 /********************************* COLOURTEXTAREA *********************************/
 #gui .colour-text-area-display {
@@ -490,19 +516,18 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	flex-flow: row wrap;
 	align-content: flex-end;
 	justify-content: flex-start;
-/*	gap: var(--gui-line-width);*/
+	/*	gap: var(--gui-line-width);*/
 	gap: calc(var(--gui-target-diameter) * 0.25);
 	transition: var(--gui-transition);
 }
+
 #gui .colour-text-area-block {
 	width: var(--gui-target-diameter);
 	height: calc(var(--gui-target-diameter) * 0.5);
 }
 
-
-
 /********************************* TEXTBOX *********************************/
-#gui input[type="text"] {
+#gui input[type='text'] {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
@@ -513,18 +538,19 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	padding: 0.5em var(--gui-button-padding-left);
 	transition: var(--gui-transition);
 }
-#gui input[type="text"]:hover {
+
+#gui input[type='text']:hover {
 	border-color: var(--gui-hover-col);
 }
-#gui input[type="text"]:focus {
+
+#gui input[type='text']:focus {
 	outline: var(--gui-focus-outline);
-	outline-offset: var(--gui-focus-outline-offset); 
+	outline-offset: var(--gui-focus-outline-offset);
 	border-radius: var(--gui-corner-radius);
 }
 
-
 /********************************* RANGE *********************************/
-#gui input[type="range"] {
+#gui input[type='range'] {
 	-webkit-appearance: none;
 	appearance: none;
 	background: transparent;
@@ -532,70 +558,79 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	width: 100%;
 	height: var(--gui-target-diameter);
 }
+
 /* Removes default focus */
-#gui input[type="range"]:focus {
+#gui input[type='range']:focus {
 	outline: none;
 }
+
 /***** Chrome, Safari, Opera and Edge Chromium styles *****/
 /* slider track */
-#gui input[type="range"]::-webkit-slider-runnable-track {
-   background-color: var(--gui-base-col);
-   border-radius: var(--gui-corner-radius);
-   height: var(--gui-line-width);
+#gui input[type='range']::-webkit-slider-runnable-track {
+	background-color: var(--gui-base-col);
+	border-radius: var(--gui-corner-radius);
+	height: var(--gui-line-width);
 }
+
 /* slider thumb */
-#gui input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-   appearance: none;
-   margin-top: calc((var(--gui-line-width) - var(--gui-target-diameter)) * 0.5); 
+#gui input[type='range']::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	margin-top: calc(
+		(var(--gui-line-width) - var(--gui-target-diameter)) * 0.5
+	);
 
-   background-color: var(--gui-target-col); 
-   height: var(--gui-target-diameter);
-   width: var(--gui-target-diameter);
-/*   width: calc(var(--gui-target-diameter) / 1.618 / 2);*/
-   border-radius: 100%;
-/*   border-radius: 0;*/
-   transition: var(--gui-transition);
-
+	background-color: var(--gui-target-col);
+	height: var(--gui-target-diameter);
+	width: var(--gui-target-diameter);
+	/*   width: calc(var(--gui-target-diameter) / 1.618 / 2);*/
+	border-radius: 100%;
+	/*   border-radius: 0;*/
+	transition: var(--gui-transition);
 }
-#gui input[type="range"]:hover::-webkit-slider-thumb {
+
+#gui input[type='range']:hover::-webkit-slider-thumb {
 	background-color: var(--gui-hover-col);
 	color: var(--gui-text-col-on-hover);
 }
-#gui input[type="range"]:focus::-webkit-slider-thumb {
+
+#gui input[type='range']:focus::-webkit-slider-thumb {
 	outline: var(--gui-focus-outline);
-	outline-offset: var(--gui-focus-outline-offset); 
+	outline-offset: var(--gui-focus-outline-offset);
 }
+
 /******** Firefox styles ********/
 /* slider track */
-#gui input[type="range"]::-moz-range-track {
-   background-color: var(--gui-base-col);
-   border-radius: 0.5rem;
-   height: var(--gui-line-width);
+#gui input[type='range']::-moz-range-track {
+	background-color: var(--gui-base-col);
+	border-radius: 0.5rem;
+	height: var(--gui-line-width);
 }
-/* slider thumb */
-#gui input[type="range"]::-moz-range-thumb {
-   border: none;
-   border-radius: 0;
 
-   background-color: var(--gui-text-col);
-   height: 1rem;
-   width: 1rem;
-   border-radius: 100%;
-   transition: var(--gui-transition);
+/* slider thumb */
+#gui input[type='range']::-moz-range-thumb {
+	border: none;
+	border-radius: 0;
+
+	background-color: var(--gui-text-col);
+	height: 1rem;
+	width: 1rem;
+	border-radius: 100%;
+	transition: var(--gui-transition);
 }
-#gui input[type="range"]:hover::-moz-range-thumb {
+
+#gui input[type='range']:hover::-moz-range-thumb {
 	background-color: var(--gui-hover-col);
 	color: var(--gui-text-col-on-hover);
 }
-#gui input[type="range"]:focus::-moz-range-thumb {
+
+#gui input[type='range']:focus::-moz-range-thumb {
 	outline: var(--gui-focus-outline);
-	outline-offset: var(--gui-focus-outline-offset); 
+	outline-offset: var(--gui-focus-outline-offset);
 }
 
-
 /********************************* RADIO *********************************/
-#gui input[type="radio"] {
+#gui input[type='radio'] {
 	-webkit-appearance: none;
 	appearance: none;
 
@@ -606,35 +641,41 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	height: var(--gui-target-diameter);
 	border: var(--gui-line-width) solid var(--gui-base-col);
 	border-radius: var(--gui-corner-radius);
-	
+
 	cursor: pointer;
 	transition: var(--gui-transition);
 }
-#gui input[type="radio"]:hover {
+
+#gui input[type='radio']:hover {
 	border-color: var(--gui-hover-col);
 }
-#gui input[type="radio"]:focus {
+
+#gui input[type='radio']:focus {
 	outline: var(--gui-focus-outline);
 	outline-offset: var(--gui-focus-outline-offset);
 }
-#gui input[type="radio"]:hover::before {
+
+#gui input[type='radio']:hover::before {
 	transform: scale(1);
-	box-shadow: inset var(--gui-target-diameter) var(--gui-target-diameter) var(--gui-hover-col);
+	box-shadow: inset var(--gui-target-diameter) var(--gui-target-diameter)
+		var(--gui-hover-col);
 }
-#gui input[type="radio"]::before {
-	content: "";
+
+#gui input[type='radio']::before {
+	content: '';
 	width: var(--gui-target-diameter);
 	height: var(--gui-target-diameter);
 	transform: scale(0.75, 0);
-	box-shadow: inset var(--gui-target-diameter) var(--gui-target-diameter) var(--gui-target-col);
+	box-shadow: inset var(--gui-target-diameter) var(--gui-target-diameter)
+		var(--gui-target-col);
 	border: none;
 	border-radius: var(--gui-corner-radius);
 	transition: var(--gui-transition);
 }
-#gui input[type="radio"]:checked::before {
+
+#gui input[type='radio']:checked::before {
 	transform: scale(1);
 }
-
 
 /********************************* COLOUR RADIO *********************************/
 /*#gui .colour-selector input[type="radio"] {
@@ -832,29 +873,32 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
   border-color: var(--dri-thumb-border-active-color);
 }
 
-
 /********************************* XY SLIDER *********************************/
 #gui .xyslider {
 	width: 100%;
 	height: 21em;
-/*	background-color: rgba(var(--gui-fgRGB), 0.1);*/
+	/*	background-color: rgba(var(--gui-fgRGB), 0.1);*/
 	background-color: none;
 
 	background-repeat: round;
-	background-size: 12.5% 12.5%; /* for 5 stops per quadrant */
-/*	background-image: radial-gradient(circle, rgba(var(--gui-fgRGB), 0.3) 1px, rgba(0, 0, 0, 0) 1.5px);*/
-	background-image: radial-gradient(circle, var(--gui-base-col) 1px, rgba(0, 0, 0, 0) 1.5px);
+	background-size: 12.5% 12.5%;
+	/* for 5 stops per quadrant */
+	background-image: radial-gradient(
+		circle,
+		var(--gui-base-col) 1px,
+		rgba(0, 0, 0, 0) 1.5px
+	);
 	background-position: center;
 	cursor: pointer;
 
 	transition: var(--gui-transition);
-/*    box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0.4);*/
 
 	border-radius: var(--gui-corner-radius);
 	border: var(--gui-line-width) solid var(--gui-base-col);
 }
+
 #gui .xyslider:hover {
-/*    box-shadow: inset 0 0 100px 0 rgba(0, 0, 0, 1);*/
+	border-color: var(--gui-hover-col);
 }
 
 #gui .xyslider .handle {
@@ -869,16 +913,16 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 
 	transition: background-color 0.25s ease;
 }
+
 #gui .xyslider .handle:hover {
 	background-color: var(--gui-hover-col);
 }
+
 #gui .xyslider .handle:active {
 	outline: var(--gui-focus-outline);
-	outline-offset: var(--gui-focus-outline-offset); 
+	outline-offset: var(--gui-focus-outline-offset);
 	border-radius: 100%;
 }
-
-
 
 #gui .colour-boxes {
 	width: 100%;
@@ -886,32 +930,35 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	flex-flow: row wrap;
 	align-content: flex-end;
 	justify-content: flex-start;
-/*	gap: var(--gui-line-width);*/
 	gap: calc(var(--gui-target-diameter) * 0.25);
 	transition: var(--gui-transition);
 }
 
-#gui .colour-boxes input[type="radio"] {
+#gui .colour-boxes input[type='radio'] {
 	margin: 0;
 	border: none;
 }
-#gui .colour-boxes input[type="radio"]:hover, #gui .colour-boxes input[type="radio"]:checked:hover {
+
+#gui .colour-boxes input[type='radio']:hover,
+#gui .colour-boxes input[type='radio']:checked:hover {
 	border: var(--gui-line-width) solid var(--gui-hover-col);
 }
-#gui .colour-boxes input[type="radio"]:checked {
+
+#gui .colour-boxes input[type='radio']:checked {
 	border: var(--gui-line-width) solid var(--gui-base-col);
 }
-#gui .colour-boxes input[type="radio"]::before {
-	display: none;
-}
-#gui .colour-boxes input[type="radio"]:hover::before {
-	display: none;
-}
-#gui .colour-boxes input[type="radio"]:checked::before {
+
+#gui .colour-boxes input[type='radio']::before {
 	display: none;
 }
 
+#gui .colour-boxes input[type='radio']:hover::before {
+	display: none;
+}
 
+#gui .colour-boxes input[type='radio']:checked::before {
+	display: none;
+}
 
 /********************************* VIDEO LOADING *********************************/
 #vidLoad {
@@ -923,47 +970,56 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	animation-direction: normal;
 	animation-timing-function: linear;
 }
+
 #vidLoad > div {
 	width: 2em;
 	height: 2em;
 }
-#vidLoad > div:before, #vidLoad > div:after {
+
+#vidLoad > div:before,
+#vidLoad > div:after {
 	content: '';
 	display: inline-block;
 	width: 1em;
 	height: 2em;
 }
+
 #vidLoad > div:before {
 	background-color: var(--gui-base-col);
 	border-top-left-radius: 1em;
 	border-bottom-left-radius: 1em;
 }
+
 #vidLoad > div:after {
 	background-color: var(--gui-inactive-col);
 	border-top-right-radius: 1em;
 	border-bottom-right-radius: 1em;
 }
-@keyframes rotate {
-  0%   { rotate: 0deg; }
-  100% { rotate: 360deg; }
-}
 
+@keyframes rotate {
+	0% {
+		rotate: 0deg;
+	}
+
+	100% {
+		rotate: 360deg;
+	}
+}
 
 /********************************* CONTACT SECTION *********************************/
 #gui #contact {
-/*	margin-top: 1em;*/
+	/*	margin-top: 1em;*/
 	font-size: 0.8em;
 }
+
 #gui a {
 	color: var(--gui-link-col);
 	transition: var(--gui-transition);
 }
+
 #gui a:hover {
 	color: var(--gui-link-hover-col);
 }
-
-
-
 
 .die-icon {
 	height: 2rem;
@@ -973,10 +1029,10 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	cursor: pointer;
 	transition: var(--gui-transition);
 }
+
 .die-icon.disabled {
 	opacity: 0.333;
 }
-
 
 button#dark-mode-button {
 	background-color: transparent;
@@ -987,31 +1043,27 @@ button#dark-mode-button {
 	padding: 0;
 	border-radius: 100%;
 }
+
 button#dark-mode-button:hover {
 	border-radius: 100%;
 	background-color: transparent;
 }
+
 button#dark-mode-button:focus {
 	border-radius: 100%;
 	outline: none;
 }
+
 button#dark-mode-button:focus:hover {
 	border-radius: 100%;
 	outline: none;
 }
 
-
-
-
-
-
-/********************************* CANVAS SECTION *********************************/
-/********************************* CANVAS SECTION *********************************/
 /********************************* CANVAS SECTION *********************************/
 #canvas-workarea {
-	background-color: var(--transpSquareCol0); 
+	background-color: var(--transpSquareCol0);
 
-/*	background-image: linear-gradient(45deg, var(--transpSquareCol1) 25%, transparent 25%),
+	/*	background-image: linear-gradient(45deg, var(--transpSquareCol1) 25%, transparent 25%),
 		linear-gradient(-45deg, var(--transpSquareCol1) 25%, transparent 25%),
 		linear-gradient(45deg, transparent 75%, var(--transpSquareCol1) 75%),
 		linear-gradient(-45deg, transparent 75%, var(--transpSquareCol1) 75%);
@@ -1036,18 +1088,24 @@ main {
 	padding: 0;
 }
 
-canvas, .p5Canvas > svg {
+canvas,
+.p5Canvas > svg {
 	display: block;
 	margin: auto;
-/*    border: 2px solid var(--canvasBorderCol);*/
 
-	background-image: linear-gradient(45deg, var(--transpSquareCol1) 25%, transparent 25%),
+	background-image: linear-gradient(
+			45deg,
+			var(--transpSquareCol1) 25%,
+			transparent 25%
+		),
 		linear-gradient(-45deg, var(--transpSquareCol1) 25%, transparent 25%),
 		linear-gradient(45deg, transparent 75%, var(--transpSquareCol1) 75%),
 		linear-gradient(-45deg, transparent 75%, var(--transpSquareCol1) 75%);
 
 	background-size: var(--squareSize) var(--squareSize);
-	background-position: 0 0, 0 calc(var(--squareSize)/2), calc(var(--squareSize)/2) calc(var(--squareSize)/-2), calc(var(--squareSize)/-2) 0px;
+	background-position: 0 0, 0 calc(var(--squareSize) / 2),
+		calc(var(--squareSize) / 2) calc(var(--squareSize) / -2),
+		calc(var(--squareSize) / -2) 0px;
 	background-repeat: repeat;
 
 	cursor: crosshair;

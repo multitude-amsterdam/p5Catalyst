@@ -1,4 +1,3 @@
-
 // example from:
 // https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/vanilla-app/public/concatDemuxer.html
 
@@ -24,7 +23,6 @@ let guiCaptureButtonChoice;
 
 let guiVideoLoadingDiv;
 
-
 const MP4 = {
 	ext: 'mp4',
 	mimeType: 'video/mp4',
@@ -37,8 +35,7 @@ const WEBM_TRANSPARENT = {
 	crf: 21, // inverse quality (constant rate factor)
 };
 
-let ffmpegExportSettings;// = MP4;
-
+let ffmpegExportSettings; // = MP4;
 
 function startCapture() {
 	savedFrameCount = 0;
@@ -47,12 +44,10 @@ function startCapture() {
 	conversionProgress = 0;
 }
 
-
 function stopCapture() {
 	isCapturingFrames = false;
 	isPlaying = false;
 }
-
 
 async function clearFramesDir() {
 	const listdir = await ffmpeg.listDir('/frames');
@@ -63,7 +58,6 @@ async function clearFramesDir() {
 	await ffmpeg.deleteDir('/frames');
 }
 
-
 const BASE64_MARKER = ';base64,';
 function convertDataURIToBinary(dataURI) {
 	const base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
@@ -71,7 +65,7 @@ function convertDataURIToBinary(dataURI) {
 	const raw = window.atob(base64);
 	const rawLength = raw.length;
 	let array = new Uint8Array(new ArrayBuffer(rawLength));
-	for(i = 0; i < rawLength; i++) {
+	for (i = 0; i < rawLength; i++) {
 		array[i] = raw.charCodeAt(i);
 	}
 	return array;
@@ -82,12 +76,10 @@ function saveToLocalFFMPEG(frameId) {
 	ffmpegSaveFrame(frameId, pngData);
 }
 
-
 function ffmpegUtilInit() {
 	guiCaptureButtonMP4 = gui.getController('buttonVidCaptureMP4');
 	guiCaptureButtonWEBM = gui.getController('buttonVidCaptureWEBM');
 }
-
 
 async function ffmpegInit() {
 	ffmpeg = new FFmpeg();
@@ -104,34 +96,32 @@ async function ffmpegInit() {
 	if (dirPath.indexOf('/') > -1)
 		dirPath = dirPath.substring(0, dirPath.lastIndexOf('/'));
 	await ffmpeg.load({
-		coreURL: dirPath + '/ffmpeg/core/ffmpeg-core.js'
+		coreURL: dirPath + '/ffmpeg/core/ffmpeg-core.js',
 	});
 
 	isFfmpegInit = true;
 }
-
 
 function ffmpegSetup() {
 	ffmpegUtilInit(); // sync
 	ffmpegInit(); // async
 }
 
-
-function updateConversionProgress(progress=undefined) {
+function updateConversionProgress(progress = undefined) {
 	if (progress === undefined) return;
-	
+
 	let progText;
 	switch (ffmpegExportSettings.ext) {
-	case 'mp4':
-		progText = 'Progress: ' + conversionProgress;  
-		break;
-	case 'webm':
-		progText = 'Progress: ' + round(progress * 1000) / 10 + '%';  
-		break;
+		case 'mp4':
+			conversionProgress += dConversionProgress;
+			progText = 'Progress: ' + conversionProgress;
+			break;
+		case 'webm':
+			progText = 'Progress: ' + round(progress * 1000) / 10 + '%';
+			break;
 	}
 	guiCaptureButtonChoice.controllerElement.html(progText);
 }
-
 
 function ffmpegSaveFrame(frameId, pngData) {
 	ffmpeg.createDir('frames');
@@ -140,13 +130,11 @@ function ffmpegSaveFrame(frameId, pngData) {
 	ffmpeg.writeFile(filePath, pngData);
 }
 
-
 async function getFrameFileNames() {
 	let frames = await ffmpeg.listDir('frames');
 	frames = frames.filter(item => !item.isDir).map(frame => frame.name);
 	return frames;
 }
-
 
 async function ffmpegCreateMP4() {
 	guiCaptureButtonChoice.disable();
@@ -160,16 +148,23 @@ async function ffmpegCreateMP4() {
 
 	// run ffmpeg concatenation
 	const outputFile = 'output.' + ffmpegExportSettings.ext;
-	const width = canvas.width, height = canvas.height;
-	
+	const width = canvas.width,
+		height = canvas.height;
+
 	let args;
 	switch (ffmpegExportSettings.ext) {
-	case 'mp4':
-		args = `-r ${ffmpegFR} -f image2 -safe 0 -f concat -i ${concatFile} -progress pipe:2 -vcodec libx264 -pix_fmt yuv420p -crf ${ffmpegExportSettings.crf} -vf fps=${ffmpegFR}.0,scale=${width}:${height}:flags=lanczos -movflags faststart ${outputFile}`.split(' ');
-		break;
-	case 'webm':
-		args = `-i frames/%06d.png -progress pipe:2 -r ${ffmpegFR} -crf ${ffmpegExportSettings.crf} -c:v libvpx -pix_fmt yuva420p -auto-alt-ref 0 ${outputFile}`.split(' ');
-		break;
+		case 'mp4':
+			args =
+				`-r ${ffmpegFR} -f image2 -safe 0 -f concat -i ${concatFile} -progress pipe:2 -vcodec libx264 -pix_fmt yuv420p -crf ${ffmpegExportSettings.crf} -vf fps=${ffmpegFR}.0,scale=${width}:${height}:flags=lanczos -movflags faststart ${outputFile}`.split(
+					' '
+				);
+			break;
+		case 'webm':
+			args =
+				`-i frames/%06d.png -progress pipe:2 -r ${ffmpegFR} -crf ${ffmpegExportSettings.crf} -c:v libvpx -pix_fmt yuva420p -auto-alt-ref 0 ${outputFile}`.split(
+					' '
+				);
+			break;
 	}
 
 	print('ffmpeg.wasm arguments:', args.join(' '));
@@ -179,10 +174,12 @@ async function ffmpegCreateMP4() {
 	// load mp4 to HTML video element
 	const data = await ffmpeg.readFile(outputFile);
 	const video = document.getElementById('output-video');
-	const blob = new Blob([data.buffer], {type: ffmpegExportSettings.mimeType});
+	const blob = new Blob([data.buffer], {
+		type: ffmpegExportSettings.mimeType,
+	});
 	const blobURL = URL.createObjectURL(blob);
 	video.src = blobURL;
-	
+
 	videoDownloadLink = document.getElementById('video-link');
 	videoDownloadLink.innerHTML = 'Download video';
 	videoDownloadLink.title = 'download';
@@ -191,7 +188,12 @@ async function ffmpegCreateMP4() {
 	videoDownloadLink.click(); // auto-download
 
 	guiVideoLoadingDiv.div.hide();
-	guiCaptureButtonChoice.controllerElement.html(lang.process('Start LANG_VID_CAPTURE ' + ffmpegExportSettings.ext.toUpperCase(), true));
+	guiCaptureButtonChoice.controllerElement.html(
+		lang.process(
+			'Start LANG_VID_CAPTURE ' + ffmpegExportSettings.ext.toUpperCase(),
+			true
+		)
+	);
 	guiCaptureButtonChoice.enable();
 
 	setTimeout(() => alert(lang.process('LANG_VIDEO_READY_MSG', true)), 50);
@@ -202,7 +204,6 @@ async function ffmpegCreateMP4() {
 
 	isPlaying = true;
 }
-
 
 async function dir(path) {
 	const listdir = await ffmpeg.listDir(path);

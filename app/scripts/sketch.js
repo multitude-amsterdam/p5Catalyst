@@ -1,8 +1,8 @@
-
 let canvas;
 let svgCanvas;
 let canvWrapper;
-let pw = 1, ph = 1;
+let pw = 1,
+	ph = 1;
 let canvScale = 1;
 
 let theShader;
@@ -38,14 +38,14 @@ function preload() {
 	// theShader = loadShader('scripts/shader/shader.vert', 'scripts/shader/shader.frag');
 }
 
-
 // ------------------------------------------------------------ SETUP
-function setup() {	
+function setup() {
 	initUtils(10, ffmpegFR || 30);
 
-	canvas = theShader === undefined ? 
-		createCanvas(1, 1) :
-		createCanvas(1, 1, WEBGL);
+	canvas =
+		theShader === undefined
+			? createCanvas(1, 1)
+			: createCanvas(1, 1, WEBGL);
 	// svgCanvas = new p5(theSvgCanvasSketch);
 	createCanvasWrapper();
 
@@ -63,9 +63,10 @@ function setup() {
 
 	generator.setup();
 
-	// setTimeout(helpMe, 500);
+	if (window.location.hostname !== 'localhost') {
+		setTimeout(helpMe, 500);
+	}
 }
-
 
 // ------------------------------------------------------------ DRAW
 function draw() {
@@ -77,13 +78,12 @@ function draw() {
 	if (keyIsDown('-')) frameCount--;
 	if (keyIsDown('=')) frameCount++;
 	setTime();
-	mouse.set(mouseX, mouseY);//.scale(1 / generator.canvScale);
+	mouse.set(mouseX, mouseY); //.scale(1 / generator.canvScale);
 
 	generator.draw();
 
 	handleFrameCapture();
 }
-
 
 // ------------------------------------------------------------ SVG CANVAS
 function theSvgCanvasSketch(sketch) {
@@ -98,17 +98,10 @@ function theSvgCanvasSketch(sketch) {
 	sketch.draw = () => {};
 }
 
-
 // ------------------------------------------------------------ HELP ME
 function helpMe() {
-	alert(
-		lang.process(`LANG_USE:\n`, true) +
-		`Laat deze popup zien: ‘H’ toets\n` +
-		`Pauzeren / afspelen animatie: spatiebalk\n` +
-		lang.process(`LANG_UNDO/LANG_REDO: ‘CTRL’/‘CMD’ + ‘Z’\n`, true) +
-		``);
+	alert(lang.process(`LANG_HELPME_MSG`, true));
 }
-
 
 // ------------------------------------------------------------ RESIZE
 function resize(w, h) {
@@ -132,7 +125,6 @@ function resize(w, h) {
 	containCanvasInWrapper(); // needs a double call
 }
 
-
 // ------------------------------------------------------------ CONTAIN CANVAS
 function createCanvasWrapper() {
 	canvWrapper = createDiv();
@@ -142,9 +134,8 @@ function createCanvasWrapper() {
 		canvWrapper.elt.append(svgCanvas.canvas.wrapper);
 		svgCanvas.parent(canvWrapper);
 	}
-	document.querySelector('main').append(canvWrapper.elt);  
+	document.querySelector('main').append(canvWrapper.elt);
 }
-
 
 function containCanvasInWrapper() {
 	const canvAsp = pw / ph;
@@ -158,7 +149,7 @@ function containCanvasInWrapper() {
 		canvas.elt.style.height = '';
 		canvas.elt.style.width = '100%';
 	} else {
-		canvas.elt.style.width = ''; 
+		canvas.elt.style.width = '';
 		canvas.elt.style.height = 'calc(100vh - 2rem)';
 	}
 
@@ -170,14 +161,15 @@ function containCanvasInWrapper() {
 		svgCanvas.canvas.svg.style.height = ph;
 	}
 
-	canvScale = sqrt(pw * ph / (1920 * 1080));
+	canvScale = sqrt((pw * ph) / (1920 * 1080));
 }
-
 
 // ------------------------------------------------------------ FRAME CAPTURING
 function handleFrameCapture() {
 	if (isCapturingFrames) {
-		const vidButton = gui.getController('buttonVidCapture' + ffmpegExportSettings.ext.toUpperCase()).controllerElement;
+		const vidButton = gui.getController(
+			'buttonVidCapture' + ffmpegExportSettings.ext.toUpperCase()
+		).controllerElement;
 		if (savedFrameCount < nFrames) {
 			saveToLocalFFMPEG(savedFrameCount);
 			vidButton.elt.style.backgroundColor = 'var(--gui-hover-col)';
@@ -191,76 +183,66 @@ function handleFrameCapture() {
 	}
 }
 
-
 // ------------------------------------------------------------ EVENT HANDLERS
 function keyPressed(e) {
 	if (gui.isTypingText) return;
 
 	// controls changeSet with CTRL/CMD + Z
 	const evt = window.event ? event : e;
-	const doChangeSet = evt.keyCode == 90 && (
-		(evt.ctrlKey && !evt.metaKey) || (!evt.ctrlKey && evt.metaKey) 
-		) && !evt.altKey;
+	const doChangeSet =
+		evt.keyCode == 90 &&
+		((evt.ctrlKey && !evt.metaKey) || (!evt.ctrlKey && evt.metaKey)) &&
+		!evt.altKey;
 	if (doChangeSet && !evt.shiftKey) changeSet.undo();
 	else if (doChangeSet && evt.shiftKey) changeSet.redo();
-	
 
+	// set utilBools with keys 0 through 9
 	if (keyCode >= 48 && keyCode <= 57) {
 		let utilInd = keyCode - 48;
 		utilBools[utilInd] = !utilBools[utilInd];
 	}
 
+	// case-sensitive keys
+	switch (key) {
+		case 'ArrowUp':
+			K++;
+			print('K: ' + K);
+			break;
+		case 'ArrowDown':
+			if (K <= 0) break;
+			K--;
+			print('K: ' + K);
+			break;
+	}
+
+	// case-insensitive keys
 	const frameJump = 100;
 	switch (key.toLowerCase()) {
-	case ' ':
-		isPlaying = !isPlaying;
-		break;
-	case 'h':
-		helpMe();
-		break;
-	case '[':
-		frameCount -= frameJump;
-		break;
-	case ']':
-		frameCount += frameJump;
-		break;
-	case 's':
-		save(Generator.getOutputFileName() + '.png');
-		break;
-	case 'f':
-		let fs = fullscreen();
-		fullscreen(!fs);
-		break;
-	case 'b':
-		gui.toggleSide();
-		break;
-	case 'm':
-		gui.toggleLightDarkMode();
-		break;
-
-	case 'ArrowRight':
-		if (SSID == SSIDs[SSIDs.length - 1])
-			addNextSSID();
-		else
-			SSIDindex++;
-		setup();
-		break;
-	case 'ArrowLeft':
-		if (SSIDindex > 0) {
-			SSIDindex--;
-			setup();
-		}
-		break;
-
-	case 'ArrowUp': 
-		K++;
-		print("K: " + K);
-		break;
-	case 'ArrowDown':
-		if (K <= 0) break;
-		K--;
-		print("K: " + K);
-		break;
+		case ' ':
+			isPlaying = !isPlaying;
+			break;
+		case 'h':
+			helpMe();
+			break;
+		case '[':
+			frameCount -= frameJump;
+			break;
+		case ']':
+			frameCount += frameJump;
+			break;
+		case 's':
+			save(Generator.getOutputFileName() + '.png');
+			break;
+		case 'f':
+			let fs = fullscreen();
+			fullscreen(!fs);
+			break;
+		case 'b':
+			gui.toggleSide();
+			break;
+		case 'm':
+			gui.toggleLightDarkMode();
+			break;
 	}
 }
 
@@ -268,6 +250,7 @@ function mousePressed() {}
 
 function mouseReleased() {}
 
+// differential scrolling speed with Apple trackpad & mouse
 const relScrollVel = (isMac() ? 0.1 : 1) * 0.06;
 function mouseWheel(event) {
 	let wheelDist = getWheelDistance(event);
@@ -280,22 +263,23 @@ function windowResized() {
 	containCanvasInWrapper();
 }
 
-
 // ------------------------------------------------------------ INIT UTILS
 
-let SSID, SSIDindex = 0;
-let SSIDs = [generateSSID()];
-let K = 0; // util constant
+let SSID;
+let K = 0; // util constant (controlled with up and down arrows)
 let utilBools = [];
 let FR, duration, nFrames;
 let noiseOffs;
 
 function initUtils(_duration, _frameRate) {
 	console.log('p5Catalyst initiated as ' + Generator.name);
-	console.log('Project page: https://github.com/multitude-amsterdam/p5Catalyst');
+	console.log(
+		'Visit the project: https://github.com/multitude-amsterdam/p5Catalyst'
+	);
 
 	// SSID-based seed initialisation
-	SSID = SSIDs[SSIDindex];
+	SSID = generateSSID();
+	SSIDHash = SSID / 1e8;
 	SSIDHash = SSID / 1e8;
 	randomSeed(SSID);
 	noiseSeed(SSID);
@@ -314,11 +298,4 @@ function initUtils(_duration, _frameRate) {
 
 function generateSSID() {
 	return Math.floor(Math.random() * 1e8);
-}
-
-function addNextSSID() {
-	SSIDs.push(generateSSID());
-	SSIDindex = SSIDs.length - 1;
-	SSID = SSIDs[SSIDindex];
-	SSIDHash = SSID / 1e8;
 }
