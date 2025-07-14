@@ -28,10 +28,6 @@ const dictionary = {
 		nl: 'video-opname',
 		en: 'video capture',
 	},
-	LANG_USE: {
-		nl: 'gebruik',
-		en: 'usage',
-	},
 	LANG_UNDO: {
 		nl: 'ongedaan maken',
 		en: 'undo',
@@ -112,17 +108,45 @@ const dictionary = {
 		nl: 'verberg',
 		en: 'hide',
 	},
+	LANG_TOO_SMALL_IMG_ALERT: {
+		nl:
+			'De afmetingen van de afbeelding ({0} x {1}) zijn te laag voor een mooi optisch effect.\n' +
+			'Kies een afbeelding van ten minste {2} x {3} pixels.',
+		en:
+			'The dimensions of the image ({0} x {1}) are too low for a good optical effect.\n' +
+			'Choose an image of at least {2} x {3} pixels.',
+	},
+	LANG_TOO_SMALL_IMG: {
+		nl: 'Kleiner dan minimum afmetingen: {0} x {1} pixels.',
+		en: 'Smaller than minimum dimensions: {0} x {1} pixels.',
+	},
 	LANG_HELPME_MSG: {
 		nl:
-			`LANG_USE:\n` +
-			`Laat deze popup zien: 'H' toets\n` +
-			`Pauzeren / afspelen animatie: spatiebalk\n` +
-			`LANG_UNDO/LANG_REDO: 'CTRL'/'CMD' + 'Z'\n`,
+			`<h1>Gebruik</h1>` +
+			`<p>` +
+			`<ul>` +
+			`<li>Laat deze popup zien: <code>H</code></li>` +
+			`<li>Pauzeren / afspelen animatie: <code>spatiebalk</code></li>` +
+			`<li>Ongedaan maken / opnieuw: <code>CTRL / CMD</code> + <code>Z</code></li>` +
+			`<li>Opnieuw: <code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></li>` +
+			`<li>Volledig scherm: <code>F</code></li>` +
+			`<li>Zijbalk verspringen: <code>B</code></li>` +
+			// `<li>Wissel tussen licht/donker thema: <code>M</code></li>` +
+			`</ul>` +
+			`</p>`,
 		en:
-			`LANG_USE:\n` +
-			`Show this popup: 'H' key\n` +
-			`Pause / play animation: spacebar\n` +
-			`LANG_UNDO/LANG_REDO: 'CTRL'/'CMD' + 'Z'\n`,
+			`<h1>Usage</h1>` +
+			`<p>` +
+			`<ul>` +
+			`<li>Show this popup: <code>H</code> key</li>` +
+			`<li>Pause / play animation: <code>spacebar</code></li>` +
+			`<li>Undo: <code>CTRL / CMD</code> + <code>Z</code></li>` +
+			`<li>Redo: <code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></li>` +
+			`<li>Toggle fullscreen: <code>F</code> key</li>` +
+			`<li>Flip sidebar: <code>B</code> key</li>` +
+			// `<li>Toggle light/dark mode: <code>M</code> key</li>` +
+			`</ul>` +
+			`</p>`,
 	},
 	LANG_HELP: {
 		nl: 'help',
