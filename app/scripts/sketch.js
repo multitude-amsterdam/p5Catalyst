@@ -100,7 +100,7 @@ function theSvgCanvasSketch(sketch) {
 
 // ------------------------------------------------------------ HELP ME
 function helpMe() {
-	alert(lang.process(`LANG_HELPME_MSG`, true));
+	dialog.alert(lang.process(`LANG_HELPME_MSG`, true));
 }
 
 // ------------------------------------------------------------ RESIZE
