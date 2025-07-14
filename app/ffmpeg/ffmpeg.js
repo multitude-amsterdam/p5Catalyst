@@ -196,7 +196,10 @@ async function ffmpegCreateMP4() {
 	);
 	guiCaptureButtonChoice.enable();
 
-	setTimeout(() => alert(lang.process('LANG_VIDEO_READY_MSG', true)), 50);
+	setTimeout(
+		() => dialog.alert(lang.process('LANG_VIDEO_READY_MSG', true)),
+		50
+	);
 
 	clearFramesDir();
 
