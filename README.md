@@ -158,12 +158,6 @@ Most of the styling variables can be found under `:root`, like colours, sizes an
 
 That's it! You can now host the application 😶‍🌫️ and send it to your client or users for testing. Just copy the contents of the `/app` folder into the root of your server environment using FTP or otherwise.
 
-# 🤝 Contributing
-
-We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more information on contributing, continue reading [here](./CONTRIBUTING.md).
-
-For security concerns, please review the [security policy](./SECURITY.md).
-
 # 📄 Documentation
 
 You can find more information on the specifics of the codebase in the [online documentation](https://multitude-amsterdam.github.io/p5Catalyst/docs).
@@ -177,6 +171,16 @@ We kindly ask: if you make something cool with p5Catalyst, please share it! Whet
 -   Mention us if you publish your forked project online
 
 Keep in mind the [**Community Code of Conduct**](./CODE_OF_CONDUCT.md) for this project.
+
+# 🤝 Contributing
+
+We encourage you to make modifications, improvements, or entirely new generators, it's easier than you think! For more information on contributing, continue reading [here](./CONTRIBUTING.md).
+
+For security concerns, please review the [security policy](./SECURITY.md).
+
+<a href="https://github.com/multitude-amsterdam/p5Catalyst/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=multitude-amsterdam/p5Catalyst" />
+</a>
 
 # ❤️‍🔥 Credits
 

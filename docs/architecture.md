@@ -45,6 +45,8 @@ scripts/
 	sketch.js
 	lib/
 		controllers.js
+		dialog.js
+		dual-range.js
 		gui.js
 		p5.min-1.6.1.js
 		p5.svg-1.5.1.js

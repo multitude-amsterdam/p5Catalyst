@@ -52,3 +52,11 @@ This project includes a Prettier setup under [`.vscode/settings.json`](./.vscode
 Formatting helps keep pull requests clean and focused on actual changes.
 
 ---
+
+## 👥 Contributors
+
+<a href="https://github.com/multitude-amsterdam/p5Catalyst/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=multitude-amsterdam/p5Catalyst" />
+</a>
+
+---
