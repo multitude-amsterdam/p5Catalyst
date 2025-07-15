@@ -233,6 +233,8 @@ function colorToHexString(col, doAlpha = false) {
 
 // ----------------------------- TIME ------------------------------
 
+//test
+
 function setDuration(_duration) {
 	nFrames = int(_duration * FR);
 	duration = nFrames / float(FR); // seconds
