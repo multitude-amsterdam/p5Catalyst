@@ -122,7 +122,7 @@ const dictionary = {
 	},
 	LANG_HELPME_MSG: {
 		nl:
-			`<h1>Gebruik</h1>` +
+			`<h1>Help</h1>` +
 			`<p>` +
 			`<ul>` +
 			`<li>Laat deze popup zien: <code>H</code></li>` +
@@ -131,20 +131,20 @@ const dictionary = {
 			`<li>Opnieuw: <code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></li>` +
 			`<li>Volledig scherm: <code>F</code></li>` +
 			`<li>Zijbalk verspringen: <code>B</code></li>` +
-			// `<li>Wissel tussen licht/donker thema: <code>M</code></li>` +
+			`<li>Wissel tussen licht/donker thema: <code>M</code></li>` +
 			`</ul>` +
 			`</p>`,
 		en:
-			`<h1>Usage</h1>` +
+			`<h1>Help</h1>` +
 			`<p>` +
 			`<ul>` +
-			`<li>Show this popup: <code>H</code> key</li>` +
+			`<li>Show this popup: <code>H</code></li>` +
 			`<li>Pause / play animation: <code>spacebar</code></li>` +
 			`<li>Undo: <code>CTRL / CMD</code> + <code>Z</code></li>` +
 			`<li>Redo: <code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></li>` +
-			`<li>Toggle fullscreen: <code>F</code> key</li>` +
-			`<li>Flip sidebar: <code>B</code> key</li>` +
-			// `<li>Toggle light/dark mode: <code>M</code> key</li>` +
+			`<li>Toggle fullscreen: <code>F</code></li>` +
+			`<li>Flip sidebar: <code>B</code></li>` +
+			`<li>Toggle light/dark mode: <code>M</code></li>` +
 			`</ul>` +
 			`</p>`,
 	},
