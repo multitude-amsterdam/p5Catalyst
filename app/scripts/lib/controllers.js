@@ -281,7 +281,7 @@ class Select extends ValuedController {
 	) {
 		super(gui, name, labelStr, setupCallback);
 
-		this.controllerElement = createSelect(); // (add true for multiple selections)
+		this.controllerElement = createSelect();
 		this.setOptions(options);
 
 		const callback = event => {
@@ -399,19 +399,10 @@ class Slider extends ValuedController {
 		this.valueCallback = valueCallback;
 	}
 
-	validateValue(v) {
-		if (typeof v !== 'number' || Number.isNaN(v)) {
-			throw new Error(v + ' is not a number');
-		}
-		return v;
-	}
-
-	setValue(v) {
-		// if (abs(v - this.defaultVal) < (this.maxVal - this.minVal) * 0.0167)
-		// 	v = this.defaultVal;
-		v = round(v / this.stepSize) * this.stepSize;
-		this.valueCallback(this, v);
-		this.controllerElement.value(v);
+	setValue(value) {
+		this.value = value;
+		this.valueCallback(this, value);
+		this.controllerElement.value(value);
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
@@ -807,6 +798,7 @@ class Textbox extends ValuedController {
 		super(gui, name, labelStr, setupCallback);
 		this.controllerElement = createInput();
 		this.controllerElement.parent(this.controllerWrapper);
+		this.controllerElement.value(defaultVal);
 
 		this.controllerElement.elt.oninput = event => {
 			const value = event.srcElement.value;
@@ -843,7 +835,6 @@ class ResolutionTextboxes extends ValuedController {
 		this.wBox = new Textbox(
 			gui,
 			'resolutionTextBoxes-Width',
-			// lang.process('↔️ LANG_WIDTH:', true),
 			lang.process('LANG_WIDTH:', true),
 			defW,
 			(controller, value) => {
@@ -859,7 +850,6 @@ class ResolutionTextboxes extends ValuedController {
 		this.hBox = new Textbox(
 			gui,
 			'resolutionTextBoxes-Height',
-			// lang.process('↕️ LANG_HEIGHT:', true),
 			lang.process('LANG_HEIGHT:', true),
 			defH,
 			(controller, value) => {

@@ -25,7 +25,7 @@ let progress = 0;
 let time = 0;
 let ptime = -1 / 60;
 let speed = 1;
-let dtime; // dt start at 60 fps
+let dtime;
 
 let ffmpegWaiter = 0;
 
@@ -78,7 +78,7 @@ function draw() {
 	if (keyIsDown('-')) frameCount--;
 	if (keyIsDown('=')) frameCount++;
 	setTime();
-	mouse.set(mouseX, mouseY); //.scale(1 / generator.canvScale);
+	mouse.set(mouseX, mouseY); //.scaleSelf(1 / generator.canvScale);
 
 	generator.draw();
 

@@ -42,28 +42,27 @@ function pushpop() {
 	}
 }
 
-// function toxiFillet(filletStart, filletEnd, cen) {
-// 	const cpts = bezierFilletControlPoints(filletStart, filletEnd, cen);
-// 	toxiBezierVertex(cpts[0], cpts[1], filletEnd);
-// }
+function toxiFillet(filletStart, filletEnd, cen) {
+	const cpts = bezierFilletControlPoints(filletStart, filletEnd, cen);
+	toxiBezierVertex(cpts[0], cpts[1], filletEnd);
+}
 
-// function bezierFilletControlPoints(filletStart, filletEnd, cen) {
-// 	let a = filletStart.sub(cen);
-// 	let b = filletEnd.sub(cen)
-// 	let q1 = a.dot(a);
-// 	let q2 = q1 + a.dot(b);
-// 	let k2 = (4/3) * (sqrt(2 * q1 * q2) - q2) / (a.x * b.y - a.y * b.x);
+function bezierFilletControlPoints(filletStart, filletEnd, cen) {
+	let a = filletStart.sub(cen);
+	let b = filletEnd.sub(cen);
+	let q1 = a.dot(a);
+	let q2 = q1 + a.dot(b);
+	let k2 = ((4 / 3) * (sqrt(2 * q1 * q2) - q2)) / (a.x * b.y - a.y * b.x);
 
-// 	let x2 = cen.x + a.x - k2 * a.y;
-// 	let y2 = cen.y + a.y + k2 * a.x;
-// 	let x3 = cen.x + b.x + k2 * b.y;
-// 	let y3 = cen.y + b.y - k2 * b.x;
-// 	return [new Vec2D(x2, y2), new Vec2D(x3, y3)];
-// }
+	let x2 = cen.x + a.x - k2 * a.y;
+	let y2 = cen.y + a.y + k2 * a.x;
+	let x3 = cen.x + b.x + k2 * b.y;
+	let y3 = cen.y + b.y - k2 * b.x;
+	return [new Vec2D(x2, y2), new Vec2D(x3, y3)];
+}
 
 function intersectionPoint(lineA, lineB) {
 	let res = lineA.intersectLine(lineB);
-	// if (res.type != 3) return;
 	return res.pos;
 }
 
