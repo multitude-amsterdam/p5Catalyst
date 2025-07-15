@@ -231,6 +231,80 @@ function colorToHexString(col, doAlpha = false) {
 	return '#' + levels.map(l => l.toString(16).padStart(2, '0')).join('');
 }
 
+function lerpColorOKLab(col1, col2, t) {
+	const srgbToLinear = x => {
+		return x <= 0.04045 ? x / 12.92 : pow((x + 0.055) / 1.055, 2.4);
+	};
+	const linearToSrgb = x => {
+		return x <= 0.0031308 ? x * 12.92 : 1.055 * pow(x, 1 / 2.4) - 0.055;
+	};
+
+	function rgbToOKLab(r, g, b) {
+		r = srgbToLinear(r);
+		g = srgbToLinear(g);
+		b = srgbToLinear(b);
+
+		// RGB to LMS
+		let l = 0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b;
+		let m = 0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b;
+		let s = 0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b;
+
+		let l_ = Math.cbrt(l);
+		let m_ = Math.cbrt(m);
+		let s_ = Math.cbrt(s);
+
+		// LMS to OKLab
+		return {
+			L: 0.2104542553 * l_ + 0.793617785 * m_ - 0.0040720468 * s_,
+			A: 1.9779984951 * l_ - 2.428592205 * m_ + 0.4505937099 * s_,
+			B: 0.0259040371 * l_ + 0.7827717662 * m_ - 0.808675766 * s_,
+		};
+	}
+
+	function oklabToRGB(L, A, B) {
+		let l_ = L + 0.3963377774 * A + 0.2158037573 * B;
+		let m_ = L - 0.1055613458 * A - 0.0638541728 * B;
+		let s_ = L - 0.0894841775 * A - 1.291485548 * B;
+
+		l_ = l_ ** 3;
+		m_ = m_ ** 3;
+		s_ = s_ ** 3;
+
+		let r = +4.0767416621 * l_ - 3.3077115913 * m_ + 0.2309699292 * s_;
+		let g = -1.2684380046 * l_ + 2.6097574011 * m_ - 0.3413193965 * s_;
+		let b = -0.0041960863 * l_ - 0.7034186147 * m_ + 1.707614701 * s_;
+
+		r = linearToSrgb(r);
+		g = linearToSrgb(g);
+		b = linearToSrgb(b);
+
+		let col;
+		// preserve current main color mode
+		push();
+		{
+			colorMode(RGB);
+			col = color(
+				constrain(r * 255, 0, 255),
+				constrain(g * 255, 0, 255),
+				constrain(b * 255, 0, 255)
+			);
+		}
+		pop();
+		return col;
+	}
+
+	// p5.Color._array is [r, g, b, a] in range [0,1]
+	const lab1 = rgbToOKLab(...col1._array.slice(0, 3));
+	const lab2 = rgbToOKLab(...col2._array.slice(0, 3));
+
+	const L = lerp(lab1.L, lab2.L, t);
+	const A = lerp(lab1.A, lab2.A, t);
+	const B = lerp(lab1.B, lab2.B, t);
+
+	colorMode(RGB);
+	return oklabToRGB(L, A, B);
+}
+
 // ----------------------------- TIME ------------------------------
 
 function setDuration(_duration) {
