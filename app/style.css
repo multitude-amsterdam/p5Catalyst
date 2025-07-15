@@ -33,6 +33,28 @@ select {
 	}
 }
 button {
+	font-weight: 400;
+}
+h1 {
+	font-size: 3rem;
+	font-weight: 900;
+}
+h2 {
+	font-size: 2rem;
+	font-weight: 800;
+}
+h3 {
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+h4 {
+	font-size: 1.25rem;
+	font-weight: 800;
+}
+strong {
+	font-weight: 800;
+}
+.gui-label {
 	font-weight: 500;
 }
 
@@ -83,10 +105,10 @@ body {
 	--input-text-text-col: var(--text-col);
 
 	/* dimensions */
-	--button-padding-sides: 0.5rem;
+	--button-padding-sides: 0.667rem;
 	--corner-radius: 0;
 	--line-width: 2px;
-	--base-height: 2rem;
+	--base-height: 2.4rem;
 
 	/* mouse targets (eg., range inputs, radios) */
 	--target-col: var(--base-col);
@@ -163,12 +185,13 @@ body:where(.dark-mode) {
 
 /********************************* LOGO STYLING *********************************/
 #gui #logo {
-	min-height: 3rem;
+	min-height: 4rem;
 	background-image: url('assets/generator-logo.svg');
 	background-position-x: center;
 	background-position-y: center;
 	background-size: contain;
 	background-repeat: no-repeat;
+	margin-bottom: 0.5rem;
 }
 
 body:where(.dark-mode) #gui #logo {
@@ -196,11 +219,6 @@ body:where(.dark-mode) #gui #logo {
 
 body:where(.dark-mode) #gui .p5catalyst-logo {
 	background-image: url('assets/p5catalyst-logo-darkmode.svg');
-}
-
-/********************************* TITLE *********************************/
-.gui-title {
-	font-weight: bold;
 }
 
 /********************************* TEXTFIELD *********************************/
@@ -248,7 +266,6 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 	margin: 0;
 	padding: 0;
 	font-size: 1em;
-	font-weight: bold;
 }
 
 /********************************* CONSOLE *********************************/
@@ -262,7 +279,7 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 
 .gui-console-error {
 	color: var(--error-col);
-	font-weight: bold;
+	font-weight: 800;
 }
 
 /********************************* DIVIDER *********************************/
