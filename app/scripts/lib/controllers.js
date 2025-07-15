@@ -696,7 +696,6 @@ class ColourBoxes extends ValuedController {
 			isArraysEqual(col.levels, colObj.levels)
 		);
 
-		this.valueIndex = index;
 		this.value = this.colours[index];
 		this.controllerElement.selected('' + index);
 		this.valueCallback(this, this.value);
