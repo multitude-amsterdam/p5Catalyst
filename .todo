@@ -2,3 +2,7 @@
 // This files contains quickly pasted code snippets that solve
 // poorly documented issues - if at all.
 // This file should ideally be empty
+
+rm validateValue in ValuedControllers?
+
+rm 'key' in helpme()

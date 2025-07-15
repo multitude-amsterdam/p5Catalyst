@@ -709,8 +709,15 @@ class ColourBoxes extends ValuedController {
 }
 
 class MultiColourBoxes extends ValuedController {
-	constructor(gui, name, labelStr, colours, defaultIndices,
-		valueCallback, setupCallback=undefined) {
+	constructor(
+		gui,
+		name,
+		labelStr,
+		colours,
+		defaultIndices,
+		valueCallback,
+		setupCallback = undefined
+	) {
 		super(gui, name, labelStr, setupCallback);
 
 		this.colours = colours;
@@ -773,7 +780,7 @@ class MultiColourBoxes extends ValuedController {
 				throw new Error(colObj + ' is not a p5.Color.');
 			return this.colours.findIndex(col =>
 				isArraysEqual(col.levels, colObj.levels)
-				);
+			);
 		});
 		this.setValueFromIndices(indices);
 	}
