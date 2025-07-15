@@ -1,0 +1,13 @@
+{
+  "source": {
+    "include": ["app/scripts"],
+    "exclude": ["app/scripts/lib"],
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "opts": {
+    "destination": "./docs",
+    "recurse": true
+  },
+  "compile": "jsdoc -c jsdoc.json"
+}
