@@ -1,19 +1,9 @@
-/********************************* GLOBALS *********************************/
-
+/********************************* ROOT *********************************/
 :root {
 	--font-family: Inter, sans-serif;
 	--font-feature-settings: 'liga' 1, 'calt' 1;
 	--font-alternates: styleset(open-digits);
 	--font-family-monospace: monospace;
-
-	font-family: var(--font-family);
-	font-feature-settings: var(--font-feature-settings); /* fix for Chrome */
-	font-variant-alternates: var(--font-alternates);
-}
-@supports (font-variation-settings: normal) {
-	:root {
-		font-family: InterVariable, sans-serif;
-	}
 }
 
 *,
@@ -22,69 +12,101 @@
 	box-sizing: border-box;
 }
 
+/********************************* FONTS *********************************/
+:root,
+button,
+input,
+textarea,
+select {
+	font-family: var(--font-family);
+	font-feature-settings: var(--font-feature-settings); /* fix for Chrome */
+	font-variant-alternates: var(--font-alternates);
+	font-size: 1rem;
+}
+@supports (font-variation-settings: normal) {
+	:root,
+	button,
+	input,
+	textarea,
+	select {
+		font-family: InterVariable, sans-serif;
+	}
+}
+button {
+	font-weight: 500;
+}
+
 /********************************* BODY *********************************/
 body {
+	/* darkest and lightest colours */
 	--blackRGB: 0, 0, 0;
 	--whiteRGB: 255, 255, 255;
 	--white: rgb(var(--whiteRGB));
 	--black: rgb(var(--blackRGB));
 
-	/* light mode */
+	/* useful for rgba(var(--bgRGB), opacity) */
+	/* defaults to light mode, dark mode in next definition */
 	--bgRGB: var(--whiteRGB);
 	--fgRGB: var(--blackRGB);
 	--bg-col: rgb(var(--bgRGB));
 	--fg-col: rgb(var(--fgRGB));
 
+	/* transparency squares of the canvas background*/
 	--transpSquareCol0: var(--bg-col);
 	--transpSquareCol1: rgba(var(--fgRGB), 0.1);
 	--squareSize: 30px;
 
-	--text-col: var(--base-col);
-	--text-align: left;
-
+	/* main colours */
 	--base-col: #7685f7;
 	--text-col-on-base: var(--bg-col);
 	--hover-col: #bffb50;
-	--text-col-on-hover: var(--black);
 	--focus-col: var(--base-col);
-
-	--inactive-col: transparent;
-	/* weak colour */
-	--text-on-inactive-col: var(--text-col);
-	--divider-col: rgba(var(--fgRGB), 0.1);
 	--info-col: #a830f6;
 	--error-col: #e95e2a;
+	--divider-col: rgba(var(--fgRGB), 0.1);
+	--inactive-col: transparent;
 
+	/* text colours */
+	--text-col: var(--base-col);
+	--text-col-on-hover: var(--black);
+	--text-align: left;
+	--text-on-inactive-col: var(--text-col);
 	--link-col: var(--base-col);
 	--link-hover-col: var(--hover-col);
 
+	/* console colours */
 	--console-bgcol: var(--inactive-col);
 	--console-textcol: var(--text-col);
 
+	/* input colours */
 	--input-text-bg-col: var(--bg-col);
 	--input-text-text-col: var(--text-col);
 
-	--button-padding-left: 0.75rem;
-
-	--target-col: var(--base-col);
-	/* click target (radio button) */
-	--target-diameter: 1.5rem;
-
+	/* dimensions */
+	--button-padding-sides: 0.5rem;
 	--corner-radius: 0;
 	--line-width: 2px;
+	--base-height: 2rem;
+
+	/* mouse targets (eg., range inputs, radios) */
+	--target-col: var(--base-col);
+	--target-diameter: 1.5rem;
+
+	/* focus outline */
 	--focus-outline-offset: calc(1.5 * var(--line-width));
 	--focus-outline: var(--line-width) dotted var(--focus-col);
 
+	/* animation */
 	--transition: all 0.25s ease;
 
-	--control-dropshadow: 0 0 2rem;
-
+	/* body styles */
 	margin: 0;
 	padding: 0;
 	background-color: var(--bg-col);
 }
 
 body:where(.dark-mode) {
+	/* dark mode */
 	--bgRGB: var(--blackRGB);
 	--fgRGB: var(--whiteRGB);
 }
@@ -116,11 +138,13 @@ body:where(.dark-mode) {
 
 	background-color: var(--bg-col);
 	color: var(--text-col);
-
-	font-size: 1rem;
 }
 
 /********************************* GUI SCROLLBARS *********************************/
+#gui {
+	scrollbar-color: var(--base-col) var(--bg-col);
+}
+
 #gui::-webkit-scrollbar-track {
 	background-color: var(--bg-col);
 }
@@ -137,6 +161,7 @@ body:where(.dark-mode) {
 	border-radius: var(--corner-radius);
 }
 
+/********************************* LOGO STYLING *********************************/
 #gui #logo {
 	min-height: 3rem;
 	background-image: url('assets/generator-logo.svg');
@@ -211,16 +236,6 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 }
 
 /* default behaviour */
-button,
-input,
-select,
-textarea {
-	font-family: var(--font-family);
-	font-feature-settings: var(--font-feature-settings); /* fix for Chrome */
-	font-variant-alternates: var(--font-alternates);
-	font-size: 1rem;
-	color: var(--black);
-}
 #gui button,
 #gui input,
 #gui select,
@@ -279,8 +294,8 @@ h6 {
 	border: none;
 	transition: var(--transition);
 	border-radius: var(--corner-radius);
-	min-height: 2rem;
-	padding: 0.5rem var(--button-padding-left);
+	min-height: var(--base-height);
+	padding: 0 var(--button-padding-sides);
 	font-size: inherit;
 	text-align: var(--text-align);
 }
@@ -294,14 +309,12 @@ h6 {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 	border-radius: var(--corner-radius);
-	/*	filter: drop-shadow(var(--control-dropshadow) var(--hover-col));*/
 }
 
 #gui button:focus {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 	border-radius: var(--corner-radius);
-	/*	filter: drop-shadow(var(--control-dropshadow) var(--base-col));*/
 }
 
 /********************************* TOGGLE *********************************/
@@ -325,7 +338,7 @@ h6 {
 	width: 100%;
 	align-content: center;
 	text-align: var(--text-align);
-	padding: 0 var(--button-padding-left);
+	padding: 0 var(--button-padding-sides);
 }
 
 #gui button.toggle span:first-child {
@@ -382,7 +395,6 @@ h6 {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 	z-index: 1;
-	/*	filter: drop-shadow(var(--control-dropshadow) var(--base-col));*/
 }
 
 #gui button.toggle:focus span:last-child {
@@ -399,7 +411,6 @@ h6 {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 	z-index: 1;
-	/*	filter: drop-shadow(var(--control-dropshadow) var(--base-col));*/
 }
 
 /********************************* SELECT *********************************/
@@ -409,13 +420,13 @@ h6 {
 	-moz-appearance: none;
 	appearance: none;
 
-	padding: 0 var(--button-padding-left);
+	min-height: var(--base-height);
+	padding: 0 var(--button-padding-sides);
 	margin: 0;
 	width: 100%;
 	outline: none;
 
 	cursor: pointer;
-	min-height: 2rem;
 	text-align: var(--text-align);
 	border-radius: var(--corner-radius);
 	border: var(--line-width) solid var(--base-col);
@@ -425,7 +436,7 @@ h6 {
 	/* Some browsers will not display the caret when using calc, so we put the fallback first */
 	background: var(--arrow-url) var(--input-text-bg-col) no-repeat 98.5%;
 	background: var(--arrow-url) var(--input-text-bg-col) no-repeat
-		calc(100% - var(--button-padding-left));
+		calc(100% - var(--button-padding-sides));
 	color: var(--input-text-text-col);
 }
 
@@ -496,7 +507,7 @@ h6 {
 #gui textarea {
 	background-color: var(--input-text-bg-col);
 	color: var(--input-text-text-col);
-	padding: var(--button-padding-left);
+	padding: var(--button-padding-sides);
 	border: var(--line-width) solid var(--base-col);
 	border-radius: var(--corner-radius);
 	border-bottom-right-radius: 0;
@@ -542,11 +553,12 @@ input[type='text'] {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
+	min-height: var(--base-height);
+	padding: 0 var(--button-padding-sides);
 	background-color: var(--input-text-bg-col);
 	color: var(--input-text-text-col);
 	border-radius: var(--corner-radius);
 	border: var(--line-width) solid var(--base-col);
-	padding: 0.5em var(--button-padding-left);
 	transition: var(--transition);
 }
 
@@ -1324,8 +1336,8 @@ dialog::backdrop {
 	border: none;
 	transition: var(--transition);
 	border-radius: var(--corner-radius);
-	min-height: 2rem;
-	padding: 0.5rem var(--button-padding-left);
+	min-height: var(--base-height);
+	padding: 0 var(--button-padding-sides);
 	font-size: inherit;
 	text-align: var(--text-align);
 }
@@ -1353,6 +1365,7 @@ dialog::backdrop {
 	}
 }
 
+/********************************* AUXILIARY *********************************/
 ul,
 ol {
 	line-height: 1.75em;
@@ -1360,6 +1373,7 @@ ol {
 }
 
 code {
+	/* used for displaying key buttons */
 	font-family: var(--font-family-monospace);
 	font-size: 1.05em;
 	padding: 0.333em 0.667em;
