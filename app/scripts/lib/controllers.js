@@ -321,7 +321,6 @@ class Select extends ValuedController {
 	setValue(option) {
 		if (!this.hasOption(option)) {
 			throw new Error(option + ' was not found in options.');
-			return;
 		}
 		this.value = option;
 		const optStr = this.optionStrs[this.options.indexOf(option)];
@@ -471,10 +470,11 @@ class RangeSlider extends ValuedController {
 		this.valueCallback = valueCallback;
 	}
 
-	setValue(v) {
-		this.valueCallback(this, v);
-		this.minSlider.value(v.min);
-		this.maxSlider.value(v.max);
+	setValue(value) {
+		this.value = value;
+		this.valueCallback(this, value);
+		this.minSlider.value(value.min);
+		this.maxSlider.value(value.max);
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
@@ -825,9 +825,10 @@ class Textbox extends ValuedController {
 		);
 	}
 
-	setValue(v) {
-		this.valueCallback(this, v);
-		this.controllerElement.value(v);
+	setValue(value) {
+		this.value = value;
+		this.valueCallback(this, value);
+		this.controllerElement.value(value);
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
@@ -917,15 +918,18 @@ class Textarea extends ValuedController {
 			'focusin',
 			event => (gui.isTypingText = true)
 		);
-		this.controllerElement.elt.addEventListener(
-			'focusout',
-			event => (gui.isTypingText = false)
-		);
+		this.controllerElement.elt.addEventListener('focusout', event => {
+			gui.isTypingText = false;
+			const value = event.srcElement.value;
+			this.setValue(value);
+		});
 	}
 
-	setValue(v) {
-		this.valueCallback(this, v);
-		this.controllerElement.value(v);
+	setValue(value) {
+		this.value = value;
+		this.valueCallback(this, value);
+		this.controllerElement.value(value);
+		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
 	randomize() {}
