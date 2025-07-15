@@ -232,6 +232,8 @@ function colorToHexString(col, doAlpha = false) {
 }
 
 function lerpColorOKLab(col1, col2, t) {
+	// OKLab colour interpolation
+	// more info: https://bottosson.github.io/posts/oklab/
 	const srgbToLinear = x => {
 		return x <= 0.04045 ? x / 12.92 : pow((x + 0.055) / 1.055, 2.4);
 	};
@@ -306,8 +308,6 @@ function lerpColorOKLab(col1, col2, t) {
 }
 
 // ----------------------------- TIME ------------------------------
-
-//test
 
 function setDuration(_duration) {
 	nFrames = int(_duration * FR);
