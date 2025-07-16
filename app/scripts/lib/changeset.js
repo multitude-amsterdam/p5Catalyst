@@ -13,10 +13,8 @@ class ChangeSet {
 		}
 	}
 
-	getStates() {
-		return {
-			gui: gui.getState(),
-		};
+	getState() {
+		return { gui: gui.getState() };
 	}
 
 	cutToIndex() {
@@ -33,7 +31,7 @@ class ChangeSet {
 	}
 
 	save() {
-		const json = JSON.stringify(this.getStates());
+		const json = JSON.stringify(this.getState());
 		this.addState(json);
 
 		if (this.doInitFromLocalStorage) this.saveToLocalStorage(json);
