@@ -618,9 +618,7 @@ input[type='text']:focus {
 	background-color: var(--target-col);
 	height: var(--target-diameter);
 	width: var(--target-diameter);
-	/*   width: calc(var(--target-diameter) / 1.618 / 2);*/
 	border-radius: 100%;
-	/*   border-radius: 0;*/
 	transition: var(--transition);
 }
 
@@ -638,18 +636,16 @@ input[type='text']:focus {
 /* slider track */
 #gui input[type='range']::-moz-range-track {
 	background-color: var(--base-col);
-	border-radius: 0.5rem;
+	border-radius: var(--corner-radius);
 	height: var(--line-width);
 }
 
 /* slider thumb */
 #gui input[type='range']::-moz-range-thumb {
 	border: none;
-	border-radius: 0;
-
-	background-color: var(--text-col);
-	height: 1rem;
-	width: 1rem;
+	background-color: var(--target-col);
+	height: var(--target-diameter);
+	width: var(--target-diameter);
 	border-radius: 100%;
 	transition: var(--transition);
 }
@@ -1138,16 +1134,6 @@ button#dark-mode-button:focus:hover {
 /********************************* CANVAS SECTION *********************************/
 #canvas-workarea {
 	background-color: var(--transpSquareCol0);
-
-	/*	background-image: linear-gradient(45deg, var(--transpSquareCol1) 25%, transparent 25%),
-	linear-gradient(-45deg, var(--transpSquareCol1) 25%, transparent 25%),
-	linear-gradient(45deg, transparent 75%, var(--transpSquareCol1) 75%),
-	linear-gradient(-45deg, transparent 75%, var(--transpSquareCol1) 75%);
-	
-	background-size: var(--squareSize) var(--squareSize);
-	background-position: 0 0, 0 calc(var(--squareSize)/2), calc(var(--squareSize)/2) calc(var(--squareSize)/-2), calc(var(--squareSize)/-2) 0px;
-	background-repeat: repeat;*/
-
 	display: flex;
 	flex-direction: row;
 	width: 100%;
