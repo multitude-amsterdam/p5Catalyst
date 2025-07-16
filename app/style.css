@@ -474,49 +474,6 @@ h6 {
 	color: var(--fg-col);
 }
 
-#gui .select {
-	position: relative;
-}
-
-#gui .select::after {
-	--size: 0.3rem;
-	content: '';
-	position: absolute;
-	right: 1rem;
-	pointer-events: none;
-	transition: var(--transition);
-}
-
-#gui .select::after {
-	border: 1rem solid var(--base-col);
-	/* half min-height 2rem */
-	right: 0.6rem;
-	transform: scale(0.6, 0.4);
-	clip-path: polygon(
-		0 0,
-		100% 0,
-		100% 25%,
-		0 25%,
-		0 37.5%,
-		100% 37.5%,
-		100% 62.5%,
-		0 62.5%,
-		0 75%,
-		100% 75%,
-		100% 100%,
-		0 100%
-	);
-}
-
-#gui .select:hover::after {
-	border-color: var(--hover-col);
-}
-
-/* svg arrow */
-#gui .select-arrow-svg {
-	fill: var(--base-col) !important;
-}
-
 /********************************* TEXTAREA *********************************/
 #gui textarea {
 	background-color: var(--input-text-bg-col);
