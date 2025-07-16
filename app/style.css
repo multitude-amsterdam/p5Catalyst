@@ -712,27 +712,6 @@ input[type='text']:focus {
 	transform: scale(1);
 }
 
-/********************************* COLOUR RADIO *********************************/
-/*#gui .colour-selector input[type="radio"] {
-	background-color: var(--option-col);
-	border: none;
-}
-#gui .colour-selector input[type="radio"]:focus {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
-}
-#gui .colour-selector input[type="radio"]::before {
-	transform: scale(0.333, 0);
-	box-shadow: inset var(--target-diameter) var(--target-diameter) var(--white);
-}
-#gui .colour-selector input[type="radio"]:hover::before {
-	transform: scale(0.333);
-	box-shadow: inset var(--target-diameter) var(--target-diameter) var(--white);
-}
-#gui .colour-selector input[type="radio"]:checked::before {
-	transform: scale(0.333);
-}*/
-
 /********************************* RANGE-SLIDER *********************************/
 
 .dual-range-input {
