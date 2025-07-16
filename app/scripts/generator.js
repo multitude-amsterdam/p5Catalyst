@@ -57,29 +57,6 @@ class Generator {
 		translate(-width / 2, -height / 2);
 	}
 
-	// ------------------------------------------------------------ UTILITY
-	getState() {
-		return {
-			...this,
-			// add custom parameters here
-			img: undefined,
-		};
-	}
-
-	restoreState(state) {
-		Object.assign(this, state);
-
-		for (let propKey of Object.keys(this)) {
-			this[propKey] = restoreSerializedP5Color(this[propKey]);
-			this[propKey] = restoreSerializedVec2D(this[propKey]);
-		}
-
-		let i = 0;
-		for (let col of this.palette) {
-			this.palette[i++] = restoreSerializedP5Color(col);
-		}
-	}
-
 	static getOutputFileName(insertion = '') {
 		return (
 			Generator.name.replaceAll(' ', '-') +
