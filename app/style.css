@@ -10,9 +10,11 @@
 			single-story-a,
 			compact-lc-f,
 			compact-lc-t,
-			lc-l-with-tail
+			lc-l-with-tail,
+			simplified-u
 		);
 	font-variant-ligatures: common-ligatures discretionary-ligatures contextual;
+	line-height: 1;
 }
 @supports (font-variation-settings: normal) {
 	* {
@@ -158,7 +160,8 @@ body:where(.dark-mode) {
 
 /********************************* GUI SCROLLBARS *********************************/
 #gui {
-	scrollbar-color: var(--base-col) var(--bg-col);
+	/* only for Firefox, other browsers get square scrollbars */
+	-moz-scrollbar-color: var(--base-col) var(--bg-col);
 }
 
 #gui::-webkit-scrollbar-track {
