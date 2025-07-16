@@ -158,7 +158,7 @@ const dictionary = {
 	},
 	LANG_FORMAT: {
 		nl: 'formaat',
-		en: 'format',
+		en: 'dimensions',
 	},
 	LANG_FGCOL: {
 		nl: 'voorgrondkleur',
