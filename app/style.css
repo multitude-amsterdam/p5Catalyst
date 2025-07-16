@@ -1358,19 +1358,35 @@ dialog::backdrop {
 	}
 }
 
-/********************************* AUXILIARY *********************************/
-ul,
-ol {
-	line-height: 1.75em;
-	list-style: if(style(--corner-radius: 0): square; else: disc);
+/********************************* HELPME DIALOG *********************************/
+.helpme ul {
+	padding-inline-start: 0;
+}
+.helpme li {
+	list-style: none;
+	text-indent: 0%;
+	margin-bottom: 1.5em;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.helpme span {
+	width: 100%;
 }
 
+/********************************* AUXILIARY *********************************/
 code {
-	/* used for displaying key buttons */
+	/* used for displaying buttons keys */
 	font-family: monospace;
-	font-size: 1.05em;
+	font-size: 1em;
 	padding: 0.333em 0.667em;
 	background: var(--base-col);
 	color: var(--text-col-on-base);
 	border-radius: 3px;
+}
+
+ul li,
+ol li {
+	line-height: 1.5em;
 }
