@@ -471,7 +471,11 @@ h6 {
 #gui option {
 	max-width: inherit;
 	background-color: var(--bg-col);
-	color: var(--fg-col);
+	color: var(--text-col);
+}
+#gui option:hover {
+	background-color: var(--hover-col);
+	color: var(--text-col-on-hover);
 }
 
 /********************************* TEXTAREA *********************************/
