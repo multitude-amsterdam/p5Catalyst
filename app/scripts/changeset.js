@@ -15,7 +15,6 @@ class ChangeSet {
 
 	getStates() {
 		return {
-			generator: generator.getState(),
 			gui: gui.getState(),
 		};
 	}
@@ -54,7 +53,6 @@ class ChangeSet {
 
 	restore(json) {
 		const state = JSON.parse(json);
-		if (state.generator) generator.restoreState(state.generator);
 		if (state.gui) gui.restoreState(state.gui);
 	}
 
