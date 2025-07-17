@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Implementation of the GUI framework used by p5Catalyst.
+ */
+
+/** Main GUI wrapper that manages fields and controllers. */
 class GUIForP5 {
 	static verbose = !false;
 
@@ -244,6 +249,7 @@ class GUIForP5 {
 	}
 }
 
+/** Helper that randomises controllers marked as such. */
 class Randomizer {
 	controllers = [];
 
@@ -292,6 +298,7 @@ class Randomizer {
 	}
 }
 
+/** Small dice icon indicating randomisation state. */
 class DieIcon {
 	static iconURLs = [
 		'assets/dice/die (1).svg',
@@ -352,6 +359,7 @@ class DieIcon {
 	}
 }
 
+/** Base GUI element container used by controllers. */
 class Field {
 	constructor(parentDiv, id, className) {
 		this.div = createDiv();
@@ -378,6 +386,7 @@ class Field {
 	}
 }
 
+/** Text label associated with a controller. */
 class Label extends Field {
 	constructor(controller, text) {
 		super(controller.div, null, 'gui-label');
@@ -392,6 +401,7 @@ class Label extends Field {
 	}
 }
 
+/** Heading element used as a section title. */
 class Title extends Field {
 	constructor(parentDiv, hSize, text, doAlignCenter = false) {
 		super(parentDiv, null, 'gui-title');
@@ -403,6 +413,7 @@ class Title extends Field {
 	}
 }
 
+/** Block of explanatory text. */
 class Textfield extends Field {
 	constructor(parentDiv, text, className = undefined, doAlignCenter = false) {
 		super(parentDiv, null, 'gui-textfield');
@@ -417,6 +428,7 @@ class Textfield extends Field {
 	}
 }
 
+/** Wrapper for <img> elements placed in the GUI. */
 class GUIImage extends Field {
 	constructor(parentDiv, url, altText, doAlignCenter = true) {
 		super(parentDiv, null, 'gui-image');
@@ -428,6 +440,7 @@ class GUIImage extends Field {
 	}
 }
 
+/** Horizontal rule used to divide sections. */
 class Divider extends Field {
 	constructor(parentDiv) {
 		super(parentDiv, null, 'gui-divider');

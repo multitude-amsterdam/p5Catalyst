@@ -1,8 +1,18 @@
+/**
+ * @fileoverview Simple i18n helper used to translate GUI strings.
+ */
+
+/** default fallback language */
 const language = 'en';
 
 // dictionary keys should be sorted alphabetically in reverse order,
 // so that the longest keys are replaced first
 // (use VS Code "Sort JS Object keys" extension to sort the keys)
+/**
+ * Holds all translatable strings. The top level keys are replacement tokens
+ * used inside the GUI.
+ * @type {Object<string, {nl:string, en:string}>}
+ */
 const dictionary = {
 	LANG_WRONG_FILE_TYPE_MSG: {
 		nl: 'Het verkeerde bestandtype was geselecteerd.',
@@ -198,8 +208,12 @@ const dictionary = {
 	},
 };
 
+/** list of language keys supported by the dictionary */
 const availableLangKeys = Object.keys(dictionary[Object.keys(dictionary)[0]]);
 
+/**
+ * Helper class that performs token replacement based on the selected language.
+ */
 class Lang {
 	static verbose = false;
 
@@ -267,4 +281,8 @@ class Lang {
 	}
 }
 
+/**
+ * Global instance used throughout the GUI for translations.
+ * @type {Lang}
+ */
 const lang = new Lang();

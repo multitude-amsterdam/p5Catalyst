@@ -1,10 +1,23 @@
+/**
+ * @fileoverview Utility for undo/redo functionality and persistence of GUI
+ * and generator state.
+ */
+
+/**
+ * Stores a sequence of generator/gui states enabling undo and redo.
+ */
 class ChangeSet {
-	static localStorageKey = 'changeset';
+        /** key used for storing data in browser localStorage */
+        static localStorageKey = 'changeset';
 
 	changeset = [];
 	index = -1; // no state yet
 
-	constructor(doInitFromLocalStorage = false) {
+        /**
+         * @param {boolean} [doInitFromLocalStorage=false] whether to load the
+         * last stored state from localStorage.
+         */
+        constructor(doInitFromLocalStorage = false) {
 		this.doInitFromLocalStorage = doInitFromLocalStorage;
 		if (this.doInitFromLocalStorage) {
 			this.restoreFromLocalStorage();
@@ -13,19 +26,28 @@ class ChangeSet {
 		}
 	}
 
-	getStates() {
+        /**
+         * Capture current generator and GUI state.
+         * @returns {{generator:Object, gui:Object}}
+         */
+        getStates() {
 		return {
 			generator: generator.getState(),
 			gui: gui.getState(),
 		};
 	}
 
-	cutToIndex() {
+        /** Remove redo history after current index. */
+        cutToIndex() {
 		// cut future redo history
 		this.changeset = this.changeset.slice(0, this.index + 1);
 	}
 
-	addState(json) {
+        /**
+         * Push a new JSON state into the history.
+         * @param {string} json
+         */
+        addState(json) {
 		if (this.changeset[this.index] == json) return;
 
 		this.cutToIndex();
@@ -33,36 +55,48 @@ class ChangeSet {
 		this.index++;
 	}
 
-	save() {
+        /**
+         * Snapshot the current state and optionally persist it to
+         * localStorage.
+         */
+        save() {
 		const json = JSON.stringify(this.getStates());
 		this.addState(json);
 
 		if (this.doInitFromLocalStorage) this.saveToLocalStorage(json);
 	}
 
-	undo() {
+        /** Step backward in history. */
+        undo() {
 		if (this.index <= 0) return;
 		this.index--;
 		this.restore(this.changeset[this.index]);
 	}
 
-	redo() {
+        /** Step forward in history. */
+        redo() {
 		if (this.index >= this.changeset.length - 1) return;
 		this.index++;
 		this.restore(this.changeset[this.index]);
 	}
 
-	restore(json) {
+        /**
+         * Restore a JSON encoded state.
+         * @param {string} json
+         */
+        restore(json) {
 		const state = JSON.parse(json);
 		if (state.generator) generator.restoreState(state.generator);
 		if (state.gui) gui.restoreState(state.gui);
 	}
 
-	saveToLocalStorage(json) {
+        /** Store the JSON state in localStorage. */
+        saveToLocalStorage(json) {
 		localStorage[ChangeSet.localStorageKey] = json;
 	}
 
-	restoreFromLocalStorage() {
+        /** Retrieve the last stored state from localStorage. */
+        restoreFromLocalStorage() {
 		const json = localStorage[ChangeSet.localStorageKey];
 		if (!json || json.length <= 2) {
 			return;
@@ -70,7 +104,11 @@ class ChangeSet {
 		this.restore(json);
 	}
 
-	download(fileName) {
+        /**
+         * Save the current state to disk.
+         * @param {string} fileName base name without extension
+         */
+        download(fileName) {
 		const json = this.changeset[this.index];
 		saveJSON(
 			JSON.parse(json),
@@ -79,7 +117,11 @@ class ChangeSet {
 		);
 	}
 
-	loadFromJSON(json) {
+        /**
+         * Load a state from a JSON string.
+         * @param {string} json
+         */
+        loadFromJSON(json) {
 		this.addState(json);
 		this.restore(this.changeset[this.index]);
 	}

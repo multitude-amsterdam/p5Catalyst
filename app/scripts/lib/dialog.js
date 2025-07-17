@@ -1,5 +1,15 @@
+/**
+ * @fileoverview Simple modal dialog helper used for alerts and prompts.
+ */
+
+/**
+ * Wrapper around a HTML <dialog> element providing alert and prompt helpers.
+ */
 class Dialog {
-	constructor() {
+        /**
+         * Create a new dialog wrapper and bind DOM elements.
+         */
+        constructor() {
 		this.dialog = document.querySelector('.dialog');
 		this.dialogClose = document.querySelector('.dialog-close');
 		this.dialogBackdropClose = document.querySelector(
@@ -23,7 +33,11 @@ class Dialog {
 		);
 	}
 
-	alert(html) {
+        /**
+         * Show a message in the dialog.
+         * @param {string} html HTML content or plain text to display
+         */
+        alert(html) {
 		if (html !== '' && html.indexOf('<') === -1) {
 			html = `<p>${html}</p>`;
 		}
@@ -40,7 +54,15 @@ class Dialog {
 		this.show();
 	}
 
-	prompt(html, defaultVal = '', confirmButtonLabel = 'OK') {
+        /**
+         * Display a prompt dialog and resolve with the entered value.
+         *
+         * @param {string} html text or HTML to show
+         * @param {string} [defaultVal=''] pre-filled input value
+         * @param {string} [confirmButtonLabel='OK'] label for the confirm button
+         * @returns {Promise<string>} resolves with the typed value
+         */
+        prompt(html, defaultVal = '', confirmButtonLabel = 'OK') {
 		/* 
             returns a Promise that resolves with input value
             usage:
@@ -82,13 +104,23 @@ class Dialog {
 		});
 	}
 
-	show() {
+        /**
+         * Open the underlying <dialog> element.
+         */
+        show() {
 		this.dialog.showModal();
 	}
 
-	close() {
+        /**
+         * Close the dialog.
+         */
+        close() {
 		this.dialog.close();
 	}
 }
 
+/**
+ * Global instance used throughout the application.
+ * @type {Dialog}
+ */
 const dialog = new Dialog();

@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Collection of controller classes used by the GUI.
+ * Each controller wraps a p5.js or DOM element and exposes a unified API.
+ */
+
+/** Base class for all GUI controllers. */
 class Controller extends Field {
 	static _doUpdateChangeSet = true;
 	_doUpdateChangeSet = true;
@@ -100,6 +106,7 @@ class Controller extends Field {
 	}
 }
 
+/** Controller that holds a value which can be serialised. */
 class ValuedController extends Controller {
 	constructor(gui, name, labelStr, setupCallback = undefined) {
 		super(gui, name, labelStr, setupCallback);
@@ -119,6 +126,7 @@ class ValuedController extends Controller {
 	}
 }
 
+/** Simple push button controller. */
 class Button extends Controller {
 	constructor(gui, name, labelStr, callback, setupCallback = undefined) {
 		super(gui, name, undefined, setupCallback);
@@ -136,6 +144,7 @@ class Button extends Controller {
 	}
 }
 
+/** Base class for file input controllers. */
 class FileLoader extends Button {
 	constructor(
 		gui,
@@ -172,6 +181,7 @@ class FileLoader extends Button {
 	}
 }
 
+/** Loader for plain text files. */
 class TextFileLoader extends FileLoader {
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
@@ -187,6 +197,7 @@ class TextFileLoader extends FileLoader {
 	}
 }
 
+/** Loader for JSON files. */
 class JSONFileLoader extends FileLoader {
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
@@ -202,6 +213,7 @@ class JSONFileLoader extends FileLoader {
 	}
 }
 
+/** Loader that converts files to p5.Image instances. */
 class ImageLoader extends FileLoader {
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
@@ -221,6 +233,7 @@ class ImageLoader extends FileLoader {
 	}
 }
 
+/** On/off toggle represented by a button. */
 class Toggle extends ValuedController {
 	constructor(
 		gui,
@@ -269,6 +282,7 @@ class Toggle extends ValuedController {
 	}
 }
 
+/** Drop-down select controller. */
 class Select extends ValuedController {
 	constructor(
 		gui,
@@ -334,6 +348,7 @@ class Select extends ValuedController {
 	}
 }
 
+/** Specialised select for common resolutions. */
 class ResolutionSelect extends Select {
 	constructor(
 		gui,
@@ -364,6 +379,7 @@ class ResolutionSelect extends Select {
 	}
 }
 
+/** One dimensional slider controller. */
 class Slider extends ValuedController {
 	constructor(
 		gui,
@@ -411,6 +427,7 @@ class Slider extends ValuedController {
 	}
 }
 
+/** Two handled slider returning a min/max range. */
 class RangeSlider extends ValuedController {
 	constructor(
 		gui,
@@ -478,6 +495,7 @@ class RangeSlider extends ValuedController {
 	}
 }
 
+/** Two dimensional slider returning an {x,y} object. */
 class XYSlider extends ValuedController {
 	constructor(
 		gui,
@@ -629,6 +647,7 @@ class XYSlider extends ValuedController {
 	}
 }
 
+/** Radio buttons displaying coloured options. */
 class ColourBoxes extends ValuedController {
 	constructor(
 		gui,
@@ -698,6 +717,7 @@ class ColourBoxes extends ValuedController {
 	}
 }
 
+/** Multiple selectable colour checkboxes. */
 class MultiColourBoxes extends ValuedController {
 	constructor(
 		gui,
@@ -786,6 +806,7 @@ class MultiColourBoxes extends ValuedController {
 	}
 }
 
+/** Single line text input controller. */
 class Textbox extends ValuedController {
 	constructor(
 		gui,
@@ -827,6 +848,7 @@ class Textbox extends ValuedController {
 	randomize() {}
 }
 
+/** Pair of textboxes for width and height values. */
 class ResolutionTextboxes extends ValuedController {
 	constructor(gui, defW, defH, valueCallback, setupCallback = undefined) {
 		super(gui, 'resolutionTextboxes', undefined, setupCallback);
@@ -884,6 +906,7 @@ class ResolutionTextboxes extends ValuedController {
 	}
 }
 
+/** Multi line text area controller. */
 class Textarea extends ValuedController {
 	constructor(
 		gui,
@@ -925,6 +948,7 @@ class Textarea extends ValuedController {
 	randomize() {}
 }
 
+/** Textarea that accepts and displays colour lists. */
 class ColourTextArea extends Textarea {
 	constructor(
 		gui,
