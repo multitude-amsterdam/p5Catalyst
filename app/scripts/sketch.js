@@ -20,13 +20,13 @@
 
 /**
  * Reference to the main p5 canvas.
- * @type {p5.Renderer}
+ * @type {p5}
  * */
 let canvas;
 
 /**
  * SVG version of the p5 canvas.
- * @type {*}
+ * @type {?p5}
  * */
 let svgCanvas;
 
@@ -59,10 +59,10 @@ let canvScale = 1;
  * */
 let theShader;
 
-/** @type {?GUIForP5} */
+/** @type {GUIForP5} */
 let gui;
 
-/** @type {?Generator} */
+/** @type {Generator} */
 let generator;
 
 /**
