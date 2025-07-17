@@ -324,6 +324,24 @@ class ValuedController extends Controller {
 	getValueForJSON() {
 		return this.value;
 	}
+
+	/**
+	 * Restores a serialized p5.Color object.
+	 * @param {Object} obj - The serialized object.
+	 * @returns {p5.Color} - The restored p5.Color object or the original object if not a color.
+	 */
+	restoreSerializedP5Color(obj) {
+		if (
+			!obj._array ||
+			!Array.isArray(obj._array) ||
+			obj._array.length !== 4
+		) {
+			throw new Error('Object is not a serialized p5.Color.');
+		}
+		const col = color(0);
+		col._array = obj._array;
+		return col;
+	}
 }
 
 /**
@@ -1046,6 +1064,16 @@ class XYSlider extends ValuedController {
  * @extends ValuedController
  */
 class ColourBoxes extends ValuedController {
+	/**
+	 * Constructor for ColourBoxes.
+	 * @param {GUI} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
+	 * @param {number} defaultIndex - Index of the default colour.
+	 * @param {function} valueCallback - Callback function to handle value changes.
+	 * @param {function} [setupCallback] - Optional setup callback function.
+	 */
 	constructor(
 		gui,
 		name,
@@ -1056,14 +1084,16 @@ class ColourBoxes extends ValuedController {
 		setupCallback = undefined
 	) {
 		super(gui, name, labelStr, setupCallback);
-
 		this.valueCallback = valueCallback;
-
 		this.createRadioFromColours(colours);
-
 		this.setValue(colours[defaultIndex]);
 	}
 
+	/**
+	 * Creates a radio button controller from an array of colours.
+	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
+	 * @returns {void}
+	 */
 	createRadioFromColours(colours) {
 		const isInit = this.controllerElement === undefined;
 		if (this.controllerElement) {
@@ -1096,8 +1126,12 @@ class ColourBoxes extends ValuedController {
 	}
 
 	setValue(colObj) {
-		if (!(colObj instanceof p5.Color))
-			throw new Error(colObj + ' is not a p5.Color.');
+		if (!(colObj instanceof p5.Color)) {
+			colObj = this.restoreSerializedP5Color(colObj);
+		}
+		if (!colObj) {
+			throw new Error(colObj + ' cannot be used as a p5.Color.');
+		}
 
 		const index = this.colours.findIndex(col =>
 			isArraysEqual(col.levels, colObj.levels)
@@ -1119,6 +1153,16 @@ class ColourBoxes extends ValuedController {
  * @extends ValuedController
  */
 class MultiColourBoxes extends ValuedController {
+	/**
+	 * Constructor for MultiColourBoxes.
+	 * @param {GUI} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
+	 * @param {Array<number>} defaultIndices - Indices of the default colours.
+	 * @param {function} valueCallback - Callback function to handle value changes.
+	 * @param {function} [setupCallback] - Optional setup callback function.
+	 */
 	constructor(
 		gui,
 		name,
@@ -1139,6 +1183,10 @@ class MultiColourBoxes extends ValuedController {
 		this.setValue(defaultCols);
 	}
 
+	/**
+	 * Sets the controller colours and creates checkboxes for each colour.
+	 * @returns {void}
+	 */
 	setControllerColours() {
 		if (this.controllerElement) {
 			this.controllerElement.remove();
@@ -1174,6 +1222,11 @@ class MultiColourBoxes extends ValuedController {
 		this.controllerElement = div;
 	}
 
+	/**
+	 * Sets the value from an array of indices.
+	 * @param {Array<number>} indices - Array of indices corresponding to selected colours.
+	 * @return {void}
+	 */
 	setValueFromIndices(indices) {
 		this.valueIndices = indices;
 		this.value = indices.map(i => this.colours[i]);
@@ -1211,6 +1264,15 @@ class MultiColourBoxes extends ValuedController {
  * @extends ValuedController
  */
 class Textbox extends ValuedController {
+	/**
+	 * Constructor for Textbox.
+	 * @param {GUI} gui - The GUI instance.
+	 * @param {string} name - The name of the controller.
+	 * @param {string} labelStr - The label for the controller.
+	 * @param {string} defaultVal - The default value for the textbox.
+	 * @param {function} valueCallback - Callback function for value changes.
+	 * @param {function} [setupCallback] - Optional setup callback.
+	 */
 	constructor(
 		gui,
 		name,
@@ -1256,6 +1318,14 @@ class Textbox extends ValuedController {
  * @extends ValuedController
  */
 class ResolutionTextboxes extends ValuedController {
+	/**
+	 * Constructor for ResolutionTextboxes.
+	 * @param {GUI} gui - The GUI instance.
+	 * @param {number} defW - Default width value.
+	 * @param {number} defH - Default height value.
+	 * @param {function} valueCallback - Callback function for value changes.
+	 * @param {function} [setupCallback] - Optional setup callback.
+	 */
 	constructor(gui, defW, defH, valueCallback, setupCallback = undefined) {
 		super(gui, 'resolutionTextboxes', undefined, setupCallback);
 		this.w = defW;
@@ -1306,6 +1376,12 @@ class ResolutionTextboxes extends ValuedController {
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
+	/**
+	 * Sets the width and height values directly.
+	 * @param {number} w - The width value.
+	 * @param {number} h - The height value.
+	 * @return {void}
+	 */
 	setValueOnlyDisplay(w, h) {
 		this.wBox.controllerElement.value(w);
 		this.hBox.controllerElement.value(h);
@@ -1317,6 +1393,15 @@ class ResolutionTextboxes extends ValuedController {
  * @extends ValuedController
  */
 class Textarea extends ValuedController {
+	/**
+	 * Constructor for Textarea.
+	 * @param {GUI} gui - The GUI instance.
+	 * @param {string} name - The name of the controller.
+	 * @param {string} labelStr - The label for the controller.
+	 * @param {string} defaultVal - The default value for the textarea.
+	 * @param {function} valueCallback - Callback function for value changes.
+	 * @param {function} [setupCallback] - Optional setup callback.
+	 */
 	constructor(
 		gui,
 		name,
@@ -1408,6 +1493,11 @@ class ColourTextArea extends Textarea {
 		this.displayColours(colours);
 	}
 
+	/**
+	 * Displays the colours in a div.
+	 * @param {Array<p5.Color>} colours - Array of p5.Color objects to display.
+	 * @returns {void}
+	 */
 	displayColours(colours) {
 		if (this.disp) this.disp.elt.remove();
 
@@ -1422,10 +1512,20 @@ class ColourTextArea extends Textarea {
 		}
 	}
 
+	/**
+	 * Converts an array of p5.Color objects to a comma-separated hex string.
+	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
+	 * @returns {string} - Comma-separated string of hex colours.
+	 */
 	static colourListToString(colours) {
 		return colours.map(c => colorToHexString(c).toUpperCase()).join(',');
 	}
 
+	/**
+	 * Parses a comma-separated string of hex colours into an array of p5.Color objects.
+	 * @param {string} str - Comma-separated string of hex colours.
+	 * @returns {Array<p5.Color>} - Array of p5.Color objects.
+	 */
 	static parseColourList(str) {
 		return str
 			.split(',')
