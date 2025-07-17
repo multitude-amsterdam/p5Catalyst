@@ -292,16 +292,6 @@ function lum(col) {
 }
 
 /**
- * Simple average brightness of a colour.
- * @param {p5.Color|number[]} col
- * @returns {number}
- */
-function v(col) {
-	if (!col.levels) col = color(col);
-	return (col.levels[0] + col.levels[1] + col.levels[2]) / 3;
-}
-
-/**
  * Convert a p5 color to a hex string.
  * @param {p5.Color} col
  * @param {boolean} [doAlpha=false]

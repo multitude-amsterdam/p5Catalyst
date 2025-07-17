@@ -226,7 +226,7 @@ const dictionary = {
 const availableLangKeys = Object.keys(dictionary[Object.keys(dictionary)[0]]);
 
 /**
- * @description Helper class that performs token replacement based on the selected language.
+ * Helper class that performs token replacement based on the selected language.
  */
 class Lang {
 	static verbose = false;

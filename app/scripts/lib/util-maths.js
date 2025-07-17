@@ -5,11 +5,16 @@
 // -------------------------------------- CONSTANTS
 
 /**
- * Golden ratio constant.
+ * Golden ratio.
  * @constant {number}
- * @global
  */
 const PHI = (Math.sqrt(5) + 1) / 2;
+
+/**
+ * Euler's constant.
+ * @constant {number}
+ */
+const E = Math.E;
 
 // -------------------------------------- HASHING
 
@@ -93,12 +98,6 @@ function tanh(x) {
 	return sigmoid(2 * x) * 2 - 1;
 }
 
-/**
- * Euler's number constant.
- * @constant {number}
- * @global
- */
-const E = Math.E;
 /**
  * Standard gaussian function e^(-x^2).
  * @param {number} x
@@ -287,7 +286,6 @@ function inPg(v, offs = 0) {
 
 /**
  * Helper sign used in {@link isPointInTriangle}.
- * @private
  */
 function triangleSign(p1, p2, p3) {
 	// see isPointInTriangle

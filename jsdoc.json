@@ -3,13 +3,6 @@
 	"To create JSDocs in /docs": "jsdoc -c jsdoc.json",
 
 	"plugins": ["plugins/markdown"],
-	"templates": {
-		"default": {
-			"staticFiles": {
-				"include": []
-			}
-		}
-	},
 	"source": {
 		"include": ["app/scripts", "app/ffmpeg/ffmpeg.js"],
 		"includePattern": ".+\\.js(doc|x)?$",

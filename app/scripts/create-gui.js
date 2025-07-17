@@ -1,16 +1,3 @@
-/**
- * @fileoverview Constructs the graphical user interface for the generator.
- *
- * All controls are created here using the controller classes from
- * {@link ../lib/gui.js} and {@link ../lib/controllers.js}.
- *
- * @see createGUI
- */
-
-/**
- * Initialise or rebuild the global {@link GUIForP5} instance.
- * @see GUIForP5
- */
 function createGUI() {
 	if (gui != undefined) gui.div.remove();
 	gui = new GUIForP5();
@@ -346,10 +333,6 @@ function createGUI() {
 	gui.setup();
 }
 
-/**
- * Preset resolutions displayed in the resolution drop-down menu.
- * @type {string[]}
- */
 const resolutionOptions = [
 	'Full-HD (1080p) LANG_PORTRAIT: 1080 x 1920',
 	'Full-HD (1080p) LANG_LANDSCAPE: 1920 x 1080',
@@ -405,13 +388,6 @@ const resolutionOptions = [
 	getAPaperResolutionOptionAtDpi(0, 300, false),
 ];
 
-/**
- * Utility that generates A-series paper size strings at a given DPI.
- * @param {number} aNumber paper size number (0 = A0, 1 = A1, ...)
- * @param {number} dpi dots per inch
- * @param {boolean} [isPortrait=true] orientation flag
- * @returns {string}
- */
 function getAPaperResolutionOptionAtDpi(aNumber, dpi, isPortrait = true) {
 	// A0 paper size in mm
 	const baseWidth = 841;

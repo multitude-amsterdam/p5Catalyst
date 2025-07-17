@@ -1,39 +1,8 @@
-/**
- * @fileoverview Default generator used by the p5Catalyst template.
- *
- * This module exposes the {@link Generator} class which encapsulates the
- * drawing logic for a sketch.
- *
- * It depends on a number of globals that are provided elsewhere in the
- *
- *  application (such as `time`, `progress` and `theShader`).
- *
- * @see Generator
- */
-
-/**
- * Main generator responsible for drawing the sketch.
- * Integrates with p5Catalyst’s lifecycle via `setup()` and `draw()`.
- */
 class Generator {
-	/**
-	 * @static
-	 * @type {string}
-	 * @description Name of the generator, used in the GUI.
-	 */
 	static name = 'p5Catalyst Generator';
 
-	/**
-	 * @static
-	 * @type {string}
-	 * @description Email address shown in the GUI for support
-	 */
 	static supportEmail = '';
 
-	/**
-	 * Default colour palette used by the example sketch.
-	 * @type {p5.Color[]}
-	 */
 	palette = [
 		color('#7685F7'),
 		color('#BFFB50'),
@@ -42,28 +11,17 @@ class Generator {
 	];
 
 	// ------------------------------------------------------------ CONSTRUCTOR
-	/**
-	 * Creates a new Generator instance.
-	 * The colour used for the floating circle is initialised here.
-	 */
+
 	constructor() {
 		this.col = undefined;
 	}
 
 	// ------------------------------------------------------------ SETUP
-	/**
-	 * Called once from {@link setup} in `sketch.js` to prepare the sketch.
-	 * Extend this method in your own generator to initialise resources.
-	 */
+
 	setup() {}
 
 	// ------------------------------------------------------------ DRAW
-	/**
-	 * Main drawing routine called from {@link draw} in `sketch.js`.
-	 *
-	 * @param {boolean} [doSVGToo=false] when true an off screen SVG canvas
-	 * is also rendered.
-	 */
+
 	draw(doSVGToo = false) {
 		this.doSVGToo = doSVGToo;
 		clear();
@@ -76,11 +34,7 @@ class Generator {
 	}
 
 	// ------------------------------------------------------------ SHADER
-	/**
-	 * Draws the active shader using the global uniforms.
-	 * This is called automatically from {@link draw} when a shader is
-	 * loaded.
-	 */
+
 	drawShader() {
 		theShader.setUniform('resolution', [width, height]);
 		theShader.setUniform('progress', progress);
@@ -109,11 +63,7 @@ class Generator {
 	}
 
 	// ------------------------------------------------------------ UTILITY
-	/**
-	 * Serialises the current generator state so it can be stored in a
-	 * {@link ChangeSet}.
-	 * @returns {Object}
-	 */
+
 	getState() {
 		return {
 			...this,
@@ -122,10 +72,6 @@ class Generator {
 		};
 	}
 
-	/**
-	 * Restores a previously serialised state.
-	 * @param {Object} state data produced by {@link getState}
-	 */
 	restoreState(state) {
 		Object.assign(this, state);
 
@@ -140,12 +86,6 @@ class Generator {
 		}
 	}
 
-	/**
-	 * Utility for building an output file name including resolution and
-	 * a timestamp.
-	 * @param {string} [insertion=''] optional text inserted into the name
-	 * @returns {string}
-	 */
 	static getOutputFileName(insertion = '') {
 		return (
 			Generator.name.replaceAll(' ', '-') +
