@@ -1,52 +1,36 @@
-let canvas;
+const doRunRealTime = false,
+	doCaptureStartFromFrame0 = true,
+	maxImgResIncrease = 0.25;
 
-let svgCanvas;
-
-let canvWrapper;
-
-let pw = 1;
-
-let ph = 1;
-
-let canvScale = 1;
-
-let theShader;
-
-/** @type {GUIForP5} */
-let gui;
-
-/** @type {Generator} */
-let generator;
-
-let bodyFont, /** @type {p5.Font} */ titleFont;
-
-const maxImgResIncrease = 0.25;
-
-const doRunRealTime = false;
-
-let isCapturingFrames = false;
-
-const doCaptureStartFromFrame0 = true;
-
-let mouse = new Vec2D();
-
-let isPlaying = true;
-
-let progress = 0;
-
-let time = 0;
-
-let ptime = -1 / 60;
-
-let speed = 1;
-
-let dtime;
-
-let ffmpegWaiter = 0;
-
-let scrollScale = 1;
-
-let changeSet;
+let canvas,
+	canvWrapper,
+	canvScale = 1,
+	changeSet,
+	dtime,
+	duration,
+	ffmpegWaiter = 0,
+	FR,
+	generator,
+	gui,
+	isCapturingFrames = false,
+	isPlaying = true,
+	K = 0,
+	mouse = new Vec2D(),
+	nFrames,
+	noiseOffs,
+	ph = 1,
+	progress = 0,
+	ptime = -1 / 60,
+	pw = 1,
+	scrollScale = 1,
+	speed = 1,
+	SSID,
+	svgCanvas,
+	theShader,
+	time = 0,
+	titleFont,
+	bodyFont,
+	utilBools = [];
 
 function preload() {
 	// theShader = loadShader('scripts/shader/shader.vert', 'scripts/shader/shader.frag');
@@ -268,18 +252,6 @@ function mouseWheel(event) {
 function windowResized() {
 	containCanvasInWrapper();
 }
-
-let SSID;
-
-let K = 0;
-
-let utilBools = [];
-
-let /** @type {number} */ FR,
-	/** @type {number} */ duration,
-	/** @type {number} */ nFrames;
-
-let noiseOffs;
 
 function initUtils(_duration, _frameRate) {
 	console.log('p5Catalyst initiated as ' + Generator.name);
