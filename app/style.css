@@ -1,34 +1,23 @@
-/********************************* ROOT *********************************/
-:root {
-	--font-family: Inter, sans-serif;
-	--font-feature-settings: 'liga' 1, 'calt' 1;
-	--font-alternates: styleset(open-digits);
-	--font-family-monospace: monospace;
-}
-
-*,
-*::before,
-*::after {
-	box-sizing: border-box;
-}
-
 /********************************* FONTS *********************************/
-:root,
-button,
-input,
-textarea,
-select {
-	font-family: var(--font-family);
-	font-feature-settings: var(--font-feature-settings); /* fix for Chrome */
-	font-variant-alternates: var(--font-alternates);
+* {
 	font-size: 1rem;
+	font-family: InterVariable, Inter, sans-serif;
+	font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+	font-variant-alternates: styleset(open-digits)
+		character-variant(
+			alt-1,
+			alt-3,
+			single-story-a,
+			compact-lc-f,
+			compact-lc-t,
+			lc-l-with-tail,
+			simplified-u
+		);
+	font-variant-ligatures: common-ligatures discretionary-ligatures contextual;
+	line-height: 1;
 }
 @supports (font-variation-settings: normal) {
-	:root,
-	button,
-	input,
-	textarea,
-	select {
+	* {
 		font-family: InterVariable, sans-serif;
 	}
 }
@@ -56,6 +45,13 @@ strong {
 }
 .gui-label {
 	font-weight: 500;
+}
+
+/********************************* BOX SIZING *********************************/
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
 }
 
 /********************************* BODY *********************************/
@@ -164,7 +160,8 @@ body:where(.dark-mode) {
 
 /********************************* GUI SCROLLBARS *********************************/
 #gui {
-	scrollbar-color: var(--base-col) var(--bg-col);
+	/* only for Firefox, other browsers get square scrollbars */
+	-moz-scrollbar-color: var(--base-col) var(--bg-col);
 }
 
 #gui::-webkit-scrollbar-track {
@@ -474,50 +471,11 @@ h6 {
 #gui option {
 	max-width: inherit;
 	background-color: var(--bg-col);
-	color: var(--fg-col);
+	color: var(--text-col);
 }
-
-#gui .select {
-	position: relative;
-}
-
-#gui .select::after {
-	--size: 0.3rem;
-	content: '';
-	position: absolute;
-	right: 1rem;
-	pointer-events: none;
-	transition: var(--transition);
-}
-
-#gui .select::after {
-	border: 1rem solid var(--base-col);
-	/* half min-height 2rem */
-	right: 0.6rem;
-	transform: scale(0.6, 0.4);
-	clip-path: polygon(
-		0 0,
-		100% 0,
-		100% 25%,
-		0 25%,
-		0 37.5%,
-		100% 37.5%,
-		100% 62.5%,
-		0 62.5%,
-		0 75%,
-		100% 75%,
-		100% 100%,
-		0 100%
-	);
-}
-
-#gui .select:hover::after {
-	border-color: var(--hover-col);
-}
-
-/* svg arrow */
-#gui .select-arrow-svg {
-	fill: var(--base-col) !important;
+#gui option:hover {
+	background-color: var(--hover-col);
+	color: var(--text-col-on-hover);
 }
 
 /********************************* TEXTAREA *********************************/
@@ -621,9 +579,7 @@ input[type='text']:focus {
 	background-color: var(--target-col);
 	height: var(--target-diameter);
 	width: var(--target-diameter);
-	/*   width: calc(var(--target-diameter) / 1.618 / 2);*/
 	border-radius: 100%;
-	/*   border-radius: 0;*/
 	transition: var(--transition);
 }
 
@@ -641,18 +597,16 @@ input[type='text']:focus {
 /* slider track */
 #gui input[type='range']::-moz-range-track {
 	background-color: var(--base-col);
-	border-radius: 0.5rem;
+	border-radius: var(--corner-radius);
 	height: var(--line-width);
 }
 
 /* slider thumb */
 #gui input[type='range']::-moz-range-thumb {
 	border: none;
-	border-radius: 0;
-
-	background-color: var(--text-col);
-	height: 1rem;
-	width: 1rem;
+	background-color: var(--target-col);
+	height: var(--target-diameter);
+	width: var(--target-diameter);
 	border-radius: 100%;
 	transition: var(--transition);
 }
@@ -714,27 +668,6 @@ input[type='text']:focus {
 #gui input[type='radio']:checked::before {
 	transform: scale(1);
 }
-
-/********************************* COLOUR RADIO *********************************/
-/*#gui .colour-selector input[type="radio"] {
-	background-color: var(--option-col);
-	border: none;
-}
-#gui .colour-selector input[type="radio"]:focus {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
-}
-#gui .colour-selector input[type="radio"]::before {
-	transform: scale(0.333, 0);
-	box-shadow: inset var(--target-diameter) var(--target-diameter) var(--white);
-}
-#gui .colour-selector input[type="radio"]:hover::before {
-	transform: scale(0.333);
-	box-shadow: inset var(--target-diameter) var(--target-diameter) var(--white);
-}
-#gui .colour-selector input[type="radio"]:checked::before {
-	transform: scale(0.333);
-}*/
 
 /********************************* RANGE-SLIDER *********************************/
 
@@ -1162,16 +1095,6 @@ button#dark-mode-button:focus:hover {
 /********************************* CANVAS SECTION *********************************/
 #canvas-workarea {
 	background-color: var(--transpSquareCol0);
-
-	/*	background-image: linear-gradient(45deg, var(--transpSquareCol1) 25%, transparent 25%),
-	linear-gradient(-45deg, var(--transpSquareCol1) 25%, transparent 25%),
-	linear-gradient(45deg, transparent 75%, var(--transpSquareCol1) 75%),
-	linear-gradient(-45deg, transparent 75%, var(--transpSquareCol1) 75%);
-	
-	background-size: var(--squareSize) var(--squareSize);
-	background-position: 0 0, 0 calc(var(--squareSize)/2), calc(var(--squareSize)/2) calc(var(--squareSize)/-2), calc(var(--squareSize)/-2) 0px;
-	background-repeat: repeat;*/
-
 	display: flex;
 	flex-direction: row;
 	width: 100%;
@@ -1382,19 +1305,35 @@ dialog::backdrop {
 	}
 }
 
-/********************************* AUXILIARY *********************************/
-ul,
-ol {
-	line-height: 1.75em;
-	list-style: if(style(--corner-radius: 0): square; else: disc);
+/********************************* HELPME DIALOG *********************************/
+.helpme ul {
+	padding-inline-start: 0;
+}
+.helpme li {
+	list-style: none;
+	text-indent: 0%;
+	margin-bottom: 1.5em;
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.helpme span {
+	width: 100%;
 }
 
+/********************************* AUXILIARY *********************************/
 code {
-	/* used for displaying key buttons */
-	font-family: var(--font-family-monospace);
-	font-size: 1.05em;
+	/* used for displaying buttons keys */
+	font-family: monospace;
+	font-size: 1em;
 	padding: 0.333em 0.667em;
 	background: var(--base-col);
 	color: var(--text-col-on-base);
 	border-radius: 3px;
+}
+
+ul li,
+ol li {
+	line-height: 1.5em;
 }

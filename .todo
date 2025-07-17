@@ -3,8 +3,4 @@
 // poorly documented issues - if at all.
 // This file should ideally be empty
 
-rm noiseOffs
-
-rm dtime
-
 rm pw & ph

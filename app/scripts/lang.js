@@ -147,30 +147,30 @@ const dictionary = {
 	LANG_HELPME_MSG: {
 		nl:
 			`<h1>Help</h1>` +
-			`<p>` +
+			`<div class="helpme">` +
 			`<ul>` +
-			`<li>Laat deze popup zien: <code>H</code></li>` +
-			`<li>Pauzeren / afspelen animatie: <code>spatiebalk</code></li>` +
-			`<li>Ongedaan maken / opnieuw: <code>CTRL / CMD</code> + <code>Z</code></li>` +
-			`<li>Opnieuw: <code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></li>` +
-			`<li>Volledig scherm: <code>F</code></li>` +
-			`<li>Zijbalk verspringen: <code>B</code></li>` +
-			`<li>Wissel tussen licht/donker thema: <code>M</code></li>` +
+			`<li><span>Laat deze popup zien</span> <span><code>H</code></span></li>` +
+			`<li><span>Pauzeren / afspelen animatie</span> <span><code>spatiebalk</code></span></li>` +
+			`<li><span>Ongedaan maken / opnieuw</span> <span><code>CTRL / CMD</code> + <code>Z</code></span></li>` +
+			`<li><span>Opnieuw</span> <span><code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></span></li>` +
+			`<li><span>Volledig scherm</span> <span><code>F</code></span></li>` +
+			`<li><span>Zijbalk verspringen</span> <span><code>B</code></span></li>` +
+			`<li><span>Wissel tussen licht/donker thema</span> <span><code>M</code></span></li>` +
 			`</ul>` +
-			`</p>`,
+			`</div>`,
 		en:
 			`<h1>Help</h1>` +
-			`<p>` +
+			`<div class="helpme">` +
 			`<ul>` +
-			`<li>Show this popup: <code>H</code></li>` +
-			`<li>Pause / play animation: <code>spacebar</code></li>` +
-			`<li>Undo: <code>CTRL / CMD</code> + <code>Z</code></li>` +
-			`<li>Redo: <code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></li>` +
-			`<li>Toggle fullscreen: <code>F</code></li>` +
-			`<li>Flip sidebar: <code>B</code></li>` +
-			`<li>Toggle light/dark mode: <code>M</code></li>` +
+			`<li><span>Show this popup</span> <span><code>H</code></span></li>` +
+			`<li><span>Pause / play animation</span> <span><code>spacebar</code></span></li>` +
+			`<li><span>Undo</span> <span><code>CTRL / CMD</code> + <code>Z</code></span></li>` +
+			`<li><span>Redo</span> <span><code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></span></li>` +
+			`<li><span>Toggle fullscreen</span> <span><code>F</code></span></li>` +
+			`<li><span>Flip sidebar</span> <span><code>B</code></span></li>` +
+			`<li><span>Toggle light/dark mode</span> <span><code>M</code></span></li>` +
 			`</ul>` +
-			`</p>`,
+			`</div>`,
 	},
 	LANG_HELP: {
 		nl: 'help',
@@ -182,7 +182,7 @@ const dictionary = {
 	},
 	LANG_FORMAT: {
 		nl: 'formaat',
-		en: 'format',
+		en: 'dimensions',
 	},
 	LANG_FGCOL: {
 		nl: 'voorgrondkleur',

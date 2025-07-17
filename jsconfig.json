@@ -1,1 +1,8 @@
 { "compilerOptions": { "checkJs": false }, "include": ["**/*.js"] }
+
+{
+	"compilerOptions": {
+		"checkJs": false
+	},
+	"include": ["**/*.js"]
+}

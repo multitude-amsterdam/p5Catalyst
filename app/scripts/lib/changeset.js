@@ -13,11 +13,8 @@ class ChangeSet {
 		}
 	}
 
-	getStates() {
-		return {
-			generator: generator.getState(),
-			gui: gui.getState(),
-		};
+	getState() {
+		return { gui: gui.getState() };
 	}
 
 	cutToIndex() {
@@ -33,7 +30,7 @@ class ChangeSet {
 	}
 
 	save() {
-		const json = JSON.stringify(this.getStates());
+		const json = JSON.stringify(this.getState());
 		this.addState(json);
 
 		if (this.doInitFromLocalStorage) this.saveToLocalStorage(json);
@@ -53,7 +50,6 @@ class ChangeSet {
 
 	restore(json) {
 		const state = JSON.parse(json);
-		if (state.generator) generator.restoreState(state.generator);
 		if (state.gui) gui.restoreState(state.gui);
 	}
 

@@ -269,10 +269,11 @@ function createGUI() {
 			'buttonSaveSettings',
 			'LANG_SAVE_SETTINGS',
 			controller => {
-				const fileName = prompt(
-					lang.process('LANG_CHOOSE_FILE_NAME_MSG', true)
-				);
-				changeSet.download(fileName);
+				const fileName = dialog
+					.prompt(lang.process('LANG_CHOOSE_FILE_NAME_MSG', true))
+					.then(fileName => {
+						changeSet.download(fileName);
+					});
 			},
 			controller => {
 				controller._doUpdateChangeSet = false;
