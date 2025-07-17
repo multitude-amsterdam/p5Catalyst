@@ -3,14 +3,14 @@
  *
  * This module exposes the {@link Generator} class which encapsulates the
  * drawing logic for a sketch. It depends on a number of globals that are
- * provided elsewhere in the application (such as {@code pw}, {@code ph},
- * {@code time}, {@code progress} and {@code theShader}).
+ * provided elsewhere in the application (such as `time`, `progress` and
+ * `theShader`).
  */
 
 /**
+ * Main generator responsible for drawing the sketch.
+ * Integrates with p5Catalyst’s lifecycle via `setup()` and `draw()`.
  * @class
- * @description Main generator responsible for drawing the sketch and
- * serialising its state.
  */
 class Generator {
 	/**

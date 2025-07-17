@@ -1,25 +1,30 @@
 /**
- * @fileoverview Simple helper used to translate GUI strings.
+ * @fileoverview Simple helper class {@link Lang} used to translate GUI
+ * strings into user-defined languages. Modifiable/extensible.
+ * @see lang
+ * @see dictionary
+ * @see language
  */
 
 /**
- * @global
  * @constant
  * @type {string}
  * @default
- * Default language
  * */
 const language = 'en';
 
 /**
- * @global
- * @constant
- * @type {Object<string, {nl:string, en:string}>}
- * @description Holds all translatable strings. The top level keys are replacement tokens
- * used inside the GUI.
+ * Holds all translatable "hot strings".
+ *
+ * The top level keys are replacement tokens used inside the GUI.
+ *
  * The dictionary keys should be sorted alphabetically in reverse order,
  * so that the longest keys are replaced first.
- * (Use VS Code "Sort JS Object keys" extension to sort the keys.)
+ *
+ * (Use the VS Code "Sort JS Object keys" extension to sort the keys.)
+ *
+ * @constant
+ * @type {Object<string, {nl:string, en:string}>}
  */
 const dictionary = {
 	LANG_WRONG_FILE_TYPE_MSG: {
@@ -245,11 +250,25 @@ class Lang {
 
 	constructor() {}
 
+	/**
+	 * Sets the language key to use for translations.
+	 * @param {string} langKey - The language key to use for translations.
+	 * @see availableLangKeys
+	 */
 	setup(langKey) {
 		this.langKey = langKey;
 		this.langKey = Lang.getURLLangKey() || langKey;
 	}
 
+	/**
+	 * Processes the input string by replacing all hot strings with their translations.
+	 * @param {string} str - The string to process.
+	 * @param {boolean} [doCapitalizeFirstLetter=false] - Whether to capitalize the first letter of the processed string.
+	 * @param {number} [depth=10] - The maximum recursion depth to prevent infinite loops.
+	 * @returns {string} - The processed string with all hot strings replaced by their translations or the original string if no replacements were made.
+	 * @see dictionary
+	 * @see lang
+	 */
 	process(str, doCapitalizeFirstLetter = false, depth = 10) {
 		// recursively replace all hotStrings in str with their translations
 		let replaced = str;
@@ -291,7 +310,7 @@ class Lang {
 }
 
 /**
- * Global instance used throughout the GUI for translations.
+ * Global instance of {@link Lang} used throughout the GUI for translations.
  * @type {Lang}
  */
 const lang = new Lang();

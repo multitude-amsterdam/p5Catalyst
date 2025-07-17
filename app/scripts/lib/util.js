@@ -1,6 +1,5 @@
 /**
- * Utility helper functions used throughout the project.
- * @module util
+ * @fileoverview Utility helper functions used throughout the project.
  */
 
 // ---------------------- RESTORING SERIALISED OBJS -----------------------
@@ -479,19 +478,19 @@ function capitalizeFirstLetter(inputString) {
 }
 
 if (!String.prototype.format) {
-        /**
-         * Basic string templating helper.
-         * Usage: "{0} {1}".format(a, b)
-         * @this {String}
-         * @param {...any} args Values to substitute
-         * @returns {string}
-         */
-        String.prototype.format = function () {
-                var args = arguments;
-                return this.replace(/{(\d+)}/g, function (match, number) {
-                        return typeof args[number] != 'undefined' ? args[number] : match;
-                });
-        };
+	/**
+	 * Basic string templating helper.
+	 * Usage: "{0} {1}".format(a, b)
+	 * @this {String}
+	 * @param {...any} args Values to substitute
+	 * @returns {string}
+	 */
+	String.prototype.format = function () {
+		var args = arguments;
+		return this.replace(/{(\d+)}/g, function (match, number) {
+			return typeof args[number] != 'undefined' ? args[number] : match;
+		});
+	};
 }
 
 // ----------------------------- MEMORY ------------------------------
@@ -540,7 +539,7 @@ function computeRoughSizeOfObject(object) {
  * @returns {boolean}
  */
 function isMac() {
-        return window.navigator.platform.toLowerCase().indexOf('mac') > -1;
+	return window.navigator.platform.toLowerCase().indexOf('mac') > -1;
 }
 
 /**
@@ -596,22 +595,22 @@ function copyCanvasToClipboard() {
  * @global
  */
 const b64Digits =
-        '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_';
+	'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_';
 /**
  * Convert a number to a base64-like string.
  * @param {number} n
  * @returns {string}
  */
 const toB64 = n =>
-        n
-                .toString(2)
-                .split(/(?=(?:.{6})+(?!.))/g)
-                .map(v => b64Digits[parseInt(v, 2)])
-                .join('');
+	n
+		.toString(2)
+		.split(/(?=(?:.{6})+(?!.))/g)
+		.map(v => b64Digits[parseInt(v, 2)])
+		.join('');
 /**
  * Parse a base64-like string back into a number.
  * @param {string} s64
  * @returns {number}
  */
 const fromB64 = s64 =>
-        s64.split('').reduce((s, v) => s * 64 + b64Digits.indexOf(v), 0);
+	s64.split('').reduce((s, v) => s * 64 + b64Digits.indexOf(v), 0);

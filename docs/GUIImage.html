@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>GUIImage<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>GUIImage<span class="signature">(parentDiv, url, altText, doAlignCenter<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
             <div class="class-description"><p>Wrapper for <img> elements placed in the GUI.</p></div>
         
@@ -45,19 +45,197 @@
     
 
     
-    <h4 class="name" id="GUIImage"><span class="type-signature"></span>new GUIImage<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="GUIImage"><span class="type-signature"></span>new GUIImage<span class="signature">(parentDiv, url, altText, doAlignCenter<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
 
 
 
+<div class="description">
+    <p>Creates a new GUI image element.</p>
+</div>
 
 
 
 
 
 
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>parentDiv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">p5.Element</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The parent element to attach the image to.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The URL of the image.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>altText</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The alt text for the image.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>doAlignCenter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last"><p>Whether to center the image in its container.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -93,7 +271,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="lib_gui.js.html">lib/gui.js</a>, <a href="lib_gui.js.html#line432">line 432</a>
+        <a href="lib_gui.js.html">lib/gui.js</a>, <a href="lib_gui.js.html#line663">line 663</a>
     </li></ul></dd>
     
 
@@ -127,6 +305,15 @@
     </div>
 
     
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li><a href="Field.html">Field</a></li>
+    </ul>
+
 
     
 
@@ -140,6 +327,597 @@
 
     
 
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="hide"><span class="type-signature"></span>hide<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Hides this field by setting its display to 'none'.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Field.html#hide">Field#hide</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_gui.js.html">lib/gui.js</a>, <a href="lib_gui.js.html#line567">line 567</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="isHidden"><span class="type-signature"></span>isHidden<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Checks if this field is currently hidden.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Field.html#isHidden">Field#isHidden</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_gui.js.html">lib/gui.js</a>, <a href="lib_gui.js.html#line583">line 583</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>True if the field is hidden, false otherwise.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setText"><span class="type-signature"></span>setText<span class="signature">(text)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Sets the text content of this field.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The new text content for the field.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Field.html#setText">Field#setText</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_gui.js.html">lib/gui.js</a>, <a href="lib_gui.js.html#line560">line 560</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setTooltip"><span class="type-signature"></span>setTooltip<span class="signature">(tooltip)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Sets the tooltip text for this field.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tooltip</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The tooltip text to set.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Field.html#setTooltip">Field#setTooltip</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_gui.js.html">lib/gui.js</a>, <a href="lib_gui.js.html#line552">line 552</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="show"><span class="type-signature"></span>show<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Shows this field by setting its display to '' (default).</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-overrides">Overrides:</dt>
+    <dd class="tag-overrides"><ul class="dummy"><li>
+        <a href="Field.html#show">Field#show</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_gui.js.html">lib/gui.js</a>, <a href="lib_gui.js.html#line574">line 574</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
     
 
     
@@ -155,13 +933,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Button.html">Button</a></li><li><a href="ChangeSet.html">ChangeSet</a></li><li><a href="ColourBoxes.html">ColourBoxes</a></li><li><a href="ColourTextArea.html">ColourTextArea</a></li><li><a href="Controller.html">Controller</a></li><li><a href="Dialog.html">Dialog</a></li><li><a href="DieIcon.html">DieIcon</a></li><li><a href="Divider.html">Divider</a></li><li><a href="DualRangeInput.html">DualRangeInput</a></li><li><a href="Field.html">Field</a></li><li><a href="FileLoader.html">FileLoader</a></li><li><a href="GUIForP5.html">GUIForP5</a></li><li><a href="GUIImage.html">GUIImage</a></li><li><a href="Generator.html">Generator</a></li><li><a href="ImageLoader.html">ImageLoader</a></li><li><a href="JSONFileLoader.html">JSONFileLoader</a></li><li><a href="Label.html">Label</a></li><li><a href="Lang.html">Lang</a></li><li><a href="MultiColourBoxes.html">MultiColourBoxes</a></li><li><a href="Randomizer.html">Randomizer</a></li><li><a href="RangeSlider.html">RangeSlider</a></li><li><a href="RendererSVG.html">RendererSVG</a></li><li><a href="ResolutionSelect.html">ResolutionSelect</a></li><li><a href="ResolutionTextboxes.html">ResolutionTextboxes</a></li><li><a href="Select.html">Select</a></li><li><a href="Slider.html">Slider</a></li><li><a href="TextFileLoader.html">TextFileLoader</a></li><li><a href="Textarea.html">Textarea</a></li><li><a href="Textbox.html">Textbox</a></li><li><a href="Textfield.html">Textfield</a></li><li><a href="Title.html">Title</a></li><li><a href="Toggle.html">Toggle</a></li><li><a href="ValuedController.html">ValuedController</a></li><li><a href="XYSlider.html">XYSlider</a></li></ul><h3>Global</h3><ul><li><a href="global.html#availableLangKeys">availableLangKeys</a></li><li><a href="global.html#createGUI">createGUI</a></li><li><a href="global.html#dialog">dialog</a></li><li><a href="global.html#dictionary">dictionary</a></li><li><a href="global.html#getAPaperResolutionOptionAtDpi">getAPaperResolutionOptionAtDpi</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#language">language</a></li><li><a href="global.html#parent">parent</a></li><li><a href="global.html#resolutionOptions">resolutionOptions</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Button.html">Button</a></li><li><a href="ChangeSet.html">ChangeSet</a></li><li><a href="ColourBoxes.html">ColourBoxes</a></li><li><a href="ColourTextArea.html">ColourTextArea</a></li><li><a href="Controller.html">Controller</a></li><li><a href="Dialog.html">Dialog</a></li><li><a href="DieIcon.html">DieIcon</a></li><li><a href="Divider.html">Divider</a></li><li><a href="DualRangeInput.html">DualRangeInput</a></li><li><a href="Field.html">Field</a></li><li><a href="FileLoader.html">FileLoader</a></li><li><a href="GUIForP5.html">GUIForP5</a></li><li><a href="GUIImage.html">GUIImage</a></li><li><a href="Generator.html">Generator</a></li><li><a href="ImageLoader.html">ImageLoader</a></li><li><a href="JSONFileLoader.html">JSONFileLoader</a></li><li><a href="Label.html">Label</a></li><li><a href="Lang.html">Lang</a></li><li><a href="MultiColourBoxes.html">MultiColourBoxes</a></li><li><a href="Randomizer.html">Randomizer</a></li><li><a href="RangeSlider.html">RangeSlider</a></li><li><a href="ResolutionSelect.html">ResolutionSelect</a></li><li><a href="ResolutionTextboxes.html">ResolutionTextboxes</a></li><li><a href="Select.html">Select</a></li><li><a href="Slider.html">Slider</a></li><li><a href="TextFileLoader.html">TextFileLoader</a></li><li><a href="Textarea.html">Textarea</a></li><li><a href="Textbox.html">Textbox</a></li><li><a href="Textfield.html">Textfield</a></li><li><a href="Title.html">Title</a></li><li><a href="Toggle.html">Toggle</a></li><li><a href="ValuedController.html">ValuedController</a></li><li><a href="XYSlider.html">XYSlider</a></li></ul><h3>Global</h3><ul><li><a href="global.html#E">E</a></li><li><a href="global.html#FR">FR</a></li><li><a href="global.html#K">K</a></li><li><a href="global.html#PHI">PHI</a></li><li><a href="global.html#SSID">SSID</a></li><li><a href="global.html#availableLangKeys">availableLangKeys</a></li><li><a href="global.html#b64Digits">b64Digits</a></li><li><a href="global.html#bezierFilletControlPoints">bezierFilletControlPoints</a></li><li><a href="global.html#bodyFont">bodyFont</a></li><li><a href="global.html#canvScale">canvScale</a></li><li><a href="global.html#canvWrapper">canvWrapper</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#capitalizeFirstLetter">capitalizeFirstLetter</a></li><li><a href="global.html#changeSet">changeSet</a></li><li><a href="global.html#colorToHexString">colorToHexString</a></li><li><a href="global.html#computeRoughSizeOfObject">computeRoughSizeOfObject</a></li><li><a href="global.html#constrainAngle">constrainAngle</a></li><li><a href="global.html#containCanvasInWrapper">containCanvasInWrapper</a></li><li><a href="global.html#copyCanvasToClipboard">copyCanvasToClipboard</a></li><li><a href="global.html#createCanvasWrapper">createCanvasWrapper</a></li><li><a href="global.html#createGUI">createGUI</a></li><li><a href="global.html#dialog">dialog</a></li><li><a href="global.html#dictionary">dictionary</a></li><li><a href="global.html#doCaptureStartFromFrame0">doCaptureStartFromFrame0</a></li><li><a href="global.html#doRunRealTime">doRunRealTime</a></li><li><a href="global.html#draw">draw</a></li><li><a href="global.html#dtime">dtime</a></li><li><a href="global.html#duration">duration</a></li><li><a href="global.html#ffmpegWaiter">ffmpegWaiter</a></li><li><a href="global.html#fromB64">fromB64</a></li><li><a href="global.html#gaussian">gaussian</a></li><li><a href="global.html#gaussianAngular">gaussianAngular</a></li><li><a href="global.html#gaussianSharp">gaussianSharp</a></li><li><a href="global.html#gaussianWobble">gaussianWobble</a></li><li><a href="global.html#generateSSID">generateSSID</a></li><li><a href="global.html#generator">generator</a></li><li><a href="global.html#getAPaperResolutionOptionAtDpi">getAPaperResolutionOptionAtDpi</a></li><li><a href="global.html#getTimestamp">getTimestamp</a></li><li><a href="global.html#getUNIX">getUNIX</a></li><li><a href="global.html#getWheelDistance">getWheelDistance</a></li><li><a href="global.html#gui">gui</a></li><li><a href="global.html#handleFrameCapture">handleFrameCapture</a></li><li><a href="global.html#hashThreeIntegers">hashThreeIntegers</a></li><li><a href="global.html#helpMe">helpMe</a></li><li><a href="global.html#imageCentered">imageCentered</a></li><li><a href="global.html#inPg">inPg</a></li><li><a href="global.html#initUtils">initUtils</a></li><li><a href="global.html#intersectionPoint">intersectionPoint</a></li><li><a href="global.html#isArraysEqual">isArraysEqual</a></li><li><a href="global.html#isCapturingFrames">isCapturingFrames</a></li><li><a href="global.html#isInBounds">isInBounds</a></li><li><a href="global.html#isInCanvas">isInCanvas</a></li><li><a href="global.html#isMac">isMac</a></li><li><a href="global.html#isMouseInside">isMouseInside</a></li><li><a href="global.html#isPlaying">isPlaying</a></li><li><a href="global.html#isPointInTriangle">isPointInTriangle</a></li><li><a href="global.html#keyPressed">keyPressed</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#language">language</a></li><li><a href="global.html#lerpColorOKLab">lerpColorOKLab</a></li><li><a href="global.html#lum">lum</a></li><li><a href="global.html#maxImgResIncrease">maxImgResIncrease</a></li><li><a href="global.html#midPoint">midPoint</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mouse">mouse</a></li><li><a href="global.html#mouseWheel">mouseWheel</a></li><li><a href="global.html#nFrames">nFrames</a></li><li><a href="global.html#nmc">nmc</a></li><li><a href="global.html#noiseOffs">noiseOffs</a></li><li><a href="global.html#numsToRoundedPercentages">numsToRoundedPercentages</a></li><li><a href="global.html#paramToIntSteps">paramToIntSteps</a></li><li><a href="global.html#ph">ph</a></li><li><a href="global.html#preload">preload</a></li><li><a href="global.html#progress">progress</a></li><li><a href="global.html#ptime">ptime</a></li><li><a href="global.html#pushpop">pushpop</a></li><li><a href="global.html#pw">pw</a></li><li><a href="global.html#randCol">randCol</a></li><li><a href="global.html#randomDate">randomDate</a></li><li><a href="global.html#randomGaussianBoxMueller2">randomGaussianBoxMueller2</a></li><li><a href="global.html#relScrollVel">relScrollVel</a></li><li><a href="global.html#resize">resize</a></li><li><a href="global.html#resolutionOptions">resolutionOptions</a></li><li><a href="global.html#restoreSerializedP5Color">restoreSerializedP5Color</a></li><li><a href="global.html#restoreSerializedVec2D">restoreSerializedVec2D</a></li><li><a href="global.html#restoreSerializedVec3D">restoreSerializedVec3D</a></li><li><a href="global.html#scrollScale">scrollScale</a></li><li><a href="global.html#setDuration">setDuration</a></li><li><a href="global.html#setTime">setTime</a></li><li><a href="global.html#setup">setup</a></li><li><a href="global.html#sigmoid">sigmoid</a></li><li><a href="global.html#sign">sign</a></li><li><a href="global.html#signedAngleBetween">signedAngleBetween</a></li><li><a href="global.html#signedAngleDiff">signedAngleDiff</a></li><li><a href="global.html#simpleIntToFloatHash">simpleIntToFloatHash</a></li><li><a href="global.html#simplexNoise">simplexNoise</a></li><li><a href="global.html#simplifyAngle">simplifyAngle</a></li><li><a href="global.html#speed">speed</a></li><li><a href="global.html#stringToFloatHash">stringToFloatHash</a></li><li><a href="global.html#svgCanvas">svgCanvas</a></li><li><a href="global.html#tanh">tanh</a></li><li><a href="global.html#theShader">theShader</a></li><li><a href="global.html#theSvgCanvasSketch">theSvgCanvasSketch</a></li><li><a href="global.html#time">time</a></li><li><a href="global.html#titleFont">titleFont</a></li><li><a href="global.html#toB64">toB64</a></li><li><a href="global.html#toxiBezierVertex">toxiBezierVertex</a></li><li><a href="global.html#toxiFillet">toxiFillet</a></li><li><a href="global.html#toxiVertex">toxiVertex</a></li><li><a href="global.html#utilBools">utilBools</a></li><li><a href="global.html#v">v</a></li><li><a href="global.html#vectorComponents">vectorComponents</a></li><li><a href="global.html#windowResized">windowResized</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jul 17 2025 10:49:07 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jul 17 2025 14:15:16 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

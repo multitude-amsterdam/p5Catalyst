@@ -3,6 +3,6 @@
 // poorly documented issues - if at all.
 // This file should ideally be empty
 
-rm validateValue in ValuedControllers?
+rm noiseOffs
 
-rm 'key' in helpme()
+rm dtime

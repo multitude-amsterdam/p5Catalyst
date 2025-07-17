@@ -1,6 +1,5 @@
 /**
- * Mathematical helper utilities.
- * @module util-maths
+ * @fileoverview Mathematical helper utilities.
  */
 
 // -------------------------------------- CONSTANTS
@@ -65,7 +64,7 @@ function hashThreeIntegers(a, b, c) {
  * @returns {number}
  */
 function sign(x) {
-        return x >= 0 ? 1 : -1;
+	return x >= 0 ? 1 : -1;
 }
 
 /**
@@ -74,7 +73,7 @@ function sign(x) {
  * @returns {number}
  */
 function nmc(x) {
-        return -cos(x) * 0.5 + 0.5;
+	return -cos(x) * 0.5 + 0.5;
 }
 
 /**
@@ -83,7 +82,7 @@ function nmc(x) {
  * @returns {number}
  */
 function sigmoid(x) {
-        return 1 / (1 + exp(-x));
+	return 1 / (1 + exp(-x));
 }
 /**
  * Hyperbolic tangent implemented via sigmoid.
@@ -91,7 +90,7 @@ function sigmoid(x) {
  * @returns {number}
  */
 function tanh(x) {
-        return sigmoid(2 * x) * 2 - 1;
+	return sigmoid(2 * x) * 2 - 1;
 }
 
 /**
@@ -106,7 +105,7 @@ const E = Math.E;
  * @returns {number}
  */
 function gaussian(x) {
-        return exp(-pow(x, 2));
+	return exp(-pow(x, 2));
 }
 /**
  * Absolute value gaussian for a sharper peak.
@@ -114,7 +113,7 @@ function gaussian(x) {
  * @returns {number}
  */
 function gaussianSharp(x) {
-        return exp(-abs(x));
+	return exp(-abs(x));
 }
 /**
  * Mix between gaussian and gaussianSharp.
@@ -122,7 +121,7 @@ function gaussianSharp(x) {
  * @returns {number}
  */
 function gaussianAngular(x) {
-        return lerp(gaussian(x), gaussianSharp(x), 0.5);
+	return lerp(gaussian(x), gaussianSharp(x), 0.5);
 }
 /**
  * Highly peaked gaussian used for noise wobbles.
@@ -130,7 +129,7 @@ function gaussianAngular(x) {
  * @returns {number}
  */
 function gaussianWobble(x) {
-        return lerp(gaussian(x), gaussianSharp(x), 3);
+	return lerp(gaussian(x), gaussianSharp(x), 3);
 }
 
 /**
@@ -140,7 +139,7 @@ function gaussianWobble(x) {
  * @returns {number}
  */
 function paramToIntSteps(t, n) {
-        return floor(t * n * (1 - 1e-5));
+	return floor(t * n * (1 - 1e-5));
 }
 
 /**
@@ -149,7 +148,7 @@ function paramToIntSteps(t, n) {
  * @returns {number}
  */
 function simplifyAngle(angle) {
-        return ((angle % TAU) + TAU) % TAU;
+	return ((angle % TAU) + TAU) % TAU;
 }
 /**
  * Calculate signed difference between two angles.
@@ -158,7 +157,7 @@ function simplifyAngle(angle) {
  * @returns {number}
  */
 function signedAngleDiff(angle, anchorAngle) {
-        return PI - simplifyAngle(angle + PI - anchorAngle);
+	return PI - simplifyAngle(angle + PI - anchorAngle);
 }
 
 /**
@@ -191,13 +190,13 @@ function constrainAngle(angle, anchorAngle, constraint) {
  * @returns {Vec2D}
  */
 function randomGaussianBoxMueller2(mu = new Vec2D(), sigma = 1) {
-        // outputs normally distributed 2d vector
-        // x and y are individually normally distributed
-        let u1 = random(1);
-        let u2 = random(1);
-        let r = sqrt(-2 * log(u1));
-        let th = TAU * u2;
-        return new Vec2D(r * sigma, th).toCartesian().add(mu);
+	// outputs normally distributed 2d vector
+	// x and y are individually normally distributed
+	let u1 = random(1);
+	let u2 = random(1);
+	let r = sqrt(-2 * log(u1));
+	let th = TAU * u2;
+	return new Vec2D(r * sigma, th).toCartesian().add(mu);
 }
 
 // -------------------------------------- L.ALGEBRA & GEOMETRY
@@ -210,7 +209,7 @@ function randomGaussianBoxMueller2(mu = new Vec2D(), sigma = 1) {
  * @returns {Vec2D|Vec3D}
  */
 function mix(va, vb, t) {
-        return vb.sub(va).scale(t).add(va);
+	return vb.sub(va).scale(t).add(va);
 }
 Vec2D.prototype.mix = function (v, t) {
 	return mix(this, v, t);
@@ -226,7 +225,7 @@ Vec3D.prototype.mix = function (v, t) {
  * @returns {Vec2D|Vec3D}
  */
 function midPoint(va, vb) {
-        return mix(va, vb, 0.5);
+	return mix(va, vb, 0.5);
 }
 Vec2D.prototype.mix = function (v) {
 	return midPoint(this, v);
@@ -246,12 +245,12 @@ Vec3D.prototype.mix = function (v) {
  * @returns {boolean}
  */
 function isInBounds(v, x, y, w, h, offs = 0) {
-        return (
-                v.x >= x - offs &&
-                v.x < width + offs &&
-                v.y >= y - offs &&
-                v.y < height + offs
-        );
+	return (
+		v.x >= x - offs &&
+		v.x < width + offs &&
+		v.y >= y - offs &&
+		v.y < height + offs
+	);
 }
 /**
  * Check whether a vector lies within the main canvas.
@@ -260,7 +259,7 @@ function isInBounds(v, x, y, w, h, offs = 0) {
  * @returns {boolean}
  */
 function isInCanvas(v, offs = 0) {
-        return isInBounds(v, 0, 0, width, height, offs);
+	return isInBounds(v, 0, 0, width, height, offs);
 }
 
 /**
@@ -273,7 +272,7 @@ function isInCanvas(v, offs = 0) {
  * @returns {boolean}
  */
 function isMouseInside(x, y, w, h, offs = 0) {
-        return isInBounds(new Vec2D(mouseX, mouseY), x, y, w, h, offs);
+	return isInBounds(new Vec2D(mouseX, mouseY), x, y, w, h, offs);
 }
 
 /**
@@ -283,7 +282,7 @@ function isMouseInside(x, y, w, h, offs = 0) {
  * @returns {boolean}
  */
 function inPg(v, offs = 0) {
-        return isInBounds(v, 0, 0, pg.width, pg.height, offs);
+	return isInBounds(v, 0, 0, pg.width, pg.height, offs);
 }
 
 /**
@@ -291,8 +290,8 @@ function inPg(v, offs = 0) {
  * @private
  */
 function triangleSign(p1, p2, p3) {
-        // see isPointInTriangle
-        return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
+	// see isPointInTriangle
+	return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
 }
 /**
  * Check if a point lies inside the triangle defined by v1,v2,v3.
@@ -303,12 +302,12 @@ function triangleSign(p1, p2, p3) {
  * @returns {boolean}
  */
 function isPointInTriangle(pt, v1, v2, v3) {
-        const d1 = triangleSign(pt, v1, v2);
-        const d2 = triangleSign(pt, v2, v3);
-        const d3 = triangleSign(pt, v3, v1);
-        const has_neg = d1 < 0 || d2 < 0 || d3 < 0;
-        const has_pos = d1 > 0 || d2 > 0 || d3 > 0;
-        return !(has_neg && has_pos);
+	const d1 = triangleSign(pt, v1, v2);
+	const d2 = triangleSign(pt, v2, v3);
+	const d3 = triangleSign(pt, v3, v1);
+	const has_neg = d1 < 0 || d2 < 0 || d3 < 0;
+	const has_pos = d1 > 0 || d2 > 0 || d3 > 0;
+	return !(has_neg && has_pos);
 }
 
 /**
@@ -318,8 +317,8 @@ function isPointInTriangle(pt, v1, v2, v3) {
  * @returns {number}
  */
 function signedAngleBetween(v, w) {
-        // angle measured from v
-        return atan2(v.x * w.y - v.y * w.x, v.x * w.x + v.y * w.y);
+	// angle measured from v
+	return atan2(v.x * w.y - v.y * w.x, v.x * w.x + v.y * w.y);
 }
 
 // -------------------------------------- STATISTICS
