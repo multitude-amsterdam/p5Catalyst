@@ -63,7 +63,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Utility for undo/redo functionality and persistence of GUI state.</div>
+            <div class="description"><p>Utility for undo/redo functionality and persistence of GUI state.</p></div>
         
 
         
@@ -156,7 +156,9 @@
     <div class="container-overview">
     
         
-            <div class="description">Constructs the graphical user interface for the examplegenerator. All controls are created here using the controller classes from../lib/gui.js and ../lib/controllers.js.</div>
+            <div class="description"><p>Constructs the graphical user interface for the example
+generator. All controls are created here using the controller classes from
+../lib/gui.js and ../lib/controllers.js.</p></div>
         
 
         
@@ -249,7 +251,11 @@
     <div class="container-overview">
     
         
-            <div class="description">Default generator used by the p5Catalyst template.This module exposes the <a href="Generator.html">Generator</a> class which encapsulates thedrawing logic for a sketch. It depends on a number of globals that areprovided elsewhere in the application (such as {@code pw}, {@code ph},{@code time}, {@code progress} and {@code theShader}).</div>
+            <div class="description"><p>Default generator used by the p5Catalyst template.</p>
+<p>This module exposes the <a href="Generator.html">Generator</a> class which encapsulates the
+drawing logic for a sketch. It depends on a number of globals that are
+provided elsewhere in the application (such as {@code pw}, {@code ph},
+{@code time}, {@code progress} and {@code theShader}).</p></div>
         
 
         
@@ -342,7 +348,7 @@
     <div class="container-overview">
     
         
-            <div class="description">Simple helper used to translate GUI strings.</div>
+            <div class="description"><p>Simple helper used to translate GUI strings.</p></div>
         
 
         
@@ -419,16 +425,326 @@
 
 
 
+
+
+
+<section>
+
+<header>
+    
+        <h2>lib/controllers.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><h1>Collection of controller classes used by the GUI.</h1>
+<p>Each controller wraps a p5.js or DOM element and exposes a unified API.</p>
+<p>In this file you can find all controller types and their UX behavior:</p>
+<ul>
+<li>Controller: the main controller class that is also a Field.</li>
+<li>ValuedController: a Controller that has a value that can change. Most controllers are valued, some aren’t, like buttons. Has a randomize() method for the Randomizer in gui.js.</li>
+<li>Button: a button Controller.</li>
+<li>FileLoader: a Button for loading in file data.</li>
+<li>TextFileLoader: a FileLoader for text files.</li>
+<li>JSONFileLoader: a FileLoader for JSON files.</li>
+<li>ImageLoader: a FileLoader for images.</li>
+<li>Toggle: a ValuedController that can be either true or false.</li>
+<li>Select: a ValuedController that creates a dropdown menu with select.</li>
+<li>ResolutionSelect: a Select that changes the size of the canvas with canvas.resize(), handled in sketch.js. Takes in presets defined in create-gui.js.</li>
+<li>Slider: a ValuedController that implements a range slider.</li>
+<li>XYSlider: a ValuedController that creates a 2D slider from a div with a draggable handle (a personal favourite).</li>
+<li>ColourBoxes: a ValuedController that creates a set of radio buttons styled as selectable plain colour fields.</li>
+<li>Textbox: a ValuedController for a text input.</li>
+<li>ResolutionTextboxes: a ValuedController that uses two TextBoxes to create an alternative way to set the width and height of the canvas.</li>
+<li>Textarea: a ValuedController for a textarea.</li>
+<li>ColourTextArea: a Textarea in which you can type a list of hex colours, like this: #ff0000, #00ff00, #0000ff, which will output a value of an array of p5.Colors.</li>
+<li>For any Controller, the main callback function passed into it will trigger when the controller is triggered, like this:</li>
+</ul></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_controllers.js.html">lib/controllers.js</a>, <a href="lib_controllers.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+            <h3>Examples</h3>
+            
+    <pre class="prettyprint"><code>// You can add an optional setupCallback function which calls after the GUI item is created:const triggerButton = new Button(	gui,	'buttonTrigger',	'Do something!',	controller => {		doSomething();	});</code></pre>
+
+    <pre class="prettyprint"><code>const triggerButton = new Button(	gui,	'buttonTrigger',	'Do something!',	controller => {		doSomething();	},	controller => {		// simulate a click on loading the app		controller.click();	});</code></pre>
+
+    <pre class="prettyprint"><code>// ValuedController importantly also passes its updated value to the callback to be used elsewhere in the system. I usually link it to generator like so, also using data from generator to construct the controller:const fgColBoxes = new ColourBoxes(	gui,	'colourBoxesFgCol',	'Foreground colour',	generator.palette,	0,	(controller, value) => {		generator.fgCol = value;	});</code></pre>
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>lib/dialog.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Simple modal dialog helper used for alerts and prompts.</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_dialog.js.html">lib/dialog.js</a>, <a href="lib_dialog.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>lib/gui.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Implementation of the GUI framework used by p5Catalyst.</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lib_gui.js.html">lib/gui.js</a>, <a href="lib_gui.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ChangeSet.html">ChangeSet</a></li><li><a href="Generator.html">Generator</a></li><li><a href="Lang.html">Lang</a></li></ul><h3>Global</h3><ul><li><a href="global.html#availableLangKeys">availableLangKeys</a></li><li><a href="global.html#createGUI">createGUI</a></li><li><a href="global.html#dictionary">dictionary</a></li><li><a href="global.html#getAPaperResolutionOptionAtDpi">getAPaperResolutionOptionAtDpi</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#language">language</a></li><li><a href="global.html#resolutionOptions">resolutionOptions</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Button.html">Button</a></li><li><a href="ChangeSet.html">ChangeSet</a></li><li><a href="ColourBoxes.html">ColourBoxes</a></li><li><a href="ColourTextArea.html">ColourTextArea</a></li><li><a href="Controller.html">Controller</a></li><li><a href="Dialog.html">Dialog</a></li><li><a href="DieIcon.html">DieIcon</a></li><li><a href="Divider.html">Divider</a></li><li><a href="DualRangeInput.html">DualRangeInput</a></li><li><a href="Field.html">Field</a></li><li><a href="FileLoader.html">FileLoader</a></li><li><a href="GUIForP5.html">GUIForP5</a></li><li><a href="GUIImage.html">GUIImage</a></li><li><a href="Generator.html">Generator</a></li><li><a href="ImageLoader.html">ImageLoader</a></li><li><a href="JSONFileLoader.html">JSONFileLoader</a></li><li><a href="Label.html">Label</a></li><li><a href="Lang.html">Lang</a></li><li><a href="MultiColourBoxes.html">MultiColourBoxes</a></li><li><a href="Randomizer.html">Randomizer</a></li><li><a href="RangeSlider.html">RangeSlider</a></li><li><a href="RendererSVG.html">RendererSVG</a></li><li><a href="ResolutionSelect.html">ResolutionSelect</a></li><li><a href="ResolutionTextboxes.html">ResolutionTextboxes</a></li><li><a href="Select.html">Select</a></li><li><a href="Slider.html">Slider</a></li><li><a href="TextFileLoader.html">TextFileLoader</a></li><li><a href="Textarea.html">Textarea</a></li><li><a href="Textbox.html">Textbox</a></li><li><a href="Textfield.html">Textfield</a></li><li><a href="Title.html">Title</a></li><li><a href="Toggle.html">Toggle</a></li><li><a href="ValuedController.html">ValuedController</a></li><li><a href="XYSlider.html">XYSlider</a></li></ul><h3>Global</h3><ul><li><a href="global.html#availableLangKeys">availableLangKeys</a></li><li><a href="global.html#createGUI">createGUI</a></li><li><a href="global.html#dialog">dialog</a></li><li><a href="global.html#dictionary">dictionary</a></li><li><a href="global.html#getAPaperResolutionOptionAtDpi">getAPaperResolutionOptionAtDpi</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#language">language</a></li><li><a href="global.html#parent">parent</a></li><li><a href="global.html#resolutionOptions">resolutionOptions</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jul 17 2025 09:51:55 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jul 17 2025 10:49:07 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>
