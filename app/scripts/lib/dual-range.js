@@ -1,9 +1,4 @@
 class DualRangeInput {
-	/**
-	 * @param {HTMLInputElement} $min - The range input element for the minimum value
-	 * @param {HTMLInputElement} $max - The range input element for the maximum value
-	 * @param {number} [precision=3] - The number of decimal places to round the mid value to, defaults to 3
-	 */
 	constructor($min, $max, precision = 3) {
 		this.updateFloor = () => this.update('floor');
 		this.updateCeil = () => this.update('ceil');

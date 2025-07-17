@@ -2,15 +2,18 @@
  * @fileoverview Default generator used by the p5Catalyst template.
  *
  * This module exposes the {@link Generator} class which encapsulates the
- * drawing logic for a sketch. It depends on a number of globals that are
- * provided elsewhere in the application (such as `time`, `progress` and
- * `theShader`).
+ * drawing logic for a sketch.
+ *
+ * It depends on a number of globals that are provided elsewhere in the
+ *
+ *  application (such as `time`, `progress` and `theShader`).
+ *
+ * @see Generator
  */
 
 /**
  * Main generator responsible for drawing the sketch.
  * Integrates with p5Catalyst’s lifecycle via `setup()` and `draw()`.
- * @class
  */
 class Generator {
 	/**

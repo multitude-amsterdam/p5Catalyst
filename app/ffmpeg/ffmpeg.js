@@ -1,5 +1,18 @@
-// example from:
-// https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/vanilla-app/public/concatDemuxer.html
+/**
+ * @fileoverview FFmpeg utilities for capturing frames and exporting videos.
+ *
+ * This module provides functions to initialize FFmpeg, capture frames, and export videos in MP4 or WebM formats.
+ *
+ * It uses the ffmpeg.wasm library to handle video processing in the browser.
+ *
+ * Modified from {@link https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/vanilla-app/public/concatDemuxer.html|example}.
+ *
+ * @see startCapture
+ * @see stopCapture
+ * @see ffmpegSetup
+ * @see ffmpegSaveFrame
+ * @see ffmpegCreateMP4
+ */
 
 const { fetchFile } = FFmpegUtil;
 const { FFmpeg } = FFmpegWASM;

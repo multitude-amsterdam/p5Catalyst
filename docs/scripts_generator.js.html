@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: DieIcon</title>
+    <title>JSDoc: Source: scripts/generator.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,806 +17,179 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: DieIcon</h1>
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2><span class="attribs"><span class="type-signature"></span></span>DieIcon<span class="signature">(randomizer, controller, isActive)</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description"><p>Small dice icon indicating randomization state for a controller.
-Handles icon display, rotation, and click interaction for toggling randomization.</p></div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-    <h2>Constructor</h2>
-    
-
-    
-    <h4 class="name" id="DieIcon"><span class="type-signature"></span>new DieIcon<span class="signature">(randomizer, controller, isActive)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Constructs a DieIcon.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>randomizer</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Randomizer.html">Randomizer</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The parent Randomizer instance.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>controller</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Controller.html">Controller</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The controller this die is attached to.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>isActive</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Whether the die is active (randomization enabled).</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line448">line 448</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="iconURLs"><span class="type-signature"></span>iconURLs<span class="type-signature"> :Array.&lt;string></span></h4>
-
-
-
-
-<div class="description">
-    <p>List of SVG icon URLs for dice faces.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Array.&lt;string></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line454">line 454</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="click"><span class="type-signature"></span>click<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Handles click event to toggle randomization state.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line502">line 502</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="randomizeIcon"><span class="type-signature"></span>randomizeIcon<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Randomizes the die icon image URL and its rotation.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line484">line 484</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Removes the die icon from the DOM.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line530">line 530</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setActive"><span class="type-signature"></span>setActive<span class="signature">(isActive)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Sets the active state of the die and updates its display.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>isActive</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line510">line 510</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setDisplay"><span class="type-signature"></span>setDisplay<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Updates the die's display based on its active state.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line518">line 518</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">Source: scripts/generator.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Default generator used by the p5Catalyst template.
+ *
+ * This module exposes the {@link Generator} class which encapsulates the
+ * drawing logic for a sketch.
+ *
+ * It depends on a number of globals that are provided elsewhere in the
+ *
+ *  application (such as `time`, `progress` and `theShader`).
+ *
+ * @see Generator
+ */
+
+/**
+ * Main generator responsible for drawing the sketch.
+ * Integrates with p5Catalyst’s lifecycle via `setup()` and `draw()`.
+ */
+class Generator {
+	/**
+	 * @static
+	 * @type {string}
+	 * @description Name of the generator, used in the GUI.
+	 */
+	static name = 'p5Catalyst Generator';
+
+	/**
+	 * @static
+	 * @type {string}
+	 * @description Email address shown in the GUI for support
+	 */
+	static supportEmail = '';
+
+	/**
+	 * Default colour palette used by the example sketch.
+	 * @type {p5.Color[]}
+	 */
+	palette = [
+		color('#7685F7'),
+		color('#BFFB50'),
+		color('#000000'),
+		color('#FFFFFF'),
+	];
+
+	// ------------------------------------------------------------ CONSTRUCTOR
+	/**
+	 * Creates a new Generator instance.
+	 * The colour used for the floating circle is initialised here.
+	 */
+	constructor() {
+		this.col = undefined;
+	}
+
+	// ------------------------------------------------------------ SETUP
+	/**
+	 * Called once from {@link setup} in `sketch.js` to prepare the sketch.
+	 * Extend this method in your own generator to initialise resources.
+	 */
+	setup() {}
+
+	// ------------------------------------------------------------ DRAW
+	/**
+	 * Main drawing routine called from {@link draw} in `sketch.js`.
+	 *
+	 * @param {boolean} [doSVGToo=false] when true an off screen SVG canvas
+	 * is also rendered.
+	 */
+	draw(doSVGToo = false) {
+		this.doSVGToo = doSVGToo;
+		clear();
+		if (theShader !== undefined) this.drawShader();
+
+		// floating circle
+		noStroke();
+		fill(this.col);
+		circle(pw / 2, ph / 2 + sin(time) * 200, min(pw, ph) / 10);
+	}
+
+	// ------------------------------------------------------------ SHADER
+	/**
+	 * Draws the active shader using the global uniforms.
+	 * This is called automatically from {@link draw} when a shader is
+	 * loaded.
+	 */
+	drawShader() {
+		theShader.setUniform('resolution', [width, height]);
+		theShader.setUniform('progress', progress);
+		theShader.setUniform('time', time);
+		theShader.setUniform('mouse', [
+			mouseX,
+			mouseY,
+			mouseIsPressed ? 1.0 : 0.0,
+		]);
+		theShader.setUniform('SSIDHash', SSID / 1e8);
+		theShader.setUniform('utilBools', utilBools);
+
+		resetMatrix();
+		push();
+		{
+			resetMatrix();
+			shader(theShader);
+			rectMode(CENTER);
+			noStroke();
+			blendMode(BLEND);
+			rect(0, 0, width, height);
+		}
+		pop();
+		// ensures 0–width and 0–height range in WEBGL mode
+		translate(-width / 2, -height / 2);
+	}
+
+	// ------------------------------------------------------------ UTILITY
+	/**
+	 * Serialises the current generator state so it can be stored in a
+	 * {@link ChangeSet}.
+	 * @returns {Object}
+	 */
+	getState() {
+		return {
+			...this,
+			// add custom parameters here
+			img: undefined,
+		};
+	}
+
+	/**
+	 * Restores a previously serialised state.
+	 * @param {Object} state data produced by {@link getState}
+	 */
+	restoreState(state) {
+		Object.assign(this, state);
+
+		for (let propKey of Object.keys(this)) {
+			this[propKey] = restoreSerializedP5Color(this[propKey]);
+			this[propKey] = restoreSerializedVec2D(this[propKey]);
+		}
+
+		let i = 0;
+		for (let col of this.palette) {
+			this.palette[i++] = restoreSerializedP5Color(col);
+		}
+	}
+
+	/**
+	 * Utility for building an output file name including resolution and
+	 * a timestamp.
+	 * @param {string} [insertion=''] optional text inserted into the name
+	 * @returns {string}
+	 */
+	static getOutputFileName(insertion = '') {
+		return (
+			Generator.name.replaceAll(' ', '-') +
+			'_' +
+			(insertion != '' ? insertion.replaceAll(' ', '-') + '_' : '') +
+			pw +
+			'x' +
+			ph +
+			'_' +
+			getTimestamp()
+		);
+	}
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

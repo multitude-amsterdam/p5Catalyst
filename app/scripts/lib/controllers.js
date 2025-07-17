@@ -20,7 +20,6 @@
 
 /**
  * Base class for all GUI controllers.
- * @class
  * @extends Field
  * @example
  * // For any Controller, the main callback function passed into it will trigger when the controller is triggered, like this:
@@ -269,7 +268,6 @@ class Controller extends Field {
 
 /**
  * Controller that holds a value which can be serialised.
- * @class
  * @extends Controller
  * @example
  * // ValuedController gives back its value through a callback, that's where you tie it to the system.
@@ -330,7 +328,6 @@ class ValuedController extends Controller {
 
 /**
  * Simple push button controller.
- * @class
  * @extends Controller
  */
 class Button extends Controller {
@@ -372,7 +369,6 @@ class Button extends Controller {
 
 /**
  * Base class for file input controllers.
- * @class
  * @extends Button
  */
 class FileLoader extends Button {
@@ -441,7 +437,6 @@ class FileLoader extends Button {
 
 /**
  * Loader for plain text files.
- * @class
  * @extends FileLoader
  */
 class TextFileLoader extends FileLoader {
@@ -469,7 +464,6 @@ class TextFileLoader extends FileLoader {
 
 /**
  * Loader for JSON files.
- * @class
  * @extends FileLoader
  */
 class JSONFileLoader extends FileLoader {
@@ -497,7 +491,6 @@ class JSONFileLoader extends FileLoader {
 
 /**
  * Loader that converts files to p5.Image instances.
- * @class
  * @extends FileLoader
  */
 class ImageLoader extends FileLoader {
@@ -535,7 +528,6 @@ class ImageLoader extends FileLoader {
 
 /**
  * On/off toggle represented by a button.
- * @class
  * @extends ValuedController
  */
 class Toggle extends ValuedController {
@@ -614,7 +606,6 @@ class Toggle extends ValuedController {
 
 /**
  * Drop-down select controller.
- * @class
  * @extends ValuedController
  */
 class Select extends ValuedController {
@@ -741,7 +732,6 @@ class Select extends ValuedController {
 
 /**
  * Specialised select for common resolutions.
- * @class
  * @extends Select
  */
 class ResolutionSelect extends Select {
@@ -776,7 +766,6 @@ class ResolutionSelect extends Select {
 
 /**
  * One dimensional slider controller.
- * @class
  * @extends ValuedController
  */
 class Slider extends ValuedController {
@@ -828,7 +817,6 @@ class Slider extends ValuedController {
 
 /**
  * Two handled slider returning a min/max range.
- * @class
  * @extends ValuedController
  */
 class RangeSlider extends ValuedController {
@@ -900,7 +888,6 @@ class RangeSlider extends ValuedController {
 
 /**
  * Two dimensional slider returning an {x,y} object.
- * @class
  * @extends ValuedController
  */
 class XYSlider extends ValuedController {
@@ -1056,7 +1043,6 @@ class XYSlider extends ValuedController {
 
 /**
  * Radio buttons displaying coloured options.
- * @class
  * @extends ValuedController
  */
 class ColourBoxes extends ValuedController {
@@ -1130,7 +1116,6 @@ class ColourBoxes extends ValuedController {
 
 /**
  * Multiple selectable colour checkboxes.
- * @class
  * @extends ValuedController
  */
 class MultiColourBoxes extends ValuedController {
@@ -1223,7 +1208,6 @@ class MultiColourBoxes extends ValuedController {
 
 /**
  * Single line text input controller.
- * @class
  * @extends ValuedController
  */
 class Textbox extends ValuedController {
@@ -1269,7 +1253,6 @@ class Textbox extends ValuedController {
 
 /**
  * Pair of textboxes for width and height values.
- * @class
  * @extends ValuedController
  */
 class ResolutionTextboxes extends ValuedController {
@@ -1331,7 +1314,6 @@ class ResolutionTextboxes extends ValuedController {
 
 /**
  * Multi line text area controller.
- * @class
  * @extends ValuedController
  */
 class Textarea extends ValuedController {
@@ -1379,7 +1361,6 @@ class Textarea extends ValuedController {
  * Textarea that accepts and displays colour lists.
  * A list of hex colours, like: "`#ff0000, #00ff00, #0000ff`",
  * will output a `value` of an array of `p5.Color` objects.
- * @class
  * @extends Textarea
  * @see ColourBoxes
  * @see MultiColourBoxes

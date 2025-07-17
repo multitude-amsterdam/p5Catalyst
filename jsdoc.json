@@ -11,7 +11,7 @@
 		}
 	},
 	"source": {
-		"include": ["app/scripts"],
+		"include": ["app/scripts", "app/ffmpeg/ffmpeg.js"],
 		"includePattern": ".+\\.js(doc|x)?$",
 		"exclude": [
 			"app/scripts/lib/p5.min-1.6.1.js",

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: DieIcon</title>
+    <title>JSDoc: Source: scripts/lang.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,806 +17,337 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: DieIcon</h1>
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2><span class="attribs"><span class="type-signature"></span></span>DieIcon<span class="signature">(randomizer, controller, isActive)</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description"><p>Small dice icon indicating randomization state for a controller.
-Handles icon display, rotation, and click interaction for toggling randomization.</p></div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-    <h2>Constructor</h2>
-    
-
-    
-    <h4 class="name" id="DieIcon"><span class="type-signature"></span>new DieIcon<span class="signature">(randomizer, controller, isActive)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Constructs a DieIcon.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>randomizer</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Randomizer.html">Randomizer</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The parent Randomizer instance.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>controller</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type"><a href="Controller.html">Controller</a></span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>The controller this die is attached to.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>isActive</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>Whether the die is active (randomization enabled).</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line448">line 448</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="iconURLs"><span class="type-signature"></span>iconURLs<span class="type-signature"> :Array.&lt;string></span></h4>
-
-
-
-
-<div class="description">
-    <p>List of SVG icon URLs for dice faces.</p>
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Array.&lt;string></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line454">line 454</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="click"><span class="type-signature"></span>click<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Handles click event to toggle randomization state.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line502">line 502</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="randomizeIcon"><span class="type-signature"></span>randomizeIcon<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Randomizes the die icon image URL and its rotation.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line484">line 484</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Removes the die icon from the DOM.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line530">line 530</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setActive"><span class="type-signature"></span>setActive<span class="signature">(isActive)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Sets the active state of the die and updates its display.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>isActive</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line510">line 510</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="setDisplay"><span class="type-signature"></span>setDisplay<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Updates the die's display based on its active state.</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="scripts_lib_gui.js.html">scripts/lib/gui.js</a>, <a href="scripts_lib_gui.js.html#line518">line 518</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">Source: scripts/lang.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Simple helper class {@link Lang} used to translate GUI
+ * strings into user-defined languages. Modifiable/extensible.
+ * @see Lang
+ * @see lang
+ * @see dictionary
+ * @see language
+ */
+
+/**
+ * @constant
+ * @type {string}
+ * @default
+ * */
+const language = 'en';
+
+/**
+ * Holds all translatable "hot strings".
+ *
+ * The top level keys are replacement tokens used inside the GUI.
+ *
+ * The dictionary keys should be sorted alphabetically in reverse order,
+ * so that the longest keys are replaced first.
+ *
+ * (Use the VS Code "Sort JS Object keys" extension to sort the keys.)
+ *
+ * @constant
+ * @type {Object&lt;string, {nl:string, en:string}>}
+ */
+const dictionary = {
+	LANG_WRONG_FILE_TYPE_MSG: {
+		nl: 'Het verkeerde bestandtype was geselecteerd.',
+		en: 'The wrong file type was selected.',
+	},
+	LANG_WIDTH: {
+		nl: 'breedte',
+		en: 'width',
+	},
+	LANG_VIDEO_READY_MSG: {
+		nl: 'De video is gereed and wordt gedownload.',
+		en: 'The video is ready and will be downloaded.',
+	},
+	LANG_VIDEO: {
+		nl: 'video',
+		en: 'video',
+	},
+	LANG_VID_DURATION: {
+		nl: 'duur video',
+		en: 'video duration',
+	},
+	LANG_VID_CAPTURE: {
+		nl: 'video-opname',
+		en: 'video capture',
+	},
+	LANG_UNDO: {
+		nl: 'ongedaan maken',
+		en: 'undo',
+	},
+	LANG_TITLE_TEXT: {
+		nl: 'titeltekst',
+		en: 'title text',
+	},
+	LANG_TEXT: {
+		nl: 'tekst',
+		en: 'text',
+	},
+	LANG_SUPPORT: {
+		nl: 'ondersteuning',
+		en: 'support',
+	},
+	LANG_SQUARE: {
+		nl: 'vierkant',
+		en: 'square',
+	},
+	LANG_SPEED: {
+		nl: 'snelheid',
+		en: 'speed',
+	},
+	LANG_SHOW: {
+		nl: 'toon',
+		en: 'show',
+	},
+	LANG_SETTINGS: {
+		nl: 'instellingen',
+		en: 'settings',
+	},
+	LANG_SELECT: {
+		nl: 'selecteer',
+		en: 'select',
+	},
+	LANG_SCALE: {
+		nl: 'schaal',
+		en: 'scale',
+	},
+	LANG_SAVE_SETTINGS: {
+		nl: 'instellingen opslaan als bestand',
+		en: 'save settings as file',
+	},
+	LANG_REDO: {
+		nl: 'opnieuw',
+		en: 'redo',
+	},
+	LANG_RANDOMIZE: {
+		nl: 'doe maar wat',
+		en: 'randomize',
+	},
+	LANG_PROFILEPIC: {
+		nl: 'profielfoto',
+		en: 'profile picture',
+	},
+	LANG_PORTRAIT: {
+		nl: 'staand',
+		en: 'portrait',
+	},
+	LANG_LOAD_SETTINGS: {
+		nl: 'open instellingen',
+		en: 'open settings file',
+	},
+	LANG_LANDSCAPE: {
+		nl: 'liggend',
+		en: 'landscape',
+	},
+	LANG_IMAGE_POSITION: {
+		nl: 'positie afbeelding',
+		en: 'image position',
+	},
+	LANG_IMAGE: {
+		nl: 'afbeelding',
+		en: 'image',
+	},
+	LANG_HIDE: {
+		nl: 'verberg',
+		en: 'hide',
+	},
+	LANG_TOO_SMALL_IMG_ALERT: {
+		nl:
+			'De afmetingen van de afbeelding ({0} x {1}) zijn te laag voor een mooi optisch effect.\n' +
+			'Kies een afbeelding van ten minste {2} x {3} pixels.',
+		en:
+			'The dimensions of the image ({0} x {1}) are too low for a good optical effect.\n' +
+			'Choose an image of at least {2} x {3} pixels.',
+	},
+	LANG_TOO_SMALL_IMG: {
+		nl: 'Kleiner dan minimum afmetingen: {0} x {1} pixels.',
+		en: 'Smaller than minimum dimensions: {0} x {1} pixels.',
+	},
+	LANG_HELPME_MSG: {
+		nl:
+			`&lt;h1>Help&lt;/h1>` +
+			`&lt;p>` +
+			`&lt;ul>` +
+			`&lt;li>Laat deze popup zien: &lt;code>H&lt;/code>&lt;/li>` +
+			`&lt;li>Pauzeren / afspelen animatie: &lt;code>spatiebalk&lt;/code>&lt;/li>` +
+			`&lt;li>Ongedaan maken / opnieuw: &lt;code>CTRL / CMD&lt;/code> + &lt;code>Z&lt;/code>&lt;/li>` +
+			`&lt;li>Opnieuw: &lt;code>CTRL / CMD&lt;/code> + &lt;code>SHIFT&lt;/code> + &lt;code>Z&lt;/code>&lt;/li>` +
+			`&lt;li>Volledig scherm: &lt;code>F&lt;/code>&lt;/li>` +
+			`&lt;li>Zijbalk verspringen: &lt;code>B&lt;/code>&lt;/li>` +
+			`&lt;li>Wissel tussen licht/donker thema: &lt;code>M&lt;/code>&lt;/li>` +
+			`&lt;/ul>` +
+			`&lt;/p>`,
+		en:
+			`&lt;h1>Help&lt;/h1>` +
+			`&lt;p>` +
+			`&lt;ul>` +
+			`&lt;li>Show this popup: &lt;code>H&lt;/code>&lt;/li>` +
+			`&lt;li>Pause / play animation: &lt;code>spacebar&lt;/code>&lt;/li>` +
+			`&lt;li>Undo: &lt;code>CTRL / CMD&lt;/code> + &lt;code>Z&lt;/code>&lt;/li>` +
+			`&lt;li>Redo: &lt;code>CTRL / CMD&lt;/code> + &lt;code>SHIFT&lt;/code> + &lt;code>Z&lt;/code>&lt;/li>` +
+			`&lt;li>Toggle fullscreen: &lt;code>F&lt;/code>&lt;/li>` +
+			`&lt;li>Flip sidebar: &lt;code>B&lt;/code>&lt;/li>` +
+			`&lt;li>Toggle light/dark mode: &lt;code>M&lt;/code>&lt;/li>` +
+			`&lt;/ul>` +
+			`&lt;/p>`,
+	},
+	LANG_HELP: {
+		nl: 'help',
+		en: 'help',
+	},
+	LANG_HEIGHT: {
+		nl: 'hoogte',
+		en: 'height',
+	},
+	LANG_FORMAT: {
+		nl: 'formaat',
+		en: 'format',
+	},
+	LANG_FGCOL: {
+		nl: 'voorgrondkleur',
+		en: 'foreground colour',
+	},
+	LANG_EXPORT: {
+		nl: 'exporteren',
+		en: 'export',
+	},
+	LANG_COPY_TO_CLIPBOARD: {
+		nl: 'afbeelding kopiëren',
+		en: 'copy image',
+	},
+	LANG_CONTACT_MSG: {
+		nl: 'Contact voor ondersteuning &amp; feedback',
+		en: 'Contact for support &amp; feedback',
+	},
+	LANG_CHOOSE_FILE_NAME_MSG: {
+		nl: 'Kies een bestandsnaam:',
+		en: 'Choose a file name:',
+	},
+	LANG_BUTTON: {
+		nl: 'knop',
+		en: 'button',
+	},
+	LANG_BODY_TEXT: {
+		nl: 'bodytekst',
+		en: 'body text',
+	},
+	LANG_BGCOL: {
+		nl: 'achtergrondkleur',
+		en: 'background colour',
+	},
+	LANG_APPEARANCE: {
+		nl: 'verschijning',
+		en: 'appearance',
+	},
+};
+
+/** list of language keys supported by the dictionary */
+const availableLangKeys = Object.keys(dictionary[Object.keys(dictionary)[0]]);
+
+/**
+ * @description Helper class that performs token replacement based on the selected language.
+ */
+class Lang {
+	static verbose = false;
+
+	static getURLLangKey() {
+		// form: "?lang=nl"
+		const urlParams = new URLSearchParams(window.location.search);
+		let urlLangKey = urlParams.get('lang');
+		if (urlLangKey == null) {
+			if (Lang.verbose) console.log('No lang key set in URL.');
+			return;
+		}
+		urlLangKey = urlLangKey.toLowerCase();
+		if (!availableLangKeys.some(key => key == urlLangKey)) {
+			console.error('Lang key set in URL but is invalid: ' + urlLangKey);
+			return;
+		}
+		if (Lang.verbose) console.log('Lang key set: ' + urlLangKey);
+		return urlLangKey;
+	}
+
+	constructor() {}
+
+	/**
+	 * Sets the language key to use for translations.
+	 *
+	 * If no key is provided, it will try to get the key from the URL.
+	 *
+	 * @param {string} langKey - The language key to use for translations.
+	 * @see availableLangKeys
+	 */
+	setup(langKey) {
+		this.langKey = langKey;
+		this.langKey = Lang.getURLLangKey() || langKey;
+	}
+
+	/**
+	 * Processes the input string by replacing all hot strings with their translations.
+	 * @param {string} str - The string to process.
+	 * @param {boolean} [doCapitalizeFirstLetter=false] - Whether to capitalize the first letter of the processed string.
+	 * @param {number} [depth=10] - The maximum recursion depth to prevent infinite loops.
+	 * @returns {string} - The processed string with all hot strings replaced by their translations or the original string if no replacements were made.
+	 * @see dictionary
+	 * @see lang
+	 */
+	process(str, doCapitalizeFirstLetter = false, depth = 10) {
+		// recursively replace all hotStrings in str with their translations
+		let replaced = str;
+		for (let hotString in dictionary) {
+			const translation = dictionary[hotString][this.langKey];
+			if (Lang.verbose &amp;&amp; str.match(hotString) != null)
+				console.log(hotString, translation);
+			replaced = replaced.replaceAll(hotString, translation);
+		}
+		if (str === replaced) {
+			return replaced;
+		}
+		if (depth &lt;= 0) {
+			console.error(
+				'Lang.process() reached max depth without replacing all strings.'
+			);
+			return replaced;
+		}
+
+		if (doCapitalizeFirstLetter) {
+			replaced = this.capFirst(replaced);
+		}
+		return this.process(replaced, doCapitalizeFirstLetter, depth - 1);
+	}
+
+	capFirst(str) {
+		const ind = this.indexOfFirstAlphabetic(str);
+		if (ind == -1) return str;
+		return (
+			str.slice(0, ind) +
+			str.charAt(ind).toUpperCase() +
+			str.slice(ind + 1)
+		);
+	}
+
+	indexOfFirstAlphabetic(str) {
+		return str.search(/[a-zA-Z]/);
+	}
+}
+
+/**
+ * Global instance of {@link Lang} used throughout the GUI for translations.
+ * @type {Lang}
+ */
+const lang = new Lang();
+</code></pre>
+        </article>
+    </section>
 
 
 

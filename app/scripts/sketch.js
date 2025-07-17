@@ -1,8 +1,21 @@
 /**
- * @fileoverview
- * Main sketch file for p5Catalyst.
+ * @fileoverview Main sketch file for p5Catalyst.
+ *
  * Handles canvas setup, rendering loop, asset loading, GUI, frame capture, and utility functions.
+ *
  * Provides the entry point for the p5.js sketch and manages the global state.
+ *
+ * @see canvas
+ * @see svgCanvas
+ * @see generator
+ * @see gui
+ * @see changeSet
+ * @see theShader
+ * @see mouse
+ * @see time
+ * @see progress
+ * @see isPlaying
+ * @see scrollScale
  */
 
 /**
@@ -13,7 +26,7 @@ let canvas;
 
 /**
  * SVG version of the p5 canvas.
- * @type {p5}
+ * @type {*}
  * */
 let svgCanvas;
 
@@ -76,7 +89,7 @@ const doRunRealTime = false;
  */
 let isCapturingFrames = false;
 /**
- * Capture frames starting at frame&nbsp;0 when true.
+ * Capture frames starting at fram 0 when true.
  * @constant {boolean}
  */
 const doCaptureStartFromFrame0 = true;

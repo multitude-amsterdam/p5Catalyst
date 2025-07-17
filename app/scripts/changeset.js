@@ -1,5 +1,6 @@
 /**
  * @fileoverview Utility for undo/redo functionality and persistence of GUI state.
+ * @see ChangeSet
  */
 
 /**

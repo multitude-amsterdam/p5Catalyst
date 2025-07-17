@@ -1,6 +1,7 @@
 /**
  * @fileoverview Simple helper class {@link Lang} used to translate GUI
  * strings into user-defined languages. Modifiable/extensible.
+ * @see Lang
  * @see lang
  * @see dictionary
  * @see language
@@ -225,7 +226,6 @@ const dictionary = {
 const availableLangKeys = Object.keys(dictionary[Object.keys(dictionary)[0]]);
 
 /**
- * @class Lang
  * @description Helper class that performs token replacement based on the selected language.
  */
 class Lang {
@@ -252,6 +252,9 @@ class Lang {
 
 	/**
 	 * Sets the language key to use for translations.
+	 *
+	 * If no key is provided, it will try to get the key from the URL.
+	 *
 	 * @param {string} langKey - The language key to use for translations.
 	 * @see availableLangKeys
 	 */

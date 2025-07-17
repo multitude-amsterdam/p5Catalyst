@@ -1,10 +1,13 @@
 /**
  * @fileoverview Simple modal dialog helper used for alerts and prompts.
+ *
+ * @see Dialog
+ * @see dialog
  */
 
 /**
  * Wrapper around a HTML `<dialog>` element providing alert and prompt helpers.
- * @class
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement}
  */
 class Dialog {
 	/**
@@ -37,6 +40,8 @@ class Dialog {
 	/**
 	 * Show a message in the dialog.
 	 * @param {string} html HTML content or plain text to display
+	 * @example
+	 * dialog.alert('This is an alert message.');
 	 */
 	alert(html) {
 		if (html !== '' && html.indexOf('<') === -1) {

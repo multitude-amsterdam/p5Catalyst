@@ -1,11 +1,15 @@
 /**
- * @fileoverview Constructs the graphical user interface for the example
- * generator. All controls are created here using the controller classes from
+ * @fileoverview Constructs the graphical user interface for the generator.
+ *
+ * All controls are created here using the controller classes from
  * {@link ../lib/gui.js} and {@link ../lib/controllers.js}.
+ *
+ * @see createGUI
  */
 
 /**
  * Initialise or rebuild the global {@link GUIForP5} instance.
+ * @see GUIForP5
  */
 function createGUI() {
 	if (gui != undefined) gui.div.remove();

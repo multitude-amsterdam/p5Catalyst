@@ -6,3 +6,5 @@
 rm noiseOffs
 
 rm dtime
+
+rm pw & ph
