@@ -4,6 +4,7 @@
 
 /**
  * Wrapper around a HTML <dialog> element providing alert and prompt helpers.
+ * @class
  */
 class Dialog {
 	/**

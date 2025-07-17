@@ -4,9 +4,9 @@
  */
 
 /**
- * Base class for all GUI controllers.
  * @class
  * @extends Field
+ * @description Base class for all GUI controllers.
  */
 class Controller extends Field {
 	static _doUpdateChangeSet = true;
@@ -111,9 +111,9 @@ class Controller extends Field {
 }
 
 /**
- * Controller that holds a value which can be serialised.
  * @class
  * @extends Controller
+ * @description Controller that holds a value which can be serialised.
  */
 class ValuedController extends Controller {
 	constructor(gui, name, labelStr, setupCallback = undefined) {
@@ -135,9 +135,9 @@ class ValuedController extends Controller {
 }
 
 /**
- * Simple push button controller.
  * @class
  * @extends Controller
+ * @description Simple push button controller.
  */
 class Button extends Controller {
 	constructor(gui, name, labelStr, callback, setupCallback = undefined) {
@@ -157,9 +157,9 @@ class Button extends Controller {
 }
 
 /**
- * Base class for file input controllers.
  * @class
  * @extends Button
+ * @description Base class for file input controllers.
  */
 class FileLoader extends Button {
 	constructor(
@@ -198,9 +198,9 @@ class FileLoader extends Button {
 }
 
 /**
- * Loader for plain text files.
  * @class
  * @extends FileLoader
+ * @description Loader for plain text files.
  */
 class TextFileLoader extends FileLoader {
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
@@ -218,9 +218,9 @@ class TextFileLoader extends FileLoader {
 }
 
 /**
- * Loader for JSON files.
  * @class
  * @extends FileLoader
+ * @description Loader for JSON files.
  */
 class JSONFileLoader extends FileLoader {
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
@@ -238,9 +238,9 @@ class JSONFileLoader extends FileLoader {
 }
 
 /**
- * Loader that converts files to p5.Image instances.
  * @class
  * @extends FileLoader
+ * @description Loader that converts files to p5.Image instances.
  */
 class ImageLoader extends FileLoader {
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
@@ -262,9 +262,9 @@ class ImageLoader extends FileLoader {
 }
 
 /**
- * On/off toggle represented by a button.
  * @class
  * @extends ValuedController
+ * @description On/off toggle represented by a button.
  */
 class Toggle extends ValuedController {
 	constructor(
@@ -315,9 +315,9 @@ class Toggle extends ValuedController {
 }
 
 /**
- * Drop-down select controller.
  * @class
  * @extends ValuedController
+ * @description Drop-down select controller.
  */
 class Select extends ValuedController {
 	constructor(
@@ -385,9 +385,9 @@ class Select extends ValuedController {
 }
 
 /**
- * Specialised select for common resolutions.
  * @class
  * @extends Select
+ * @description Specialised select for common resolutions.
  */
 class ResolutionSelect extends Select {
 	constructor(
@@ -420,9 +420,9 @@ class ResolutionSelect extends Select {
 }
 
 /**
- * One dimensional slider controller.
  * @class
  * @extends ValuedController
+ * @description One dimensional slider controller.
  */
 class Slider extends ValuedController {
 	constructor(
@@ -472,9 +472,9 @@ class Slider extends ValuedController {
 }
 
 /**
- * Two handled slider returning a min/max range.
  * @class
  * @extends ValuedController
+ * @description Two handled slider returning a min/max range.
  */
 class RangeSlider extends ValuedController {
 	constructor(
@@ -544,9 +544,9 @@ class RangeSlider extends ValuedController {
 }
 
 /**
- * Two dimensional slider returning an {x,y} object.
  * @class
  * @extends ValuedController
+ * @description Two dimensional slider returning an {x,y} object.
  */
 class XYSlider extends ValuedController {
 	constructor(
@@ -700,9 +700,9 @@ class XYSlider extends ValuedController {
 }
 
 /**
- * Radio buttons displaying coloured options.
  * @class
  * @extends ValuedController
+ * @description Radio buttons displaying coloured options.
  */
 class ColourBoxes extends ValuedController {
 	constructor(
@@ -774,9 +774,9 @@ class ColourBoxes extends ValuedController {
 }
 
 /**
- * Multiple selectable colour checkboxes.
  * @class
  * @extends ValuedController
+ * @description Multiple selectable colour checkboxes.
  */
 class MultiColourBoxes extends ValuedController {
 	constructor(
@@ -867,9 +867,9 @@ class MultiColourBoxes extends ValuedController {
 }
 
 /**
- * Single line text input controller.
  * @class
  * @extends ValuedController
+ * @description Single line text input controller.
  */
 class Textbox extends ValuedController {
 	constructor(
@@ -913,9 +913,9 @@ class Textbox extends ValuedController {
 }
 
 /**
- * Pair of textboxes for width and height values.
  * @class
  * @extends ValuedController
+ * @description Pair of textboxes for width and height values.
  */
 class ResolutionTextboxes extends ValuedController {
 	constructor(gui, defW, defH, valueCallback, setupCallback = undefined) {
@@ -975,9 +975,9 @@ class ResolutionTextboxes extends ValuedController {
 }
 
 /**
- * Multi line text area controller.
  * @class
  * @extends ValuedController
+ * @description Multi line text area controller.
  */
 class Textarea extends ValuedController {
 	constructor(
@@ -1021,9 +1021,9 @@ class Textarea extends ValuedController {
 }
 
 /**
- * Textarea that accepts and displays colour lists.
  * @class
  * @extends Textarea
+ * @description Textarea that accepts and displays colour lists.
  */
 class ColourTextArea extends Textarea {
 	constructor(

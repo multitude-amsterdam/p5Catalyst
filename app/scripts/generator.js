@@ -6,51 +6,62 @@
  * provided elsewhere in the application (such as {@code pw}, {@code ph},
  * {@code time}, {@code progress} and {@code theShader}).
  */
+
 /**
- * Main generator responsible for drawing the sketch and serialising its state.
  * @class
+ * @description Main generator responsible for drawing the sketch and
+ * serialising its state.
  */
 class Generator {
+	/**
+	 * @static
+	 * @type {string}
+	 * @description Name of the generator, used in the GUI.
+	 */
 	static name = 'p5Catalyst Generator';
-        /** email address shown in the GUI for support */
-        static supportEmail = '';
 
-        /**
-         * Default colour palette used by the example sketch.
-         * @type {p5.Color[]}
-         */
-        palette = [
+	/**
+	 * @static
+	 * @type {string}
+	 * @description Email address shown in the GUI for support
+	 */
+	static supportEmail = '';
+
+	/**
+	 * Default colour palette used by the example sketch.
+	 * @type {p5.Color[]}
+	 */
+	palette = [
 		color('#7685F7'),
 		color('#BFFB50'),
 		color('#000000'),
 		color('#FFFFFF'),
 	];
 
-        // ------------------------------------------------------------ CONSTRUCTOR
-        /**
-         * Creates a new Generator instance.
-         * The colour used for the floating circle is initialised here.
-         */
-        constructor() {
-                /** @type {p5.Color|undefined} colour currently used for drawing */
-                this.col = undefined;
-        }
+	// ------------------------------------------------------------ CONSTRUCTOR
+	/**
+	 * Creates a new Generator instance.
+	 * The colour used for the floating circle is initialised here.
+	 */
+	constructor() {
+		this.col = undefined;
+	}
 
-        // ------------------------------------------------------------ SETUP
-        /**
-         * Called once from {@link setup} in `sketch.js` to prepare the sketch.
-         * Extend this method in your own generator to initialise resources.
-         */
-        setup() {}
+	// ------------------------------------------------------------ SETUP
+	/**
+	 * Called once from {@link setup} in `sketch.js` to prepare the sketch.
+	 * Extend this method in your own generator to initialise resources.
+	 */
+	setup() {}
 
 	// ------------------------------------------------------------ DRAW
-        /**
-         * Main drawing routine called from {@link draw} in `sketch.js`.
-         *
-         * @param {boolean} [doSVGToo=false] when true an off screen SVG canvas
-         * is also rendered.
-         */
-        draw(doSVGToo = false) {
+	/**
+	 * Main drawing routine called from {@link draw} in `sketch.js`.
+	 *
+	 * @param {boolean} [doSVGToo=false] when true an off screen SVG canvas
+	 * is also rendered.
+	 */
+	draw(doSVGToo = false) {
 		this.doSVGToo = doSVGToo;
 		clear();
 		if (theShader !== undefined) this.drawShader();
@@ -62,12 +73,12 @@ class Generator {
 	}
 
 	// ------------------------------------------------------------ SHADER
-        /**
-         * Draws the active shader using the global uniforms.
-         * This is called automatically from {@link draw} when a shader is
-         * loaded.
-         */
-        drawShader() {
+	/**
+	 * Draws the active shader using the global uniforms.
+	 * This is called automatically from {@link draw} when a shader is
+	 * loaded.
+	 */
+	drawShader() {
 		theShader.setUniform('resolution', [width, height]);
 		theShader.setUniform('progress', progress);
 		theShader.setUniform('time', time);
@@ -95,12 +106,12 @@ class Generator {
 	}
 
 	// ------------------------------------------------------------ UTILITY
-        /**
-         * Serialises the current generator state so it can be stored in a
-         * {@link ChangeSet}.
-         * @returns {Object}
-         */
-        getState() {
+	/**
+	 * Serialises the current generator state so it can be stored in a
+	 * {@link ChangeSet}.
+	 * @returns {Object}
+	 */
+	getState() {
 		return {
 			...this,
 			// add custom parameters here
@@ -108,11 +119,11 @@ class Generator {
 		};
 	}
 
-        /**
-         * Restores a previously serialised state.
-         * @param {Object} state data produced by {@link getState}
-         */
-        restoreState(state) {
+	/**
+	 * Restores a previously serialised state.
+	 * @param {Object} state data produced by {@link getState}
+	 */
+	restoreState(state) {
 		Object.assign(this, state);
 
 		for (let propKey of Object.keys(this)) {
@@ -126,13 +137,13 @@ class Generator {
 		}
 	}
 
-        /**
-         * Utility for building an output file name including resolution and
-         * a timestamp.
-         * @param {string} [insertion=''] optional text inserted into the name
-         * @returns {string}
-         */
-        static getOutputFileName(insertion = '') {
+	/**
+	 * Utility for building an output file name including resolution and
+	 * a timestamp.
+	 * @param {string} [insertion=''] optional text inserted into the name
+	 * @returns {string}
+	 */
+	static getOutputFileName(insertion = '') {
 		return (
 			Generator.name.replaceAll(' ', '-') +
 			'_' +
