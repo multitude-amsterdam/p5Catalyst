@@ -3,7 +3,7 @@
 	"source": {
 		"include": ["app/scripts"],
 		"includePattern": ".+\\.js(doc|x)?$",
-		"excludePattern": "(^|\\/|\\\\)_|p5"
+		"excludePattern": "(^|\\/|\\\\)_"
 	},
 	"opts": {
 		"destination": "./docs",
