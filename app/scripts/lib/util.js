@@ -1,5 +1,14 @@
+/**
+ * @fileoverview Utility helper functions used throughout the project.
+ */
+
 // ---------------------- RESTORING SERIALISED OBJS -----------------------
 
+/**
+ * Convert a serialised p5.Color back into a live {@link p5.Color} instance.
+ * @param {object} obj Serialised colour object.
+ * @returns {p5.Color|object}
+ */
 function restoreSerializedP5Color(obj) {
 	if (!(obj.levels && obj.mode)) return obj;
 	push();
@@ -9,12 +18,22 @@ function restoreSerializedP5Color(obj) {
 	return col;
 }
 
+/**
+ * Convert a plain object to a {@link Vec3D} if it contains x, y, and z.
+ * @param {object} obj Potentially serialised vector.
+ * @returns {Vec3D|object}
+ */
 function restoreSerializedVec3D(obj) {
 	// always use before Vec2D version when used in combination
 	if ([obj.x, obj.y, obj.z].some(v => v === undefined)) return obj;
 	return new Vec3D(obj.x, obj.y, obj.z);
 }
 
+/**
+ * Convert a plain object to a {@link Vec2D} if it contains x and y.
+ * @param {object} obj Potentially serialised vector.
+ * @returns {Vec2D|object}
+ */
 function restoreSerializedVec2D(obj) {
 	if ([obj.x, obj.y].some(v => v === undefined)) return obj;
 	return new Vec2D(obj.x, obj.y);
@@ -22,6 +41,11 @@ function restoreSerializedVec2D(obj) {
 
 // ----------------------------- DRAWING ------------------------------
 
+/**
+ * Execute a drawing function wrapped in push/pop calls. Can also operate on a
+ * {@link p5.Graphics} instance if provided.
+ * @param {...any} args Either (pg, fn) or (fn).
+ */
 function pushpop() {
 	// pushpop(pg, () => { ... })
 	if (arguments.length == 2) {
@@ -42,11 +66,24 @@ function pushpop() {
 	}
 }
 
+/**
+ * Draw a bezier fillet between two points around a centre.
+ * @param {Vec2D} filletStart
+ * @param {Vec2D} filletEnd
+ * @param {Vec2D} cen Centre of the fillet.
+ */
 function toxiFillet(filletStart, filletEnd, cen) {
 	const cpts = bezierFilletControlPoints(filletStart, filletEnd, cen);
 	toxiBezierVertex(cpts[0], cpts[1], filletEnd);
 }
 
+/**
+ * Calculate control points for a fillet bezier curve.
+ * @param {Vec2D} filletStart
+ * @param {Vec2D} filletEnd
+ * @param {Vec2D} cen
+ * @returns {Vec2D[]}
+ */
 function bezierFilletControlPoints(filletStart, filletEnd, cen) {
 	let a = filletStart.sub(cen);
 	let b = filletEnd.sub(cen);
@@ -61,23 +98,49 @@ function bezierFilletControlPoints(filletStart, filletEnd, cen) {
 	return [new Vec2D(x2, y2), new Vec2D(x3, y3)];
 }
 
+/**
+ * Convenience wrapper returning the intersection of two {@link Line2D} lines.
+ * @param {Line2D} lineA
+ * @param {Line2D} lineB
+ * @returns {Vec2D}
+ */
 function intersectionPoint(lineA, lineB) {
 	let res = lineA.intersectLine(lineB);
 	return res.pos;
 }
 
+/**
+ * p5 wrapper for toxiclibs bezier vertex convenience.
+ * @param {Vec2D} cp1 Control point 1
+ * @param {Vec2D} cp2 Control point 2
+ * @param {Vec2D} p2 End point
+ */
 function toxiBezierVertex(cp1, cp2, p2) {
 	bezierVertex(cp1.x, cp1.y, cp2.x, cp2.y, p2.x, p2.y);
 }
 
+/**
+ * p5 vertex wrapper using a {@link Vec2D}.
+ * @param {Vec2D} v
+ */
 function toxiVertex(v) {
 	vertex(...vectorComponents(v));
 }
 
+/**
+ * Convert a vector into an array of its numeric components.
+ * @param {Vec2D|Vec3D} v
+ * @returns {number[]}
+ */
 function vectorComponents(v) {
 	return Object.values({ ...v });
 }
 
+/**
+ * Draw an image fitted to the canvas centre.
+ * @param {p5.Image} img Image to draw.
+ * @param {boolean} doFill Fit or contain flag.
+ */
 function imageCentered(img, doFill) {
 	image(
 		img,
@@ -206,10 +269,19 @@ function getMouseMappedToCenteredPg(pg, doFill) {
 
 // ----------------------------- COLOURS ------------------------------
 
+/**
+ * Generate a random RGB colour.
+ * @returns {p5.Color}
+ */
 function randCol() {
 	return color(random(255), random(255), random(255));
 }
 
+/**
+ * Calculate the luminance of a colour.
+ * @param {p5.Color|number[]} col
+ * @returns {number}
+ */
 function lum(col) {
 	if (!col.levels) col = color(col);
 	return (
@@ -219,17 +291,25 @@ function lum(col) {
 	);
 }
 
-function v(col) {
-	if (!col.levels) col = color(col);
-	return (col.levels[0] + col.levels[1] + col.levels[2]) / 3;
-}
-
+/**
+ * Convert a p5 color to a hex string.
+ * @param {p5.Color} col
+ * @param {boolean} [doAlpha=false]
+ * @returns {string}
+ */
 function colorToHexString(col, doAlpha = false) {
 	let levels = col.levels;
 	if (!doAlpha) levels = levels.slice(0, 3);
 	return '#' + levels.map(l => l.toString(16).padStart(2, '0')).join('');
 }
 
+/**
+ * Interpolate between two colours using the OKLab colour space.
+ * @param {p5.Color} col1
+ * @param {p5.Color} col2
+ * @param {number} t Interpolation factor [0,1]
+ * @returns {p5.Color}
+ */
 function lerpColorOKLab(col1, col2, t) {
 	// OKLab colour interpolation
 	// more info: https://bottosson.github.io/posts/oklab/
@@ -308,11 +388,18 @@ function lerpColorOKLab(col1, col2, t) {
 
 // ----------------------------- TIME ------------------------------
 
+/**
+ * Configure the animation duration in seconds.
+ * @param {number} _duration
+ */
 function setDuration(_duration) {
 	nFrames = int(_duration * FR);
 	duration = nFrames / float(FR); // seconds
 }
 
+/**
+ * Update global time and progress variables.
+ */
 function setTime() {
 	if (!isPlaying) frameCount--;
 
@@ -332,14 +419,28 @@ function setTime() {
 	dtime = time - ptime;
 }
 
+/**
+ * Get the current UNIX timestamp in seconds.
+ * @returns {number}
+ */
 function getUNIX() {
 	return Math.floor(new Date().getTime() / 1000);
 }
 
+/**
+ * Generate a compact base64 timestamp string.
+ * @returns {string}
+ */
 function getTimestamp() {
 	return toB64(new Date().getTime());
 }
 
+/**
+ * Generate a random Date between two dates.
+ * @param {string|Date} date1
+ * @param {string|Date} date2
+ * @returns {Date}
+ */
 function randomDate(date1, date2) {
 	function randomValueBetween(min, max) {
 		return Math.random() * (max - min) + min;
@@ -357,11 +458,23 @@ function randomDate(date1, date2) {
 
 // ----------------------------- STRINGS UTIL ------------------------------
 
+/**
+ * Capitalise the first character of a string.
+ * @param {string} inputString
+ * @returns {string}
+ */
 function capitalizeFirstLetter(inputString) {
 	return inputString.charAt(0).toUpperCase() + inputString.slice(1);
 }
 
 if (!String.prototype.format) {
+	/**
+	 * Basic string templating helper.
+	 * Usage: "{0} {1}".format(a, b)
+	 * @this {String}
+	 * @param {...any} args Values to substitute
+	 * @returns {string}
+	 */
 	String.prototype.format = function () {
 		var args = arguments;
 		return this.replace(/{(\d+)}/g, function (match, number) {
@@ -372,6 +485,11 @@ if (!String.prototype.format) {
 
 // ----------------------------- MEMORY ------------------------------
 
+/**
+ * Roughly estimate the memory footprint of a JavaScript object.
+ * @param {object} object
+ * @returns {number} Size in bytes
+ */
 function computeRoughSizeOfObject(object) {
 	const objectList = [];
 	const stack = [object];
@@ -406,10 +524,19 @@ function computeRoughSizeOfObject(object) {
 
 // ----------------------------- SYSTEM ------------------------------
 
+/**
+ * Determine if the current platform is macOS.
+ * @returns {boolean}
+ */
 function isMac() {
 	return window.navigator.platform.toLowerCase().indexOf('mac') > -1;
 }
 
+/**
+ * Cross-browser helper for retrieving wheel delta.
+ * @param {WheelEvent} evt
+ * @returns {number}
+ */
 function getWheelDistance(evt) {
 	if (!evt) evt = event;
 	let w = evt.wheelDelta,
@@ -423,6 +550,12 @@ function getWheelDistance(evt) {
 
 // ----------------------------- DATA/IO ------------------------------
 
+/**
+ * Check if two arrays contain the same values in the same order.
+ * @param {Array} a
+ * @param {Array} b
+ * @returns {boolean}
+ */
 function isArraysEqual(a, b) {
 	if (a === b) return true;
 	if (a == null || b == null) return false;
@@ -437,19 +570,37 @@ function isArraysEqual(a, b) {
 	return true;
 }
 
+/**
+ * Copy the current canvas bitmap to the system clipboard.
+ */
 function copyCanvasToClipboard() {
 	canvas.elt.toBlob(blob => {
 		navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
 	});
 }
 
+/**
+ * Digits used for base64 style encoding.
+ * @constant {string}
+ * @global
+ */
 const b64Digits =
 	'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_';
+/**
+ * Convert a number to a base64-like string.
+ * @param {number} n
+ * @returns {string}
+ */
 const toB64 = n =>
 	n
 		.toString(2)
 		.split(/(?=(?:.{6})+(?!.))/g)
 		.map(v => b64Digits[parseInt(v, 2)])
 		.join('');
+/**
+ * Parse a base64-like string back into a number.
+ * @param {string} s64
+ * @returns {number}
+ */
 const fromB64 = s64 =>
 	s64.split('').reduce((s, v) => s * 64 + b64Digits.indexOf(v), 0);

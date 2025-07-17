@@ -1,6 +1,3 @@
-// example from:
-// https://github.com/ffmpegwasm/ffmpeg.wasm/blob/main/apps/vanilla-app/public/concatDemuxer.html
-
 const { fetchFile } = FFmpegUtil;
 const { FFmpeg } = FFmpegWASM;
 
@@ -28,6 +25,7 @@ const MP4 = {
 	mimeType: 'video/mp4',
 	crf: 21, // inverse quality (constant rate factor)
 };
+
 const WEBM_TRANSPARENT = {
 	ext: 'webm',
 	// mimeType: 'video/webm;codecs=vp9',
@@ -59,6 +57,7 @@ async function clearFramesDir() {
 }
 
 const BASE64_MARKER = ';base64,';
+
 function convertDataURIToBinary(dataURI) {
 	const base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
 	const base64 = dataURI.substring(base64Index);
@@ -70,6 +69,7 @@ function convertDataURIToBinary(dataURI) {
 	}
 	return array;
 }
+
 function saveToLocalFFMPEG(frameId) {
 	let dataURI = canvas.elt.toDataURL('image/png');
 	let pngData = convertDataURIToBinary(dataURI);
@@ -206,11 +206,4 @@ async function ffmpegCreateMP4() {
 	console.log('Created and loaded video.');
 
 	isPlaying = true;
-}
-
-async function dir(path) {
-	const listdir = await ffmpeg.listDir(path);
-	for (let item of listdir) {
-		console.log(item.isDir ? 'dir' : 'file', item.name);
-	}
 }

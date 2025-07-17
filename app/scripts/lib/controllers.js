@@ -1,10 +1,131 @@
+/**
+ * @fileoverview Collection of controller classes used by the GUI.
+ * @see Controller
+ * @see ValuedController
+ * @see Button
+ * @see FileLoader
+ * @see TextFileLoader
+ * @see JSONFileLoader
+ * @see ImageLoader
+ * @see Toggle
+ * @see Select
+ * @see ResolutionSelect
+ * @see Slider
+ * @see RangeSlider
+ * @see XYSlider
+ * @see ColourTextArea
+ * @see ColourBoxes
+ * @see MultiColourBoxes
+ */
+
+/**
+ * Base class for all GUI controllers.
+ * @extends Field
+ * @example
+ * // For any Controller, the main callback function passed into it will trigger when the controller is triggered, like this:
+ * const triggerButton = new Button(
+ * 	gui,
+ * 	'buttonTrigger',
+ * 	'Do something!',
+ * 	controller => {
+ * 		doSomething();
+ * 	}
+ * );
+ *
+ * @example
+ * // You can add an optional setupCallback function which calls after the GUI item is created:
+ * const triggerButton = new Button(
+ * 	gui,
+ * 	'buttonTrigger',
+ * 	'Do something!',
+ * 	controller => {
+ * 		doSomething();
+ * 	},
+ * 	controller => {
+ * 		// simulate a click on loading the app
+ * 		controller.click();
+ * 	}
+ * );
+ */
 class Controller extends Field {
+	/**
+	 * Static flag to control whether the change set should be updated.
+	 * @type {boolean}
+	 */
 	static _doUpdateChangeSet = true;
+	/**
+	 * Flag to control whether the change set should be updated.
+	 * @type {boolean}
+	 */
 	_doUpdateChangeSet = true;
 
+	/**
+	 * The HTML element representing the controller.
+	 * @type {p5.Element|HTMLElement}
+	 */
 	controllerElement = null;
+
+	/**
+	 * Flag to control whether the controller should randomize its value.
+	 * @type {boolean}
+	 */
 	doRandomize = undefined;
 
+	/**
+	 * The GUIForP5 instance this controller belongs to.
+	 * @type {GUIForP5}
+	 */
+	gui;
+
+	/**
+	 * The name of the controller.
+	 * @type {string}
+	 */
+	name;
+
+	/**
+	 * The label for the controller.
+	 * @type {string}
+	 */
+	label;
+
+	/**
+	 * The wrapper div for the controller.
+	 * @type {p5.Element}
+	 */
+	controllerWrapper;
+
+	/**
+	 * Optional setup callback.
+	 * @type {function}
+	 */
+	setupCallback;
+
+	/**
+	 * The console div element for displaying messages.
+	 * @type {p5.Element}
+	 */
+	console;
+
+	/**
+	 * The current console text.
+	 * @type {string}
+	 */
+	consoleText;
+
+	/**
+	 * The die icon for randomization.
+	 * @type {DieIcon}
+	 */
+	die;
+
+	/**
+	 * Constructor for the Controller class.
+	 * @param {GUI} gui - The GUI instance this controller belongs to.
+	 * @param {string} name - The name of the controller.
+	 * @param {string} labelStr - The label text for the controller.
+	 * @param {function} [setupCallback] - Optional callback function for setup.
+	 */
 	constructor(gui, name, labelStr, setupCallback = undefined) {
 		super(gui.div, name, 'gui-controller');
 		this.gui = gui;
@@ -22,33 +143,53 @@ class Controller extends Field {
 		this.setupCallback = setupCallback || (controller => {});
 	}
 
+	/**
+	 * Setup for the controller.
+	 */
 	setup() {
 		this.createConsole();
 		this.setupCallback(this);
 	}
 
+	/**
+	 * Disables the controller.
+	 */
 	disable() {
 		if (this.controllerElement instanceof p5.Element)
 			this.controllerElement.elt.disabled = true;
 		else this.controllerElement.disabled = true;
 	}
 
+	/**
+	 * Enables the controller.
+	 */
 	enable() {
 		if (this.controllerElement instanceof p5.Element)
 			this.controllerElement.elt.disabled = false;
 		else this.controllerElement.disabled = false;
 	}
 
+	/**
+	 * Checks if the controller is disabled.
+	 * @returns {boolean} - True if the controller is disabled, false otherwise.
+	 */
 	isDisabled() {
 		if (this.controllerElement instanceof p5.Element)
 			return this.controllerElement.elt.disabled;
 		else return this.controllerElement.disabled;
 	}
 
+	/**
+	 * Sets the disabled state of the controller.
+	 * @param {boolean} doSetDisabled - True to disable the controller, false to enable it.
+	 */
 	setDisabled(doSetDisabled) {
 		doSetDisabled ? this.disable() : this.enable();
 	}
 
+	/**
+	 * Creates the console element for the controller.
+	 */
 	createConsole() {
 		this.console = createDiv();
 		this.console.parent(this.div);
@@ -56,6 +197,11 @@ class Controller extends Field {
 		this.console.hide();
 	}
 
+	/**
+	 * Sets the console text and type.
+	 * @param {string} text - The text to display in the console.
+	 * @param {string} [type] - The type of message ('error', 'warning', etc.).
+	 */
 	setConsole(text, type) {
 		if (text === undefined) {
 			this.consoleText = undefined;
@@ -74,23 +220,43 @@ class Controller extends Field {
 		this.console.show();
 	}
 
+	/**
+	 * Sets the error message in the console.
+	 * @param {string} text - The error message to display.
+	 */
 	setError(text) {
 		this.setConsole('❌ ' + text, 'error');
 	}
 
+	/**
+	 * Sets the warning message in the console.
+	 * @param {string} text - The warning message to display.
+	 */
 	setWarning(text) {
 		this.setConsole('⚠️ ' + text, 'warning');
 	}
 
+	/**
+	 * Adds this controller to a randomizer.
+	 * @param {Randomizer} randomizer - The randomizer to add this controller to.
+	 */
 	addToRandomizer(randomizer) {
 		randomizer.addController(this);
 	}
 
+	/**
+	 * Adds a die to the controller.
+	 * @param {DieIcon} die - The die to add.
+	 */
 	addDie(die) {
 		die.img.parent(this.controllerWrapper);
 		this.die = die;
 	}
 
+	/**
+	 * Checks if the change set should be updated.
+	 * @returns {boolean} - True if the change set should be updated, false otherwise.
+	 */
 	doUpdateChangeSet() {
 		return (
 			changeSet !== undefined &&
@@ -100,26 +266,88 @@ class Controller extends Field {
 	}
 }
 
+/**
+ * Controller that holds a value which can be serialised.
+ * @extends Controller
+ * @example
+ * // ValuedController gives back its value through a callback, that's where you tie it to the system.
+ * // I usually link it to generator like so, also using data from generator to construct the controller:
+ * const fgColBoxes = new ColourBoxes(
+ * 	gui,
+ * 	'colourBoxesFgCol',
+ * 	'Foreground colour',
+ * 	generator.palette,
+ * 	0,
+ * 	(controller, value) => {
+ * 		generator.fgCol = value;
+ * 	}
+ * );
+ */
 class ValuedController extends Controller {
+	/**
+	 * The value of the controller.
+	 * @type {*}
+	 */
+	value;
+
+	/**
+	 * Constructor for ValuedController.
+	 * @param {GUI} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {function} [setupCallback]
+	 */
 	constructor(gui, name, labelStr, setupCallback = undefined) {
 		super(gui, name, labelStr, setupCallback);
 	}
 
+	/**
+	 * Sets the value of the controller.
+	 * @param {*} value - The value to set.
+	 */
 	setValue(value) {
 		this.value = value;
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
+	/**
+	 * Randomizes the value of the controller.
+	 */
 	randomize() {
 		console.error('No randomize() method.');
 	}
 
+	/**
+	 * Gets the value for JSON serialization.
+	 * @returns {*}
+	 */
 	getValueForJSON() {
 		return this.value;
 	}
 }
 
+/**
+ * Simple push button controller.
+ * @extends Controller
+ */
 class Button extends Controller {
+	/**
+	 * Constructor for Button.
+	 * @param {GUI} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {function} callback
+	 * @param {function} [setupCallback]
+	 * @example
+	 * const button = new Button(
+	 * 	gui,
+	 * 	'buttonName',
+	 * 	'Click me',
+	 * 	controller => {
+	 * 		print('Button clicked!');
+	 * 	}
+	 * );
+	 */
 	constructor(gui, name, labelStr, callback, setupCallback = undefined) {
 		super(gui, name, undefined, setupCallback);
 		labelStr = lang.process(labelStr, true);
@@ -131,12 +359,47 @@ class Button extends Controller {
 		};
 	}
 
+	/**
+	 * Simulates a button click.
+	 */
 	click() {
 		this.controllerElement.elt.onclick();
 	}
 }
 
+/**
+ * Base class for file input controllers.
+ * @extends Button
+ */
 class FileLoader extends Button {
+	/**
+	 * The file type accepted.
+	 * @type {string}
+	 */
+	fileType;
+
+	/**
+	 * The file object.
+	 * @type {*}
+	 */
+	file;
+
+	/**
+	 * The file name.
+	 * @type {string}
+	 */
+	fileName;
+
+	/**
+	 * Constructor for FileLoader.
+	 * @param {GUI} gui
+	 * @param {string} name
+	 * @param {string} fileType
+	 * @param {string} labelStr
+	 * @param {function} fileReadyCallback
+	 * @param {function} valueCallback
+	 * @param {function} [setupCallback]
+	 */
 	constructor(
 		gui,
 		name,
@@ -172,7 +435,19 @@ class FileLoader extends Button {
 	}
 }
 
+/**
+ * Loader for plain text files.
+ * @extends FileLoader
+ */
 class TextFileLoader extends FileLoader {
+	/**
+	 * Constructor for TextFileLoader.
+	 * @param {GUI} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {function} valueCallback
+	 * @param {function} [setupCallback]
+	 */
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
 			gui,
@@ -187,7 +462,19 @@ class TextFileLoader extends FileLoader {
 	}
 }
 
+/**
+ * Loader for JSON files.
+ * @extends FileLoader
+ */
 class JSONFileLoader extends FileLoader {
+	/**
+	 * Constructor for JSONFileLoader.
+	 * @param {GUI} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {function} valueCallback
+	 * @param {function} [setupCallback]
+	 */
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
 			gui,
@@ -202,7 +489,25 @@ class JSONFileLoader extends FileLoader {
 	}
 }
 
+/**
+ * Loader that converts files to p5.Image instances.
+ * @extends FileLoader
+ */
 class ImageLoader extends FileLoader {
+	/**
+	 * The loaded image.
+	 * @type {p5.Element}
+	 */
+	img;
+
+	/**
+	 * Constructor for ImageLoader.
+	 * @param {GUI} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {function} valueCallback
+	 * @param {function} [setupCallback]
+	 */
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
 			gui,
@@ -221,7 +526,27 @@ class ImageLoader extends FileLoader {
 	}
 }
 
+/**
+ * On/off toggle represented by a button.
+ * @extends ValuedController
+ */
 class Toggle extends ValuedController {
+	/**
+	 * The callback function for toggle.
+	 * @type {function}
+	 */
+	callback;
+
+	/**
+	 * Constructor for Toggle.
+	 * @param {GUI} gui
+	 * @param {string} name
+	 * @param {string} labelStr0
+	 * @param {string} labelStr1
+	 * @param {boolean} isToggled
+	 * @param {function} callback
+	 * @param {function} [setupCallback]
+	 */
 	constructor(
 		gui,
 		name,
@@ -252,10 +577,17 @@ class Toggle extends ValuedController {
 		this.callback = callback;
 	}
 
+	/**
+	 * Simulates a toggle click.
+	 */
 	click() {
 		this.controllerElement.elt.onmousedown();
 	}
 
+	/**
+	 * Sets the toggle value.
+	 * @param {boolean} value
+	 */
 	setValue(value) {
 		if (value != this.value)
 			this.controllerElement.elt.toggleAttribute('toggled');
@@ -264,12 +596,47 @@ class Toggle extends ValuedController {
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
+	/**
+	 * Randomizes the toggle value.
+	 */
 	randomize() {
 		this.setValue(random(1) < 0.5);
 	}
 }
 
+/**
+ * Drop-down select controller.
+ * @extends ValuedController
+ */
 class Select extends ValuedController {
+	/**
+	 * The options for the select.
+	 * @type {Array}
+	 */
+	options;
+
+	/**
+	 * The string representations of the options.
+	 * @type {Array<string>}
+	 */
+	optionStrs;
+
+	/**
+	 * The value callback.
+	 * @type {function}
+	 */
+	valueCallback;
+
+	/**
+	 * Constructor for Select.
+	 * @param {GUI} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {Array} options
+	 * @param {number} defaultIndex
+	 * @param {function} valueCallback
+	 * @param {function} [setupCallback]
+	 */
 	constructor(
 		gui,
 		name,
@@ -295,6 +662,10 @@ class Select extends ValuedController {
 		this.setValue(options[defaultIndex]);
 	}
 
+	/**
+	 * Sets the options for the select.
+	 * @param {Array} options
+	 */
 	setOptions(options) {
 		this.controllerElement.elt.replaceChildren();
 		this.controllerElement.parent(this.controllerWrapper);
@@ -305,19 +676,41 @@ class Select extends ValuedController {
 		this.afterSetOptions();
 	}
 
+	/**
+	 * Converts an option to a string.
+	 * @param {*} option
+	 * @returns {string}
+	 */
 	optionToString(option) {
 		return option.toString();
 	}
 
+	/**
+	 * Called after setting options.
+	 */
 	afterSetOptions() {}
 
+	/**
+	 * Checks if an option exists.
+	 * @param {*} option
+	 * @returns {boolean}
+	 */
 	hasOption(option) {
 		return this.options.some(o => o == option);
 	}
+	/**
+	 * Checks if an option string exists.
+	 * @param {string} optionStr
+	 * @returns {boolean}
+	 */
 	hasOptionStr(optionStr) {
 		return this.optionStrs.some(os => os == optionStr);
 	}
 
+	/**
+	 * Sets the value of the select.
+	 * @param {*} option
+	 */
 	setValue(option) {
 		if (!this.hasOption(option)) {
 			throw new Error(option + ' was not found in options.');
@@ -329,11 +722,18 @@ class Select extends ValuedController {
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
+	/**
+	 * Randomizes the select value.
+	 */
 	randomize() {
 		this.setValue(random(this.options));
 	}
 }
 
+/**
+ * Specialised select for common resolutions.
+ * @extends Select
+ */
 class ResolutionSelect extends Select {
 	constructor(
 		gui,
@@ -364,6 +764,10 @@ class ResolutionSelect extends Select {
 	}
 }
 
+/**
+ * One dimensional slider controller.
+ * @extends ValuedController
+ */
 class Slider extends ValuedController {
 	constructor(
 		gui,
@@ -411,6 +815,10 @@ class Slider extends ValuedController {
 	}
 }
 
+/**
+ * Two handled slider returning a min/max range.
+ * @extends ValuedController
+ */
 class RangeSlider extends ValuedController {
 	constructor(
 		gui,
@@ -478,6 +886,10 @@ class RangeSlider extends ValuedController {
 	}
 }
 
+/**
+ * Two dimensional slider returning an {x,y} object.
+ * @extends ValuedController
+ */
 class XYSlider extends ValuedController {
 	constructor(
 		gui,
@@ -629,6 +1041,10 @@ class XYSlider extends ValuedController {
 	}
 }
 
+/**
+ * Radio buttons displaying coloured options.
+ * @extends ValuedController
+ */
 class ColourBoxes extends ValuedController {
 	constructor(
 		gui,
@@ -698,6 +1114,10 @@ class ColourBoxes extends ValuedController {
 	}
 }
 
+/**
+ * Multiple selectable colour checkboxes.
+ * @extends ValuedController
+ */
 class MultiColourBoxes extends ValuedController {
 	constructor(
 		gui,
@@ -786,6 +1206,10 @@ class MultiColourBoxes extends ValuedController {
 	}
 }
 
+/**
+ * Single line text input controller.
+ * @extends ValuedController
+ */
 class Textbox extends ValuedController {
 	constructor(
 		gui,
@@ -827,6 +1251,10 @@ class Textbox extends ValuedController {
 	randomize() {}
 }
 
+/**
+ * Pair of textboxes for width and height values.
+ * @extends ValuedController
+ */
 class ResolutionTextboxes extends ValuedController {
 	constructor(gui, defW, defH, valueCallback, setupCallback = undefined) {
 		super(gui, 'resolutionTextboxes', undefined, setupCallback);
@@ -884,6 +1312,10 @@ class ResolutionTextboxes extends ValuedController {
 	}
 }
 
+/**
+ * Multi line text area controller.
+ * @extends ValuedController
+ */
 class Textarea extends ValuedController {
 	constructor(
 		gui,
@@ -925,7 +1357,34 @@ class Textarea extends ValuedController {
 	randomize() {}
 }
 
+/**
+ * Textarea that accepts and displays colour lists.
+ * A list of hex colours, like: "`#ff0000, #00ff00, #0000ff`",
+ * will output a `value` of an array of `p5.Color` objects.
+ * @extends Textarea
+ * @see ColourBoxes
+ * @see MultiColourBoxes
+ */
 class ColourTextArea extends Textarea {
+	/**
+	 * ColourTextArea constructor.
+	 * @param {GUI} gui - The GUI instance.
+	 * @param {string} name - The name of the controller.
+	 * @param {string} labelStr - The label for the controller.
+	 * @param {Array<p5.Color>} colours - The initial list of colours.
+	 * @param {function} valueCallback - Callback function for value changes.
+	 * @param {function} [setupCallback] - Optional setup callback.
+	 * @example
+	 * const colourTextArea = new ColourTextArea(
+	 * 	gui,
+	 * 	'colourTextArea',
+	 * 	'Enter colours:',
+	 * 	generator.volours,
+	 * 	(controller, value) => {
+	 * 		console.log('Colours changed:', value);
+	 * 	}
+	 * );
+	 */
 	constructor(
 		gui,
 		name,

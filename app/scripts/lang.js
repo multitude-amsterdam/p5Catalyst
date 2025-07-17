@@ -1,8 +1,32 @@
+/**
+ * @fileoverview Simple helper class {@link Lang} used to translate GUI
+ * strings into user-defined languages. Modifiable/extensible.
+ * @see Lang
+ * @see lang
+ * @see dictionary
+ * @see language
+ */
+
+/**
+ * @constant
+ * @type {string}
+ * @default
+ * */
 const language = 'en';
 
-// dictionary keys should be sorted alphabetically in reverse order,
-// so that the longest keys are replaced first
-// (use VS Code "Sort JS Object keys" extension to sort the keys)
+/**
+ * Holds all translatable "hot strings".
+ *
+ * The top level keys are replacement tokens used inside the GUI.
+ *
+ * The dictionary keys should be sorted alphabetically in reverse order,
+ * so that the longest keys are replaced first.
+ *
+ * (Use the VS Code "Sort JS Object keys" extension to sort the keys.)
+ *
+ * @constant
+ * @type {Object<string, {nl:string, en:string}>}
+ */
 const dictionary = {
 	LANG_WRONG_FILE_TYPE_MSG: {
 		nl: 'Het verkeerde bestandtype was geselecteerd.',
@@ -198,8 +222,12 @@ const dictionary = {
 	},
 };
 
+/** list of language keys supported by the dictionary */
 const availableLangKeys = Object.keys(dictionary[Object.keys(dictionary)[0]]);
 
+/**
+ * Helper class that performs token replacement based on the selected language.
+ */
 class Lang {
 	static verbose = false;
 
@@ -222,11 +250,28 @@ class Lang {
 
 	constructor() {}
 
+	/**
+	 * Sets the language key to use for translations.
+	 *
+	 * If no key is provided, it will try to get the key from the URL.
+	 *
+	 * @param {string} langKey - The language key to use for translations.
+	 * @see availableLangKeys
+	 */
 	setup(langKey) {
 		this.langKey = langKey;
 		this.langKey = Lang.getURLLangKey() || langKey;
 	}
 
+	/**
+	 * Processes the input string by replacing all hot strings with their translations.
+	 * @param {string} str - The string to process.
+	 * @param {boolean} [doCapitalizeFirstLetter=false] - Whether to capitalize the first letter of the processed string.
+	 * @param {number} [depth=10] - The maximum recursion depth to prevent infinite loops.
+	 * @returns {string} - The processed string with all hot strings replaced by their translations or the original string if no replacements were made.
+	 * @see dictionary
+	 * @see lang
+	 */
 	process(str, doCapitalizeFirstLetter = false, depth = 10) {
 		// recursively replace all hotStrings in str with their translations
 		let replaced = str;
@@ -267,4 +312,8 @@ class Lang {
 	}
 }
 
+/**
+ * Global instance of {@link Lang} used throughout the GUI for translations.
+ * @type {Lang}
+ */
 const lang = new Lang();

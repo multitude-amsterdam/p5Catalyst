@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: sketch.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: sketch.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview
+ * Main sketch file for p5Catalyst.
+ * Handles canvas setup, rendering loop, asset loading, GUI, frame capture, and utility functions.
+ * Provides the entry point for the p5.js sketch and manages the global state.
+ */
+
+/**
+ * Reference to the main p5 canvas.
+ * @type {p5.Renderer}
+ * */
+let canvas;
+
+/**
+ * SVG version of the p5 canvas.
+ * @type {p5}
+ * */
+let svgCanvas;
+
+/**
+ * Wrapper element containing the canvas.
+ * @type {p5.Element}
+ * */
+let canvWrapper;
+
+/**
+ * Current canvas width.
+ * @type {number}
+ * */
+let pw = 1;
+/**
+ * Current canvas height.
+ * @type {number}
+ */
+let ph = 1;
+
+/**
+ * Scale factor used when fitting the canvas to the window.
+ * @type {number}
+ * */
+let canvScale = 1;
+
+/**
+ * Optional shader assigned to the sketch.
+ * @type {?p5.Shader}
+ * */
+let theShader;
+
+/** @type {?GUIForP5} */
+let gui;
+
+/** @type {?Generator} */
+let generator;
+
+/**
+ * Loaded fonts used throughout the sketch.
+ * @type {p5.Font}
+ */
+let bodyFont, /** @type {p5.Font} */ titleFont;
+
+/**
+ * Maximum factor for increasing the rendering resolution.
+ * @constant {number}
+ */
+const maxImgResIncrease = 0.25;
+
+/**
+ * When true the timeline runs at real world time instead of frame based.
+ * @constant {boolean}
+ */
+const doRunRealTime = false;
+
+/**
+ * Indicates if frames are currently being captured for video export.
+ * @type {boolean}
+ */
+let isCapturingFrames = false;
+/**
+ * Capture frames starting at frame&amp;nbsp;0 when true.
+ * @constant {boolean}
+ */
+const doCaptureStartFromFrame0 = true;
+
+/**
+ * Helper vector with the current mouse position.
+ * @type {Vec2D}
+ */
+let mouse = new Vec2D();
+
+/**
+ * Whether the animation loop is currently running.
+ * @type {boolean}
+ */
+let isPlaying = true;
+/**
+ * Current progress through the animation [0-1].
+ * @type {number}
+ */
+let progress = 0;
+/**
+ * Current animation frame time in seconds.
+ * @type {number}
+ */
+let time = 0;
+/**
+ * Previous frame time in seconds.
+ * @type {number}
+ */
+let ptime = -1 / 60;
+/**
+ * Speed multiplier for the animation.
+ * @type {number}
+ */
+let speed = 1;
+/**
+ * Delta time between frames.
+ * @type {number}
+ */
+let dtime;
+
+/**
+ * Frame counter used while waiting for ffmpeg initialisation.
+ * @type {number}
+ */
+let ffmpegWaiter = 0;
+
+/**
+ * Scaling factor applied when using the mouse wheel.
+ * @type {number}
+ */
+let scrollScale = 1;
+
+/**
+ * ChangeSet instance tracking undo/redo actions.
+ * @type {ChangeSet}
+ */
+let changeSet;
+
+/**
+ * p5 preload hook used for loading assets before setup.
+ * @function preload
+ */
+function preload() {
+	// theShader = loadShader('scripts/shader/shader.vert', 'scripts/shader/shader.frag');
+}
+
+/**
+ * Standard p5 setup function.
+ * @function setup
+ */
+function setup() {
+	initUtils(10, ffmpegFR || 30);
+
+	canvas =
+		theShader === undefined
+			? createCanvas(1, 1)
+			: createCanvas(1, 1, WEBGL);
+	// svgCanvas = new p5(theSvgCanvasSketch);
+	createCanvasWrapper();
+
+	lang.setup('en');
+
+	generator = new Generator();
+
+	createGUI();
+
+	ffmpegSetup();
+
+	containCanvasInWrapper();
+
+	changeSet = new ChangeSet();
+
+	generator.setup();
+
+	if (window.location.hostname !== 'localhost') {
+		setTimeout(helpMe, 500);
+	}
+}
+
+/**
+ * Main draw loop executed every frame.
+ * @function draw
+ */
+function draw() {
+	if (!isFfmpegInit &amp;&amp; ffmpegWaiter &lt; FR) {
+		ffmpegWaiter++;
+		return;
+	}
+	// if (!isPlaying) return;
+	if (keyIsDown('-')) frameCount--;
+	if (keyIsDown('=')) frameCount++;
+	setTime();
+	mouse.set(mouseX, mouseY); //.scaleSelf(1 / generator.canvScale);
+
+	generator.draw();
+
+	handleFrameCapture();
+}
+
+/**
+ * Sketch used for creating an off-screen SVG renderer.
+ * @param {p5} sketch The p5 instance.
+ * @function theSvgCanvasSketch
+ */
+function theSvgCanvasSketch(sketch) {
+	sketch.setup = () => {
+		let canvas = sketch.createCanvas(1, 1, SVG);
+		canvas.svg.style.display = 'none';
+		sketch.pixelDensity(1);
+		sketch.clear();
+		sketch.noLoop();
+	};
+
+	sketch.draw = () => {};
+}
+
+/**
+ * Display a help dialog with usage instructions.
+ * @function helpMe
+ */
+function helpMe() {
+	dialog.alert(lang.process(`LANG_HELPME_MSG`, true));
+}
+
+/**
+ * Resize the renderer and contained canvases.
+ * @param {number} w Width in pixels.
+ * @param {number} h Height in pixels.
+ * @function resize
+ */
+function resize(w, h) {
+	if (w == pw &amp;&amp; h == ph) return;
+	if (w &lt; 1 || h &lt; 1) return;
+
+	pw = w;
+	ph = h;
+
+	print(`Resizing to: ${w} x ${h}...`);
+	pixelDensity(1);
+	resizeCanvas(pw, ph);
+	// generator.pg.pixelDensity(1);
+	// generator.pg.resizeCanvas(pw, ph);
+	if (svgCanvas) {
+		svgCanvas.pixelDensity(1);
+		svgCanvas.resizeCanvas(pw, ph);
+	}
+
+	containCanvasInWrapper();
+	containCanvasInWrapper(); // needs a double call
+}
+
+/**
+ * Create a container div and attach the p5 canvases to it.
+ * @function createCanvasWrapper
+ */
+function createCanvasWrapper() {
+	canvWrapper = createDiv();
+	canvWrapper.id('canvas-workarea');
+	canvas.parent(canvWrapper);
+	if (svgCanvas) {
+		canvWrapper.elt.append(svgCanvas.canvas.wrapper);
+		svgCanvas.parent(canvWrapper);
+	}
+	document.querySelector('main').append(canvWrapper.elt);
+}
+
+/**
+ * Fit the canvas inside the wrapper element while maintaining aspect ratio.
+ * @function containCanvasInWrapper
+ */
+function containCanvasInWrapper() {
+	const canvAsp = pw / ph;
+
+	const wrapperW = canvWrapper.elt.clientWidth;
+	const wrapperH = canvWrapper.elt.clientHeight;
+	const wrapperAsp = wrapperW / wrapperH;
+
+	canvas.elt.style = '';
+	if (canvAsp > wrapperAsp) {
+		canvas.elt.style.height = '';
+		canvas.elt.style.width = '100%';
+	} else {
+		canvas.elt.style.width = '';
+		canvas.elt.style.height = 'calc(100vh - 2rem)';
+	}
+
+	if (svgCanvas) {
+		svgCanvas.canvas.wrapper.style = '';
+		svgCanvas.canvas.svg.removeAttribute('width');
+		svgCanvas.canvas.svg.removeAttribute('height');
+		svgCanvas.canvas.svg.style.width = pw;
+		svgCanvas.canvas.svg.style.height = ph;
+	}
+
+	canvScale = sqrt((pw * ph) / (1920 * 1080));
+}
+
+/**
+ * Saves each rendered frame when capturing video output.
+ * @function handleFrameCapture
+ */
+function handleFrameCapture() {
+	if (isCapturingFrames) {
+		const vidButton = gui.getController(
+			'buttonVidCapture' + ffmpegExportSettings.ext.toUpperCase()
+		).controllerElement;
+		if (savedFrameCount &lt; nFrames) {
+			saveToLocalFFMPEG(savedFrameCount);
+			vidButton.elt.style.backgroundColor = 'var(--gui-hover-col)';
+			savedFrameCount++;
+		} else {
+			vidButton.elt.style.backgroundColor = null;
+			stopCapture();
+			print('End of saving frames, making video...');
+			ffmpegCreateMP4();
+		}
+	}
+}
+
+/**
+ * Keyboard handler for various shortcuts.
+ * @param {KeyboardEvent} e
+ * @function keyPressed
+ */
+function keyPressed(e) {
+	if (gui.isTypingText) return;
+
+	// controls changeSet with CTRL/CMD + Z
+	const evt = window.event ? event : e;
+	const doChangeSet =
+		evt.keyCode == 90 &amp;&amp;
+		((evt.ctrlKey &amp;&amp; !evt.metaKey) || (!evt.ctrlKey &amp;&amp; evt.metaKey)) &amp;&amp;
+		!evt.altKey;
+	if (doChangeSet &amp;&amp; !evt.shiftKey) changeSet.undo();
+	else if (doChangeSet &amp;&amp; evt.shiftKey) changeSet.redo();
+
+	// set utilBools with keys 0 through 9
+	if (keyCode >= 48 &amp;&amp; keyCode &lt;= 57) {
+		let utilInd = keyCode - 48;
+		utilBools[utilInd] = !utilBools[utilInd];
+	}
+
+	// case-sensitive keys
+	switch (key) {
+		case 'ArrowUp':
+			K++;
+			print('K: ' + K);
+			break;
+		case 'ArrowDown':
+			if (K &lt;= 0) break;
+			K--;
+			print('K: ' + K);
+			break;
+	}
+
+	// case-insensitive keys
+	const frameJump = 100;
+	switch (key.toLowerCase()) {
+		case ' ':
+			isPlaying = !isPlaying;
+			break;
+		case 'h':
+			helpMe();
+			break;
+		case '[':
+			frameCount -= frameJump;
+			break;
+		case ']':
+			frameCount += frameJump;
+			break;
+		case 's':
+			save(Generator.getOutputFileName() + '.png');
+			break;
+		case 'f':
+			let fs = fullscreen();
+			fullscreen(!fs);
+			break;
+		case 'b':
+			gui.toggleSide();
+			break;
+		case 'm':
+			gui.toggleLightDarkMode();
+			break;
+	}
+}
+
+function mousePressed() {}
+
+function mouseReleased() {}
+
+/**
+ * Relative scroll velocity used when mapping mouse wheel movement.
+ * Differential scrolling speed with Apple trackpad &amp; mouse.
+ * @constant {number}
+ */
+const relScrollVel = (isMac() ? 0.1 : 1) * 0.06;
+/**
+ * Handle zooming when scrolling.
+ * @param {WheelEvent} event
+ * @function mouseWheel
+ */
+function mouseWheel(event) {
+	let wheelDist = getWheelDistance(event);
+	const s = exp(wheelDist * relScrollVel);
+	scrollScale *= s;
+	// scrollScale = constrain(scrollScale, 0.2, 5);
+}
+
+/**
+ * Resize callback from p5 whenever the window size changes.
+ * @function windowResized
+ */
+function windowResized() {
+	containCanvasInWrapper();
+}
+
+/**
+ * Unique session identifier used for seeding random values.
+ * @type {number}
+ */
+let SSID;
+/**
+ * Utility constant controlled with up and down arrows.
+ * @type {number}
+ */
+let K = 0;
+/**
+ * Array of boolean flags for generic usage.
+ * Can be operated with the 0–9 keys.
+ * @type {boolean[]}
+ */
+let utilBools = [];
+/**
+ * Frame rate and duration related variables.
+ * @type {number}
+ */
+let /** @type {number} */ FR,
+	/** @type {number} */ duration,
+	/** @type {number} */ nFrames;
+/**
+ * Offset used for noise generation.
+ * @type {number}
+ */
+let noiseOffs;
+
+/**
+ * Initialise global timing and seeding utilities.
+ * @param {number} _duration Duration in seconds.
+ * @param {number} _frameRate Frame rate.
+ * @function initUtils
+ */
+function initUtils(_duration, _frameRate) {
+	console.log('p5Catalyst initiated as ' + Generator.name);
+	console.log(
+		'Visit the project: https://github.com/multitude-amsterdam/p5Catalyst'
+	);
+
+	// SSID-based seed initialisation
+	SSID = generateSSID();
+	SSIDHash = SSID / 1e8;
+	SSIDHash = SSID / 1e8;
+	randomSeed(SSID);
+	noiseSeed(SSID);
+	noiseOffs = SSIDHash * 1000;
+
+	// set framerate and animation duration
+	FR = _frameRate;
+	ffmpegFR = FR;
+	setDuration(_duration);
+	frameRate(FR);
+
+	document.title = Generator.name;
+
+	for (let i = 0; i &lt; 10; i++) utilBools.push(false);
+}
+
+/**
+ * Generate a pseudo random session identifier.
+ * @function generateSSID
+ * @returns {number}
+ */
+function generateSSID() {
+	return Math.floor(Math.random() * 1e8);
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Button.html">Button</a></li><li><a href="ChangeSet.html">ChangeSet</a></li><li><a href="ColourBoxes.html">ColourBoxes</a></li><li><a href="ColourTextArea.html">ColourTextArea</a></li><li><a href="Controller.html">Controller</a></li><li><a href="Dialog.html">Dialog</a></li><li><a href="DieIcon.html">DieIcon</a></li><li><a href="Divider.html">Divider</a></li><li><a href="DualRangeInput.html">DualRangeInput</a></li><li><a href="Field.html">Field</a></li><li><a href="FileLoader.html">FileLoader</a></li><li><a href="GUIForP5.html">GUIForP5</a></li><li><a href="GUIImage.html">GUIImage</a></li><li><a href="Generator.html">Generator</a></li><li><a href="ImageLoader.html">ImageLoader</a></li><li><a href="JSONFileLoader.html">JSONFileLoader</a></li><li><a href="Label.html">Label</a></li><li><a href="Lang.html">Lang</a></li><li><a href="MultiColourBoxes.html">MultiColourBoxes</a></li><li><a href="Randomizer.html">Randomizer</a></li><li><a href="RangeSlider.html">RangeSlider</a></li><li><a href="ResolutionSelect.html">ResolutionSelect</a></li><li><a href="ResolutionTextboxes.html">ResolutionTextboxes</a></li><li><a href="Select.html">Select</a></li><li><a href="Slider.html">Slider</a></li><li><a href="TextFileLoader.html">TextFileLoader</a></li><li><a href="Textarea.html">Textarea</a></li><li><a href="Textbox.html">Textbox</a></li><li><a href="Textfield.html">Textfield</a></li><li><a href="Title.html">Title</a></li><li><a href="Toggle.html">Toggle</a></li><li><a href="ValuedController.html">ValuedController</a></li><li><a href="XYSlider.html">XYSlider</a></li></ul><h3>Global</h3><ul><li><a href="global.html#E">E</a></li><li><a href="global.html#FR">FR</a></li><li><a href="global.html#K">K</a></li><li><a href="global.html#PHI">PHI</a></li><li><a href="global.html#SSID">SSID</a></li><li><a href="global.html#availableLangKeys">availableLangKeys</a></li><li><a href="global.html#b64Digits">b64Digits</a></li><li><a href="global.html#bezierFilletControlPoints">bezierFilletControlPoints</a></li><li><a href="global.html#bodyFont">bodyFont</a></li><li><a href="global.html#canvScale">canvScale</a></li><li><a href="global.html#canvWrapper">canvWrapper</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#capitalizeFirstLetter">capitalizeFirstLetter</a></li><li><a href="global.html#changeSet">changeSet</a></li><li><a href="global.html#colorToHexString">colorToHexString</a></li><li><a href="global.html#computeRoughSizeOfObject">computeRoughSizeOfObject</a></li><li><a href="global.html#constrainAngle">constrainAngle</a></li><li><a href="global.html#containCanvasInWrapper">containCanvasInWrapper</a></li><li><a href="global.html#copyCanvasToClipboard">copyCanvasToClipboard</a></li><li><a href="global.html#createCanvasWrapper">createCanvasWrapper</a></li><li><a href="global.html#createGUI">createGUI</a></li><li><a href="global.html#dialog">dialog</a></li><li><a href="global.html#dictionary">dictionary</a></li><li><a href="global.html#doCaptureStartFromFrame0">doCaptureStartFromFrame0</a></li><li><a href="global.html#doRunRealTime">doRunRealTime</a></li><li><a href="global.html#draw">draw</a></li><li><a href="global.html#dtime">dtime</a></li><li><a href="global.html#duration">duration</a></li><li><a href="global.html#ffmpegWaiter">ffmpegWaiter</a></li><li><a href="global.html#fromB64">fromB64</a></li><li><a href="global.html#gaussian">gaussian</a></li><li><a href="global.html#gaussianAngular">gaussianAngular</a></li><li><a href="global.html#gaussianSharp">gaussianSharp</a></li><li><a href="global.html#gaussianWobble">gaussianWobble</a></li><li><a href="global.html#generateSSID">generateSSID</a></li><li><a href="global.html#generator">generator</a></li><li><a href="global.html#getAPaperResolutionOptionAtDpi">getAPaperResolutionOptionAtDpi</a></li><li><a href="global.html#getTimestamp">getTimestamp</a></li><li><a href="global.html#getUNIX">getUNIX</a></li><li><a href="global.html#getWheelDistance">getWheelDistance</a></li><li><a href="global.html#gui">gui</a></li><li><a href="global.html#handleFrameCapture">handleFrameCapture</a></li><li><a href="global.html#hashThreeIntegers">hashThreeIntegers</a></li><li><a href="global.html#helpMe">helpMe</a></li><li><a href="global.html#imageCentered">imageCentered</a></li><li><a href="global.html#inPg">inPg</a></li><li><a href="global.html#initUtils">initUtils</a></li><li><a href="global.html#intersectionPoint">intersectionPoint</a></li><li><a href="global.html#isArraysEqual">isArraysEqual</a></li><li><a href="global.html#isCapturingFrames">isCapturingFrames</a></li><li><a href="global.html#isInBounds">isInBounds</a></li><li><a href="global.html#isInCanvas">isInCanvas</a></li><li><a href="global.html#isMac">isMac</a></li><li><a href="global.html#isMouseInside">isMouseInside</a></li><li><a href="global.html#isPlaying">isPlaying</a></li><li><a href="global.html#isPointInTriangle">isPointInTriangle</a></li><li><a href="global.html#keyPressed">keyPressed</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#language">language</a></li><li><a href="global.html#lerpColorOKLab">lerpColorOKLab</a></li><li><a href="global.html#lum">lum</a></li><li><a href="global.html#maxImgResIncrease">maxImgResIncrease</a></li><li><a href="global.html#midPoint">midPoint</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mouse">mouse</a></li><li><a href="global.html#mouseWheel">mouseWheel</a></li><li><a href="global.html#nFrames">nFrames</a></li><li><a href="global.html#nmc">nmc</a></li><li><a href="global.html#noiseOffs">noiseOffs</a></li><li><a href="global.html#numsToRoundedPercentages">numsToRoundedPercentages</a></li><li><a href="global.html#paramToIntSteps">paramToIntSteps</a></li><li><a href="global.html#ph">ph</a></li><li><a href="global.html#preload">preload</a></li><li><a href="global.html#progress">progress</a></li><li><a href="global.html#ptime">ptime</a></li><li><a href="global.html#pushpop">pushpop</a></li><li><a href="global.html#pw">pw</a></li><li><a href="global.html#randCol">randCol</a></li><li><a href="global.html#randomDate">randomDate</a></li><li><a href="global.html#randomGaussianBoxMueller2">randomGaussianBoxMueller2</a></li><li><a href="global.html#relScrollVel">relScrollVel</a></li><li><a href="global.html#resize">resize</a></li><li><a href="global.html#resolutionOptions">resolutionOptions</a></li><li><a href="global.html#restoreSerializedP5Color">restoreSerializedP5Color</a></li><li><a href="global.html#restoreSerializedVec2D">restoreSerializedVec2D</a></li><li><a href="global.html#restoreSerializedVec3D">restoreSerializedVec3D</a></li><li><a href="global.html#scrollScale">scrollScale</a></li><li><a href="global.html#setDuration">setDuration</a></li><li><a href="global.html#setTime">setTime</a></li><li><a href="global.html#setup">setup</a></li><li><a href="global.html#sigmoid">sigmoid</a></li><li><a href="global.html#sign">sign</a></li><li><a href="global.html#signedAngleBetween">signedAngleBetween</a></li><li><a href="global.html#signedAngleDiff">signedAngleDiff</a></li><li><a href="global.html#simpleIntToFloatHash">simpleIntToFloatHash</a></li><li><a href="global.html#simplexNoise">simplexNoise</a></li><li><a href="global.html#simplifyAngle">simplifyAngle</a></li><li><a href="global.html#speed">speed</a></li><li><a href="global.html#stringToFloatHash">stringToFloatHash</a></li><li><a href="global.html#svgCanvas">svgCanvas</a></li><li><a href="global.html#tanh">tanh</a></li><li><a href="global.html#theShader">theShader</a></li><li><a href="global.html#theSvgCanvasSketch">theSvgCanvasSketch</a></li><li><a href="global.html#time">time</a></li><li><a href="global.html#titleFont">titleFont</a></li><li><a href="global.html#toB64">toB64</a></li><li><a href="global.html#toxiBezierVertex">toxiBezierVertex</a></li><li><a href="global.html#toxiFillet">toxiFillet</a></li><li><a href="global.html#toxiVertex">toxiVertex</a></li><li><a href="global.html#utilBools">utilBools</a></li><li><a href="global.html#v">v</a></li><li><a href="global.html#vectorComponents">vectorComponents</a></li><li><a href="global.html#windowResized">windowResized</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jul 17 2025 14:51:58 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

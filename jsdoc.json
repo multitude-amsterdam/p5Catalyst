@@ -1,0 +1,21 @@
+{
+	"To install JSDocs (once):": "npm install -g jsdoc",
+	"To create JSDocs in /docs": "jsdoc -c jsdoc.json",
+
+	"plugins": ["plugins/markdown"],
+	"source": {
+		"include": ["app/scripts", "app/ffmpeg/ffmpeg.js"],
+		"includePattern": ".+\\.js(doc|x)?$",
+		"exclude": [
+			"app/scripts/lib/p5.min-1.6.1.js",
+			"app/scripts/lib/p5.svg-1.5.1.js",
+			"app/scripts/lib/toxiclibs.min.js"
+		],
+		"excludePattern": "(^|\\/|\\\\)_"
+	},
+	"opts": {
+		"destination": "./docs",
+		"recurse": true
+	},
+	"compile": "jsdoc -c jsdoc.json"
+}

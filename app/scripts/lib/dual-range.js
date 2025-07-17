@@ -1,9 +1,4 @@
 class DualRangeInput {
-	/**
-	 * @param {HTMLInputElement} $min - The range input element for the minimum value
-	 * @param {HTMLInputElement} $max - The range input element for the maximum value
-	 * @param {number} [precision=3] - The number of decimal places to round the mid value to, defaults to 3
-	 */
 	constructor($min, $max, precision = 3) {
 		this.updateFloor = () => this.update('floor');
 		this.updateCeil = () => this.update('ceil');
@@ -24,6 +19,7 @@ class DualRangeInput {
 		this.$min.dataset.ready = 'true';
 		this.$max.dataset.ready = 'true';
 	}
+
 	update(method = 'ceil') {
 		const thumbWidthVar = 'var(--dri-thumb-width)';
 		const min = parseFloat(this.$min.min);
@@ -57,6 +53,7 @@ class DualRangeInput {
 			`calc(${maxFillPercentage}% + (${maxFillThumb} * ${thumbWidthVar}))`
 		);
 	}
+
 	destroy() {
 		this.$min.removeEventListener('input', this.updateFloor);
 		this.$max.removeEventListener('input', this.updateCeil);

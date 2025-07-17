@@ -41,13 +41,6 @@ class Dialog {
 	}
 
 	prompt(html, defaultVal = '', confirmButtonLabel = 'OK') {
-		/* 
-            returns a Promise that resolves with input value
-            usage:
-            let result = await dialog.prompt('Enter your name:');
-            or:
-            dialog.prompt('Enter your name:').then(name => console.log(name));
-        */
 		if (html !== '' && html.indexOf('<') === -1) {
 			html = `<p>${html}</p>`;
 		}

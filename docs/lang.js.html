@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lang.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lang.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Simple helper class {@link Lang} used to translate GUI
+ * strings into user-defined languages. Modifiable/extensible.
+ * @see lang
+ * @see dictionary
+ * @see language
+ */
+
+/**
+ * @constant
+ * @type {string}
+ * @default
+ * */
+const language = 'en';
+
+/**
+ * Holds all translatable "hot strings".
+ *
+ * The top level keys are replacement tokens used inside the GUI.
+ *
+ * The dictionary keys should be sorted alphabetically in reverse order,
+ * so that the longest keys are replaced first.
+ *
+ * (Use the VS Code "Sort JS Object keys" extension to sort the keys.)
+ *
+ * @constant
+ * @type {Object&lt;string, {nl:string, en:string}>}
+ */
+const dictionary = {
+	LANG_WRONG_FILE_TYPE_MSG: {
+		nl: 'Het verkeerde bestandtype was geselecteerd.',
+		en: 'The wrong file type was selected.',
+	},
+	LANG_WIDTH: {
+		nl: 'breedte',
+		en: 'width',
+	},
+	LANG_VIDEO_READY_MSG: {
+		nl: 'De video is gereed and wordt gedownload.',
+		en: 'The video is ready and will be downloaded.',
+	},
+	LANG_VIDEO: {
+		nl: 'video',
+		en: 'video',
+	},
+	LANG_VID_DURATION: {
+		nl: 'duur video',
+		en: 'video duration',
+	},
+	LANG_VID_CAPTURE: {
+		nl: 'video-opname',
+		en: 'video capture',
+	},
+	LANG_UNDO: {
+		nl: 'ongedaan maken',
+		en: 'undo',
+	},
+	LANG_TITLE_TEXT: {
+		nl: 'titeltekst',
+		en: 'title text',
+	},
+	LANG_TEXT: {
+		nl: 'tekst',
+		en: 'text',
+	},
+	LANG_SUPPORT: {
+		nl: 'ondersteuning',
+		en: 'support',
+	},
+	LANG_SQUARE: {
+		nl: 'vierkant',
+		en: 'square',
+	},
+	LANG_SPEED: {
+		nl: 'snelheid',
+		en: 'speed',
+	},
+	LANG_SHOW: {
+		nl: 'toon',
+		en: 'show',
+	},
+	LANG_SETTINGS: {
+		nl: 'instellingen',
+		en: 'settings',
+	},
+	LANG_SELECT: {
+		nl: 'selecteer',
+		en: 'select',
+	},
+	LANG_SCALE: {
+		nl: 'schaal',
+		en: 'scale',
+	},
+	LANG_SAVE_SETTINGS: {
+		nl: 'instellingen opslaan als bestand',
+		en: 'save settings as file',
+	},
+	LANG_REDO: {
+		nl: 'opnieuw',
+		en: 'redo',
+	},
+	LANG_RANDOMIZE: {
+		nl: 'doe maar wat',
+		en: 'randomize',
+	},
+	LANG_PROFILEPIC: {
+		nl: 'profielfoto',
+		en: 'profile picture',
+	},
+	LANG_PORTRAIT: {
+		nl: 'staand',
+		en: 'portrait',
+	},
+	LANG_LOAD_SETTINGS: {
+		nl: 'open instellingen',
+		en: 'open settings file',
+	},
+	LANG_LANDSCAPE: {
+		nl: 'liggend',
+		en: 'landscape',
+	},
+	LANG_IMAGE_POSITION: {
+		nl: 'positie afbeelding',
+		en: 'image position',
+	},
+	LANG_IMAGE: {
+		nl: 'afbeelding',
+		en: 'image',
+	},
+	LANG_HIDE: {
+		nl: 'verberg',
+		en: 'hide',
+	},
+	LANG_TOO_SMALL_IMG_ALERT: {
+		nl:
+			'De afmetingen van de afbeelding ({0} x {1}) zijn te laag voor een mooi optisch effect.\n' +
+			'Kies een afbeelding van ten minste {2} x {3} pixels.',
+		en:
+			'The dimensions of the image ({0} x {1}) are too low for a good optical effect.\n' +
+			'Choose an image of at least {2} x {3} pixels.',
+	},
+	LANG_TOO_SMALL_IMG: {
+		nl: 'Kleiner dan minimum afmetingen: {0} x {1} pixels.',
+		en: 'Smaller than minimum dimensions: {0} x {1} pixels.',
+	},
+	LANG_HELPME_MSG: {
+		nl:
+			`&lt;h1>Help&lt;/h1>` +
+			`&lt;p>` +
+			`&lt;ul>` +
+			`&lt;li>Laat deze popup zien: &lt;code>H&lt;/code>&lt;/li>` +
+			`&lt;li>Pauzeren / afspelen animatie: &lt;code>spatiebalk&lt;/code>&lt;/li>` +
+			`&lt;li>Ongedaan maken / opnieuw: &lt;code>CTRL / CMD&lt;/code> + &lt;code>Z&lt;/code>&lt;/li>` +
+			`&lt;li>Opnieuw: &lt;code>CTRL / CMD&lt;/code> + &lt;code>SHIFT&lt;/code> + &lt;code>Z&lt;/code>&lt;/li>` +
+			`&lt;li>Volledig scherm: &lt;code>F&lt;/code>&lt;/li>` +
+			`&lt;li>Zijbalk verspringen: &lt;code>B&lt;/code>&lt;/li>` +
+			`&lt;li>Wissel tussen licht/donker thema: &lt;code>M&lt;/code>&lt;/li>` +
+			`&lt;/ul>` +
+			`&lt;/p>`,
+		en:
+			`&lt;h1>Help&lt;/h1>` +
+			`&lt;p>` +
+			`&lt;ul>` +
+			`&lt;li>Show this popup: &lt;code>H&lt;/code>&lt;/li>` +
+			`&lt;li>Pause / play animation: &lt;code>spacebar&lt;/code>&lt;/li>` +
+			`&lt;li>Undo: &lt;code>CTRL / CMD&lt;/code> + &lt;code>Z&lt;/code>&lt;/li>` +
+			`&lt;li>Redo: &lt;code>CTRL / CMD&lt;/code> + &lt;code>SHIFT&lt;/code> + &lt;code>Z&lt;/code>&lt;/li>` +
+			`&lt;li>Toggle fullscreen: &lt;code>F&lt;/code>&lt;/li>` +
+			`&lt;li>Flip sidebar: &lt;code>B&lt;/code>&lt;/li>` +
+			`&lt;li>Toggle light/dark mode: &lt;code>M&lt;/code>&lt;/li>` +
+			`&lt;/ul>` +
+			`&lt;/p>`,
+	},
+	LANG_HELP: {
+		nl: 'help',
+		en: 'help',
+	},
+	LANG_HEIGHT: {
+		nl: 'hoogte',
+		en: 'height',
+	},
+	LANG_FORMAT: {
+		nl: 'formaat',
+		en: 'format',
+	},
+	LANG_FGCOL: {
+		nl: 'voorgrondkleur',
+		en: 'foreground colour',
+	},
+	LANG_EXPORT: {
+		nl: 'exporteren',
+		en: 'export',
+	},
+	LANG_COPY_TO_CLIPBOARD: {
+		nl: 'afbeelding kopiëren',
+		en: 'copy image',
+	},
+	LANG_CONTACT_MSG: {
+		nl: 'Contact voor ondersteuning &amp; feedback',
+		en: 'Contact for support &amp; feedback',
+	},
+	LANG_CHOOSE_FILE_NAME_MSG: {
+		nl: 'Kies een bestandsnaam:',
+		en: 'Choose a file name:',
+	},
+	LANG_BUTTON: {
+		nl: 'knop',
+		en: 'button',
+	},
+	LANG_BODY_TEXT: {
+		nl: 'bodytekst',
+		en: 'body text',
+	},
+	LANG_BGCOL: {
+		nl: 'achtergrondkleur',
+		en: 'background colour',
+	},
+	LANG_APPEARANCE: {
+		nl: 'verschijning',
+		en: 'appearance',
+	},
+};
+
+/** list of language keys supported by the dictionary */
+const availableLangKeys = Object.keys(dictionary[Object.keys(dictionary)[0]]);
+
+/**
+ * @class Lang
+ * @description Helper class that performs token replacement based on the selected language.
+ */
+class Lang {
+	static verbose = false;
+
+	static getURLLangKey() {
+		// form: "?lang=nl"
+		const urlParams = new URLSearchParams(window.location.search);
+		let urlLangKey = urlParams.get('lang');
+		if (urlLangKey == null) {
+			if (Lang.verbose) console.log('No lang key set in URL.');
+			return;
+		}
+		urlLangKey = urlLangKey.toLowerCase();
+		if (!availableLangKeys.some(key => key == urlLangKey)) {
+			console.error('Lang key set in URL but is invalid: ' + urlLangKey);
+			return;
+		}
+		if (Lang.verbose) console.log('Lang key set: ' + urlLangKey);
+		return urlLangKey;
+	}
+
+	constructor() {}
+
+	/**
+	 * Sets the language key to use for translations.
+	 * @param {string} langKey - The language key to use for translations.
+	 * @see availableLangKeys
+	 */
+	setup(langKey) {
+		this.langKey = langKey;
+		this.langKey = Lang.getURLLangKey() || langKey;
+	}
+
+	/**
+	 * Processes the input string by replacing all hot strings with their translations.
+	 * @param {string} str - The string to process.
+	 * @param {boolean} [doCapitalizeFirstLetter=false] - Whether to capitalize the first letter of the processed string.
+	 * @param {number} [depth=10] - The maximum recursion depth to prevent infinite loops.
+	 * @returns {string} - The processed string with all hot strings replaced by their translations or the original string if no replacements were made.
+	 * @see dictionary
+	 * @see lang
+	 */
+	process(str, doCapitalizeFirstLetter = false, depth = 10) {
+		// recursively replace all hotStrings in str with their translations
+		let replaced = str;
+		for (let hotString in dictionary) {
+			const translation = dictionary[hotString][this.langKey];
+			if (Lang.verbose &amp;&amp; str.match(hotString) != null)
+				console.log(hotString, translation);
+			replaced = replaced.replaceAll(hotString, translation);
+		}
+		if (str === replaced) {
+			return replaced;
+		}
+		if (depth &lt;= 0) {
+			console.error(
+				'Lang.process() reached max depth without replacing all strings.'
+			);
+			return replaced;
+		}
+
+		if (doCapitalizeFirstLetter) {
+			replaced = this.capFirst(replaced);
+		}
+		return this.process(replaced, doCapitalizeFirstLetter, depth - 1);
+	}
+
+	capFirst(str) {
+		const ind = this.indexOfFirstAlphabetic(str);
+		if (ind == -1) return str;
+		return (
+			str.slice(0, ind) +
+			str.charAt(ind).toUpperCase() +
+			str.slice(ind + 1)
+		);
+	}
+
+	indexOfFirstAlphabetic(str) {
+		return str.search(/[a-zA-Z]/);
+	}
+}
+
+/**
+ * Global instance of {@link Lang} used throughout the GUI for translations.
+ * @type {Lang}
+ */
+const lang = new Lang();
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Button.html">Button</a></li><li><a href="ChangeSet.html">ChangeSet</a></li><li><a href="ColourBoxes.html">ColourBoxes</a></li><li><a href="ColourTextArea.html">ColourTextArea</a></li><li><a href="Controller.html">Controller</a></li><li><a href="Dialog.html">Dialog</a></li><li><a href="DieIcon.html">DieIcon</a></li><li><a href="Divider.html">Divider</a></li><li><a href="DualRangeInput.html">DualRangeInput</a></li><li><a href="Field.html">Field</a></li><li><a href="FileLoader.html">FileLoader</a></li><li><a href="GUIForP5.html">GUIForP5</a></li><li><a href="GUIImage.html">GUIImage</a></li><li><a href="Generator.html">Generator</a></li><li><a href="ImageLoader.html">ImageLoader</a></li><li><a href="JSONFileLoader.html">JSONFileLoader</a></li><li><a href="Label.html">Label</a></li><li><a href="Lang.html">Lang</a></li><li><a href="MultiColourBoxes.html">MultiColourBoxes</a></li><li><a href="Randomizer.html">Randomizer</a></li><li><a href="RangeSlider.html">RangeSlider</a></li><li><a href="ResolutionSelect.html">ResolutionSelect</a></li><li><a href="ResolutionTextboxes.html">ResolutionTextboxes</a></li><li><a href="Select.html">Select</a></li><li><a href="Slider.html">Slider</a></li><li><a href="TextFileLoader.html">TextFileLoader</a></li><li><a href="Textarea.html">Textarea</a></li><li><a href="Textbox.html">Textbox</a></li><li><a href="Textfield.html">Textfield</a></li><li><a href="Title.html">Title</a></li><li><a href="Toggle.html">Toggle</a></li><li><a href="ValuedController.html">ValuedController</a></li><li><a href="XYSlider.html">XYSlider</a></li></ul><h3>Global</h3><ul><li><a href="global.html#E">E</a></li><li><a href="global.html#FR">FR</a></li><li><a href="global.html#K">K</a></li><li><a href="global.html#PHI">PHI</a></li><li><a href="global.html#SSID">SSID</a></li><li><a href="global.html#availableLangKeys">availableLangKeys</a></li><li><a href="global.html#b64Digits">b64Digits</a></li><li><a href="global.html#bezierFilletControlPoints">bezierFilletControlPoints</a></li><li><a href="global.html#bodyFont">bodyFont</a></li><li><a href="global.html#canvScale">canvScale</a></li><li><a href="global.html#canvWrapper">canvWrapper</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#capitalizeFirstLetter">capitalizeFirstLetter</a></li><li><a href="global.html#changeSet">changeSet</a></li><li><a href="global.html#colorToHexString">colorToHexString</a></li><li><a href="global.html#computeRoughSizeOfObject">computeRoughSizeOfObject</a></li><li><a href="global.html#constrainAngle">constrainAngle</a></li><li><a href="global.html#containCanvasInWrapper">containCanvasInWrapper</a></li><li><a href="global.html#copyCanvasToClipboard">copyCanvasToClipboard</a></li><li><a href="global.html#createCanvasWrapper">createCanvasWrapper</a></li><li><a href="global.html#createGUI">createGUI</a></li><li><a href="global.html#dialog">dialog</a></li><li><a href="global.html#dictionary">dictionary</a></li><li><a href="global.html#doCaptureStartFromFrame0">doCaptureStartFromFrame0</a></li><li><a href="global.html#doRunRealTime">doRunRealTime</a></li><li><a href="global.html#draw">draw</a></li><li><a href="global.html#dtime">dtime</a></li><li><a href="global.html#duration">duration</a></li><li><a href="global.html#ffmpegWaiter">ffmpegWaiter</a></li><li><a href="global.html#fromB64">fromB64</a></li><li><a href="global.html#gaussian">gaussian</a></li><li><a href="global.html#gaussianAngular">gaussianAngular</a></li><li><a href="global.html#gaussianSharp">gaussianSharp</a></li><li><a href="global.html#gaussianWobble">gaussianWobble</a></li><li><a href="global.html#generateSSID">generateSSID</a></li><li><a href="global.html#generator">generator</a></li><li><a href="global.html#getAPaperResolutionOptionAtDpi">getAPaperResolutionOptionAtDpi</a></li><li><a href="global.html#getTimestamp">getTimestamp</a></li><li><a href="global.html#getUNIX">getUNIX</a></li><li><a href="global.html#getWheelDistance">getWheelDistance</a></li><li><a href="global.html#gui">gui</a></li><li><a href="global.html#handleFrameCapture">handleFrameCapture</a></li><li><a href="global.html#hashThreeIntegers">hashThreeIntegers</a></li><li><a href="global.html#helpMe">helpMe</a></li><li><a href="global.html#imageCentered">imageCentered</a></li><li><a href="global.html#inPg">inPg</a></li><li><a href="global.html#initUtils">initUtils</a></li><li><a href="global.html#intersectionPoint">intersectionPoint</a></li><li><a href="global.html#isArraysEqual">isArraysEqual</a></li><li><a href="global.html#isCapturingFrames">isCapturingFrames</a></li><li><a href="global.html#isInBounds">isInBounds</a></li><li><a href="global.html#isInCanvas">isInCanvas</a></li><li><a href="global.html#isMac">isMac</a></li><li><a href="global.html#isMouseInside">isMouseInside</a></li><li><a href="global.html#isPlaying">isPlaying</a></li><li><a href="global.html#isPointInTriangle">isPointInTriangle</a></li><li><a href="global.html#keyPressed">keyPressed</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#language">language</a></li><li><a href="global.html#lerpColorOKLab">lerpColorOKLab</a></li><li><a href="global.html#lum">lum</a></li><li><a href="global.html#maxImgResIncrease">maxImgResIncrease</a></li><li><a href="global.html#midPoint">midPoint</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mouse">mouse</a></li><li><a href="global.html#mouseWheel">mouseWheel</a></li><li><a href="global.html#nFrames">nFrames</a></li><li><a href="global.html#nmc">nmc</a></li><li><a href="global.html#noiseOffs">noiseOffs</a></li><li><a href="global.html#numsToRoundedPercentages">numsToRoundedPercentages</a></li><li><a href="global.html#paramToIntSteps">paramToIntSteps</a></li><li><a href="global.html#ph">ph</a></li><li><a href="global.html#preload">preload</a></li><li><a href="global.html#progress">progress</a></li><li><a href="global.html#ptime">ptime</a></li><li><a href="global.html#pushpop">pushpop</a></li><li><a href="global.html#pw">pw</a></li><li><a href="global.html#randCol">randCol</a></li><li><a href="global.html#randomDate">randomDate</a></li><li><a href="global.html#randomGaussianBoxMueller2">randomGaussianBoxMueller2</a></li><li><a href="global.html#relScrollVel">relScrollVel</a></li><li><a href="global.html#resize">resize</a></li><li><a href="global.html#resolutionOptions">resolutionOptions</a></li><li><a href="global.html#restoreSerializedP5Color">restoreSerializedP5Color</a></li><li><a href="global.html#restoreSerializedVec2D">restoreSerializedVec2D</a></li><li><a href="global.html#restoreSerializedVec3D">restoreSerializedVec3D</a></li><li><a href="global.html#scrollScale">scrollScale</a></li><li><a href="global.html#setDuration">setDuration</a></li><li><a href="global.html#setTime">setTime</a></li><li><a href="global.html#setup">setup</a></li><li><a href="global.html#sigmoid">sigmoid</a></li><li><a href="global.html#sign">sign</a></li><li><a href="global.html#signedAngleBetween">signedAngleBetween</a></li><li><a href="global.html#signedAngleDiff">signedAngleDiff</a></li><li><a href="global.html#simpleIntToFloatHash">simpleIntToFloatHash</a></li><li><a href="global.html#simplexNoise">simplexNoise</a></li><li><a href="global.html#simplifyAngle">simplifyAngle</a></li><li><a href="global.html#speed">speed</a></li><li><a href="global.html#stringToFloatHash">stringToFloatHash</a></li><li><a href="global.html#svgCanvas">svgCanvas</a></li><li><a href="global.html#tanh">tanh</a></li><li><a href="global.html#theShader">theShader</a></li><li><a href="global.html#theSvgCanvasSketch">theSvgCanvasSketch</a></li><li><a href="global.html#time">time</a></li><li><a href="global.html#titleFont">titleFont</a></li><li><a href="global.html#toB64">toB64</a></li><li><a href="global.html#toxiBezierVertex">toxiBezierVertex</a></li><li><a href="global.html#toxiFillet">toxiFillet</a></li><li><a href="global.html#toxiVertex">toxiVertex</a></li><li><a href="global.html#utilBools">utilBools</a></li><li><a href="global.html#v">v</a></li><li><a href="global.html#vectorComponents">vectorComponents</a></li><li><a href="global.html#windowResized">windowResized</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jul 17 2025 14:51:58 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

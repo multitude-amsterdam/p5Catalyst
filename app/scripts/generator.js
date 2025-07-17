@@ -1,5 +1,6 @@
 class Generator {
 	static name = 'p5Catalyst Generator';
+
 	static supportEmail = '';
 
 	palette = [

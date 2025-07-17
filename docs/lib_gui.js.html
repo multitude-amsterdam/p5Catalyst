@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lib/gui.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lib/gui.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Implementation of the GUI framework used by p5Catalyst.
+ */
+
+/**
+ * Main GUI wrapper that manages fields and controllers for p5Catalyst.
+ * Handles layout, theming, controller management, and state persistence.
+ *
+ * @class
+ */
+class GUIForP5 {
+	static verbose = !false;
+
+	fields = [];
+	controllers = [];
+
+	/**
+	 * Tracks whether typing is happening within the GUI.
+	 * This is used to prevent `keyPressed()` actions (like randomization)
+	 * while typing.
+	 * @type {boolean}
+	 */
+	isTypingText = false;
+
+	/**
+	 * Constructs the GUI, creates the main div, and sets up theming and layout.
+	 */
+	constructor() {
+		this.div = createDiv();
+		this.div.id('gui');
+
+		this.randomizer = new Randomizer();
+
+		this.loadLightDarkMode();
+
+		this.setLeft();
+	}
+
+	/**
+	 * Calls setup on all controllers.
+	 */
+	setup() {
+		for (let controller of this.controllers) {
+			controller.setup();
+		}
+	}
+
+	/**
+	 * Moves the GUI to the left side of the main container.
+	 */
+	setLeft() {
+		document.querySelector('main').prepend(this.div.elt);
+		this.isOnLeftSide = true;
+	}
+
+	/**
+	 * Moves the GUI to the right side of the main container.
+	 */
+	setRight() {
+		document.querySelector('main').append(this.div.elt);
+		this.isOnLeftSide = false;
+	}
+
+	/**
+	 * Toggles the GUI between left and right sides.
+	 */
+	toggleSide() {
+		this.isOnLeftSide ? this.setRight() : this.setLeft();
+	}
+
+	/**
+	 * Loads the light/dark mode setting from localStorage and applies it.
+	 */
+	loadLightDarkMode() {
+		const setting = window.localStorage['isDarkMode'];
+		switch (setting) {
+			case 'true':
+				this.setDarkMode();
+				break;
+			case 'false':
+				this.setLightMode();
+				break;
+			default:
+				this.setAutoLightDarkMode();
+		}
+	}
+
+	/**
+	 * Sets the GUI to light mode.
+	 */
+	setLightMode() {
+		document.body.className = '';
+		window.localStorage['isDarkMode'] = 'false';
+		this.darkMode = 'false';
+		if (this.darkModeButton) this.darkModeButton.setLightMode();
+	}
+
+	/**
+	 * Sets the GUI to dark mode.
+	 */
+	setDarkMode() {
+		document.body.className = 'dark-mode';
+		window.localStorage['isDarkMode'] = 'true';
+		this.darkMode = 'true';
+		if (this.darkModeButton) this.darkModeButton.setDarkMode();
+	}
+
+	/**
+	 * Sets the GUI to automatically match the system's light/dark mode.
+	 */
+	setAutoLightDarkMode() {
+		const isSystemDarkMode = () =>
+			window.matchMedia &amp;&amp;
+			window.matchMedia('(prefers-color-scheme: dark)').matches;
+		if (isSystemDarkMode()) {
+			this.setDarkMode();
+		} else {
+			this.setLightMode();
+		}
+		window.localStorage['isDarkMode'] = 'auto';
+		this.darkMode = 'auto';
+		if (this.darkModeButton) this.darkModeButton.setAutoLightDarkMode();
+	}
+
+	/**
+	 * Cycles between light, dark, and auto light/dark modes.
+	 */
+	toggleLightDarkMode() {
+		// cycle modes
+		switch (this.darkMode) {
+			case 'false':
+				this.setDarkMode();
+				break;
+			case 'true':
+				this.setAutoLightDarkMode();
+				break;
+			default:
+				this.setLightMode();
+		}
+	}
+
+	/**
+	 * Creates and adds a button for toggling light/dark mode.
+	 */
+	createDarkModeButton() {
+		this.darkModeButton = this.addController(
+			new Button(this, 'buttonDarkMode', '', controller => {
+				this.toggleLightDarkMode();
+			})
+		);
+		this.darkModeButton.controllerElement.id('dark-mode-button');
+		this.darkModeButton.setLightMode = () => {
+			this.darkModeButton.controllerElement.style(
+				'background-image',
+				'url("assets/dark-mode/light-mode-icon.svg")'
+			);
+			this.darkModeButton.controllerElement.elt.title = 'Light mode';
+		};
+		this.darkModeButton.setDarkMode = () => {
+			this.darkModeButton.controllerElement.style(
+				'background-image',
+				'url("assets/dark-mode/dark-mode-icon.svg")'
+			);
+			this.darkModeButton.controllerElement.elt.title = 'Dark mode';
+		};
+		this.darkModeButton.setAutoLightDarkMode = () => {
+			this.darkModeButton.controllerElement.style(
+				'background-image',
+				'url("assets/dark-mode/auto-mode-icon.svg")'
+			);
+			this.darkModeButton.controllerElement.elt.title =
+				'Auto light/dark mode';
+		};
+		switch (this.darkMode) {
+			case 'false':
+				this.darkModeButton.setLightMode();
+				break;
+			case 'true':
+				this.darkModeButton.setDarkMode();
+				break;
+			default:
+				this.darkModeButton.setAutoLightDarkMode();
+		}
+	}
+
+	/**
+	 * Adds a field (GUI element) to the GUI.
+	 * @param {Field} field
+	 * @returns {Field}
+	 */
+	addField(field) {
+		this.fields.push(field);
+		return field;
+	}
+
+	/**
+	 * Adds an HTML string as a new field.
+	 * @param {string} html
+	 * @param {string} [className='']
+	 * @returns {Field}
+	 */
+	addHTMLToNewField(html, className = '') {
+		let field = this.addField(new Field(this.div, '', className));
+		field.div.html(html);
+		return field;
+	}
+
+	/**
+	 * Adds the p5Catalyst logo as a field.
+	 * @returns {Field}
+	 */
+	addP5CatalystLogo() {
+		let logo = this.addHTMLToNewField(
+			`&lt;a href="https://github.com/multitude-amsterdam/p5Catalyst" target="_blank">` +
+				`&lt;div class="p5catalyst-logo">&lt;/div>` +
+				`&lt;/a>`,
+			'footer-logo'
+		);
+		return logo;
+	}
+
+	/**
+	 * Adds a divider (horizontal rule) to the GUI.
+	 * @returns {Divider}
+	 */
+	addDivider() {
+		let divider = new Divider(this.div);
+		this.addField(divider);
+		return divider;
+	}
+
+	/**
+	 * Adds a controller to the GUI and optionally to the randomizer.
+	 * @param {Controller} controller
+	 * @param {boolean} [doAddToRandomizerAs]
+	 * @returns {Controller}
+	 */
+	addController(controller, doAddToRandomizerAs = undefined) {
+		this.addField(controller);
+		this.controllers.push(controller);
+		if (doAddToRandomizerAs !== undefined)
+			this.randomizer.addController(controller, doAddToRandomizerAs);
+		return controller;
+	}
+
+	/**
+	 * Adds a label to the GUI.
+	 * @param {string} labelText
+	 * @returns {Label}
+	 */
+	addLabel(labelText) {
+		let label = new Label(this.div, labelText);
+		this.addField(label);
+		return label;
+	}
+
+	/**
+	 * Adds a title (heading) to the GUI.
+	 * @param {number} hSize - Heading size (e.g., 1 for h1, 2 for h2).
+	 * @param {string} titleText
+	 * @param {boolean} [doAlignCenter=false]
+	 * @returns {Title}
+	 */
+	addTitle(hSize, titleText, doAlignCenter = false) {
+		let title = new Title(
+			this.div,
+			hSize,
+			titleText,
+			(doAlignCenter = doAlignCenter)
+		);
+		this.addField(title);
+		return title;
+	}
+
+	/**
+	 * Adds an image to the GUI.
+	 * @param {string} url
+	 * @param {string} altText
+	 * @param {boolean} [doAlignCenter=true]
+	 * @returns {GUIImage}
+	 */
+	addImage(url, altText, doAlignCenter = true) {
+		let img = new GUIImage(
+			this.div,
+			url,
+			altText,
+			(doAlignCenter = doAlignCenter)
+		);
+		this.addField(img);
+		return img;
+	}
+
+	/**
+	 * Checks if a controller with the given name exists.
+	 * @param {string} name
+	 * @returns {boolean}
+	 */
+	hasName(name) {
+		return this.controllers.some(controller => controller.name == name);
+	}
+
+	/**
+	 * Gets a controller by name.
+	 * @param {string} name
+	 * @returns {Controller|undefined}
+	 */
+	getController(name) {
+		if (!this.hasName(name)) {
+			return undefined;
+		}
+		return this.controllers[
+			this.controllers.map(controller => controller.name).indexOf(name)
+		];
+	}
+
+	/**
+	 * Gets multiple controllers by an array of names.
+	 * @param {string[]} names
+	 * @returns {Controller[]}
+	 */
+	getControllers(names) {
+		return this.controllers.filter(controller =>
+			names.some(name => {
+				if (!this.hasName(name)) {
+					return false;
+				}
+				return controller.name == name;
+			})
+		);
+	}
+
+	/**
+	 * Gets the current state of all controllers with values.
+	 * @returns {Array&lt;{name: string, value: any}>}
+	 */
+	getState() {
+		return this.controllers
+			.filter(controller => controller.value !== undefined)
+			.map(controller => ({
+				name: controller.name,
+				value: controller.getValueForJSON(),
+			}));
+	}
+
+	/**
+	 * Restores the state of controllers from a saved state.
+	 * @param {Array&lt;{name: string, value: any}>} state
+	 */
+	restoreState(state) {
+		Controller._doUpdateChangeSet = false;
+		for (let { name, value } of state) {
+			const controller = gui.getController(name);
+			if (controller.setValue &amp;&amp; value !== undefined) {
+				value = restoreSerializedP5Color(value);
+				value = restoreSerializedVec2D(value);
+				controller.setValue(value);
+			}
+		}
+		Controller._doUpdateChangeSet = true;
+	}
+}
+
+/**
+ * Helper class that manages randomization of controllers marked as randomizable.
+ * Handles toggling, adding/removing controllers, and triggering randomization.
+ * @class
+ */
+class Randomizer {
+	/**
+	 * @type {Controller[]}
+	 */
+	controllers = [];
+
+	/**
+	 * Constructs a new Randomizer instance.
+	 */
+	constructor() {}
+
+	/**
+	 * Adds a controller to the randomizer and attaches a DieIcon.
+	 * @param {Controller} controller - The controller to add.
+	 * @param {boolean} doRandomize - Whether this controller should be randomized.
+	 */
+	addController(controller, doRandomize) {
+		this.controllers.push(controller);
+		let die = new DieIcon(this, controller, doRandomize);
+		controller.addDie(die);
+		controller.doRandomize = doRandomize;
+	}
+
+	/**
+	 * Removes a controller from the randomizer.
+	 * @param {Controller} controller - The controller to remove.
+	 */
+	removeController(controller) {
+		let index = this.controllers.indexOf(controller);
+		if (index &lt; 0) {
+			console.error('Controller not in list.', controller);
+			return;
+		}
+		this.controllers.splice(index, 1);
+	}
+
+	/**
+	 * Randomizes all controllers marked as randomizable and not hidden.
+	 */
+	randomize() {
+		const controllersToRandomize = this.controllers.filter(
+			controller =>
+				controller.doRandomize === true &amp;&amp; !controller.isHidden()
+		);
+		for (let controller of controllersToRandomize) {
+			if (controller instanceof ValuedController) {
+				controller.randomize();
+			}
+			if (controller instanceof Button) {
+				controller.click();
+			}
+		}
+	}
+
+	/**
+	 * Toggles the randomization state for a controller via its DieIcon.
+	 * @param {DieIcon} die - The DieIcon instance to toggle.
+	 */
+	toggleDoRandomize(die) {
+		let index = this.controllers.map(c => c.die).indexOf(die);
+		if (index &lt; 0) {
+			console.error('Die not in list.', controller);
+			return;
+		}
+		this.controllers[index].doRandomize =
+			this.controllers[index].doRandomize !== true;
+		die.setActive(this.controllers[index].doRandomize);
+	}
+}
+
+/**
+ * Small dice icon indicating randomization state for a controller.
+ * Handles icon display, rotation, and click interaction for toggling randomization.
+ * @class
+ */
+class DieIcon {
+	/**
+	 * List of SVG icon URLs for dice faces.
+	 * @type {string[]}
+	 * @static
+	 */
+	static iconURLs = [
+		'assets/dice/die (1).svg',
+		'assets/dice/die (2).svg',
+		'assets/dice/die (3).svg',
+		'assets/dice/die (4).svg',
+		'assets/dice/die (5).svg',
+		'assets/dice/die (6).svg',
+	];
+
+	/**
+	 * Constructs a DieIcon.
+	 * @param {Randomizer} randomizer - The parent Randomizer instance.
+	 * @param {Controller} controller - The controller this die is attached to.
+	 * @param {boolean} isActive - Whether the die is active (randomization enabled).
+	 */
+	constructor(randomizer, controller, isActive) {
+		this.randomizer = randomizer;
+
+		this.img = createImg('', 'Randomizer die');
+		this.img.class('die-icon');
+		this.img.mouseClicked(() => this.click());
+		this.rot = 0;
+		this.randomizeIcon();
+
+		this.setActive(isActive);
+	}
+
+	/**
+	 * Randomizes the die icon image URL and its rotation.
+	 */
+	randomizeIcon() {
+		// random icon url
+		let curURL = this.iconURL;
+		do this.iconURL = random(DieIcon.iconURLs);
+		while (curURL == this.iconURL);
+		this.img.elt.src = this.iconURL;
+
+		// rotate die randomly
+		let curRot = this.rot;
+		do this.rot = int(random(4));
+		while (this.rot == curRot);
+		let angle = (this.rot * TAU) / 3;
+		this.img.style('rotate', angle + 'rad');
+	}
+
+	/**
+	 * Handles click event to toggle randomization state.
+	 */
+	click() {
+		this.randomizer.toggleDoRandomize(this);
+	}
+
+	/**
+	 * Sets the active state of the die and updates its display.
+	 * @param {boolean} isActive
+	 */
+	setActive(isActive) {
+		this.isActive = isActive;
+		this.setDisplay();
+	}
+
+	/**
+	 * Updates the die's display based on its active state.
+	 */
+	setDisplay() {
+		if (this.isActive) {
+			this.img.removeClass('disabled');
+			this.randomizeIcon();
+		} else {
+			this.img.addClass('disabled');
+		}
+	}
+
+	/**
+	 * Removes the die icon from the DOM.
+	 */
+	remove() {
+		this.img.remove();
+	}
+}
+
+/**
+ * Base GUI element container used by controllers.
+ * @class
+ */
+class Field {
+	/**
+	 * Creates a new Field instance.
+	 * @param {p5.Element} parentDiv - The parent element to attach the field to.
+	 * @param {string} id - The ID to assign to the field (optional).
+	 * @param {string} className - The CSS class to assign to the field (optional).
+	 */
+	constructor(parentDiv, id, className) {
+		this.div = createDiv();
+		this.div.parent(parentDiv);
+		if (id !== undefined &amp;&amp; id !== null &amp;&amp; id != '') this.div.id(id);
+		this.div.class(className);
+	}
+
+	/**
+	 * Sets the tooltip text for this field.
+	 * @param {string} tooltip - The tooltip text to set.
+	 */
+	setTooltip(tooltip) {
+		this.div.elt.title = tooltip;
+	}
+
+	/**
+	 * Sets the text content of this field.
+	 * @param {string} text - The new text content for the field.
+	 */
+	setText(text) {
+		this.div.elt.innerText = text;
+	}
+
+	/**
+	 * Hides this field by setting its display to 'none'.
+	 */
+	hide() {
+		this.div.hide();
+	}
+
+	/**
+	 * Shows this field by setting its display to '' (default).
+	 */
+	show() {
+		this.div.elt.style.display = ''; // more general than p5 .show()
+		if (this.setDisplay) this.setDisplay(); // XYSlider needs this for now
+	}
+
+	/**
+	 * Checks if this field is currently hidden.
+	 * @returns {boolean} True if the field is hidden, false otherwise.
+	 */
+	isHidden() {
+		return this.div.elt.style.display == 'none';
+	}
+}
+
+/**
+ * Text label associated with a controller.
+ * @class
+ * @extends Field
+ */
+class Label extends Field {
+	/**
+	 * Creates a new Label instance.
+	 * @param {Controller} controller - The controller this label is associated with.
+	 * @param {string} text - The text content of the label.
+	 */
+	constructor(controller, text) {
+		super(controller.div, null, 'gui-label');
+		this.controller = controller;
+		text = lang.process(text, true);
+		this.setText(text);
+	}
+
+	/**
+	 * Sets the text content of the label.
+	 * @param {string} text - The new text content for the label.
+	 */
+	setText(text) {
+		this.text = text;
+		this.div.elt.innerText = text;
+	}
+}
+
+/**
+ * Heading element used as a section title.
+ * @class
+ * @extends Field
+ */
+class Title extends Field {
+	/**
+	 * Creates a new Title instance.
+	 * @param {p5.Element} parentDiv - The parent element to attach the title to.
+	 * @param {number} hSize - The heading size (1-6).
+	 * @param {string} text - The text content of the title.
+	 * @param {boolean} [doAlignCenter=false] - Whether to center the title text.
+	 */
+	constructor(parentDiv, hSize, text, doAlignCenter = false) {
+		super(parentDiv, null, 'gui-title');
+		text = lang.process(text, true);
+		this.div.html(`&lt;h${hSize}>${text}&lt;/h${hSize}>`);
+		if (doAlignCenter) {
+			this.div.style('text-align', 'center');
+		}
+	}
+}
+
+/**
+ * Block of explanatory text.
+ * @class
+ * @extends Field
+ */
+class Textfield extends Field {
+	constructor(parentDiv, text, className = undefined, doAlignCenter = false) {
+		super(parentDiv, null, 'gui-textfield');
+		text = lang.process(text, true);
+		this.div.html(`&lt;span>${text}&lt;/span>`);
+		if (className) {
+			this.div.addClass(className);
+		}
+		if (doAlignCenter) {
+			this.div.style('text-align', 'center');
+		}
+	}
+}
+
+/**
+ * Wrapper for &lt;img> elements placed in the GUI.
+ * @class
+ * @extends Field
+ */
+class GUIImage extends Field {
+	/**
+	 * Creates a new GUI image element.
+	 * @param {p5.Element} parentDiv - The parent element to attach the image to.
+	 * @param {string} url - The URL of the image.
+	 * @param {string} altText - The alt text for the image.
+	 * @param {boolean} [doAlignCenter=true] - Whether to center the image in its container.
+	 */
+	constructor(parentDiv, url, altText, doAlignCenter = true) {
+		super(parentDiv, null, 'gui-image');
+		altText = lang.process(altText, true);
+		this.div.html(`&lt;img src='${url}' alt='${altText}'>`);
+		if (doAlignCenter) {
+			this.div.style('text-align', 'center');
+		}
+	}
+}
+
+/**
+ * Horizontal rule used to divide sections.
+ * @class
+ * @extends Field
+ */
+class Divider extends Field {
+	/**
+	 * Creates a new Divider instance.
+	 * @param {p5.Element} parentDiv - The parent element to attach the divider to.
+	 */
+	constructor(parentDiv) {
+		super(parentDiv, null, 'gui-divider');
+		this.div.html('&lt;hr>');
+	}
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Button.html">Button</a></li><li><a href="ChangeSet.html">ChangeSet</a></li><li><a href="ColourBoxes.html">ColourBoxes</a></li><li><a href="ColourTextArea.html">ColourTextArea</a></li><li><a href="Controller.html">Controller</a></li><li><a href="Dialog.html">Dialog</a></li><li><a href="DieIcon.html">DieIcon</a></li><li><a href="Divider.html">Divider</a></li><li><a href="DualRangeInput.html">DualRangeInput</a></li><li><a href="Field.html">Field</a></li><li><a href="FileLoader.html">FileLoader</a></li><li><a href="GUIForP5.html">GUIForP5</a></li><li><a href="GUIImage.html">GUIImage</a></li><li><a href="Generator.html">Generator</a></li><li><a href="ImageLoader.html">ImageLoader</a></li><li><a href="JSONFileLoader.html">JSONFileLoader</a></li><li><a href="Label.html">Label</a></li><li><a href="Lang.html">Lang</a></li><li><a href="MultiColourBoxes.html">MultiColourBoxes</a></li><li><a href="Randomizer.html">Randomizer</a></li><li><a href="RangeSlider.html">RangeSlider</a></li><li><a href="ResolutionSelect.html">ResolutionSelect</a></li><li><a href="ResolutionTextboxes.html">ResolutionTextboxes</a></li><li><a href="Select.html">Select</a></li><li><a href="Slider.html">Slider</a></li><li><a href="TextFileLoader.html">TextFileLoader</a></li><li><a href="Textarea.html">Textarea</a></li><li><a href="Textbox.html">Textbox</a></li><li><a href="Textfield.html">Textfield</a></li><li><a href="Title.html">Title</a></li><li><a href="Toggle.html">Toggle</a></li><li><a href="ValuedController.html">ValuedController</a></li><li><a href="XYSlider.html">XYSlider</a></li></ul><h3>Global</h3><ul><li><a href="global.html#E">E</a></li><li><a href="global.html#FR">FR</a></li><li><a href="global.html#K">K</a></li><li><a href="global.html#PHI">PHI</a></li><li><a href="global.html#SSID">SSID</a></li><li><a href="global.html#availableLangKeys">availableLangKeys</a></li><li><a href="global.html#b64Digits">b64Digits</a></li><li><a href="global.html#bezierFilletControlPoints">bezierFilletControlPoints</a></li><li><a href="global.html#bodyFont">bodyFont</a></li><li><a href="global.html#canvScale">canvScale</a></li><li><a href="global.html#canvWrapper">canvWrapper</a></li><li><a href="global.html#canvas">canvas</a></li><li><a href="global.html#capitalizeFirstLetter">capitalizeFirstLetter</a></li><li><a href="global.html#changeSet">changeSet</a></li><li><a href="global.html#colorToHexString">colorToHexString</a></li><li><a href="global.html#computeRoughSizeOfObject">computeRoughSizeOfObject</a></li><li><a href="global.html#constrainAngle">constrainAngle</a></li><li><a href="global.html#containCanvasInWrapper">containCanvasInWrapper</a></li><li><a href="global.html#copyCanvasToClipboard">copyCanvasToClipboard</a></li><li><a href="global.html#createCanvasWrapper">createCanvasWrapper</a></li><li><a href="global.html#createGUI">createGUI</a></li><li><a href="global.html#dialog">dialog</a></li><li><a href="global.html#dictionary">dictionary</a></li><li><a href="global.html#doCaptureStartFromFrame0">doCaptureStartFromFrame0</a></li><li><a href="global.html#doRunRealTime">doRunRealTime</a></li><li><a href="global.html#draw">draw</a></li><li><a href="global.html#dtime">dtime</a></li><li><a href="global.html#duration">duration</a></li><li><a href="global.html#ffmpegWaiter">ffmpegWaiter</a></li><li><a href="global.html#fromB64">fromB64</a></li><li><a href="global.html#gaussian">gaussian</a></li><li><a href="global.html#gaussianAngular">gaussianAngular</a></li><li><a href="global.html#gaussianSharp">gaussianSharp</a></li><li><a href="global.html#gaussianWobble">gaussianWobble</a></li><li><a href="global.html#generateSSID">generateSSID</a></li><li><a href="global.html#generator">generator</a></li><li><a href="global.html#getAPaperResolutionOptionAtDpi">getAPaperResolutionOptionAtDpi</a></li><li><a href="global.html#getTimestamp">getTimestamp</a></li><li><a href="global.html#getUNIX">getUNIX</a></li><li><a href="global.html#getWheelDistance">getWheelDistance</a></li><li><a href="global.html#gui">gui</a></li><li><a href="global.html#handleFrameCapture">handleFrameCapture</a></li><li><a href="global.html#hashThreeIntegers">hashThreeIntegers</a></li><li><a href="global.html#helpMe">helpMe</a></li><li><a href="global.html#imageCentered">imageCentered</a></li><li><a href="global.html#inPg">inPg</a></li><li><a href="global.html#initUtils">initUtils</a></li><li><a href="global.html#intersectionPoint">intersectionPoint</a></li><li><a href="global.html#isArraysEqual">isArraysEqual</a></li><li><a href="global.html#isCapturingFrames">isCapturingFrames</a></li><li><a href="global.html#isInBounds">isInBounds</a></li><li><a href="global.html#isInCanvas">isInCanvas</a></li><li><a href="global.html#isMac">isMac</a></li><li><a href="global.html#isMouseInside">isMouseInside</a></li><li><a href="global.html#isPlaying">isPlaying</a></li><li><a href="global.html#isPointInTriangle">isPointInTriangle</a></li><li><a href="global.html#keyPressed">keyPressed</a></li><li><a href="global.html#lang">lang</a></li><li><a href="global.html#language">language</a></li><li><a href="global.html#lerpColorOKLab">lerpColorOKLab</a></li><li><a href="global.html#lum">lum</a></li><li><a href="global.html#maxImgResIncrease">maxImgResIncrease</a></li><li><a href="global.html#midPoint">midPoint</a></li><li><a href="global.html#mix">mix</a></li><li><a href="global.html#mouse">mouse</a></li><li><a href="global.html#mouseWheel">mouseWheel</a></li><li><a href="global.html#nFrames">nFrames</a></li><li><a href="global.html#nmc">nmc</a></li><li><a href="global.html#noiseOffs">noiseOffs</a></li><li><a href="global.html#numsToRoundedPercentages">numsToRoundedPercentages</a></li><li><a href="global.html#paramToIntSteps">paramToIntSteps</a></li><li><a href="global.html#ph">ph</a></li><li><a href="global.html#preload">preload</a></li><li><a href="global.html#progress">progress</a></li><li><a href="global.html#ptime">ptime</a></li><li><a href="global.html#pushpop">pushpop</a></li><li><a href="global.html#pw">pw</a></li><li><a href="global.html#randCol">randCol</a></li><li><a href="global.html#randomDate">randomDate</a></li><li><a href="global.html#randomGaussianBoxMueller2">randomGaussianBoxMueller2</a></li><li><a href="global.html#relScrollVel">relScrollVel</a></li><li><a href="global.html#resize">resize</a></li><li><a href="global.html#resolutionOptions">resolutionOptions</a></li><li><a href="global.html#restoreSerializedP5Color">restoreSerializedP5Color</a></li><li><a href="global.html#restoreSerializedVec2D">restoreSerializedVec2D</a></li><li><a href="global.html#restoreSerializedVec3D">restoreSerializedVec3D</a></li><li><a href="global.html#scrollScale">scrollScale</a></li><li><a href="global.html#setDuration">setDuration</a></li><li><a href="global.html#setTime">setTime</a></li><li><a href="global.html#setup">setup</a></li><li><a href="global.html#sigmoid">sigmoid</a></li><li><a href="global.html#sign">sign</a></li><li><a href="global.html#signedAngleBetween">signedAngleBetween</a></li><li><a href="global.html#signedAngleDiff">signedAngleDiff</a></li><li><a href="global.html#simpleIntToFloatHash">simpleIntToFloatHash</a></li><li><a href="global.html#simplexNoise">simplexNoise</a></li><li><a href="global.html#simplifyAngle">simplifyAngle</a></li><li><a href="global.html#speed">speed</a></li><li><a href="global.html#stringToFloatHash">stringToFloatHash</a></li><li><a href="global.html#svgCanvas">svgCanvas</a></li><li><a href="global.html#tanh">tanh</a></li><li><a href="global.html#theShader">theShader</a></li><li><a href="global.html#theSvgCanvasSketch">theSvgCanvasSketch</a></li><li><a href="global.html#time">time</a></li><li><a href="global.html#titleFont">titleFont</a></li><li><a href="global.html#toB64">toB64</a></li><li><a href="global.html#toxiBezierVertex">toxiBezierVertex</a></li><li><a href="global.html#toxiFillet">toxiFillet</a></li><li><a href="global.html#toxiVertex">toxiVertex</a></li><li><a href="global.html#utilBools">utilBools</a></li><li><a href="global.html#v">v</a></li><li><a href="global.html#vectorComponents">vectorComponents</a></li><li><a href="global.html#windowResized">windowResized</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Thu Jul 17 2025 14:51:58 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

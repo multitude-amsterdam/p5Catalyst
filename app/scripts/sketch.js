@@ -1,44 +1,41 @@
-let canvas;
-let svgCanvas;
-let canvWrapper;
-let pw = 1,
-	ph = 1;
-let canvScale = 1;
+const doRunRealTime = false,
+	doCaptureStartFromFrame0 = true,
+	maxImgResIncrease = 0.25;
 
-let theShader;
-let gui;
-let generator;
+let canvas,
+	canvWrapper,
+	canvScale = 1,
+	changeSet,
+	dtime,
+	duration,
+	ffmpegWaiter = 0,
+	FR,
+	generator,
+	gui,
+	isCapturingFrames = false,
+	isPlaying = true,
+	K = 0,
+	mouse = new Vec2D(),
+	nFrames,
+	noiseOffs,
+	ph = 1,
+	progress = 0,
+	ptime = -1 / 60,
+	pw = 1,
+	scrollScale = 1,
+	speed = 1,
+	SSID,
+	svgCanvas,
+	theShader,
+	time = 0,
+	titleFont,
+	bodyFont,
+	utilBools = [];
 
-let bodyFont, titleFont;
-
-const maxImgResIncrease = 0.25;
-
-const doRunRealTime = false;
-
-let isCapturingFrames = false;
-const doCaptureStartFromFrame0 = true;
-
-let mouse = new Vec2D();
-
-let isPlaying = true;
-let progress = 0;
-let time = 0;
-let ptime = -1 / 60;
-let speed = 1;
-let dtime;
-
-let ffmpegWaiter = 0;
-
-let scrollScale = 1;
-
-let changeSet;
-
-// ------------------------------------------------------------ PRELOAD
 function preload() {
 	// theShader = loadShader('scripts/shader/shader.vert', 'scripts/shader/shader.frag');
 }
 
-// ------------------------------------------------------------ SETUP
 function setup() {
 	initUtils(10, ffmpegFR || 30);
 
@@ -68,7 +65,6 @@ function setup() {
 	}
 }
 
-// ------------------------------------------------------------ DRAW
 function draw() {
 	if (!isFfmpegInit && ffmpegWaiter < FR) {
 		ffmpegWaiter++;
@@ -85,7 +81,6 @@ function draw() {
 	handleFrameCapture();
 }
 
-// ------------------------------------------------------------ SVG CANVAS
 function theSvgCanvasSketch(sketch) {
 	sketch.setup = () => {
 		let canvas = sketch.createCanvas(1, 1, SVG);
@@ -98,12 +93,10 @@ function theSvgCanvasSketch(sketch) {
 	sketch.draw = () => {};
 }
 
-// ------------------------------------------------------------ HELP ME
 function helpMe() {
 	dialog.alert(lang.process(`LANG_HELPME_MSG`, true));
 }
 
-// ------------------------------------------------------------ RESIZE
 function resize(w, h) {
 	if (w == pw && h == ph) return;
 	if (w < 1 || h < 1) return;
@@ -125,7 +118,6 @@ function resize(w, h) {
 	containCanvasInWrapper(); // needs a double call
 }
 
-// ------------------------------------------------------------ CONTAIN CANVAS
 function createCanvasWrapper() {
 	canvWrapper = createDiv();
 	canvWrapper.id('canvas-workarea');
@@ -164,7 +156,6 @@ function containCanvasInWrapper() {
 	canvScale = sqrt((pw * ph) / (1920 * 1080));
 }
 
-// ------------------------------------------------------------ FRAME CAPTURING
 function handleFrameCapture() {
 	if (isCapturingFrames) {
 		const vidButton = gui.getController(
@@ -183,7 +174,6 @@ function handleFrameCapture() {
 	}
 }
 
-// ------------------------------------------------------------ EVENT HANDLERS
 function keyPressed(e) {
 	if (gui.isTypingText) return;
 
@@ -250,8 +240,8 @@ function mousePressed() {}
 
 function mouseReleased() {}
 
-// differential scrolling speed with Apple trackpad & mouse
 const relScrollVel = (isMac() ? 0.1 : 1) * 0.06;
+
 function mouseWheel(event) {
 	let wheelDist = getWheelDistance(event);
 	const s = exp(wheelDist * relScrollVel);
@@ -262,14 +252,6 @@ function mouseWheel(event) {
 function windowResized() {
 	containCanvasInWrapper();
 }
-
-// ------------------------------------------------------------ INIT UTILS
-
-let SSID;
-let K = 0; // util constant (controlled with up and down arrows)
-let utilBools = [];
-let FR, duration, nFrames;
-let noiseOffs;
 
 function initUtils(_duration, _frameRate) {
 	console.log('p5Catalyst initiated as ' + Generator.name);

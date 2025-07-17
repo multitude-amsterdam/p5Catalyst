@@ -18,7 +18,6 @@ class ChangeSet {
 	}
 
 	cutToIndex() {
-		// cut future redo history
 		this.changeset = this.changeset.slice(0, this.index + 1);
 	}
 
@@ -66,12 +65,12 @@ class ChangeSet {
 		this.restore(json);
 	}
 
-	download(fileName) {
+	download(fileName, doMinify = true) {
 		const json = this.changeset[this.index];
 		saveJSON(
 			JSON.parse(json),
 			fileName + '_' + Generator.getOutputFileName('settings'),
-			false
+			doMinify
 		);
 	}
 
