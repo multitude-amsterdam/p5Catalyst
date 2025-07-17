@@ -24,6 +24,7 @@ class DualRangeInput {
 		this.$min.dataset.ready = 'true';
 		this.$max.dataset.ready = 'true';
 	}
+
 	update(method = 'ceil') {
 		const thumbWidthVar = 'var(--dri-thumb-width)';
 		const min = parseFloat(this.$min.min);
@@ -57,6 +58,7 @@ class DualRangeInput {
 			`calc(${maxFillPercentage}% + (${maxFillThumb} * ${thumbWidthVar}))`
 		);
 	}
+
 	destroy() {
 		this.$min.removeEventListener('input', this.updateFloor);
 		this.$max.removeEventListener('input', this.updateCeil);
