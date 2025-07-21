@@ -121,7 +121,7 @@ class Controller extends Field {
 
 	/**
 	 * Constructor for the Controller class.
-	 * @param {GUI} gui - The GUI instance this controller belongs to.
+	 * @param {GUIForP5} gui - The GUI instance this controller belongs to.
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label text for the controller.
 	 * @param {function} [setupCallback] - Optional callback function for setup.
@@ -292,7 +292,7 @@ class ValuedController extends Controller {
 
 	/**
 	 * Constructor for ValuedController.
-	 * @param {GUI} gui
+	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {function} [setupCallback]
@@ -351,7 +351,7 @@ class ValuedController extends Controller {
 class Button extends Controller {
 	/**
 	 * Constructor for Button.
-	 * @param {GUI} gui
+	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {function} callback
@@ -410,7 +410,7 @@ class FileLoader extends Button {
 
 	/**
 	 * Constructor for FileLoader.
-	 * @param {GUI} gui
+	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} fileType
 	 * @param {string} labelStr
@@ -460,7 +460,7 @@ class FileLoader extends Button {
 class TextFileLoader extends FileLoader {
 	/**
 	 * Constructor for TextFileLoader.
-	 * @param {GUI} gui
+	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {function} valueCallback
@@ -487,7 +487,7 @@ class TextFileLoader extends FileLoader {
 class JSONFileLoader extends FileLoader {
 	/**
 	 * Constructor for JSONFileLoader.
-	 * @param {GUI} gui
+	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {function} valueCallback
@@ -520,7 +520,7 @@ class ImageLoader extends FileLoader {
 
 	/**
 	 * Constructor for ImageLoader.
-	 * @param {GUI} gui
+	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {function} valueCallback
@@ -557,7 +557,7 @@ class Toggle extends ValuedController {
 
 	/**
 	 * Constructor for Toggle.
-	 * @param {GUI} gui
+	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr0
 	 * @param {string} labelStr1
@@ -647,7 +647,7 @@ class Select extends ValuedController {
 
 	/**
 	 * Constructor for Select.
-	 * @param {GUI} gui
+	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {Array} options
@@ -1066,7 +1066,7 @@ class XYSlider extends ValuedController {
 class ColourBoxes extends ValuedController {
 	/**
 	 * Constructor for ColourBoxes.
-	 * @param {GUI} gui
+	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
@@ -1155,7 +1155,7 @@ class ColourBoxes extends ValuedController {
 class MultiColourBoxes extends ValuedController {
 	/**
 	 * Constructor for MultiColourBoxes.
-	 * @param {GUI} gui
+	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
@@ -1266,7 +1266,7 @@ class MultiColourBoxes extends ValuedController {
 class Textbox extends ValuedController {
 	/**
 	 * Constructor for Textbox.
-	 * @param {GUI} gui - The GUI instance.
+	 * @param {GUIForP5} gui - The GUI instance.
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label for the controller.
 	 * @param {string} defaultVal - The default value for the textbox.
@@ -1320,7 +1320,7 @@ class Textbox extends ValuedController {
 class ResolutionTextboxes extends ValuedController {
 	/**
 	 * Constructor for ResolutionTextboxes.
-	 * @param {GUI} gui - The GUI instance.
+	 * @param {GUIForP5} gui - The GUI instance.
 	 * @param {number} defW - Default width value.
 	 * @param {number} defH - Default height value.
 	 * @param {function} valueCallback - Callback function for value changes.
@@ -1395,7 +1395,7 @@ class ResolutionTextboxes extends ValuedController {
 class Textarea extends ValuedController {
 	/**
 	 * Constructor for Textarea.
-	 * @param {GUI} gui - The GUI instance.
+	 * @param {GUIForP5} gui - The GUI instance.
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label for the controller.
 	 * @param {string} defaultVal - The default value for the textarea.
@@ -1453,7 +1453,7 @@ class Textarea extends ValuedController {
 class ColourTextArea extends Textarea {
 	/**
 	 * ColourTextArea constructor.
-	 * @param {GUI} gui - The GUI instance.
+	 * @param {GUIForP5} gui - The GUI instance.
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label for the controller.
 	 * @param {Array<p5.Color>} colours - The initial list of colours.
