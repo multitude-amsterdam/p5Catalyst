@@ -130,3 +130,9 @@ crementer style:
 
 style:
 "#gui button {" => "button {"
+
+//sketch.js
+/** @type {Generator} */
+let generator;
+/** @type {GUIForP5} */
+let gui;
