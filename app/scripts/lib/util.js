@@ -7,7 +7,7 @@
 /**
  * Convert a serialised p5.Color back into a live {@link p5.Color} instance.
  * @param {object} obj Serialised colour object.
- * @returns {p5.Color|object}
+ * @returns {p5.Color}
  */
 function restoreSerializedP5Color(obj) {
 	if (!(obj.levels && obj.mode)) return obj;
@@ -21,7 +21,7 @@ function restoreSerializedP5Color(obj) {
 /**
  * Convert a plain object to a {@link Vec3D} if it contains x, y, and z.
  * @param {object} obj Potentially serialised vector.
- * @returns {Vec3D|object}
+ * @returns {Vec3D}
  */
 function restoreSerializedVec3D(obj) {
 	// always use before Vec2D version when used in combination
@@ -32,7 +32,7 @@ function restoreSerializedVec3D(obj) {
 /**
  * Convert a plain object to a {@link Vec2D} if it contains x and y.
  * @param {object} obj Potentially serialised vector.
- * @returns {Vec2D|object}
+ * @returns {Vec2D}
  */
 function restoreSerializedVec2D(obj) {
 	if ([obj.x, obj.y].some(v => v === undefined)) return obj;
