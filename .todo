@@ -127,3 +127,6 @@ crementer style:
 	text-align: center;
 }
 
+
+style:
+"#gui button {" => "button {"
