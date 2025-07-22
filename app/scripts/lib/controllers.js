@@ -19,6 +19,21 @@
  */
 
 /**
+ * Callback function that fires when the value of a ValuedController is set.
+ *
+ * @callback ValueCallback
+ * @param {Controller} controller
+ * @param {*} value
+ */
+
+/**
+ * Callback function that fires when the setup() method of a Controller is called.
+ *
+ * @callback SetupCallback
+ * @param {Controller} controller
+ */
+
+/**
  * Base class for all GUI controllers.
  * @extends Field
  * @example
@@ -124,7 +139,7 @@ class Controller extends Field {
 	 * @param {GUIForP5} gui - The GUI instance this controller belongs to.
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label text for the controller.
-	 * @param {function} [setupCallback] - Optional callback function for setup.
+	 * @param {SetupCallback} [setupCallback] - Optional callback function for setup.
 	 */
 	constructor(gui, name, labelStr, setupCallback = undefined) {
 		super(gui.div, name, 'gui-controller');
@@ -295,7 +310,7 @@ class ValuedController extends Controller {
 	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
-	 * @param {function} [setupCallback]
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(gui, name, labelStr, setupCallback = undefined) {
 		super(gui, name, labelStr, setupCallback);
@@ -337,7 +352,7 @@ class Button extends Controller {
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {function} callback
-	 * @param {function} [setupCallback]
+	 * @param {SetupCallback} [setupCallback]
 	 * @example
 	 * const button = new Button(
 	 * 	gui,
@@ -397,8 +412,8 @@ class FileLoader extends Button {
 	 * @param {string} fileType
 	 * @param {string} labelStr
 	 * @param {function} fileReadyCallback
-	 * @param {function} valueCallback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(
 		gui,
@@ -445,8 +460,8 @@ class TextFileLoader extends FileLoader {
 	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
-	 * @param {function} valueCallback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
@@ -472,8 +487,8 @@ class JSONFileLoader extends FileLoader {
 	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
-	 * @param {function} valueCallback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
@@ -505,8 +520,8 @@ class ImageLoader extends FileLoader {
 	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
-	 * @param {function} valueCallback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
@@ -545,7 +560,7 @@ class Toggle extends ValuedController {
 	 * @param {string} labelStr1
 	 * @param {boolean} isToggled
 	 * @param {function} callback
-	 * @param {function} [setupCallback]
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(
 		gui,
@@ -634,8 +649,8 @@ class Select extends ValuedController {
 	 * @param {string} labelStr
 	 * @param {Array} options
 	 * @param {number} defaultIndex
-	 * @param {function} valueCallback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(
 		gui,
@@ -1372,8 +1387,8 @@ class ColourTextArea extends Textarea {
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label for the controller.
 	 * @param {Array<p5.Color>} colours - The initial list of colours.
-	 * @param {function} valueCallback - Callback function for value changes.
-	 * @param {function} [setupCallback] - Optional setup callback.
+	 * @param {ValueCallback} valueCallback - Callback function for value changes.
+	 * @param {SetupCallback} [setupCallback] - Optional setup callback.
 	 * @example
 	 * const colourTextArea = new ColourTextArea(
 	 * 	gui,
