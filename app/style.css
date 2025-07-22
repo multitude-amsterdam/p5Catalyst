@@ -993,6 +993,27 @@ input[type='checkbox']:checked::before {
 	display: none;
 }
 
+/********************************* CREMENTER *********************************/
+.crementer {
+	display: flex;
+	width: 100%;
+	align-items: center;
+}
+.crementer > * {
+	width: 100%;
+}
+.crementer span {
+	height: var(--base-height);
+	background-color: var(--base-col);
+	color: var(--text-col-on-base);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.crementer button {
+	text-align: center;
+}
+
 /********************************* VIDEO LOADING *********************************/
 #vidLoad {
 	margin: auto;

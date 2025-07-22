@@ -1434,3 +1434,83 @@ class ColourTextArea extends Textarea {
 			.map(cstr => color(cstr));
 	}
 }
+
+/**
+ * Side by side incrementer & decrementer button for a number
+ * @extends ValuedController
+ */
+class Crementer extends ValuedController {
+	/**
+	 * Crementer constructor
+	 * @param {GUIForP5} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {number} minVal
+	 * @param {number} maxVal
+	 * @param {number} defaultVal
+	 * @param {number} stepSize
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
+	 */
+	constructor(
+		gui,
+		name,
+		labelStr,
+		minVal,
+		maxVal,
+		defaultVal,
+		stepSize,
+		valueCallback,
+		setupCallback = undefined
+	) {
+		super(gui, name, labelStr, setupCallback);
+		this.minVal = minVal;
+		this.maxVal = maxVal;
+		this.defaultVal = defaultVal;
+		this.stepSize = stepSize;
+		this.valueCallback = valueCallback;
+
+		this.controllerElement = createDiv();
+		this.controllerElement.class('crementer');
+		this.controllerElement.parent(this.controllerWrapper);
+
+		const minusButton = createButton('&#xE1D2'); // left arrow
+		minusButton.parent(this.controllerElement);
+		minusButton.elt.onclick = () => this.decrement();
+
+		this.valueDisplay = createSpan(defaultVal);
+		this.valueDisplay.parent(this.controllerElement);
+
+		const plusButton = createButton('&#x2192'); // right arrow
+		plusButton.parent(this.controllerElement);
+		plusButton.elt.onclick = () => this.increment();
+
+		this.setValue(defaultVal);
+	}
+
+	mod(value) {
+		const modSize = this.maxVal - this.minVal + 1; // [min,max] inclusive
+		return ((value - this.minVal + modSize) % modSize) + this.minVal;
+	}
+
+	increment() {
+		this.setValue(this.mod(this.value + this.stepSize));
+	}
+
+	decrement() {
+		this.setValue(this.mod(this.value - this.stepSize));
+	}
+
+	setValue(value) {
+		this.value = constrain(value, this.minVal, this.maxVal);
+		this.valueDisplay.html(this.value);
+		this.valueCallback(this, this.value);
+		if (this.doUpdateChangeSet()) changeSet.save();
+	}
+
+	randomize() {
+		let randomValue = random(this.minVal, this.maxVal);
+		randomValue = round(randomValue / this.stepSize) * this.stepSize;
+		this.setValue(randomValue);
+	}
+}
