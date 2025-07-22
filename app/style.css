@@ -181,7 +181,7 @@ body:where(.dark-mode) {
 }
 
 /********************************* LOGO STYLING *********************************/
-#gui #logo {
+#logo {
 	min-height: 4rem;
 	background-image: url('assets/generator-logo.svg');
 	background-position-x: center;
@@ -191,7 +191,7 @@ body:where(.dark-mode) {
 	margin-bottom: 0.5rem;
 }
 
-body:where(.dark-mode) #gui #logo {
+body:where(.dark-mode) #logo {
 	background-image: url('assets/generator-logo.svg');
 }
 
@@ -201,7 +201,7 @@ body:where(.dark-mode) #gui #logo {
 	right: 1rem;
 }
 
-#gui .p5catalyst-logo {
+.p5catalyst-logo {
 	height: 2.8rem;
 	width: 6rem;
 	position: relative;
@@ -214,7 +214,7 @@ body:where(.dark-mode) #gui #logo {
 	background-repeat: no-repeat;
 }
 
-body:where(.dark-mode) #gui .p5catalyst-logo {
+body:where(.dark-mode) .p5catalyst-logo {
 	background-image: url('assets/p5catalyst-logo-darkmode.svg');
 }
 
@@ -251,10 +251,10 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 }
 
 /* default behaviour */
-#gui button,
-#gui input,
-#gui select,
-#gui textarea {
+button,
+input,
+select,
+textarea {
 	width: 100%;
 }
 
@@ -280,7 +280,7 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 }
 
 /********************************* DIVIDER *********************************/
-#gui hr {
+hr {
 	border: none;
 	height: var(--line-width);
 	background-color: var(--divider-col);
@@ -289,7 +289,7 @@ body:where(.dark-mode) #gui .p5catalyst-logo {
 }
 
 /********************************* HEADINGS *********************************/
-#gui h1,
+h1,
 h2,
 h3,
 h4,
@@ -301,7 +301,7 @@ h6 {
 }
 
 /********************************* BUTTON *********************************/
-#gui button {
+button {
 	cursor: pointer;
 	background-color: var(--base-col);
 	color: var(--text-col-on-base);
@@ -314,25 +314,25 @@ h6 {
 	text-align: var(--text-align);
 }
 
-#gui button:hover {
+button:hover {
 	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
 }
 
-#gui button:focus:hover {
+button:focus:hover {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 	border-radius: var(--corner-radius);
 }
 
-#gui button:focus {
+button:focus {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 	border-radius: var(--corner-radius);
 }
 
 /********************************* TOGGLE *********************************/
-#gui button.toggle {
+button.toggle {
 	display: inline-flex;
 	position: relative;
 	background-color: transparent;
@@ -341,12 +341,12 @@ h6 {
 	align-items: stretch;
 }
 
-#gui button.toggle:focus {
+button.toggle:focus {
 	outline: none;
 }
 
 /* Span elements within the toggle button */
-#gui button.toggle span {
+button.toggle span {
 	display: inline-block;
 	transition: var(--transition);
 	width: 100%;
@@ -355,7 +355,7 @@ h6 {
 	padding: 0 var(--button-padding-sides);
 }
 
-#gui button.toggle span:first-child {
+button.toggle span:first-child {
 	border-bottom-right-radius: 0;
 	border-top-right-radius: 0;
 	border-bottom-left-radius: var(--corner-radius);
@@ -365,7 +365,7 @@ h6 {
 	color: var(--text-col-on-base);
 }
 
-#gui button.toggle span:last-child {
+button.toggle span:last-child {
 	border-bottom-right-radius: var(--corner-radius);
 	border-top-right-radius: var(--corner-radius);
 	border-bottom-left-radius: 0;
@@ -375,60 +375,60 @@ h6 {
 	color: var(--text-on-inactive-col);
 }
 
-#gui button.toggle[toggled] span:first-child {
+button.toggle[toggled] span:first-child {
 	background-color: var(--inactive-col);
 	color: var(--text-on-inactive-col);
 }
 
-#gui button.toggle[toggled] span:last-child {
+button.toggle[toggled] span:last-child {
 	background-color: var(--base-col);
 	color: var(--text-col-on-base);
 }
 
-#gui button.toggle span:first-child:hover {
+button.toggle span:first-child:hover {
 	background-color: var(--base-col);
 	color: var(--text-col-on-base);
 }
 
-#gui button.toggle span:last-child:hover {
+button.toggle span:last-child:hover {
 	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
 }
 
-#gui button.toggle[toggled] span:first-child:hover {
+button.toggle[toggled] span:first-child:hover {
 	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
 }
 
-#gui button.toggle[toggled] span:last-child:hover {
+button.toggle[toggled] span:last-child:hover {
 	background-color: var(--base-col);
 	color: var(--text-col-on-base);
 }
 
-#gui button.toggle:focus span:first-child {
+button.toggle:focus span:first-child {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 	z-index: 1;
 }
 
-#gui button.toggle:focus span:last-child {
+button.toggle:focus span:last-child {
 	outline: none;
 	z-index: 0;
 }
 
-#gui button.toggle[toggled]:focus span:first-child {
+button.toggle[toggled]:focus span:first-child {
 	outline: none;
 	z-index: 0;
 }
 
-#gui button.toggle[toggled]:focus span:last-child {
+button.toggle[toggled]:focus span:last-child {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 	z-index: 1;
 }
 
 /********************************* SELECT *********************************/
-#gui select {
+select {
 	/* removing the default dropdown arrow */
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -454,32 +454,32 @@ h6 {
 	color: var(--input-text-text-col);
 }
 
-#gui select::-ms-expand {
+select::-ms-expand {
 	/* remove arrow */
 	display: none;
 }
 
-#gui select:hover {
+select:hover {
 	border-color: var(--hover-col);
 }
 
-#gui select:focus {
+select:focus {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 }
 
-#gui option {
+option {
 	max-width: inherit;
 	background-color: var(--bg-col);
 	color: var(--text-col);
 }
-#gui option:hover {
+option:hover {
 	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
 }
 
 /********************************* TEXTAREA *********************************/
-#gui textarea {
+textarea {
 	background-color: var(--input-text-bg-col);
 	color: var(--input-text-text-col);
 	padding: var(--button-padding-sides);
@@ -497,17 +497,17 @@ h6 {
 	transition: var(--transition);
 }
 
-#gui textarea:hover {
+textarea:hover {
 	border-color: var(--hover-col);
 }
 
-#gui textarea:focus {
+textarea:focus {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 }
 
 /********************************* COLOURTEXTAREA *********************************/
-#gui .colour-text-area-display {
+.colour-text-area-display {
 	width: 100%;
 	display: flex;
 	flex-flow: row wrap;
@@ -518,7 +518,7 @@ h6 {
 	transition: var(--transition);
 }
 
-#gui .colour-text-area-block {
+.colour-text-area-block {
 	width: var(--target-diameter);
 	height: calc(var(--target-diameter) * 0.5);
 }
@@ -548,7 +548,7 @@ input[type='text']:focus {
 }
 
 /********************************* RANGE *********************************/
-#gui input[type='range'] {
+input[type='range'] {
 	-webkit-appearance: none;
 	appearance: none;
 	background: transparent;
@@ -558,20 +558,20 @@ input[type='text']:focus {
 }
 
 /* Removes default focus */
-#gui input[type='range']:focus {
+input[type='range']:focus {
 	outline: none;
 }
 
 /***** Chrome, Safari, Opera and Edge Chromium styles *****/
 /* slider track */
-#gui input[type='range']::-webkit-slider-runnable-track {
+input[type='range']::-webkit-slider-runnable-track {
 	background-color: var(--base-col);
 	border-radius: var(--corner-radius);
 	height: var(--line-width);
 }
 
 /* slider thumb */
-#gui input[type='range']::-webkit-slider-thumb {
+input[type='range']::-webkit-slider-thumb {
 	-webkit-appearance: none;
 	appearance: none;
 	margin-top: calc((var(--line-width) - var(--target-diameter)) * 0.5);
@@ -583,26 +583,26 @@ input[type='text']:focus {
 	transition: var(--transition);
 }
 
-#gui input[type='range']:hover::-webkit-slider-thumb {
+input[type='range']:hover::-webkit-slider-thumb {
 	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
 }
 
-#gui input[type='range']:focus::-webkit-slider-thumb {
+input[type='range']:focus::-webkit-slider-thumb {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 }
 
 /******** Firefox styles ********/
 /* slider track */
-#gui input[type='range']::-moz-range-track {
+input[type='range']::-moz-range-track {
 	background-color: var(--base-col);
 	border-radius: var(--corner-radius);
 	height: var(--line-width);
 }
 
 /* slider thumb */
-#gui input[type='range']::-moz-range-thumb {
+input[type='range']::-moz-range-thumb {
 	border: none;
 	background-color: var(--target-col);
 	height: var(--target-diameter);
@@ -611,18 +611,18 @@ input[type='text']:focus {
 	transition: var(--transition);
 }
 
-#gui input[type='range']:hover::-moz-range-thumb {
+input[type='range']:hover::-moz-range-thumb {
 	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
 }
 
-#gui input[type='range']:focus::-moz-range-thumb {
+input[type='range']:focus::-moz-range-thumb {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 }
 
 /********************************* RADIO *********************************/
-#gui input[type='radio'] {
+input[type='radio'] {
 	-webkit-appearance: none;
 	appearance: none;
 
@@ -638,22 +638,22 @@ input[type='text']:focus {
 	transition: var(--transition);
 }
 
-#gui input[type='radio']:hover {
+input[type='radio']:hover {
 	border-color: var(--hover-col);
 }
 
-#gui input[type='radio']:focus {
+input[type='radio']:focus {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 }
 
-#gui input[type='radio']:hover::before {
+input[type='radio']:hover::before {
 	transform: scale(1);
 	box-shadow: inset var(--target-diameter) var(--target-diameter)
 		var(--hover-col);
 }
 
-#gui input[type='radio']::before {
+input[type='radio']::before {
 	content: '';
 	width: var(--target-diameter);
 	height: var(--target-diameter);
@@ -665,7 +665,7 @@ input[type='text']:focus {
 	transition: var(--transition);
 }
 
-#gui input[type='radio']:checked::before {
+input[type='radio']:checked::before {
 	transform: scale(1);
 }
 
@@ -840,7 +840,7 @@ input[type='text']:focus {
 }
 
 /********************************* CHECKBOX *********************************/
-#gui input[type='checkbox'] {
+input[type='checkbox'] {
 	-webkit-appearance: none;
 	appearance: none;
 
@@ -856,19 +856,19 @@ input[type='text']:focus {
 	transition: var(--transition);
 	margin: 0;
 }
-#gui input[type='checkbox']:hover {
+input[type='checkbox']:hover {
 	border-color: var(--hover-col);
 }
-#gui input[type='checkbox']:focus {
+input[type='checkbox']:focus {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 }
-#gui input[type='checkbox']:hover::before {
+input[type='checkbox']:hover::before {
 	transform: scale(1);
 	box-shadow: inset var(--target-diameter) var(--target-diameter)
 		var(--hover-col);
 }
-#gui input[type='checkbox']::before {
+input[type='checkbox']::before {
 	content: '';
 	width: var(--target-diameter);
 	height: var(--target-diameter);
@@ -879,12 +879,12 @@ input[type='text']:focus {
 	border-radius: var(--corner-radius);
 	transition: var(--transition);
 }
-#gui input[type='checkbox']:checked::before {
+input[type='checkbox']:checked::before {
 	transform: scale(1);
 }
 
 /********************************* XY SLIDER *********************************/
-#gui .xyslider {
+.xyslider {
 	width: 100%;
 	height: 21em;
 	/*	background-color: rgba(var(--fgRGB), 0.1);*/
@@ -907,11 +907,11 @@ input[type='text']:focus {
 	border: var(--line-width) solid var(--base-col);
 }
 
-#gui .xyslider:hover {
+.xyslider:hover {
 	border-color: var(--hover-col);
 }
 
-#gui .xyslider .handle {
+.xyslider .handle {
 	position: relative;
 	width: var(--target-diameter);
 	height: var(--target-diameter);
@@ -924,18 +924,18 @@ input[type='text']:focus {
 	transition: background-color 0.25s ease;
 }
 
-#gui .xyslider .handle:hover {
+.xyslider .handle:hover {
 	background-color: var(--hover-col);
 }
 
-#gui .xyslider .handle:active {
+.xyslider .handle:active {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
 	border-radius: 100%;
 }
 
 /********************************* COLOUR BOXES *********************************/
-#gui .colour-boxes {
+.colour-boxes {
 	width: 100%;
 	display: flex;
 	flex-flow: row wrap;
@@ -945,51 +945,51 @@ input[type='text']:focus {
 	transition: var(--transition);
 }
 
-#gui .colour-boxes input[type='radio'] {
+.colour-boxes input[type='radio'] {
 	margin: 0;
 	border: none;
 }
 
-#gui .colour-boxes input[type='radio']:hover,
-#gui .colour-boxes input[type='radio']:checked:hover {
+.colour-boxes input[type='radio']:hover,
+.colour-boxes input[type='radio']:checked:hover {
 	border: var(--line-width) solid var(--hover-col);
 }
 
-#gui .colour-boxes input[type='radio']:checked {
+.colour-boxes input[type='radio']:checked {
 	border: var(--line-width) solid var(--base-col);
 }
 
-#gui .colour-boxes input[type='radio']::before {
+.colour-boxes input[type='radio']::before {
 	display: none;
 }
 
-#gui .colour-boxes input[type='radio']:hover::before {
+.colour-boxes input[type='radio']:hover::before {
 	display: none;
 }
 
-#gui .colour-boxes input[type='radio']:checked::before {
+.colour-boxes input[type='radio']:checked::before {
 	display: none;
 }
 
 /********************************* MULTI COLOUR BOXES *********************************/
-#gui .colour-boxes input[type='checkbox'] {
+.colour-boxes input[type='checkbox'] {
 	margin: 0;
 	border: none;
 }
-#gui .colour-boxes input[type='checkbox']:hover,
-#gui .colour-boxes input[type='checkbox']:checked:hover {
+.colour-boxes input[type='checkbox']:hover,
+.colour-boxes input[type='checkbox']:checked:hover {
 	border: var(--line-width) solid var(--hover-col);
 }
-#gui .colour-boxes input[type='checkbox']:checked {
+.colour-boxes input[type='checkbox']:checked {
 	border: var(--line-width) solid var(--base-col);
 }
-#gui .colour-boxes input[type='checkbox']::before {
+.colour-boxes input[type='checkbox']::before {
 	display: none;
 }
-#gui .colour-boxes input[type='checkbox']:hover::before {
+.colour-boxes input[type='checkbox']:hover::before {
 	display: none;
 }
-#gui .colour-boxes input[type='checkbox']:checked::before {
+.colour-boxes input[type='checkbox']:checked::before {
 	display: none;
 }
 
@@ -1040,17 +1040,17 @@ input[type='text']:focus {
 }
 
 /********************************* CONTACT SECTION *********************************/
-#gui #contact {
+#contact {
 	/*	margin-top: 1em;*/
 	font-size: 0.8em;
 }
 
-#gui a {
+a {
 	color: var(--link-col);
 	transition: var(--transition);
 }
 
-#gui a:hover {
+a:hover {
 	color: var(--link-hover-col);
 }
 
@@ -1197,25 +1197,25 @@ dialog::backdrop {
 	}
 }
 
-.dialog-backdrop-close {
+button.dialog-backdrop-close {
 	inset: 0;
 	position: absolute;
 	background-color: rgba(var(--bgRGB), 0.5);
 	opacity: 0;
 }
 
-.dialog[open] .dialog-backdrop-close {
+.dialog[open] button.dialog-backdrop-close {
 	animation: dialog-backdrop-in 250ms ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.dialog[open] .dialog-backdrop-close {
+	.dialog[open] button.dialog-backdrop-close {
 		animation: none;
 		opacity: 1;
 	}
 }
 
-.dialog-close {
+button.dialog-close {
 	opacity: 1;
 	position: absolute;
 	transition: var(--transition);
@@ -1223,19 +1223,21 @@ dialog::backdrop {
 	border-radius: var(--corner-radius);
 	padding: 0;
 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 	right: -3rem;
 	top: 0;
-	height: 2rem;
+
+	min-width: 2rem;
 	width: 2rem;
-	border: none;
-	cursor: pointer;
-	background-color: var(--base-col);
-	color: var(--text-col-on-base);
-	text-align: none;
+	min-height: 2rem;
+	height: 2rem;
 }
 
-.dialog-close:focus-visible,
-.dialog-close:hover {
+button.dialog-close:focus-visible,
+button.dialog-close:hover {
 	opacity: 1;
 	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
@@ -1268,18 +1270,8 @@ dialog::backdrop {
 	width: 100%;
 	gap: calc(var(--target-diameter) / 2);
 }
-
-.dialog-content button:not(.dialog-close) {
-	cursor: pointer;
-	background-color: var(--base-col);
-	color: var(--text-col-on-base);
-	border: none;
-	transition: var(--transition);
-	border-radius: var(--corner-radius);
-	min-height: var(--base-height);
-	padding: 0 var(--button-padding-sides);
-	font-size: inherit;
-	text-align: var(--text-align);
+.dialog-prompt-form button {
+	width: fit-content;
 }
 
 .dialog-prompt-input {
