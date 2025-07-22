@@ -12,7 +12,7 @@
 	<a style="text-decoration:none !important;" href="https://github.com/multitude-amsterdam/p5Catalyst/pulls"><img alt="p5Catalyst pull-requests" src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7"></a>
 </p>
 
-<p align="center">_🚧 Major update underway: we're migrating to Vite + modular architecture. Follow progress in the `vite-refactor` branch._</p>
+<p align="center"><em>🚧 Major update underway: we're migrating to Vite + modular architecture. Follow progress in the `vite-refactor` branch.</em></p>
 
 ---
 
