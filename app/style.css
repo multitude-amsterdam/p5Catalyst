@@ -54,6 +54,10 @@ strong {
 	box-sizing: border-box;
 }
 
+html {
+	overflow: hidden;
+}
+
 /********************************* BODY *********************************/
 body {
 	/* darkest and lightest colours */
