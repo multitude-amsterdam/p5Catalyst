@@ -206,6 +206,7 @@ class Controller extends Field {
 	 * Creates the console element for the controller.
 	 */
 	createConsole() {
+		if (this.console !== undefined) return;
 		this.console = createDiv();
 		this.console.parent(this.div);
 		this.console.class('gui-console');
@@ -559,7 +560,7 @@ class Toggle extends ValuedController {
 	 * @param {string} labelStr0
 	 * @param {string} labelStr1
 	 * @param {boolean} isToggled
-	 * @param {function} callback
+	 * @param {ValueCallback} valueCallback
 	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(
@@ -568,14 +569,13 @@ class Toggle extends ValuedController {
 		labelStr0,
 		labelStr1,
 		isToggled,
-		callback,
+		valueCallback,
 		setupCallback = undefined
 	) {
 		super(gui, name, undefined, setupCallback);
 		this.controllerElement = createButton('');
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.class('toggle');
-		this.controllerElement.elt.onmousedown = () => callback(this);
 
 		labelStr0 = lang.process(labelStr0, true);
 		labelStr1 = lang.process(labelStr1, true);
@@ -584,19 +584,21 @@ class Toggle extends ValuedController {
 		span0.parent(this.controllerElement);
 		span1.parent(this.controllerElement);
 
-		this.value = isToggled ? true : false;
+		if (this.value) this.controllerElement.elt.toggleAttribute('toggled');
 
-		this.controllerElement.elt.onmousedown = () => {
+		this.controllerElement.elt.onclick = () => {
 			this.setValue(!this.value);
 		};
-		this.callback = callback;
+		this.valueCallback = valueCallback;
+
+		this.setValue(isToggled ? true : false);
 	}
 
 	/**
 	 * Simulates a toggle click.
 	 */
 	click() {
-		this.controllerElement.elt.onmousedown();
+		this.controllerElement.elt.onclick();
 	}
 
 	/**
@@ -607,7 +609,7 @@ class Toggle extends ValuedController {
 		if (value != this.value)
 			this.controllerElement.elt.toggleAttribute('toggled');
 		this.value = value;
-		this.callback(this, this.value);
+		this.valueCallback(this, this.value);
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
@@ -766,8 +768,8 @@ class ResolutionSelect extends Select {
 			defaultIndex,
 			(controller, value) => {
 				if (value.indexOf(' x ') >= 0) {
-					const resStr = value.split(': ')[1];
-					const wh = resStr.split(' x ');
+					const resolutionStr = value.split(': ')[1];
+					const wh = resolutionStr.split(' x ');
 					const w = parseInt(wh[0]);
 					const h = parseInt(wh[1]);
 					resize(w, h);
@@ -807,19 +809,22 @@ class Slider extends ValuedController {
 		this.maxVal = maxVal;
 		this.defaultVal = defaultVal;
 		this.stepSize = stepSize;
+		this.value = defaultVal;
 
-		const callback = event => {
+		this.controllerElement.elt.oninput = event => {
 			const value = parseFloat(event.srcElement.value);
 			valueCallback(this, value);
 		};
-		this.controllerElement.elt.onchange = callback;
-		this.controllerElement.elt.oninput = callback;
+		this.controllerElement.elt.onchange = event => {
+			const value = parseFloat(event.srcElement.value);
+			this.setValue(value);
+		};
 		valueCallback(this, defaultVal);
 		this.valueCallback = valueCallback;
 	}
 
 	setValue(value) {
-		this.value = value;
+		this.value = round(value / this.stepSize) * this.stepSize;
 		this.valueCallback(this, value);
 		this.controllerElement.value(value);
 		if (this.doUpdateChangeSet()) changeSet.save();
@@ -1201,8 +1206,6 @@ class MultiColourBoxes extends ValuedController {
 
 	setValue(colArray) {
 		const indices = colArray.map(colObj => {
-			if (!(colObj instanceof p5.Color))
-				throw new Error(colObj + ' is not a p5.Color.');
 			return this.colours.findIndex(col =>
 				isArraysEqual(col.levels, colObj.levels)
 			);
@@ -1237,7 +1240,8 @@ class Textbox extends ValuedController {
 		super(gui, name, labelStr, setupCallback);
 		this.controllerElement = createInput();
 		this.controllerElement.parent(this.controllerWrapper);
-		this.controllerElement.value(defaultVal);
+		this.value = defaultVal;
+		this.controllerElement.value(this.value);
 
 		this.controllerElement.elt.oninput = event => {
 			const value = event.srcElement.value;
@@ -1250,10 +1254,11 @@ class Textbox extends ValuedController {
 			'focusin',
 			event => (gui.isTypingText = true)
 		);
-		this.controllerElement.elt.addEventListener(
-			'focusout',
-			event => (gui.isTypingText = false)
-		);
+		this.controllerElement.elt.addEventListener('focusout', event => {
+			gui.isTypingText = false;
+			const value = event.srcElement.value;
+			this.setValue(value);
+		});
 	}
 
 	setValue(value) {
@@ -1343,7 +1348,8 @@ class Textarea extends ValuedController {
 		super(gui, name, labelStr, setupCallback);
 		this.controllerElement = createElement('textarea');
 		this.controllerElement.parent(this.controllerWrapper);
-		this.controllerElement.html(defaultVal);
+		this.value = defaultVal;
+		this.controllerElement.html(this.value);
 
 		this.controllerElement.elt.oninput = event => {
 			const value = event.srcElement.value;
