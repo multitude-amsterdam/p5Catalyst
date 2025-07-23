@@ -1064,6 +1064,7 @@ class XYSlider extends ValuedController {
 /**
  * Radio buttons displaying coloured options.
  * @extends ValuedController
+ * @see {MultiColourBoxes}
  */
 class ColourBoxes extends ValuedController {
 	constructor(
@@ -1123,6 +1124,12 @@ class ColourBoxes extends ValuedController {
 			isArraysEqual(col.levels, colObj.levels)
 		);
 
+		if (index < 0) {
+			throw new Error(
+				colObj.toString() + ' can not be found in colours.'
+			);
+		}
+
 		this.value = this.colours[index];
 		this.controllerElement.selected('' + index);
 		this.valueCallback(this, this.value);
@@ -1137,6 +1144,7 @@ class ColourBoxes extends ValuedController {
 /**
  * Multiple selectable colour checkboxes.
  * @extends ValuedController
+ * @see {ColourBoxes}
  */
 class MultiColourBoxes extends ValuedController {
 	constructor(
@@ -1166,7 +1174,7 @@ class MultiColourBoxes extends ValuedController {
 
 		const div = createDiv();
 		div.class('colour-boxes');
-		div.parent(this.controllerWrapper);
+		this.controllerWrapper.elt.prepend(div.elt);
 		this.checkboxes = [];
 		for (let i = 0; i < this.colours.length; i++) {
 			const cb = createCheckbox();
