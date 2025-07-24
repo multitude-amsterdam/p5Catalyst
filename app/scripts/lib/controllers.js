@@ -267,7 +267,7 @@ class Controller extends Field {
 }
 
 /**
- * Controller that holds a value which can be serialised.
+ * Controller that holds a value which can be serialized.
  * @extends Controller
  * @example
  * // ValuedController gives back its value through a callback, that's where you tie it to the system.
@@ -321,25 +321,94 @@ class ValuedController extends Controller {
 	 * Gets the value for JSON serialization.
 	 * @returns {*}
 	 */
-	getValueForJSON() {
-		return this.value;
+	getValueForSerialization() {
+		if (this.value instanceof p5.Color)
+			return ValuedController.prepColorForSerialization(this.value);
+		if (this.value instanceof Vec2D)
+			return ValuedController.prepVec2DForSerialization(this.value);
+		if (this.value instanceof Vec3D)
+			return ValuedController.prepVec3DForSerialization(this.value);
+	}
+	/**
+	 * Restores value from serialized JSON form.
+	 * @param {*} value
+	 * @returns {void}
+	 */
+	restoreValue(serializedValue) {
+		this.setValue(serializedValue);
 	}
 
 	/**
-	 * Restores a serialized p5.Color object.
+	 * @static
+	 * @param {Vec2D} - Vec2D instance
+	 * @returns {Object}
+	 */
+	static prepVec2DForSerialization({ x, y }) {
+		return { type: 'Vec2D', x, y };
+	}
+	/**
+	 * @static
+	 * @param {Object} obj - serialized Vec2D
+	 * @returns {Vec2D}
+	 * @see restoreSerializedVec3D
+	 */
+	static restoreSerializedVec2D(obj) {
+		if (obj.type !== 'p5.Vec2D')
+			throw new Error('Object is not a serialized Vec2D.');
+		return new Vec2D(obj.x, obj.y);
+	}
+
+	/**
+	 * @static
+	 * @param {Vec3D} - Vec3D instance
+	 * @returns {Object}
+	 */
+	static prepVec3DForSerialization({ x, y, z }) {
+		return { type: 'Vec3D', x, y, z };
+	}
+	/**
+	 * @param {Object} obj - serialized Vec3D
+	 * @returns {Vec3D}
+	 * @see restoreSerializedVe23D
+	 */
+	static restoreSerializedVec3D(obj) {
+		if (obj.type !== 'p5.Vec3D')
+			throw new Error('Object is not a serialized Vec3D.');
+		return new Vec3D(obj.x, obj.y, obj.z);
+	}
+
+	/**
+	 * Preps a p5.Color for serialisation in JSON.
+	 * Strips any unneeded information.
+	 * @static
+	 * @param {p5.Color} color
+	 * @returns {Object}
+	 * @see restoreSerializedColor
+	 */
+	static prepColorForSerialization(color) {
+		if (!color instanceof p5.Color) {
+			throw new Error('color not a p5.Color instance.');
+		}
+		return {
+			type: 'p5.Color',
+			_array: color._array,
+		};
+	}
+	/**
+	 * @static
 	 * @param {Object} obj - The serialized object.
 	 * @returns {p5.Color} - The restored p5.Color object or the original object if not a color.
+	 * @see getColorForSerialization
 	 */
-	restoreSerializedP5Color(obj) {
-		if (
-			!obj._array ||
-			!Array.isArray(obj._array) ||
-			obj._array.length !== 4
-		) {
+	static restoreSerializedColor(obj) {
+		if (obj.type !== 'p5.Color')
 			throw new Error('Object is not a serialized p5.Color.');
-		}
+		push();
+		colorMode(RGB);
 		const col = color(0);
 		col._array = obj._array;
+		col._calculateLevels();
+		pop();
 		return col;
 	}
 }
