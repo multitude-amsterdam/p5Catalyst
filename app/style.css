@@ -180,7 +180,7 @@ body:where(.dark-mode) {
 
 #gui::-webkit-scrollbar-thumb {
 	background-color: var(--base-col);
-	border: 1px solid var(--bg-col);
+	/* border: var(--line-width) solid var(--bg-col); */ /* optional border for contrast */
 	border-radius: var(--corner-radius);
 }
 
