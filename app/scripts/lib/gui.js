@@ -338,7 +338,7 @@ class GUIForP5 {
 
 	/**
 	 * Gets the current state of all controllers with values.
-	 * @returns {Array<{name: string, value: any}>}
+	 * @returns {Array<{name: string, value: any, isDieActive?: boolean}>}
 	 */
 	getState() {
 		return this.controllers
@@ -346,29 +346,31 @@ class GUIForP5 {
 			.map(controller => {
 				const serializable = {
 					name: controller.name,
-					value: controller.getValueForSerialization(),
+					value: controller.getSerializedValue(),
 				};
-				// if (controller.die !== undefined)
-				// 	serializable.isDieActive = controller.die.isActive;
+				if (controller.die !== undefined)
+					serializable.isDieActive = controller.die.isActive;
+				print(serializable);
 				return serializable;
 			});
 	}
 
 	/**
 	 * Restores the state of controllers from a saved state.
-	 * @param {Array<{name: string, value: any}>} state
+	 * @param {Array<{name: string, value: any, isDieActive?: boolean}>} state
 	 */
 	restoreState(state) {
 		Controller._doUpdateChangeSet = false;
-		for (let { name, value, isDieActive } of state) {
+		for (let { name, value: serializedValue, isDieActive } of state) {
+			if (serializedValue === undefined) continue;
+
 			const controller = gui.getController(name);
-			if (controller.setValue && value !== undefined) {
-				value = restoreSerializedP5Color(value);
-				value = restoreSerializedVec2D(value);
-				controller.setValue(value);
-				// if (isDieActive !== undefined)
-				// 	controller.die.setActive(isDieActive);
-			}
+			if (controller.setValue === undefined) continue;
+
+			controller.restoreValueFromSerialized(serializedValue);
+
+			if (isDieActive === undefined) continue;
+			controller.die.setActive(isDieActive);
 		}
 		Controller._doUpdateChangeSet = true;
 	}
@@ -475,6 +477,7 @@ class DieIcon {
 	 */
 	constructor(randomizer, controller, isActive) {
 		this.randomizer = randomizer;
+		this.controller = controller;
 
 		this.img = createImg('', 'Randomizer die');
 		this.img.class('die-icon');
@@ -508,6 +511,7 @@ class DieIcon {
 	 */
 	click() {
 		this.randomizer.toggleDoRandomize(this);
+		// if (this.controller.doUpdateChangeSet()) changeSet.save(); // not working (yet)
 	}
 
 	/**
