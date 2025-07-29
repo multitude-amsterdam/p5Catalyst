@@ -880,21 +880,23 @@ class Slider extends ValuedController {
 		this.minVal = minVal;
 		this.maxVal = maxVal;
 		this.defaultVal = defaultVal;
-		this.value = defaultVal;
 		this.stepSize = stepSize;
+		this.value = defaultVal;
 
-		const callback = event => {
+		this.controllerElement.elt.oninput = event => {
 			const value = parseFloat(event.srcElement.value);
 			valueCallback(this, value);
 		};
-		this.controllerElement.elt.onchange = callback;
-		this.controllerElement.elt.oninput = callback;
+		this.controllerElement.elt.onchange = event => {
+			const value = parseFloat(event.srcElement.value);
+			this.setValue(value);
+		};
 		valueCallback(this, defaultVal);
 		this.valueCallback = valueCallback;
 	}
 
 	setValue(value) {
-		this.value = value;
+		this.value = round(value / this.stepSize) * this.stepSize;
 		this.valueCallback(this, value);
 		this.controllerElement.value(value);
 		if (this.doUpdateChangeSet()) changeSet.save();
