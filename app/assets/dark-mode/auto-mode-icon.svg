@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="uuid-5e5cd3c6-0fb0-4d23-b4ff-5f86b9835474" data-name="Layer_2" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <defs>
     <style>
-      .uuid-32a37dbe-ce3d-48a5-9ca3-79de67253e71 {
+      .cls-1 {
         fill: #7685f7;
       }
 
-      .uuid-aacb2794-b892-43aa-9f1e-dd22bf485ca5 {
+      .cls-2 {
         fill: none;
         stroke: #7685f7;
         stroke-miterlimit: 10;
@@ -14,10 +14,16 @@
       }
     </style>
   </defs>
-  <g id="uuid-e286e07c-140f-43f3-8c43-6041db44aa55" data-name="Layer_1_copy_2">
+  <g id="Layer_1_copy_2" data-name="Layer 1 copy 2">
     <g>
-      <path class="uuid-aacb2794-b892-43aa-9f1e-dd22bf485ca5" d="M16,31c-8.2709,0-15-6.7282-15-15S7.7291,1,16,1s15,6.7291,15,15-6.7282,15-15,15Z"/>
-      <path class="uuid-32a37dbe-ce3d-48a5-9ca3-79de67253e71" d="M7.6853,23.7591L13.8543,6.8894h4.3396l6.1208,16.8696h-3.8804l-1.3006-3.6875h-6.412l-1.3006,3.6875h-3.7357ZM13.6855,17.1559h4.4584l-2.2412-6.4102-2.2171,6.4102Z"/>
+      <path class="cls-2" d="M16,31c-8.27,0-15-6.73-15-15S7.73,1,16,1s15,6.73,15,15-6.73,15-15,15Z"/>
+      <g>
+        <g>
+          <path class="cls-1" d="M11.62,16c0,2.42,1.96,4.38,4.38,4.38v-8.76c-2.42,0-4.38,1.96-4.38,4.38Z"/>
+          <path class="cls-1" d="M16,4.82v6.8c2.42,0,4.38,1.96,4.38,4.38s-1.96,4.38-4.38,4.38v6.8c6.17,0,11.18-5.01,11.18-11.18s-5.01-11.18-11.18-11.18Z"/>
+        </g>
+        <path class="cls-2" d="M16,5.82c-5.62,0-10.18,4.56-10.18,10.18s4.56,10.18,10.18,10.18"/>
+      </g>
     </g>
   </g>
 </svg>

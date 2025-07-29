@@ -19,6 +19,21 @@
  */
 
 /**
+ * Callback function that fires when the value of a ValuedController is set.
+ *
+ * @callback ValueCallback
+ * @param {Controller} controller
+ * @param {*} value
+ */
+
+/**
+ * Callback function that fires when the setup() method of a Controller is called.
+ *
+ * @callback SetupCallback
+ * @param {Controller} controller
+ */
+
+/**
  * Base class for all GUI controllers.
  * @extends Field
  * @example
@@ -124,7 +139,7 @@ class Controller extends Field {
 	 * @param {GUIForP5} gui - The GUI instance this controller belongs to.
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label text for the controller.
-	 * @param {function} [setupCallback] - Optional callback function for setup.
+	 * @param {SetupCallback} [setupCallback] - Optional callback function for setup.
 	 */
 	constructor(gui, name, labelStr, setupCallback = undefined) {
 		super(gui.div, name, 'gui-controller');
@@ -191,6 +206,7 @@ class Controller extends Field {
 	 * Creates the console element for the controller.
 	 */
 	createConsole() {
+		if (this.console !== undefined) return;
 		this.console = createDiv();
 		this.console.parent(this.div);
 		this.console.class('gui-console');
@@ -295,7 +311,7 @@ class ValuedController extends Controller {
 	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
-	 * @param {function} [setupCallback]
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(gui, name, labelStr, setupCallback = undefined) {
 		super(gui, name, labelStr, setupCallback);
@@ -458,7 +474,7 @@ class Button extends Controller {
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {function} callback
-	 * @param {function} [setupCallback]
+	 * @param {SetupCallback} [setupCallback]
 	 * @example
 	 * const button = new Button(
 	 * 	gui,
@@ -501,7 +517,7 @@ class FileLoader extends Button {
 
 	/**
 	 * The file object.
-	 * @type {*}
+	 * @type {File}
 	 */
 	file;
 
@@ -518,8 +534,8 @@ class FileLoader extends Button {
 	 * @param {string} fileType
 	 * @param {string} labelStr
 	 * @param {function} fileReadyCallback
-	 * @param {function} valueCallback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(
 		gui,
@@ -566,8 +582,8 @@ class TextFileLoader extends FileLoader {
 	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
-	 * @param {function} valueCallback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
@@ -593,8 +609,8 @@ class JSONFileLoader extends FileLoader {
 	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
-	 * @param {function} valueCallback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
@@ -626,8 +642,8 @@ class ImageLoader extends FileLoader {
 	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
-	 * @param {function} valueCallback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(gui, name, labelStr, valueCallback, setupCallback = undefined) {
 		super(
@@ -665,8 +681,8 @@ class Toggle extends ValuedController {
 	 * @param {string} labelStr0
 	 * @param {string} labelStr1
 	 * @param {boolean} isToggled
-	 * @param {function} callback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(
 		gui,
@@ -674,14 +690,13 @@ class Toggle extends ValuedController {
 		labelStr0,
 		labelStr1,
 		isToggled,
-		callback,
+		valueCallback,
 		setupCallback = undefined
 	) {
 		super(gui, name, undefined, setupCallback);
 		this.controllerElement = createButton('');
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.class('toggle');
-		this.controllerElement.elt.onmousedown = () => callback(this);
 
 		labelStr0 = lang.process(labelStr0, true);
 		labelStr1 = lang.process(labelStr1, true);
@@ -690,19 +705,21 @@ class Toggle extends ValuedController {
 		span0.parent(this.controllerElement);
 		span1.parent(this.controllerElement);
 
-		this.value = isToggled ? true : false;
+		if (this.value) this.controllerElement.elt.toggleAttribute('toggled');
 
-		this.controllerElement.elt.onmousedown = () => {
+		this.controllerElement.elt.onclick = () => {
 			this.setValue(!this.value);
 		};
-		this.callback = callback;
+		this.valueCallback = valueCallback;
+
+		this.setValue(isToggled ? true : false);
 	}
 
 	/**
 	 * Simulates a toggle click.
 	 */
 	click() {
-		this.controllerElement.elt.onmousedown();
+		this.controllerElement.elt.onclick();
 	}
 
 	/**
@@ -713,7 +730,7 @@ class Toggle extends ValuedController {
 		if (value != this.value)
 			this.controllerElement.elt.toggleAttribute('toggled');
 		this.value = value;
-		this.callback(this, this.value);
+		this.valueCallback(this, this.value);
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
@@ -755,8 +772,8 @@ class Select extends ValuedController {
 	 * @param {string} labelStr
 	 * @param {Array} options
 	 * @param {number} defaultIndex
-	 * @param {function} valueCallback
-	 * @param {function} [setupCallback]
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(
 		gui,
@@ -872,8 +889,8 @@ class ResolutionSelect extends Select {
 			defaultIndex,
 			(controller, value) => {
 				if (value.indexOf(' x ') >= 0) {
-					const resStr = value.split(': ')[1];
-					const wh = resStr.split(' x ');
+					const resolutionStr = value.split(': ')[1];
+					const wh = resolutionStr.split(' x ');
 					const w = parseInt(wh[0]);
 					const h = parseInt(wh[1]);
 					resize(w, h);
@@ -1168,6 +1185,7 @@ class XYSlider extends ValuedController {
 /**
  * Radio buttons displaying coloured options.
  * @extends ValuedController
+ * @see {MultiColourBoxes}
  */
 class ColourBoxes extends ValuedController {
 	/**
@@ -1239,6 +1257,12 @@ class ColourBoxes extends ValuedController {
 			throw new Error('colObj could not be found in this.colours.');
 		}
 
+		if (index < 0) {
+			throw new Error(
+				colObj.toString() + ' can not be found in colours.'
+			);
+		}
+
 		this.value = this.colours[index];
 		this.controllerElement.selected('' + index);
 		this.valueCallback(this, this.value);
@@ -1253,6 +1277,7 @@ class ColourBoxes extends ValuedController {
 /**
  * Multiple selectable colour checkboxes.
  * @extends ValuedController
+ * @see {ColourBoxes}
  */
 class MultiColourBoxes extends ValuedController {
 	/**
@@ -1296,7 +1321,7 @@ class MultiColourBoxes extends ValuedController {
 
 		const div = createDiv();
 		div.class('colour-boxes');
-		div.parent(this.controllerWrapper);
+		this.controllerWrapper.elt.prepend(div.elt);
 		this.checkboxes = [];
 		for (let i = 0; i < this.colours.length; i++) {
 			const cb = createCheckbox();
@@ -1341,8 +1366,6 @@ class MultiColourBoxes extends ValuedController {
 
 	setValue(colArray) {
 		const indices = colArray.map(colObj => {
-			if (!(colObj instanceof p5.Color))
-				throw new Error(colObj + ' is not a p5.Color.');
 			return this.colours.findIndex(col =>
 				isArraysEqual(col.levels, colObj.levels)
 			);
@@ -1386,7 +1409,8 @@ class Textbox extends ValuedController {
 		super(gui, name, labelStr, setupCallback);
 		this.controllerElement = createInput();
 		this.controllerElement.parent(this.controllerWrapper);
-		this.controllerElement.value(defaultVal);
+		this.value = defaultVal;
+		this.controllerElement.value(this.value);
 
 		this.controllerElement.elt.oninput = event => {
 			const value = event.srcElement.value;
@@ -1399,10 +1423,11 @@ class Textbox extends ValuedController {
 			'focusin',
 			event => (gui.isTypingText = true)
 		);
-		this.controllerElement.elt.addEventListener(
-			'focusout',
-			event => (gui.isTypingText = false)
-		);
+		this.controllerElement.elt.addEventListener('focusout', event => {
+			gui.isTypingText = false;
+			const value = event.srcElement.value;
+			this.setValue(value);
+		});
 	}
 
 	setValue(value) {
@@ -1515,7 +1540,8 @@ class Textarea extends ValuedController {
 		super(gui, name, labelStr, setupCallback);
 		this.controllerElement = createElement('textarea');
 		this.controllerElement.parent(this.controllerWrapper);
-		this.controllerElement.html(defaultVal);
+		this.value = defaultVal;
+		this.controllerElement.html(this.value);
 
 		this.controllerElement.elt.oninput = event => {
 			const value = event.srcElement.value;
@@ -1559,8 +1585,8 @@ class ColourTextArea extends Textarea {
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label for the controller.
 	 * @param {Array<p5.Color>} colours - The initial list of colours.
-	 * @param {function} valueCallback - Callback function for value changes.
-	 * @param {function} [setupCallback] - Optional setup callback.
+	 * @param {ValueCallback} valueCallback - Callback function for value changes.
+	 * @param {SetupCallback} [setupCallback] - Optional setup callback.
 	 * @example
 	 * const colourTextArea = new ColourTextArea(
 	 * 	gui,
@@ -1634,5 +1660,85 @@ class ColourTextArea extends Textarea {
 			.map(cstr => cstr.trim())
 			.filter(cstr => cstr.length == 7 && cstr[0] == '#')
 			.map(cstr => color(cstr));
+	}
+}
+
+/**
+ * Side by side incrementer & decrementer button for a number
+ * @extends ValuedController
+ */
+class Crementer extends ValuedController {
+	/**
+	 * Crementer constructor
+	 * @param {GUIForP5} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {number} minVal
+	 * @param {number} maxVal
+	 * @param {number} defaultVal
+	 * @param {number} stepSize
+	 * @param {ValueCallback} valueCallback
+	 * @param {SetupCallback} [setupCallback]
+	 */
+	constructor(
+		gui,
+		name,
+		labelStr,
+		minVal,
+		maxVal,
+		defaultVal,
+		stepSize,
+		valueCallback,
+		setupCallback = undefined
+	) {
+		super(gui, name, labelStr, setupCallback);
+		this.minVal = minVal;
+		this.maxVal = maxVal;
+		this.defaultVal = defaultVal;
+		this.stepSize = stepSize;
+		this.valueCallback = valueCallback;
+
+		this.controllerElement = createDiv();
+		this.controllerElement.class('crementer');
+		this.controllerElement.parent(this.controllerWrapper);
+
+		const minusButton = createButton('&#xE1D2'); // left arrow
+		minusButton.parent(this.controllerElement);
+		minusButton.elt.onclick = () => this.decrement();
+
+		this.valueDisplay = createSpan(defaultVal);
+		this.valueDisplay.parent(this.controllerElement);
+
+		const plusButton = createButton('&#x2192'); // right arrow
+		plusButton.parent(this.controllerElement);
+		plusButton.elt.onclick = () => this.increment();
+
+		this.setValue(defaultVal);
+	}
+
+	mod(value) {
+		const modSize = this.maxVal - this.minVal + 1; // [min,max] inclusive
+		return ((value - this.minVal + modSize) % modSize) + this.minVal;
+	}
+
+	increment() {
+		this.setValue(this.mod(this.value + this.stepSize));
+	}
+
+	decrement() {
+		this.setValue(this.mod(this.value - this.stepSize));
+	}
+
+	setValue(value) {
+		this.value = constrain(value, this.minVal, this.maxVal);
+		this.valueDisplay.html(this.value);
+		this.valueCallback(this, this.value);
+		if (this.doUpdateChangeSet()) changeSet.save();
+	}
+
+	randomize() {
+		let randomValue = random(this.minVal, this.maxVal);
+		randomValue = round(randomValue / this.stepSize) * this.stepSize;
+		this.setValue(randomValue);
 	}
 }

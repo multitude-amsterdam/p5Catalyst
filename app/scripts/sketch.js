@@ -10,8 +10,6 @@ let canvas,
 	duration,
 	ffmpegWaiter = 0,
 	FR,
-	generator,
-	gui,
 	isCapturingFrames = false,
 	isPlaying = true,
 	K = 0,
@@ -31,6 +29,11 @@ let canvas,
 	titleFont,
 	bodyFont,
 	utilBools = [];
+
+/** @type {Generator} */
+let generator;
+/** @type {GUIForP5} */
+let gui;
 
 function preload() {
 	// theShader = loadShader('scripts/shader/shader.vert', 'scripts/shader/shader.frag');

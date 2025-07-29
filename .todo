@@ -6,3 +6,5 @@
 rm pw & ph
 
 add update changeSet to ResolutionSelect
+
+homogenize MultiColourBoxes method structure with ColourBoxes
