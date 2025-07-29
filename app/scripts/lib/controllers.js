@@ -318,32 +318,69 @@ class ValuedController extends Controller {
 	}
 
 	/**
-	 * Gets the value for JSON serialization.
+	 * Gets serialized form of the value property.
+	 * @returns {*}
+	 * @see serialize
+	 */
+	getSerializedValue() {
+		return ValuedController.serialize(this.value);
+	}
+
+	/**
+	 * Uses setValue with restored value from serialized form.
+	 * @param {number|string|boolean|Object} serializedValue
+	 * @returns {void}
+	 * @see deserialize
+	 */
+	restoreValueFromSerialized(serializedValue) {
+		const value = ValuedController.deserialize(serializedValue);
+		if (value === this.value) {
+			return;
+		}
+		this.setValue(value);
+	}
+
+	/**
+	 * Transforms a value into a form for JSON serialization.
+	 * @static
+	 * @param {*} value
 	 * @returns {*}
 	 */
-	getValueForSerialization() {
-		if (this.value instanceof p5.Color)
-			return ValuedController.prepColorForSerialization(this.value);
-		if (this.value instanceof Vec2D)
-			return ValuedController.prepVec2DForSerialization(this.value);
-		if (this.value instanceof Vec3D)
-			return ValuedController.prepVec3DForSerialization(this.value);
+	static serialize(value) {
+		if (value instanceof Vec2D)
+			return ValuedController.prepVec2DForSerialization(value);
+		if (value instanceof Vec3D)
+			return ValuedController.prepVec3DForSerialization(value);
+		if (value instanceof p5.Color)
+			return ValuedController.prepColorForSerialization(value);
 		// default (including number, string & boolean)
-		return this.value;
+		return value;
 	}
+
 	/**
-	 * Restores value from serialized JSON form.
-	 * @param {*} value
-	 * @returns {void}
+	 * Turns a deserialized JSON object into an instance of its original class.
+	 * @static
+	 * @param {number|string|boolean|Object} serializedValue
+	 * @returns {*}
 	 */
-	restoreValue(serializedValue) {
-		this.setValue(serializedValue);
+	static deserialize(serializedValue) {
+		if (serializedValue.type === undefined) return serializedValue;
+		switch (serializedValue.type) {
+			case 'Vec2D':
+				return this.restoreSerializedVec2D(serializedValue);
+			case 'Vec3D':
+				return this.restoreSerializedVec3D(serializedValue);
+			case 'p5.Color':
+				return this.restoreSerializedColor(serializedValue);
+		}
+		throw new Error(serializedValue + ' cannot be deserialized.');
 	}
 
 	/**
 	 * @static
 	 * @param {Vec2D} - Vec2D instance
 	 * @returns {Object}
+	 * @see restoreSerializedVec2D
 	 */
 	static prepVec2DForSerialization({ x, y }) {
 		return { type: 'Vec2D', x, y };
@@ -352,7 +389,7 @@ class ValuedController extends Controller {
 	 * @static
 	 * @param {Object} obj - serialized Vec2D
 	 * @returns {Vec2D}
-	 * @see restoreSerializedVec3D
+	 * @see prepVec2DForSerialization
 	 */
 	static restoreSerializedVec2D(obj) {
 		if (obj.type !== 'Vec2D')
@@ -364,6 +401,7 @@ class ValuedController extends Controller {
 	 * @static
 	 * @param {Vec3D} - Vec3D instance
 	 * @returns {Object}
+	 * @see restoreSerializedVec3D
 	 */
 	static prepVec3DForSerialization({ x, y, z }) {
 		return { type: 'Vec3D', x, y, z };
@@ -371,10 +409,10 @@ class ValuedController extends Controller {
 	/**
 	 * @param {Object} obj - serialized Vec3D
 	 * @returns {Vec3D}
-	 * @see restoreSerializedVe23D
+	 * @see prepVec3DForSerialization
 	 */
 	static restoreSerializedVec3D(obj) {
-		if (obj.type !== 'p5.Vec3D')
+		if (obj.type !== 'Vec3D')
 			throw new Error('Object is not a serialized Vec3D.');
 		return new Vec3D(obj.x, obj.y, obj.z);
 	}
@@ -387,20 +425,14 @@ class ValuedController extends Controller {
 	 * @returns {Object}
 	 * @see restoreSerializedColor
 	 */
-	static prepColorForSerialization(color) {
-		if (!color instanceof p5.Color) {
-			throw new Error('color not a p5.Color instance.');
-		}
-		return {
-			type: 'p5.Color',
-			_array: color._array,
-		};
+	static prepColorForSerialization({ _array }) {
+		return { type: 'p5.Color', _array };
 	}
 	/**
 	 * @static
 	 * @param {Object} obj - The serialized object.
 	 * @returns {p5.Color} - The restored p5.Color object or the original object if not a color.
-	 * @see getColorForSerialization
+	 * @see prepColorForSerialization
 	 */
 	static restoreSerializedColor(obj) {
 		if (obj.type !== 'p5.Color')
@@ -1200,16 +1232,12 @@ class ColourBoxes extends ValuedController {
 	}
 
 	setValue(colObj) {
-		if (!(colObj instanceof p5.Color)) {
-			colObj = this.restoreSerializedP5Color(colObj);
-		}
-		if (!colObj) {
-			throw new Error(colObj + ' cannot be used as a p5.Color.');
-		}
-
 		const index = this.colours.findIndex(col =>
-			isArraysEqual(col.levels, colObj.levels)
+			isArraysEqual(col._array, colObj._array)
 		);
+		if (index < 0) {
+			throw new Error('colObj could not be found in this.colours.');
+		}
 
 		this.value = this.colours[index];
 		this.controllerElement.selected('' + index);
