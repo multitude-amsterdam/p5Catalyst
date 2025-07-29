@@ -454,7 +454,7 @@ function createGUI() {
 	);
 
 	if (Generator.supportEmail?.indexOf('@') > -1) {
-		let contactField = gui.addHTMLToNewField(
+		let contactField = gui.addHTMLAsNewField(
 			lang.process(
 				`<a href="mailto:${Generator.supportEmail}` +
 					`?subject=${Generator.name} generator` +
