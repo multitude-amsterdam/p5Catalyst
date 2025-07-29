@@ -2,43 +2,6 @@
  * @fileoverview Utility helper functions used throughout the project.
  */
 
-// ---------------------- RESTORING SERIALISED OBJS -----------------------
-
-/**
- * Convert a serialised p5.Color back into a live {@link p5.Color} instance.
- * @param {object} obj Serialised colour object.
- * @returns {p5.Color|object}
- */
-function restoreSerializedP5Color(obj) {
-	if (!(obj.levels && obj.mode)) return obj;
-	push();
-	colorMode(RGB);
-	const col = color(obj.levels);
-	pop();
-	return col;
-}
-
-/**
- * Convert a plain object to a {@link Vec3D} if it contains x, y, and z.
- * @param {object} obj Potentially serialised vector.
- * @returns {Vec3D|object}
- */
-function restoreSerializedVec3D(obj) {
-	// always use before Vec2D version when used in combination
-	if ([obj.x, obj.y, obj.z].some(v => v === undefined)) return obj;
-	return new Vec3D(obj.x, obj.y, obj.z);
-}
-
-/**
- * Convert a plain object to a {@link Vec2D} if it contains x and y.
- * @param {object} obj Potentially serialised vector.
- * @returns {Vec2D|object}
- */
-function restoreSerializedVec2D(obj) {
-	if ([obj.x, obj.y].some(v => v === undefined)) return obj;
-	return new Vec2D(obj.x, obj.y);
-}
-
 // ----------------------------- DRAWING ------------------------------
 
 /**
