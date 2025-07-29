@@ -343,10 +343,15 @@ class GUIForP5 {
 	getState() {
 		return this.controllers
 			.filter(controller => controller.value !== undefined)
-			.map(controller => ({
-				name: controller.name,
-				value: controller.getValueForJSON(),
-			}));
+			.map(controller => {
+				const serializable = {
+					name: controller.name,
+					value: controller.getValueForSerialization(),
+				};
+				// if (controller.die !== undefined)
+				// 	serializable.isDieActive = controller.die.isActive;
+				return serializable;
+			});
 	}
 
 	/**
@@ -355,12 +360,14 @@ class GUIForP5 {
 	 */
 	restoreState(state) {
 		Controller._doUpdateChangeSet = false;
-		for (let { name, value } of state) {
+		for (let { name, value, isDieActive } of state) {
 			const controller = gui.getController(name);
 			if (controller.setValue && value !== undefined) {
 				value = restoreSerializedP5Color(value);
 				value = restoreSerializedVec2D(value);
 				controller.setValue(value);
+				// if (isDieActive !== undefined)
+				// 	controller.die.setActive(isDieActive);
 			}
 		}
 		Controller._doUpdateChangeSet = true;

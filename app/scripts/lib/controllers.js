@@ -328,6 +328,8 @@ class ValuedController extends Controller {
 			return ValuedController.prepVec2DForSerialization(this.value);
 		if (this.value instanceof Vec3D)
 			return ValuedController.prepVec3DForSerialization(this.value);
+		// default (including number, string & boolean)
+		return this.value;
 	}
 	/**
 	 * Restores value from serialized JSON form.
@@ -353,7 +355,7 @@ class ValuedController extends Controller {
 	 * @see restoreSerializedVec3D
 	 */
 	static restoreSerializedVec2D(obj) {
-		if (obj.type !== 'p5.Vec2D')
+		if (obj.type !== 'Vec2D')
 			throw new Error('Object is not a serialized Vec2D.');
 		return new Vec2D(obj.x, obj.y);
 	}
@@ -878,6 +880,7 @@ class Slider extends ValuedController {
 		this.minVal = minVal;
 		this.maxVal = maxVal;
 		this.defaultVal = defaultVal;
+		this.value = defaultVal;
 		this.stepSize = stepSize;
 
 		const callback = event => {
