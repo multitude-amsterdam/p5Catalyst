@@ -37,15 +37,17 @@ class ChangeSet {
 	}
 
 	undo() {
-		if (this.index <= 0) return;
+		if (this.index <= 0) return false;
 		this.index--;
 		this.restore(this.changeset[this.index]);
+		return true;
 	}
 
 	redo() {
-		if (this.index >= this.changeset.length - 1) return;
+		if (this.index >= this.changeset.length - 1) return false;
 		this.index++;
 		this.restore(this.changeset[this.index]);
+		return true;
 	}
 
 	restore(json) {

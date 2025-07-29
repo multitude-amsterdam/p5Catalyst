@@ -283,7 +283,7 @@ class Controller extends Field {
 }
 
 /**
- * Controller that holds a value which can be serialised.
+ * Controller that holds a value which can be serialized.
  * @extends Controller
  * @example
  * // ValuedController gives back its value through a callback, that's where you tie it to the system.
@@ -334,11 +334,132 @@ class ValuedController extends Controller {
 	}
 
 	/**
-	 * Gets the value for JSON serialization.
+	 * Gets serialized form of the value property.
+	 * @returns {*}
+	 * @see serialize
+	 */
+	getSerializedValue() {
+		return ValuedController.serialize(this.value);
+	}
+
+	/**
+	 * Uses setValue with restored value from serialized form.
+	 * @param {number|string|boolean|Object} serializedValue
+	 * @returns {void}
+	 * @see deserialize
+	 */
+	restoreValueFromSerialized(serializedValue) {
+		const value = ValuedController.deserialize(serializedValue);
+		if (value === this.value) {
+			return;
+		}
+		this.setValue(value);
+	}
+
+	/**
+	 * Transforms a value into a form for JSON serialization.
+	 * @static
+	 * @param {*} value
 	 * @returns {*}
 	 */
-	getValueForJSON() {
-		return this.value;
+	static serialize(value) {
+		if (value instanceof Vec2D)
+			return ValuedController.prepVec2DForSerialization(value);
+		if (value instanceof Vec3D)
+			return ValuedController.prepVec3DForSerialization(value);
+		if (value instanceof p5.Color)
+			return ValuedController.prepColorForSerialization(value);
+		// default (including number, string & boolean)
+		return value;
+	}
+
+	/**
+	 * Turns a deserialized JSON object into an instance of its original class.
+	 * @static
+	 * @param {number|string|boolean|Object} serializedValue
+	 * @returns {*}
+	 */
+	static deserialize(serializedValue) {
+		if (serializedValue.type === undefined) return serializedValue;
+		switch (serializedValue.type) {
+			case 'Vec2D':
+				return this.restoreSerializedVec2D(serializedValue);
+			case 'Vec3D':
+				return this.restoreSerializedVec3D(serializedValue);
+			case 'p5.Color':
+				return this.restoreSerializedColor(serializedValue);
+		}
+		throw new Error(serializedValue + ' cannot be deserialized.');
+	}
+
+	/**
+	 * @static
+	 * @param {Vec2D} - Vec2D instance
+	 * @returns {Object}
+	 * @see restoreSerializedVec2D
+	 */
+	static prepVec2DForSerialization({ x, y }) {
+		return { type: 'Vec2D', x, y };
+	}
+	/**
+	 * @static
+	 * @param {Object} obj - serialized Vec2D
+	 * @returns {Vec2D}
+	 * @see prepVec2DForSerialization
+	 */
+	static restoreSerializedVec2D(obj) {
+		if (obj.type !== 'Vec2D')
+			throw new Error('Object is not a serialized Vec2D.');
+		return new Vec2D(obj.x, obj.y);
+	}
+
+	/**
+	 * @static
+	 * @param {Vec3D} - Vec3D instance
+	 * @returns {Object}
+	 * @see restoreSerializedVec3D
+	 */
+	static prepVec3DForSerialization({ x, y, z }) {
+		return { type: 'Vec3D', x, y, z };
+	}
+	/**
+	 * @param {Object} obj - serialized Vec3D
+	 * @returns {Vec3D}
+	 * @see prepVec3DForSerialization
+	 */
+	static restoreSerializedVec3D(obj) {
+		if (obj.type !== 'Vec3D')
+			throw new Error('Object is not a serialized Vec3D.');
+		return new Vec3D(obj.x, obj.y, obj.z);
+	}
+
+	/**
+	 * Preps a p5.Color for serialisation in JSON.
+	 * Strips any unneeded information.
+	 * @static
+	 * @param {p5.Color} color
+	 * @returns {Object}
+	 * @see restoreSerializedColor
+	 */
+	static prepColorForSerialization({ _array }) {
+		return { type: 'p5.Color', _array };
+	}
+	/**
+	 * @static
+	 * @param {Object} obj - The serialized object.
+	 * @returns {p5.Color} - The restored p5.Color object or the original object if not a color.
+	 * @see prepColorForSerialization
+	 */
+	static restoreSerializedColor(obj) {
+		if (obj.type !== 'p5.Color')
+			throw new Error('Object is not a serialized p5.Color.');
+		push();
+		colorMode(RGB);
+		const col = color(0);
+		col._array = obj._array;
+		col._calculateLevels();
+		pop();
+		return col;
 	}
 }
 
@@ -1067,6 +1188,16 @@ class XYSlider extends ValuedController {
  * @see {MultiColourBoxes}
  */
 class ColourBoxes extends ValuedController {
+	/**
+	 * Constructor for ColourBoxes.
+	 * @param {GUIForP5} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
+	 * @param {number} defaultIndex - Index of the default colour.
+	 * @param {function} valueCallback - Callback function to handle value changes.
+	 * @param {function} [setupCallback] - Optional setup callback function.
+	 */
 	constructor(
 		gui,
 		name,
@@ -1077,14 +1208,16 @@ class ColourBoxes extends ValuedController {
 		setupCallback = undefined
 	) {
 		super(gui, name, labelStr, setupCallback);
-
 		this.valueCallback = valueCallback;
-
 		this.createRadioFromColours(colours);
-
 		this.setValue(colours[defaultIndex]);
 	}
 
+	/**
+	 * Creates a radio button controller from an array of colours.
+	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
+	 * @returns {void}
+	 */
 	createRadioFromColours(colours) {
 		const isInit = this.controllerElement === undefined;
 		if (this.controllerElement) {
@@ -1117,12 +1250,12 @@ class ColourBoxes extends ValuedController {
 	}
 
 	setValue(colObj) {
-		if (!(colObj instanceof p5.Color))
-			throw new Error(colObj + ' is not a p5.Color.');
-
 		const index = this.colours.findIndex(col =>
-			isArraysEqual(col.levels, colObj.levels)
+			isArraysEqual(col._array, colObj._array)
 		);
+		if (index < 0) {
+			throw new Error('colObj could not be found in this.colours.');
+		}
 
 		if (index < 0) {
 			throw new Error(
@@ -1147,6 +1280,16 @@ class ColourBoxes extends ValuedController {
  * @see {ColourBoxes}
  */
 class MultiColourBoxes extends ValuedController {
+	/**
+	 * Constructor for MultiColourBoxes.
+	 * @param {GUIForP5} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
+	 * @param {Array<number>} defaultIndices - Indices of the default colours.
+	 * @param {function} valueCallback - Callback function to handle value changes.
+	 * @param {function} [setupCallback] - Optional setup callback function.
+	 */
 	constructor(
 		gui,
 		name,
@@ -1167,6 +1310,10 @@ class MultiColourBoxes extends ValuedController {
 		this.setValue(defaultCols);
 	}
 
+	/**
+	 * Sets the controller colours and creates checkboxes for each colour.
+	 * @returns {void}
+	 */
 	setControllerColours() {
 		if (this.controllerElement) {
 			this.controllerElement.remove();
@@ -1202,6 +1349,11 @@ class MultiColourBoxes extends ValuedController {
 		this.controllerElement = div;
 	}
 
+	/**
+	 * Sets the value from an array of indices.
+	 * @param {Array<number>} indices - Array of indices corresponding to selected colours.
+	 * @return {void}
+	 */
 	setValueFromIndices(indices) {
 		this.valueIndices = indices;
 		this.value = indices.map(i => this.colours[i]);
@@ -1237,6 +1389,15 @@ class MultiColourBoxes extends ValuedController {
  * @extends ValuedController
  */
 class Textbox extends ValuedController {
+	/**
+	 * Constructor for Textbox.
+	 * @param {GUIForP5} gui - The GUI instance.
+	 * @param {string} name - The name of the controller.
+	 * @param {string} labelStr - The label for the controller.
+	 * @param {string} defaultVal - The default value for the textbox.
+	 * @param {function} valueCallback - Callback function for value changes.
+	 * @param {function} [setupCallback] - Optional setup callback.
+	 */
 	constructor(
 		gui,
 		name,
@@ -1284,6 +1445,14 @@ class Textbox extends ValuedController {
  * @extends ValuedController
  */
 class ResolutionTextboxes extends ValuedController {
+	/**
+	 * Constructor for ResolutionTextboxes.
+	 * @param {GUIForP5} gui - The GUI instance.
+	 * @param {number} defW - Default width value.
+	 * @param {number} defH - Default height value.
+	 * @param {function} valueCallback - Callback function for value changes.
+	 * @param {function} [setupCallback] - Optional setup callback.
+	 */
 	constructor(gui, defW, defH, valueCallback, setupCallback = undefined) {
 		super(gui, 'resolutionTextboxes', undefined, setupCallback);
 		this.w = defW;
@@ -1334,6 +1503,12 @@ class ResolutionTextboxes extends ValuedController {
 		if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
+	/**
+	 * Sets the width and height values directly.
+	 * @param {number} w - The width value.
+	 * @param {number} h - The height value.
+	 * @return {void}
+	 */
 	setValueOnlyDisplay(w, h) {
 		this.wBox.controllerElement.value(w);
 		this.hBox.controllerElement.value(h);
@@ -1345,6 +1520,15 @@ class ResolutionTextboxes extends ValuedController {
  * @extends ValuedController
  */
 class Textarea extends ValuedController {
+	/**
+	 * Constructor for Textarea.
+	 * @param {GUIForP5} gui - The GUI instance.
+	 * @param {string} name - The name of the controller.
+	 * @param {string} labelStr - The label for the controller.
+	 * @param {string} defaultVal - The default value for the textarea.
+	 * @param {function} valueCallback - Callback function for value changes.
+	 * @param {function} [setupCallback] - Optional setup callback.
+	 */
 	constructor(
 		gui,
 		name,
@@ -1437,6 +1621,11 @@ class ColourTextArea extends Textarea {
 		this.displayColours(colours);
 	}
 
+	/**
+	 * Displays the colours in a div.
+	 * @param {Array<p5.Color>} colours - Array of p5.Color objects to display.
+	 * @returns {void}
+	 */
 	displayColours(colours) {
 		if (this.disp) this.disp.elt.remove();
 
@@ -1451,10 +1640,20 @@ class ColourTextArea extends Textarea {
 		}
 	}
 
+	/**
+	 * Converts an array of p5.Color objects to a comma-separated hex string.
+	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
+	 * @returns {string} - Comma-separated string of hex colours.
+	 */
 	static colourListToString(colours) {
 		return colours.map(c => colorToHexString(c).toUpperCase()).join(',');
 	}
 
+	/**
+	 * Parses a comma-separated string of hex colours into an array of p5.Color objects.
+	 * @param {string} str - Comma-separated string of hex colours.
+	 * @returns {Array<p5.Color>} - Array of p5.Color objects.
+	 */
 	static parseColourList(str) {
 		return str
 			.split(',')
