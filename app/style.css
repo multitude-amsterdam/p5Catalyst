@@ -109,8 +109,9 @@ body {
 	--corner-radius: 0;
 	--line-width: 2px;
 	--base-height: 2.4rem;
-	--spacing-y: calc(var(--base-height) / 3);
-	--spacing-x: var(var(--spacing-y));
+	--spacing-y: calc(var(--base-height) / 2);
+	--spacing-y-label: calc(var(--spacing-y) / 2);
+	--spacing-x: calc(var(--base-height) / 4);
 
 	/* mouse targets (eg., range inputs, radios) */
 	--target-col: var(--base-col);
@@ -129,8 +130,10 @@ body {
 	background-color: var(--bg-col);
 }
 
+/* -------------------------------- DARK MODE ------------------------------- */
 body:where(.dark-mode) {
-	/* dark mode */
+	/* use: `body:where(.dark-mode) .yourElement {` as a prefix
+	to style the dark mode of any element */
 	--bgRGB: var(--blackRGB);
 	--fgRGB: var(--whiteRGB);
 }
@@ -152,7 +155,7 @@ body:where(.dark-mode) {
 .tab {
 	display: flex;
 	flex-direction: column;
-	gap: 1em;
+	gap: var(--spacing-y);
 }
 #gui {
 	width: 35rem;
@@ -163,6 +166,12 @@ body:where(.dark-mode) {
 
 	background-color: var(--bg-col);
 	color: var(--text-col);
+}
+
+.undo-redo-container {
+	display: flex;
+	flex-direction: row;
+	gap: var(--spacing-x);
 }
 
 /********************************* SCROLLBARS *********************************/
@@ -201,7 +210,7 @@ body:where(.dark-mode) {
 }
 
 body:where(.dark-mode) #logo {
-	background-image: url('assets/generator-logo.svg');
+	background-image: url('assets/dark-mode/generator-logo.svg');
 }
 
 .footer-logo {
@@ -216,7 +225,7 @@ body:where(.dark-mode) #logo {
 	position: relative;
 	right: -0.5rem;
 	bottom: -0.5rem;
-	background-image: url('assets/p5catalyst-logo-lightmode.svg');
+	background-image: url('assets/p5catalyst-logo.svg');
 	background-position-x: left;
 	background-position-y: center;
 	background-size: contain;
@@ -224,7 +233,7 @@ body:where(.dark-mode) #logo {
 }
 
 body:where(.dark-mode) .p5catalyst-logo {
-	background-image: url('assets/p5catalyst-logo-darkmode.svg');
+	background-image: url('assets/dark-mode/p5catalyst-logo.svg');
 }
 
 /********************************* TEXTFIELD *********************************/
@@ -243,7 +252,7 @@ body:where(.dark-mode) .p5catalyst-logo {
 .controller-wrapper {
 	display: flex;
 	flex-direction: row;
-	gap: 1rem;
+	gap: var(--spacing-x);
 	align-items: center;
 	justify-content: space-between;
 }
@@ -252,7 +261,7 @@ body:where(.dark-mode) .p5catalyst-logo {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	gap: 0.33em;
+	gap: var(--spacing-y-label);
 }
 
 .gui-controller[disabled] {
@@ -1025,6 +1034,56 @@ input[type='checkbox']:checked::before {
 	text-align: center;
 }
 
+/********************************* DARK MODE BUTTON *********************************/
+
+.dark-mode-button {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+	z-index: 1;
+
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-size: contain;
+	width: 1.75rem;
+	min-height: 1.75rem;
+	padding: 0;
+	border-radius: 100%;
+
+	transition: none;
+}
+.dark-mode-button:hover {
+	border-radius: 100%;
+	background-color: transparent;
+}
+.dark-mode-button:focus {
+	border-radius: 100%;
+	outline: none;
+}
+.dark-mode-button:focus:hover {
+	border-radius: 100%;
+	outline: none;
+}
+
+.dark-mode-button--light {
+	background-image: url('assets/dark-mode-button/light-mode-icon.svg');
+}
+.dark-mode-button--dark {
+	background-image: url('assets/dark-mode-button/dark-mode-icon.svg');
+}
+.dark-mode-button--auto {
+	background-image: url('assets/dark-mode-button/auto-mode-icon.svg');
+}
+body:where(.dark-mode) .dark-mode-button--light {
+	background-image: url('assets/dark-mode/dark-mode-button/light-mode-icon.svg');
+}
+body:where(.dark-mode) .dark-mode-button--dark {
+	background-image: url('assets/dark-mode/dark-mode-button/dark-mode-icon.svg');
+}
+body:where(.dark-mode) .dark-mode-button--auto {
+	background-image: url('assets/dark-mode/dark-mode-button/auto-mode-icon.svg');
+}
+
 /********************************* VIDEO LOADING *********************************/
 #vidLoad {
 	margin: auto;
@@ -1086,42 +1145,59 @@ a:hover {
 	color: var(--link-hover-col);
 }
 
+/* -------------------------------- DIE ICON -------------------------------- */
 .die-icon {
-	height: 2rem;
-	width: 2rem;
+	height: var(--base-height);
+	width: var(--base-height);
 
 	opacity: 1;
 	cursor: pointer;
 	transition: var(--transition);
+
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-origin: content-box;
 }
 
-.die-icon.disabled {
+.die-icon--disabled {
 	opacity: 0.333;
 }
 
-button#dark-mode-button {
-	background-color: transparent;
-	background-repeat: no-repeat;
-	background-size: contain;
-	width: 1.75rem;
-	min-height: 1.75rem;
-	padding: 0;
-	border-radius: 100%;
+.die-icon--1 {
+	background-image: url('assets/dice/die (1).svg');
 }
-
-button#dark-mode-button:hover {
-	border-radius: 100%;
-	background-color: transparent;
+.die-icon--2 {
+	background-image: url('assets/dice/die (2).svg');
 }
-
-button#dark-mode-button:focus {
-	border-radius: 100%;
-	outline: none;
+.die-icon--3 {
+	background-image: url('assets/dice/die (3).svg');
 }
-
-button#dark-mode-button:focus:hover {
-	border-radius: 100%;
-	outline: none;
+.die-icon--4 {
+	background-image: url('assets/dice/die (4).svg');
+}
+.die-icon--5 {
+	background-image: url('assets/dice/die (5).svg');
+}
+.die-icon--6 {
+	background-image: url('assets/dice/die (6).svg');
+}
+body:where(.dark-mode) .die-icon--1 {
+	background-image: url('assets/dark-mode/dice/die (1).svg');
+}
+body:where(.dark-mode) .die-icon--2 {
+	background-image: url('assets/dark-mode/dice/die (2).svg');
+}
+body:where(.dark-mode) .die-icon--3 {
+	background-image: url('assets/dark-mode/dice/die (3).svg');
+}
+body:where(.dark-mode) .die-icon--4 {
+	background-image: url('assets/dark-mode/dice/die (4).svg');
+}
+body:where(.dark-mode) .die-icon--5 {
+	background-image: url('assets/dark-mode/dice/die (5).svg');
+}
+body:where(.dark-mode) .die-icon--6 {
+	background-image: url('assets/dark-mode/dice/die (6).svg');
 }
 
 /********************************* CANVAS SECTION *********************************/
@@ -1356,13 +1432,13 @@ button.dialog-close:hover {
 
 .tab-bar button {
 	appearance: none;
+	padding: 0;
 	background: none;
 	border: none;
 	border-bottom: var(--line-width) solid var(--divider-col);
 	cursor: pointer;
 	color: var(--text-col);
 	text-align: center;
-	padding: 0;
 }
 .tab-bar button:hover {
 	color: var(--hover-col);
