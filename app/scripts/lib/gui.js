@@ -158,11 +158,10 @@ class GUIGroup {
 	/**
 	 * Adds two buttons to control `changeSet` in the GUI.
 	 */
-	addUndoRedoButtons() {
+	createUndoRedoButtons() {
 		const undoRedoField = this.addField(
 			new Field(this.div, '', 'undoredo')
 		);
-		console.log(undoRedoField);
 
 		const buttonUndo = new Button(
 			gui,
@@ -460,7 +459,7 @@ class GUIForP5 extends GUIGroup {
 	 * Adds the p5Catalyst logo as a field.
 	 * @returns {Field}
 	 */
-	addP5CatalystLogo() {
+	createP5CatalystLogo() {
 		let logo = this.addHTMLAsNewField(
 			`<a href="https://github.com/multitude-amsterdam/p5Catalyst" target="_blank">` +
 				`<div class="p5catalyst-logo"></div>` +
