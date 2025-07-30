@@ -1,5 +1,6 @@
 /**
  * @fileoverview Implementation of the GUI framework used by p5Catalyst.
+ * @see GUIGroup
  * @see GUIForP5
  * @see Randomizer
  * @see DieIcon
@@ -11,11 +12,175 @@
  * @see Divider
  */
 
+class GUIGroup {
+	constructor(name) {
+		this.name = name;
+		this.div = createDiv();
+		this.div.id(name);
+		this.fields = [];
+		this.controllers = [];
+		this.guiGroups = [];
+		this.randomizer = new Randomizer();
+	}
+
+	hide() {
+		for (const field of this.fields) field.hide();
+		this.div.hide();
+	}
+
+	show() {
+		for (const field of this.fields) field.show();
+		this.div.elt.style.display = ''; // more general than p5 .show()
+	}
+
+	/**
+	 * Adds a field (GUI element) to the GUI.
+	 * @param {Field} field
+	 * @returns {Field}
+	 */
+	addField(field) {
+		this.fields.push(field);
+		this.div.child(field.div);
+		return field;
+	}
+
+	/**
+	 * Adds an HTML string as a new field.
+	 * @param {string} html
+	 * @param {string} [className='']
+	 * @returns {Field}
+	 */
+	addHTMLAsNewField(html, className = '') {
+		const field = this.addField(new Field(this.div, '', className));
+		field.div.html(html);
+		return field;
+	}
+
+	/**
+	 * Adds a controller and optionally to the randomizer.
+	 * @param {Controller} controller
+	 * @param {boolean} [doAddToRandomizerAs]
+	 * @returns {Controller}
+	 */
+	addController(controller, doAddToRandomizerAs = undefined) {
+		this.addField(controller);
+		this.controllers.push(controller);
+		if (doAddToRandomizerAs !== undefined)
+			this.randomizer.addController(controller, doAddToRandomizerAs);
+		return controller;
+	}
+	/**
+	 * Adds a GUIGroup and optionally to the randomizer.
+	 * @param {GUIGroup} guiGroup
+	 * @param {boolean} [doAddToRandomizerAs]
+	 * @returns {Controller}
+	 */
+	addGUIGroup(guiGroup) {
+		this.guiGroups.push(guiGroup);
+		for (let controller of guiGroup.controllers) {
+			// be sure to add only once
+			if (this.controllers.indexOf(controller) > -1) continue;
+			this.controllers.push(controller);
+		}
+		return this;
+	}
+
+	/**
+	 * Adds a label to the GUI.
+	 * @param {string} labelText
+	 * @returns {Label}
+	 */
+	addLabel(labelText) {
+		let label = new Label(this.div, labelText);
+		this.addField(label);
+		return label;
+	}
+
+	/**
+	 * Adds a title (heading) to the GUI.
+	 * @param {number} hSize - Heading size (e.g., 1 for h1, 2 for h2).
+	 * @param {string} titleText
+	 * @param {boolean} [doAlignCenter=false]
+	 * @returns {Title}
+	 */
+	addTitle(hSize, titleText, doAlignCenter = false) {
+		let title = new Title(
+			this.div,
+			hSize,
+			titleText,
+			(doAlignCenter = doAlignCenter)
+		);
+		this.addField(title);
+		return title;
+	}
+
+	/**
+	 * Adds a divider (horizontal rule) to the GUI.
+	 * @returns {Divider}
+	 */
+	addDivider() {
+		let divider = new Divider(this.div);
+		this.addField(divider);
+		return divider;
+	}
+
+	/**
+	 * Adds an image to the GUI.
+	 * @param {string} url
+	 * @param {string} altText
+	 * @param {boolean} [doAlignCenter=true]
+	 * @returns {GUIImage}
+	 */
+	addImage(url, altText, doAlignCenter = true) {
+		let img = new GUIImage(
+			this.div,
+			url,
+			altText,
+			(doAlignCenter = doAlignCenter)
+		);
+		this.addField(img);
+		return img;
+	}
+
+	/**
+	 * @param {string} name
+	 * @returns {Controller|undefined}
+	 */
+	getController(name) {
+		return this.controllers.find(c => c.name === name);
+	}
+
+	/**
+	 * @param {string[]} names
+	 * @returns {Array<Controller|undefined>}
+	 */
+	getControllers(names) {
+		return this.controllers.filter(c => names.includes(c.name));
+	}
+
+	/**
+	 *
+	 * @param {string} name
+	 * @returns {GUIGroup|undefined}
+	 */
+	getGUIGroup(name) {
+		return this.guiGroups.find(gg => gg.name === name);
+	}
+
+	/**
+	 * @param {string[]} names
+	 * @returns {Array<GUIGroup|undefined>}
+	 */
+	getGUIGroups(names) {
+		return this.guiGroups.filter(gg => names.includes(gg.name));
+	}
+}
+
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
  * Handles layout, theming, controller management, and state persistence.
  */
-class GUIForP5 {
+class GUIForP5 extends GUIGroup {
 	static verbose = !false;
 
 	fields = [];
@@ -33,13 +198,10 @@ class GUIForP5 {
 	 * Constructs the GUI, creates the main div, and sets up theming and layout.
 	 */
 	constructor() {
-		this.div = createDiv();
+		super();
 		this.div.id('gui');
-
 		this.randomizer = new Randomizer();
-
 		this.loadLightDarkMode();
-
 		this.setLeft();
 	}
 
@@ -191,25 +353,50 @@ class GUIForP5 {
 	}
 
 	/**
-	 * Adds a field (GUI element) to the GUI.
-	 * @param {Field} field
-	 * @returns {Field}
+	 * @param  {...Tab} tabs
 	 */
-	addField(field) {
-		this.fields.push(field);
-		return field;
+	addTabs(...tabs) {
+		if (!this.tabs) {
+			this.tabs = [];
+			this.activeTab = null;
+			this.tabBar = createDiv();
+			this.tabBar.addClass('tab-bar');
+			this.div.child(this.tabBar);
+		}
+
+		for (const tab of tabs) {
+			this.addGUIGroup(tab);
+			this.tabs.push(tab);
+
+			this.div.child(tab.div);
+			tab.hide();
+
+			const tabBtn = createButton(tab.name);
+			// tabBtn.attribute('data-tabname', tab.name);
+			tabBtn.mousePressed(() => this.activateTab(tab.name));
+			this.tabBar.child(tabBtn);
+		}
+
+		if (tabs.length > 0) {
+			this.activateTab(tabs[0].name);
+		}
 	}
 
-	/**
-	 * Adds an HTML string as a new field.
-	 * @param {string} html
-	 * @param {string} [className='']
-	 * @returns {Field}
-	 */
-	addHTMLToNewField(html, className = '') {
-		let field = this.addField(new Field(this.div, '', className));
-		field.div.html(html);
-		return field;
+	activateTab(tabName) {
+		const tabToShow = this.tabs.find(tab => tab.name === tabName);
+		if (!tabToShow) return;
+
+		for (let tab of this.tabs) {
+			tab.hide();
+		}
+
+		tabToShow.show();
+		this.activeTab = tabToShow;
+
+		const buttons = this.tabBar.elt.querySelectorAll('button');
+		for (let [i, button] of buttons.entries()) {
+			button.classList.toggle('active', tabName === this.tabs[i].name);
+		}
 	}
 
 	/**
@@ -217,123 +404,13 @@ class GUIForP5 {
 	 * @returns {Field}
 	 */
 	addP5CatalystLogo() {
-		let logo = this.addHTMLToNewField(
+		let logo = this.addHTMLAsNewField(
 			`<a href="https://github.com/multitude-amsterdam/p5Catalyst" target="_blank">` +
 				`<div class="p5catalyst-logo"></div>` +
 				`</a>`,
 			'footer-logo'
 		);
 		return logo;
-	}
-
-	/**
-	 * Adds a divider (horizontal rule) to the GUI.
-	 * @returns {Divider}
-	 */
-	addDivider() {
-		let divider = new Divider(this.div);
-		this.addField(divider);
-		return divider;
-	}
-
-	/**
-	 * Adds a controller to the GUI and optionally to the randomizer.
-	 * @param {Controller} controller
-	 * @param {boolean} [doAddToRandomizerAs]
-	 * @returns {Controller}
-	 */
-	addController(controller, doAddToRandomizerAs = undefined) {
-		this.addField(controller);
-		this.controllers.push(controller);
-		if (doAddToRandomizerAs !== undefined)
-			this.randomizer.addController(controller, doAddToRandomizerAs);
-		return controller;
-	}
-
-	/**
-	 * Adds a label to the GUI.
-	 * @param {string} labelText
-	 * @returns {Label}
-	 */
-	addLabel(labelText) {
-		let label = new Label(this.div, labelText);
-		this.addField(label);
-		return label;
-	}
-
-	/**
-	 * Adds a title (heading) to the GUI.
-	 * @param {number} hSize - Heading size (e.g., 1 for h1, 2 for h2).
-	 * @param {string} titleText
-	 * @param {boolean} [doAlignCenter=false]
-	 * @returns {Title}
-	 */
-	addTitle(hSize, titleText, doAlignCenter = false) {
-		let title = new Title(
-			this.div,
-			hSize,
-			titleText,
-			(doAlignCenter = doAlignCenter)
-		);
-		this.addField(title);
-		return title;
-	}
-
-	/**
-	 * Adds an image to the GUI.
-	 * @param {string} url
-	 * @param {string} altText
-	 * @param {boolean} [doAlignCenter=true]
-	 * @returns {GUIImage}
-	 */
-	addImage(url, altText, doAlignCenter = true) {
-		let img = new GUIImage(
-			this.div,
-			url,
-			altText,
-			(doAlignCenter = doAlignCenter)
-		);
-		this.addField(img);
-		return img;
-	}
-
-	/**
-	 * Checks if a controller with the given name exists.
-	 * @param {string} name
-	 * @returns {boolean}
-	 */
-	hasName(name) {
-		return this.controllers.some(controller => controller.name == name);
-	}
-
-	/**
-	 * Gets a controller by name.
-	 * @param {string} name
-	 * @returns {Controller|undefined}
-	 */
-	getController(name) {
-		if (!this.hasName(name)) {
-			return undefined;
-		}
-		return this.controllers[
-			this.controllers.map(controller => controller.name).indexOf(name)
-		];
-	}
-
-	/**
-	 * Gets multiple controllers by an array of names.
-	 * @param {string[]} names
-	 * @returns {Controller[]}
-	 */
-	getControllers(names) {
-		return this.controllers.filter(controller =>
-			names.some(name => {
-				if (!this.hasName(name)) {
-					return false;
-				}
-				return controller.name == name;
-			})
-		);
 	}
 
 	/**
@@ -350,7 +427,6 @@ class GUIForP5 {
 				};
 				if (controller.die !== undefined)
 					serializable.isDieActive = controller.die.isActive;
-				print(serializable);
 				return serializable;
 			});
 	}
@@ -376,20 +452,27 @@ class GUIForP5 {
 	}
 }
 
+class Tab extends GUIGroup {
+	constructor(name) {
+		super(name);
+		this.div.addClass('tab');
+	}
+}
+
 /**
  * Helper class that manages randomization of controllers marked as randomizable.
  * Handles toggling, adding/removing controllers, and triggering randomization.
  */
 class Randomizer {
 	/**
-	 * @type {Controller[]}
-	 */
-	controllers = [];
-
-	/**
 	 * Constructs a new Randomizer instance.
 	 */
-	constructor() {}
+	constructor() {
+		/**
+		 * @type {Controller[]}
+		 */
+		this.controllers = [];
+	}
 
 	/**
 	 * Adds a controller to the randomizer and attaches a DieIcon.
