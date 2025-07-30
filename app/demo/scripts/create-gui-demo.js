@@ -7,7 +7,6 @@ function createGUI() {
 	// add logo up top (uses 'assets/generator-logo9.svg', see style.css)
 	let logo = gui.addField(new Field(gui.div, 'logo', ''));
 
-	// const dimensionsTab = new Tab('Dimensions');
 	const appearanceTab = new Tab('Appearance');
 	const exportTab = new Tab('Export');
 	const settingsTab = new Tab('Settings');
@@ -16,6 +15,7 @@ function createGUI() {
 
 	// ------------------------------ APPEARANCE ------------------------------
 	appearanceTab.addTitle(2, 'Dimensions', false);
+
 	appearanceTab.addController(
 		new ResolutionSelect(
 			appearanceTab,
@@ -50,8 +50,8 @@ function createGUI() {
 		)
 	);
 
-	// ------------------------------ APPEARANCE ------------------------------
 	appearanceTab.addDivider();
+
 	appearanceTab.addTitle(2, 'Visual system', false);
 
 	appearanceTab.addController(
@@ -227,9 +227,6 @@ function createGUI() {
 	);
 
 	// ------------------------------ EXPORT ------------------------------
-	// gui.addDivider();
-	// gui.addTitle(2, 'LANG_EXPORT', false);
-
 	exportTab.addTitle(2, 'As an LANG_IMAGE', false);
 
 	exportTab.addController(
@@ -442,12 +439,13 @@ function createGUI() {
 	}
 
 	// ------------------------------ GUI BOTTOM ------------------------------
-	// gui.addField(new Field(gui.div, '', 'gui-filler'));
-	gui.div.child(createDiv().class('gui-filler'));
+	gui.div.child(createDiv().class('gui-filler')); // pushes undo/redo to bottom
 
-	gui.addUndoRedoButtons();
+	gui.createUndoRedoButtons();
 
-	gui.addP5CatalystLogo();
+	gui.createP5CatalystLogo();
+
+	gui.createDarkModeButton();
 
 	// gui.randomizer.randomize(); // initialize randomly
 
