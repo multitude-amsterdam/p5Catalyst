@@ -193,9 +193,7 @@ class GUIGroup {
 		undoRedoField.div.child(buttonUndo.div);
 		undoRedoField.div.child(buttonRedo.div);
 
-		undoRedoField.div.style('display', 'flex');
-		undoRedoField.div.style('flex-direction', 'row');
-		undoRedoField.div.style('gap', '1em');
+		undoRedoField.div.class('undo-redo-container');
 	}
 
 	/**
@@ -368,33 +366,25 @@ class GUIForP5 extends GUIGroup {
 	 * Creates and adds a button for toggling light/dark mode.
 	 */
 	createDarkModeButton() {
-		this.darkModeButton = this.addController(
-			new Button(this, 'buttonDarkMode', '', controller => {
-				this.toggleLightDarkMode();
-			})
-		);
-		this.darkModeButton.controllerElement.id('dark-mode-button');
+		this.darkModeButton = createButton('');
+		this.darkModeButton.elt.onclick = controller => {
+			this.toggleLightDarkMode();
+		};
+		const mainClass = 'dark-mode-button';
 		this.darkModeButton.setLightMode = () => {
-			this.darkModeButton.controllerElement.style(
-				'background-image',
-				'url("assets/dark-mode/light-mode-icon.svg")'
-			);
-			this.darkModeButton.controllerElement.elt.title = 'Light mode';
+			this.darkModeButton.class(mainClass);
+			this.darkModeButton.addClass(mainClass + '--light');
+			this.darkModeButton.elt.title = 'Light mode';
 		};
 		this.darkModeButton.setDarkMode = () => {
-			this.darkModeButton.controllerElement.style(
-				'background-image',
-				'url("assets/dark-mode/dark-mode-icon.svg")'
-			);
-			this.darkModeButton.controllerElement.elt.title = 'Dark mode';
+			this.darkModeButton.class(mainClass);
+			this.darkModeButton.addClass(mainClass + '--dark');
+			this.darkModeButton.elt.title = 'Dark mode';
 		};
 		this.darkModeButton.setAutoLightDarkMode = () => {
-			this.darkModeButton.controllerElement.style(
-				'background-image',
-				'url("assets/dark-mode/auto-mode-icon.svg")'
-			);
-			this.darkModeButton.controllerElement.elt.title =
-				'Auto light/dark mode';
+			this.darkModeButton.class(mainClass);
+			this.darkModeButton.addClass(mainClass + '--auto');
+			this.darkModeButton.elt.title = 'Auto light/dark mode';
 		};
 		switch (this.darkMode) {
 			case 'false':

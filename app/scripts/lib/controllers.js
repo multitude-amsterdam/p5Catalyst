@@ -81,12 +81,6 @@ class Controller extends Field {
 	controllerElement = null;
 
 	/**
-	 * Flag to control whether the controller should randomize its value.
-	 * @type {boolean}
-	 */
-	doRandomize = undefined;
-
-	/**
 	 * The GUIForP5 instance this controller belongs to.
 	 * @type {GUIForP5}
 	 */
@@ -265,7 +259,7 @@ class Controller extends Field {
 	 * @param {DieIcon} die - The die to add.
 	 */
 	addDie(die) {
-		die.img.parent(this.controllerWrapper);
+		die.imgContainer.parent(this.controllerWrapper);
 		this.die = die;
 	}
 
