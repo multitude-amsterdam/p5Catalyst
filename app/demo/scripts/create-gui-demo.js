@@ -7,23 +7,23 @@ function createGUI() {
 	// add logo up top (uses 'assets/generator-logo9.svg', see style.css)
 	let logo = gui.addField(new Field(gui.div, 'logo', ''));
 
-	const dimensionsTab = new Tab('Dimensions');
+	// const dimensionsTab = new Tab('Dimensions');
 	const appearanceTab = new Tab('Appearance');
 	const exportTab = new Tab('Export');
 	const settingsTab = new Tab('Settings');
 
-	gui.addTabs(dimensionsTab, appearanceTab, exportTab, settingsTab);
+	gui.addTabs(appearanceTab, exportTab, settingsTab);
 
 	// ------------------------------ APPEARANCE ------------------------------
-	dimensionsTab.addTitle(2, 'Dimensions', false);
-	dimensionsTab.addController(
+	appearanceTab.addTitle(2, 'Dimensions', false);
+	appearanceTab.addController(
 		new ResolutionSelect(
-			dimensionsTab,
+			appearanceTab,
 			'Presets:',
 			resolutionOptions,
 			0,
 			(controller, value) => {
-				const resBox = dimensionsTab.getController(
+				const resBox = appearanceTab.getController(
 					'resolutionTextboxes'
 				);
 				if (resBox) resBox.setValueOnlyDisplay(pw, ph);
@@ -31,9 +31,9 @@ function createGUI() {
 			}
 		)
 	);
-	dimensionsTab.addController(
+	appearanceTab.addController(
 		new ResolutionTextboxes(
-			dimensionsTab,
+			appearanceTab,
 			pw,
 			ph,
 			(controller, value) => {
@@ -51,6 +51,7 @@ function createGUI() {
 	);
 
 	// ------------------------------ APPEARANCE ------------------------------
+	appearanceTab.addDivider();
 	appearanceTab.addTitle(2, 'Visual system', false);
 
 	appearanceTab.addController(
@@ -116,7 +117,7 @@ function createGUI() {
 
 	appearanceTab.addDivider();
 
-	appearanceTab.addTitle(2, 'LANG_IMAGE', false);
+	appearanceTab.addTitle(2, 'LANG_IMAGE options', false);
 
 	appearanceTab.addController(
 		new Toggle(
@@ -229,7 +230,7 @@ function createGUI() {
 	// gui.addDivider();
 	// gui.addTitle(2, 'LANG_EXPORT', false);
 
-	exportTab.addTitle(2, 'LANG_IMAGE', false);
+	exportTab.addTitle(2, 'As an LANG_IMAGE', false);
 
 	exportTab.addController(
 		new Button(
@@ -269,7 +270,7 @@ function createGUI() {
 
 	exportTab.addDivider();
 
-	exportTab.addTitle(2, 'LANG_VIDEO', false);
+	exportTab.addTitle(2, 'As a LANG_VIDEO', false);
 
 	exportTab.addController(
 		new Slider(
@@ -441,9 +442,8 @@ function createGUI() {
 	}
 
 	// ------------------------------ GUI BOTTOM ------------------------------
-	gui.addField(new Field(gui.div, '', 'gui-filler'));
-
-	gui.addDivider();
+	// gui.addField(new Field(gui.div, '', 'gui-filler'));
+	gui.div.child(createDiv().class('gui-filler'));
 
 	gui.addUndoRedoButtons();
 
