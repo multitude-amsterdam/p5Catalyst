@@ -8,3 +8,6 @@ rm pw & ph
 add update changeSet to ResolutionSelect
 
 homogenize MultiColourBoxes method structure with ColourBoxes
+
+// limit mouseIsPressed to the canvas
+mouseIsPressed &= mouseX >= 0 && mouseX < width && mouseY >= 0 && mouseY < height;

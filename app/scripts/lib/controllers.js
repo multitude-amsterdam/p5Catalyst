@@ -1047,7 +1047,10 @@ class XYSlider extends ValuedController {
 		valueCallback,
 		setupCallback = undefined
 	) {
-		super(gui, name, labelStr, setupCallback);
+		super(gui, name, labelStr, controller => {
+			controller.setDisplay(); // needed for accurate display
+			if (setupCallback !== undefined) setupCallback(controller);
+		});
 		this.minValX = minValX;
 		this.minValY = minValY;
 		this.maxValX = maxValX;
@@ -1170,6 +1173,11 @@ class XYSlider extends ValuedController {
 
 		this.handle.elt.style.left = `${feedbackX}px`;
 		this.handle.elt.style.top = `${feedbackY}px`;
+	}
+
+	show() {
+		this.div.elt.style.display = ''; // same as in Field
+		this.setDisplay();
 	}
 
 	randomize() {
@@ -1464,9 +1472,7 @@ class ResolutionTextboxes extends ValuedController {
 			defW,
 			(controller, value) => {
 				const pxDim = parseInt(value);
-				if (isNaN(pxDim)) {
-					return;
-				}
+				if (isNaN(pxDim)) return;
 				this.w = pxDim;
 				resize(this.w, this.h);
 				valueCallback(this, { w: this.w, h: this.h });
@@ -1479,9 +1485,7 @@ class ResolutionTextboxes extends ValuedController {
 			defH,
 			(controller, value) => {
 				const pxDim = parseInt(value);
-				if (isNaN(pxDim)) {
-					return;
-				}
+				if (isNaN(pxDim)) return;
 				this.h = pxDim;
 				resize(this.w, this.h);
 				valueCallback(this, { w: this.w, h: this.h });
@@ -1491,9 +1495,6 @@ class ResolutionTextboxes extends ValuedController {
 		for (const tb of [this.wBox, this.hBox]) {
 			tb.div.parent(this.controllerWrapper);
 		}
-		this.div.style('display', 'flex');
-		this.div.style('flex-direction', 'row');
-		this.div.style('gap', '1em');
 	}
 
 	setValue(vec) {
