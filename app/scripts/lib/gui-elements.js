@@ -55,7 +55,6 @@ class Field {
 	 */
 	show() {
 		this.div.elt.style.display = ''; // more general than p5 .show()
-		if (this.setDisplay) this.setDisplay(); // XYSlider needs this for now
 	}
 
 	/**
