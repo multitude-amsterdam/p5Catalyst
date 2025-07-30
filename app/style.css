@@ -109,6 +109,8 @@ body {
 	--corner-radius: 0;
 	--line-width: 2px;
 	--base-height: 2.4rem;
+	--spacing-y: calc(var(--base-height) / 3);
+	--spacing-x: var(var(--spacing-y));
 
 	/* mouse targets (eg., range inputs, radios) */
 	--target-col: var(--base-col);
@@ -155,7 +157,6 @@ body:where(.dark-mode) {
 #gui {
 	min-width: 26rem;
 	padding: 1.5rem 1rem;
-	padding-bottom: 3em;
 
 	height: 100vh;
 	overflow-y: auto;
@@ -1348,6 +1349,7 @@ button.dialog-close:hover {
 	display: flex;
 	gap: 0;
 	transition: var(--transition);
+	margin-bottom: calc(var(--base-height) / 2);
 }
 
 .tab-bar button {
@@ -1386,4 +1388,8 @@ code {
 ul li,
 ol li {
 	line-height: 1.5em;
+}
+
+.gui-filler {
+	height: 100%;
 }
