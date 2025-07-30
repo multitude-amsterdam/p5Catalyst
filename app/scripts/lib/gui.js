@@ -16,11 +16,12 @@ class GUIGroup {
 	constructor(name) {
 		this.name = name;
 		this.div = createDiv();
-		this.div.id(name);
+		this.div.id('guiGroup-' + name.replaceAll(' ', '-').toLowerCase());
 		this.fields = [];
 		this.controllers = [];
 		this.guiGroups = [];
 		this.randomizer = new Randomizer();
+		this.parent = null;
 	}
 
 	hide() {
@@ -65,24 +66,28 @@ class GUIGroup {
 	addController(controller, doAddToRandomizerAs = undefined) {
 		this.addField(controller);
 		this.controllers.push(controller);
+		if (this.parent !== null) this.parent.controllers.push(controller);
+
 		if (doAddToRandomizerAs !== undefined)
 			this.randomizer.addController(controller, doAddToRandomizerAs);
 		return controller;
 	}
+
 	/**
 	 * Adds a GUIGroup and optionally to the randomizer.
+	 * Makes sure controllers are distributes recursively.
 	 * @param {GUIGroup} guiGroup
-	 * @param {boolean} [doAddToRandomizerAs]
-	 * @returns {Controller}
+	 * @returns {GUIGroup}
 	 */
 	addGUIGroup(guiGroup) {
+		guiGroup.parent = this;
 		this.guiGroups.push(guiGroup);
 		for (let controller of guiGroup.controllers) {
 			// be sure to add only once
 			if (this.controllers.indexOf(controller) > -1) continue;
 			this.controllers.push(controller);
 		}
-		return this;
+		return guiGroup;
 	}
 
 	/**
@@ -143,6 +148,50 @@ class GUIGroup {
 	}
 
 	/**
+	 * Adds two buttons to control `changeSet` in the GUI.
+	 */
+	addUndoRedoButtons() {
+		const undoRedoField = this.addField(
+			new Field(this.div, '', 'undoredo')
+		);
+		console.log(undoRedoField);
+
+		const buttonUndo = new Button(
+			gui,
+			'buttonUndo',
+			'← LANG_UNDO ←',
+			controller => {
+				changeSet.undo();
+			},
+			controller => {
+				controller._doUpdateChangeSet = false;
+				controller.setTooltip('CTRL/CMD + Z');
+			}
+		);
+		const buttonRedo = new Button(
+			gui,
+			'buttonRedo',
+			'→ LANG_REDO →',
+			controller => {
+				changeSet.redo();
+			},
+			controller => {
+				controller._doUpdateChangeSet = false;
+				controller.setTooltip('CTRL/CMD + SHIFT + Z');
+			}
+		);
+		this.controllers.push(buttonUndo);
+		this.controllers.push(buttonRedo);
+
+		undoRedoField.div.child(buttonUndo.div);
+		undoRedoField.div.child(buttonRedo.div);
+
+		undoRedoField.div.style('display', 'flex');
+		undoRedoField.div.style('flex-direction', 'row');
+		undoRedoField.div.style('gap', '1em');
+	}
+
+	/**
 	 * @param {string} name
 	 * @returns {Controller|undefined}
 	 */
@@ -198,7 +247,7 @@ class GUIForP5 extends GUIGroup {
 	 * Constructs the GUI, creates the main div, and sets up theming and layout.
 	 */
 	constructor() {
-		super();
+		super('gui');
 		this.div.id('gui');
 		this.randomizer = new Randomizer();
 		this.loadLightDarkMode();
