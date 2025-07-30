@@ -896,8 +896,8 @@ input[type='checkbox']:checked::before {
 /********************************* XY SLIDER *********************************/
 .xyslider {
 	width: 100%;
+	/* constrains height: */
 	/* max-width: 20rem; */
-	height: 21em;
 	aspect-ratio: 1;
 
 	background-color: none;
