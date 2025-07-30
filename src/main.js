@@ -1,10 +1,7 @@
 import { catalyst } from "./lib";
-import { timeline } from "./lib";
 
 const sketchFunction = async (sketch, state) => {
   state.size = 50;
-  state.text = "test";
-
   let img;
 
   sketch.setup = async () => {
@@ -20,7 +17,6 @@ const sketchFunction = async (sketch, state) => {
 
 let { p5Instance, state } = catalyst.createContainer(sketchFunction);
 catalyst.createGUI(p5Instance, (gui) => {
-  gui.addSlider("Speed", 50, 100, 50, (value) => {
-    state.size = value;
-  });
+  gui.addField("test", "test");
+  gui.addTitle(20, "hello there", false);
 });
