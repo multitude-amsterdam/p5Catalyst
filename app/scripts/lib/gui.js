@@ -24,13 +24,21 @@ class GUIGroup {
 		this.parent = null;
 	}
 
+	/**
+	 * Show the div property.
+	 * Doesn't invoke any `show` and `hide` methods of `Field`.
+	 * @see show
+	 */
 	hide() {
-		for (const field of this.fields) field.hide();
 		this.div.hide();
 	}
 
+	/**
+	 * Show the div property.
+	 * Doesn't invoke any `show` and `hide` methods of `Field`.
+	 * @see hide
+	 */
 	show() {
-		for (const field of this.fields) field.show();
 		this.div.elt.style.display = ''; // more general than p5 .show()
 	}
 
