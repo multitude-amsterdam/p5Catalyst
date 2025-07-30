@@ -146,6 +146,12 @@ body:where(.dark-mode) {
 }
 
 /********************************* GUI *********************************/
+#gui,
+.tab {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
 #gui {
 	min-width: 26rem;
 	padding: 1.5rem 1rem;
@@ -154,34 +160,32 @@ body:where(.dark-mode) {
 	height: 100vh;
 	overflow-y: auto;
 
-	display: flex;
-	flex-direction: column;
-	gap: 1em;
-
 	background-color: var(--bg-col);
 	color: var(--text-col);
 }
 
-/********************************* GUI SCROLLBARS *********************************/
-#gui {
-	/* only for Firefox, other browsers get square scrollbars */
-	-moz-scrollbar-color: var(--base-col) var(--bg-col);
+/********************************* SCROLLBARS *********************************/
+/* modern browsers with `scrollbar-*` support */
+@supports (scrollbar-width: auto) {
+	* {
+		scrollbar-color: var(--base-col) var(--bg-col);
+		scrollbar-width: thin;
+	}
 }
 
-#gui::-webkit-scrollbar-track {
-	background-color: var(--bg-col);
-}
-
-#gui::-webkit-scrollbar {
-	/*	width: 1rem;*/
-	width: calc(0.5 * var(--target-diameter));
-	background-color: var(--bg-col);
-}
-
-#gui::-webkit-scrollbar-thumb {
-	background-color: var(--base-col);
-	/* border: var(--line-width) solid var(--bg-col); */ /* optional border for contrast */
-	border-radius: var(--corner-radius);
+/* legacy browsers with `::-webkit-scrollbar-*` support */
+@supports selector(::-webkit-scrollbar) {
+	*::-webkit-scrollbar-thumb {
+		background: var(--base-col);
+		border-radius: var(--corner-radius);
+	}
+	*::-webkit-scrollbar-track {
+		background: var(--bg-col);
+	}
+	*::-webkit-scrollbar {
+		background: var(--bg-col);
+		width: calc(0.5 * var(--target-diameter));
+	}
 }
 
 /********************************* LOGO STYLING *********************************/
@@ -1337,6 +1341,35 @@ button.dialog-close:hover {
 }
 .helpme span {
 	width: 100%;
+}
+
+/********************************* TAB BAR *********************************/
+.tab-bar {
+	display: flex;
+	gap: 0;
+	transition: var(--transition);
+}
+
+.tab-bar button {
+	appearance: none;
+	background: none;
+	border: none;
+	border-bottom: var(--line-width) solid var(--divider-col);
+	cursor: pointer;
+	color: var(--text-col);
+}
+.tab-bar button:hover {
+	color: var(--hover-col);
+}
+.tab-bar button:focus {
+	outline: none;
+}
+.tab-bar button.active {
+	border-bottom: var(--line-width) solid var(--base-col);
+	font-weight: bold;
+}
+.tab-bar button:hover {
+	border-bottom: var(--line-width) solid var(--hover-col);
 }
 
 /********************************* AUXILIARY *********************************/
