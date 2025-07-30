@@ -1180,6 +1180,10 @@ class XYSlider extends ValuedController {
 			})
 		);
 	}
+
+	// show() {
+	// 	this.setDisplay();
+	// }
 }
 
 /**
