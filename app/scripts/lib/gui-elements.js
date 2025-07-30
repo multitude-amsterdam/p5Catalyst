@@ -194,7 +194,6 @@ class Randomizer {
 		this.controllers.push(controller);
 		let die = new DieIcon(this, controller, doRandomize);
 		controller.addDie(die);
-		controller.doRandomize = doRandomize;
 	}
 
 	/**
@@ -216,7 +215,7 @@ class Randomizer {
 	randomize() {
 		const controllersToRandomize = this.controllers.filter(
 			controller =>
-				controller.doRandomize === true && !controller.isHidden()
+				controller.die.isActive === true && !controller.isHidden()
 		);
 		for (let controller of controllersToRandomize) {
 			if (controller instanceof ValuedController) {
@@ -233,14 +232,16 @@ class Randomizer {
 	 * @param {DieIcon} die - The DieIcon instance to toggle.
 	 */
 	toggleDoRandomize(die) {
-		let index = this.controllers.map(c => c.die).indexOf(die);
-		if (index < 0) {
-			console.error('Die not in list.', controller);
-			return;
-		}
-		this.controllers[index].doRandomize =
-			this.controllers[index].doRandomize !== true;
-		die.setActive(this.controllers[index].doRandomize);
+		// // todo: replace with .find()
+		// let index = this.controllers.map(c => c.die).indexOf(die);
+		// if (index < 0) {
+		// 	console.error('Die not in list.', controller);
+		// 	return;
+		// }
+		// this.controllers[index].die.isActive =
+		// 	this.controllers[index].die.isActive !== true;
+		// die.setActive(this.controllers[index].die.isActive);
+		die.toggle();
 	}
 }
 
@@ -249,18 +250,14 @@ class Randomizer {
  * Handles icon display, rotation, and click interaction for toggling randomization.
  */
 class DieIcon {
-	/**
-	 * List of SVG icon URLs for dice faces.
-	 * @type {string[]}
-	 * @static
-	 */
-	static iconURLs = [
-		'assets/dice/die (1).svg',
-		'assets/dice/die (2).svg',
-		'assets/dice/die (3).svg',
-		'assets/dice/die (4).svg',
-		'assets/dice/die (5).svg',
-		'assets/dice/die (6).svg',
+	static iconClass = 'die-icon';
+	static iconModifierClasses = [
+		'die-icon--1',
+		'die-icon--2',
+		'die-icon--3',
+		'die-icon--4',
+		'die-icon--5',
+		'die-icon--6',
 	];
 
 	/**
@@ -273,38 +270,46 @@ class DieIcon {
 		this.randomizer = randomizer;
 		this.controller = controller;
 
-		this.img = createImg('', 'Randomizer die');
-		this.img.class('die-icon');
-		this.img.mouseClicked(() => this.click());
+		this.imgContainer = createDiv();
+		this.imgContainer.class(DieIcon.iconClass);
+		this.imgContainer.mouseClicked(() => this.click());
 		this.rot = 0;
-		this.randomizeIcon();
 
 		this.setActive(isActive);
+	}
+
+	toggle() {
+		this.setActive(!this.isActive);
 	}
 
 	/**
 	 * Randomizes the die icon image URL and its rotation.
 	 */
 	randomizeIcon() {
-		// random icon url
-		let curURL = this.iconURL;
-		do this.iconURL = random(DieIcon.iconURLs);
-		while (curURL == this.iconURL);
-		this.img.elt.src = this.iconURL;
+		// resets mofifier classes
+		this.imgContainer.class(DieIcon.iconClass);
+
+		let modClass;
+		do modClass = random(DieIcon.iconModifierClasses);
+		while (modClass === this.curModClass);
+		this.imgContainer.addClass(modClass);
+		this.curModClass = modClass;
 
 		// rotate die randomly
-		let curRot = this.rot;
-		do this.rot = int(random(4));
-		while (this.rot == curRot);
+		let curRot;
+		do curRot = int(random(4));
+		while (curRot === this.rot);
 		let angle = (this.rot * TAU) / 3;
-		this.img.style('rotate', angle + 'rad');
+		this.imgContainer.style('rotate', angle + 'rad');
+		this.rot = curRot;
 	}
 
 	/**
 	 * Handles click event to toggle randomization state.
 	 */
 	click() {
-		this.randomizer.toggleDoRandomize(this);
+		this.toggle();
+		// this.randomizer.toggleDoRandomize(this);
 		// if (this.controller.doUpdateChangeSet()) changeSet.save(); // not working (yet)
 	}
 
@@ -322,10 +327,10 @@ class DieIcon {
 	 */
 	setDisplay() {
 		if (this.isActive) {
-			this.img.removeClass('disabled');
+			this.imgContainer.removeClass('die-icon--disabled');
 			this.randomizeIcon();
 		} else {
-			this.img.addClass('disabled');
+			this.imgContainer.addClass('die-icon--disabled');
 		}
 	}
 
@@ -333,6 +338,6 @@ class DieIcon {
 	 * Removes the die icon from the DOM.
 	 */
 	remove() {
-		this.img.remove();
+		this.imgContainer.remove();
 	}
 }
