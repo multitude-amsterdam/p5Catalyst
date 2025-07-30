@@ -7,24 +7,33 @@ function createGUI() {
 	// add logo up top (uses 'assets/generator-logo9.svg', see style.css)
 	let logo = gui.addField(new Field(gui.div, 'logo', ''));
 
-	// ------------------------------ FORMAT ------------------------------
-	gui.addTitle(2, 'LANG_FORMAT', false);
-	gui.addController(
+	const dimensionsTab = new Tab('Dimensions');
+	const appearanceTab = new Tab('Appearance');
+	const exportTab = new Tab('Export');
+	const settingsTab = new Tab('Settings');
+
+	gui.addTabs(dimensionsTab, appearanceTab, exportTab, settingsTab);
+
+	// ------------------------------ APPEARANCE ------------------------------
+	dimensionsTab.addTitle(2, 'Dimensions', false);
+	dimensionsTab.addController(
 		new ResolutionSelect(
-			gui,
+			dimensionsTab,
 			'Presets:',
 			resolutionOptions,
 			0,
 			(controller, value) => {
-				const resBox = gui.getController('resolutionTextboxes');
+				const resBox = dimensionsTab.getController(
+					'resolutionTextboxes'
+				);
 				if (resBox) resBox.setValueOnlyDisplay(pw, ph);
 				generator.setup();
 			}
 		)
 	);
-	gui.addController(
+	dimensionsTab.addController(
 		new ResolutionTextboxes(
-			gui,
+			dimensionsTab,
 			pw,
 			ph,
 			(controller, value) => {
@@ -42,12 +51,11 @@ function createGUI() {
 	);
 
 	// ------------------------------ APPEARANCE ------------------------------
-	gui.addDivider();
-	gui.addTitle(2, 'LANG_APPEARANCE', false);
+	appearanceTab.addTitle(2, 'Visual system', false);
 
-	gui.addController(
+	appearanceTab.addController(
 		new ColourBoxes(
-			gui,
+			appearanceTab,
 			'colourBoxesFgCol',
 			'LANG_FGCOL',
 			generator.palette,
@@ -59,9 +67,9 @@ function createGUI() {
 		(doAddToRandomizerAs = true)
 	);
 
-	gui.addController(
+	appearanceTab.addController(
 		new Slider(
-			gui,
+			appearanceTab,
 			'sliderLogoScale',
 			'LANG_SCALE logo',
 			-1,
@@ -75,9 +83,9 @@ function createGUI() {
 		(doAddToRandomizerAs = false)
 	);
 
-	gui.addController(
+	appearanceTab.addController(
 		new Slider(
-			gui,
+			appearanceTab,
 			'sliderLogoScale',
 			'LANG_SCALE cat',
 			-1,
@@ -91,13 +99,13 @@ function createGUI() {
 		(doAddToRandomizerAs = false)
 	);
 
-	gui.addController(
+	appearanceTab.addController(
 		new Button(
-			gui,
+			appearanceTab,
 			'buttonRandomize',
 			'LANG_RANDOMIZE',
 			controller => {
-				gui.randomizer.randomize();
+				appearanceTab.randomizer.randomize();
 				// generator.setup();
 			},
 			controller => {
@@ -106,36 +114,38 @@ function createGUI() {
 		)
 	);
 
-	// ------------------------------ IMAGE ------------------------------
-	gui.addDivider();
-	gui.addTitle(2, 'LANG_IMAGE', false);
+	appearanceTab.addDivider();
 
-	gui.addController(
+	appearanceTab.addTitle(2, 'LANG_IMAGE', false);
+
+	appearanceTab.addController(
 		new Toggle(
-			gui,
+			appearanceTab,
 			'toggleShowImage',
 			'LANG_HIDE LANG_IMAGE',
 			'LANG_SHOW LANG_IMAGE',
 			generator.doShowImage,
 			(controller, value) => {
 				generator.doShowImage = value;
-				gui.getControllers(
-					'imageLoader0,sliderImageScale,xyImagePosition,sliderImageX,sliderImageY'.split(
-						','
+				appearanceTab
+					.getControllers(
+						'imageLoader0,sliderImageScale,xyImagePosition,sliderImageX,sliderImageY'.split(
+							','
+						)
 					)
-				).forEach(controller =>
-					generator.doShowImage
-						? controller.show()
-						: controller.hide()
-				);
+					.forEach(controller =>
+						generator.doShowImage
+							? controller.show()
+							: controller.hide()
+					);
 			}
 		),
 		(doAddToRandomizerAs = false)
 	);
 
-	gui.addController(
+	appearanceTab.addController(
 		new ImageLoader(
-			gui,
+			appearanceTab,
 			'imageLoader0',
 			'LANG_SELECT LANG_IMAGE...',
 			(controller, img) => {
@@ -171,15 +181,17 @@ function createGUI() {
 						controller.setConsole(controller.fileName, '');
 					}
 					generator.img = img;
-					gui.getController('toggleShowImage').setValue(true);
+					appearanceTab
+						.getController('toggleShowImage')
+						.setValue(true);
 				};
 			}
 		)
 	);
 
-	gui.addController(
+	appearanceTab.addController(
 		new Slider(
-			gui,
+			appearanceTab,
 			'sliderImageScale',
 			'LANG_SCALE LANG_IMAGE',
 			-1,
@@ -193,9 +205,9 @@ function createGUI() {
 		(doAddToRandomizerAs = false)
 	);
 
-	gui.addController(
+	appearanceTab.addController(
 		new XYSlider(
-			gui,
+			appearanceTab,
 			'xyImagePosition',
 			'LANG_IMAGE_POSITION',
 			-1,
@@ -214,14 +226,14 @@ function createGUI() {
 	);
 
 	// ------------------------------ EXPORT ------------------------------
-	gui.addDivider();
-	gui.addTitle(2, 'LANG_EXPORT', false);
+	// gui.addDivider();
+	// gui.addTitle(2, 'LANG_EXPORT', false);
 
-	gui.addTitle(3, 'LANG_IMAGE', false);
+	exportTab.addTitle(2, 'LANG_IMAGE', false);
 
-	gui.addController(
+	exportTab.addController(
 		new Button(
-			gui,
+			exportTab,
 			'buttonCopyPNG',
 			'LANG_COPY_TO_CLIPBOARD',
 			controller => {
@@ -233,9 +245,9 @@ function createGUI() {
 		)
 	);
 
-	gui.addController(
+	exportTab.addController(
 		new Button(
-			gui,
+			exportTab,
 			'buttonDownloadPNG',
 			'Download PNG',
 			controller => {
@@ -247,21 +259,21 @@ function createGUI() {
 		)
 	);
 
-	// gui.addController(new Button(
-	//   gui, 'buttonDownloadSVG', 'Download SVG',
+	// exportTab.addController(new Button(
+	//   exportTab, 'buttonDownloadSVG', 'Download SVG',
 	//   (controller) => {
 	//     generator.draw(doSVGToo=true);
 	//     svgCanvas.save(Generator.getOutputFileName() + '.svg');
 	//   }
 	// ));
 
-	gui.addDivider();
+	exportTab.addDivider();
 
-	gui.addTitle(3, 'LANG_VIDEO', false);
+	exportTab.addTitle(2, 'LANG_VIDEO', false);
 
-	gui.addController(
+	exportTab.addController(
 		new Slider(
-			gui,
+			exportTab,
 			'sliderSpeed',
 			'LANG_SPEED',
 			0.25,
@@ -278,9 +290,9 @@ function createGUI() {
 		(doAddToRandomizerAs = false)
 	);
 
-	gui.addController(
+	exportTab.addController(
 		new Slider(
-			gui,
+			exportTab,
 			'sliderVidDuration',
 			'LANG_VID_DURATION',
 			1,
@@ -298,13 +310,13 @@ function createGUI() {
 	);
 
 	// ffmpeg.js var
-	guiCaptureButtonMP4 = gui.addController(
+	guiCaptureButtonMP4 = exportTab.addController(
 		new Button(
-			gui,
+			exportTab,
 			'buttonVidCaptureMP4',
 			lang.process('Start LANG_VID_CAPTURE MP4'),
 			controller => {
-				guiCaptureButtonChoice = guiCaptureButtonMP4;
+				exportTabCaptureButtonChoice = exportTabCaptureButtonMP4;
 				ffmpegExportSettings = MP4;
 				if (!isCapturingFrames) {
 					startCapture();
@@ -327,9 +339,9 @@ function createGUI() {
 	);
 
 	// ffmpeg.js var
-	guiCaptureButtonMP4WEBM = gui.addController(
+	guiCaptureButtonMP4WEBM = exportTab.addController(
 		new Button(
-			gui,
+			exportTab,
 			'buttonVidCaptureWEBM',
 			lang.process('Start LANG_VID_CAPTURE (transparent WEBM)'),
 			controller => {
@@ -359,52 +371,19 @@ function createGUI() {
 	);
 
 	// ffmpeg.js var
-	guiVideoLoadingDiv = gui.addField(
-		new Field(gui.div, 'vidLoad', '', 'Video verwerken...')
+	guiVideoLoadingDiv = exportTab.addField(
+		new Field(exportTab.div, 'vidLoad', '', 'Video verwerken...')
 	);
 	guiVideoLoadingDiv.div.hide();
 	let loaderDiv = createDiv();
 	loaderDiv.parent(guiVideoLoadingDiv.div);
 
 	// ------------------------------ SETTINGS ------------------------------
-	gui.addDivider();
-	gui.addTitle(2, 'LANG_SETTINGS', false);
+	settingsTab.addTitle(2, 'Settings file', false);
 
-	gui.addController(
+	settingsTab.addController(
 		new Button(
-			gui,
-			'buttonUndo',
-			'LANG_UNDO',
-			controller => {
-				changeSet.undo();
-			},
-			controller => {
-				controller._doUpdateChangeSet = false;
-				controller.controllerElement.elt.title = 'CTRL/CMD + Z';
-			}
-		)
-	);
-
-	gui.addController(
-		new Button(
-			gui,
-			'buttonRedo',
-			'LANG_REDO',
-			controller => {
-				changeSet.redo();
-			},
-			controller => {
-				controller._doUpdateChangeSet = false;
-				controller.controllerElement.elt.title = 'CTRL/CMD + SHIFT + Z';
-			}
-		)
-	);
-
-	gui.addDivider();
-
-	gui.addController(
-		new Button(
-			gui,
+			settingsTab,
 			'buttonSaveSettings',
 			'LANG_SAVE_SETTINGS',
 			controller => {
@@ -420,9 +399,9 @@ function createGUI() {
 		)
 	);
 
-	gui.addController(
+	settingsTab.addController(
 		new JSONFileLoader(
-			gui,
+			settingsTab,
 			'jsonFileLoaderSettings',
 			'LANG_LOAD_SETTINGS',
 			(controller, file) => {
@@ -439,22 +418,18 @@ function createGUI() {
 		)
 	);
 
-	gui.addDivider();
+	settingsTab.addDivider();
 
-	gui.createDarkModeButton();
+	settingsTab.addTitle(2, 'LANG_SUPPORT', false);
 
-	// ------------------------------ SUPPORT ------------------------------
-	gui.addDivider();
-	gui.addTitle(3, 'LANG_SUPPORT', false);
-
-	gui.addController(
-		new Button(gui, 'buttonHelpMe', 'LANG_HELP', controller => {
+	settingsTab.addController(
+		new Button(settingsTab, 'buttonHelpMe', 'LANG_HELP', controller => {
 			helpMe();
 		})
 	);
 
 	if (Generator.supportEmail?.indexOf('@') > -1) {
-		let contactField = gui.addHTMLAsNewField(
+		let contactField = settingsTab.addHTMLAsNewField(
 			lang.process(
 				`<a href="mailto:${Generator.supportEmail}` +
 					`?subject=${Generator.name} generator` +
@@ -462,13 +437,19 @@ function createGUI() {
 			)
 		);
 		contactField.div.id('contact');
-		contactField.div.parent(gui.div);
+		contactField.div.parent(settingsTab.div);
 	}
+
+	// ------------------------------ GUI BOTTOM ------------------------------
+	gui.addField(new Field(gui.div, '', 'gui-filler'));
+
+	gui.addDivider();
+
+	gui.addUndoRedoButtons();
 
 	gui.addP5CatalystLogo();
 
-	// initialize randomly
-	// gui.randomizer.randomize();
+	// gui.randomizer.randomize(); // initialize randomly
 
 	gui.setup();
 }
