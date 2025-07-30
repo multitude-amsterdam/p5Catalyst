@@ -155,7 +155,7 @@ body:where(.dark-mode) {
 	gap: 1em;
 }
 #gui {
-	min-width: 26rem;
+	width: 35rem;
 	padding: 1.5rem 1rem;
 
 	height: 100vh;
@@ -245,6 +245,7 @@ body:where(.dark-mode) .p5catalyst-logo {
 	flex-direction: row;
 	gap: 1rem;
 	align-items: center;
+	justify-content: space-between;
 }
 
 .gui-controller {
@@ -895,13 +896,14 @@ input[type='checkbox']:checked::before {
 /********************************* XY SLIDER *********************************/
 .xyslider {
 	width: 100%;
+	/* max-width: 20rem; */
 	height: 21em;
-	/*	background-color: rgba(var(--fgRGB), 0.1);*/
-	background-color: none;
+	aspect-ratio: 1;
 
+	background-color: none;
 	background-repeat: round;
-	background-size: 12.5% 12.5%;
 	/* for 5 stops per quadrant */
+	background-size: 12.5% 12.5%;
 	background-image: radial-gradient(
 		circle,
 		var(--base-col) 1px,
@@ -1359,6 +1361,8 @@ button.dialog-close:hover {
 	border-bottom: var(--line-width) solid var(--divider-col);
 	cursor: pointer;
 	color: var(--text-col);
+	text-align: center;
+	padding: 0;
 }
 .tab-bar button:hover {
 	color: var(--hover-col);
