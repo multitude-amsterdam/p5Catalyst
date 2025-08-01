@@ -49,7 +49,7 @@ export class Controller extends Field {
 
 	/**
 	 * The HTML element representing the controller.
-	 * @type {p5.Element|HTMLElement}
+	 * @type {p5.Element}
 	 */
 	controllerElement: controllerElement = null;
 
@@ -111,7 +111,7 @@ export class Controller extends Field {
 	constructor(
 		gui: GUIForP5,
 		name: string,
-		labelStr?: string,
+		labelStr: string,
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, 'gui-controller');
@@ -127,7 +127,8 @@ export class Controller extends Field {
 		this.controllerWrapper.class('controller-wrapper');
 		this.controllerWrapper.parent(this.div);
 
-		this.setupCallback = setupCallback || ((controller: Controller) => {});
+		this.setupCallback =
+			setupCallback || ((controller: Controller) => ({}));
 	}
 
 	/**
