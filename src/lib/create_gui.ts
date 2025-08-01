@@ -11,17 +11,11 @@ export const createGUI = (
 
   const guiInterface: GUIControllerInterface = {
     addField: (id, className) => {
-      const field = new components.Field(p5Instance, gui.div, id, className);
+      const field = new components.Field(gui, id, className);
       return gui.addField(field);
     },
     addTitle: (hSize, text, doAlignCenter = true) => {
-      const title = new components.Title(
-        p5Instance,
-        gui.div,
-        hSize,
-        text,
-        doAlignCenter
-      );
+      const title = new components.Title(gui, hSize, text, doAlignCenter);
       return gui.addField(title);
     },
   };

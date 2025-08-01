@@ -16,6 +16,7 @@ class GUIForP5 {
   isTypingText = false;
   div: p5.Element;
   //   randomizer: Randomizer;
+  p5Instance: p5;
   static verbose = !false;
 
   fields: Field[] = [];
@@ -27,6 +28,7 @@ class GUIForP5 {
   constructor(p5Instance: p5) {
     this.div = p5Instance.createDiv();
     this.div.id("gui");
+    this.p5Instance = p5Instance;
 
     // this.randomizer = new Randomizer();
 

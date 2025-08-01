@@ -1,5 +1,5 @@
 import { Field } from "../../field";
-import type p5 from "p5";
+import type { GUIForP5 } from "../../gui";
 
 /**
  * Heading element used as a section title.
@@ -14,13 +14,12 @@ export class Title extends Field {
    * @param {boolean} [doAlignCenter=false] - Whether to center the title text.
    */
   constructor(
-    p5Instance: p5,
-    parentDiv: p5.Element,
+    gui: GUIForP5,
     hSize: number,
     text: string,
     doAlignCenter = false
   ) {
-    super(p5Instance, parentDiv, null, "gui-title");
+    super(gui, null, "gui-title");
     // text = lang.process(text, true);
     this.div.html(`<h${hSize}>${text}</h${hSize}>`);
     if (doAlignCenter) {

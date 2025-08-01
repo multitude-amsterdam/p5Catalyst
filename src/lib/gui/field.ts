@@ -1,4 +1,5 @@
 import type p5 from "p5";
+import type { GUIForP5 } from "./gui";
 /**
  * Base GUI element container used by controllers.
  */
@@ -11,14 +12,9 @@ export class Field {
    * @param {string} className - The CSS class to assign to the field (optional).
    */
   div: p5.Element;
-  constructor(
-    p5Instance: p5,
-    parentDiv: p5.Element,
-    id: string | null,
-    className: string
-  ) {
-    this.div = p5Instance.createDiv();
-    this.div.parent(parentDiv);
+  constructor(gui: GUIForP5, id: string | null, className: string) {
+    this.div = gui.p5Instance.createDiv();
+    this.div.parent(gui.div);
     if (id !== undefined && id !== null && id != "") this.div.id(id);
     this.div.class(className);
   }
