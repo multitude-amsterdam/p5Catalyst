@@ -21,6 +21,7 @@ class GUIForP5 {
 	//   randomizer: Randomizer;
 	p5Instance: p5;
 	lang: Lang;
+	isOnLeftSide: boolean = true;
 	static verbose = !false;
 
 	fields: Field[] = [];
@@ -39,7 +40,7 @@ class GUIForP5 {
 
 		// this.loadLightDarkMode();
 
-		// this.setLeft();
+		this.setLeft();
 	}
 
 	//   /**
@@ -51,13 +52,14 @@ class GUIForP5 {
 	//     }
 	//   }
 
-	//   /**
-	//    * Moves the GUI to the left side of the main container.
-	//    */
-	//   setLeft() {
-	//     document.querySelector("main").prepend(this.div.elt);
-	//     this.isOnLeftSide = true;
-	//   }
+	/**
+	 * Moves the GUI to the left side of the main container.
+	 */
+	setLeft() {
+		console.log('left');
+		document.querySelector('main')?.prepend(this.div.elt);
+		this.isOnLeftSide = true;
+	}
 
 	//   /**
 	//    * Moves the GUI to the right side of the main container.
