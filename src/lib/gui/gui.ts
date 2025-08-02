@@ -3,6 +3,7 @@ import { Field } from './field';
 import { Title } from './components/fields/Title';
 import { Controller } from './controller';
 import { Button } from './components/controllers/Button';
+import { Lang } from '../language/lang';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -19,6 +20,7 @@ class GUIForP5 {
 	div: p5.Element;
 	//   randomizer: Randomizer;
 	p5Instance: p5;
+	lang: Lang;
 	static verbose = !false;
 
 	fields: Field[] = [];
@@ -31,6 +33,7 @@ class GUIForP5 {
 		this.div = p5Instance.createDiv();
 		this.div.id('gui');
 		this.p5Instance = p5Instance;
+		this.lang = new Lang();
 
 		// this.randomizer = new Randomizer();
 

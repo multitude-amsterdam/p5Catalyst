@@ -30,7 +30,7 @@ export const createGUI = (
 		},
 	};
 
-	guiInterface.addTitle(20, 'Controls'); // Always added
+	guiInterface.addTitle(2, 'LANG_SUPPORT', false); // Always added
 	guiInterface.addButton('test', 'test', controller => {
 		console.log('test');
 	});
