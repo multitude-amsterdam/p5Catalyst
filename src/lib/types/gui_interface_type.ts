@@ -2,7 +2,11 @@ import type { Field } from '../gui/field';
 import type { Title } from '../gui/gui';
 import { Controller } from '../gui/controller';
 
-import type { controllerCallback, setupCallback } from './controller_types';
+import type {
+	controllerCallback,
+	setupCallback,
+	valueCallback,
+} from './controller_types';
 
 export interface GUIControllerInterface {
 	addField: (id: string, className: string) => Field;
@@ -11,6 +15,14 @@ export interface GUIControllerInterface {
 		name: string,
 		labelStr: string,
 		callback?: controllerCallback,
+		setupCallback?: setupCallback
+	) => Controller;
+	addSelect: (
+		name: string,
+		labelStr: string,
+		options: string[],
+		defaultIndex: number,
+		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Controller;
 }

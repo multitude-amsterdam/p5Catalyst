@@ -28,12 +28,32 @@ export const createGUI = (
 			);
 			return gui.addController(button);
 		},
+		addSelect: (
+			name,
+			labelStr,
+			options,
+			defaultIndex,
+			valueCallback?,
+			setupCallback?
+		) => {
+			const select = new components.Select(
+				gui,
+				name,
+				labelStr,
+				options,
+				defaultIndex,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(select);
+		},
 	};
 
 	guiInterface.addTitle(2, 'LANG_SUPPORT', false); // Always added
 	guiInterface.addButton('test', 'test', controller => {
 		console.log('test');
 	});
+	guiInterface.addSelect('select', 'Select', ['hello', 'world'], 0);
 
 	userGUI?.(guiInterface);
 	return gui;

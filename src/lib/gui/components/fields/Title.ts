@@ -1,5 +1,6 @@
 import { Field } from '../../field';
 import type { GUIForP5 } from '../../gui';
+import p5 from 'p5';
 
 /**
  * Heading element used as a section title.

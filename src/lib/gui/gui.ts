@@ -3,6 +3,7 @@ import { Field } from './field';
 import { Title } from './components/fields/Title';
 import { Controller } from './controller';
 import { Button } from './components/controllers/Button';
+import { Select } from './components/controllers/Select';
 import { Lang } from '../language/lang';
 
 /**
@@ -376,4 +377,4 @@ class GUIForP5 {
 	//   }
 }
 
-export { GUIForP5, Field, Title, Button };
+export { GUIForP5, Field, Title, Button, Select };
