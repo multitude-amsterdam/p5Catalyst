@@ -1,82 +1,82 @@
-import type { GUIControllerInterface } from './types/gui_interface_type';
-import type { State } from './types/state_type';
-import p5 from 'p5';
-import { GUIForP5 } from './gui/gui';
-import * as components from './gui/gui';
-import { resolutionPresets } from './types/resolution_options';
-import type { LangCode } from './types/lang_types';
+import type { GUIControllerInterface } from "./types/gui_interface_type";
+import type { State } from "./types/state_type";
+import p5 from "p5";
+import { GUIForP5 } from "./gui/gui";
+import * as components from "./gui/gui";
+import { resolutionPresets } from "./types/resolution_options";
+import type { LangCode } from "./types/lang_types";
 
-const validLanguages: LangCode[] = ['en', 'nl'];
+const validLanguages: LangCode[] = ["en", "nl"];
 
 export const createGUI = (
-	p5Instance: p5,
-	state: State,
-	userGUI?: (gui: GUIControllerInterface) => void
+  p5Instance: p5,
+  state: State,
+  userGUI?: (gui: GUIControllerInterface, state: State) => void
 ): GUIForP5 => {
-	const gui = new GUIForP5(p5Instance, state);
-	let resolutionOptions: string[] = resolutionPresets;
+  const gui = new GUIForP5(p5Instance, state);
+  let resolutionOptions: string[] = resolutionPresets;
 
-	const guiInterface: GUIControllerInterface = {
-		setOptions: (resolutions, language) => {
-			if (!validLanguages.includes(language as LangCode)) {
-				console.error(
-					`Invalid language code: ${language}. Valid codes are: ${validLanguages.join(
-						', '
-					)}`
-				);
-				language = undefined;
-			}
-			resolutionOptions = resolutions || resolutionPresets;
-			gui.lang.setup(language || 'en');
-		},
-		addField: (id, className) => {
-			const field = new components.Field(gui, id, className);
-			return gui.addField(field);
-		},
-		addTitle: (hSize, text, doAlignCenter = true) => {
-			const title = new components.Title(gui, hSize, text, doAlignCenter);
-			return gui.addField(title);
-		},
-		addButton: (name, labelStr, callback?, setupCallback?) => {
-			const button = new components.Button(
-				gui,
-				name,
-				labelStr,
-				callback,
-				setupCallback
-			);
-			return gui.addController(button);
-		},
-		addSelect: (
-			name,
-			labelStr,
-			options,
-			defaultIndex,
-			valueCallback?,
-			setupCallback?
-		) => {
-			const select = new components.Select(
-				gui,
-				name,
-				labelStr,
-				options,
-				defaultIndex,
-				valueCallback,
-				setupCallback
-			);
-			return gui.addController(select);
-		},
-	};
+  const guiInterface: GUIControllerInterface = {
+    setOptions: (resolutions, language) => {
+      if (!validLanguages.includes(language as LangCode)) {
+        console.error(
+          `Invalid language code: ${language}. Valid codes are: ${validLanguages.join(
+            ", "
+          )}`
+        );
+        language = undefined;
+      }
+      resolutionOptions = resolutions || resolutionPresets;
+      gui.lang.setup(language || "en");
+    },
+    addField: (id, className) => {
+      const field = new components.Field(gui, id, className);
+      return gui.addField(field);
+    },
+    addTitle: (hSize, text, doAlignCenter = true) => {
+      const title = new components.Title(gui, hSize, text, doAlignCenter);
+      return gui.addField(title);
+    },
+    addButton: (name, labelStr, callback?, setupCallback?) => {
+      const button = new components.Button(
+        gui,
+        name,
+        labelStr,
+        callback,
+        setupCallback
+      );
+      return gui.addController(button);
+    },
+    addSelect: (
+      name,
+      labelStr,
+      options,
+      defaultIndex,
+      valueCallback?,
+      setupCallback?
+    ) => {
+      const select = new components.Select(
+        gui,
+        name,
+        labelStr,
+        options,
+        defaultIndex,
+        valueCallback,
+        setupCallback
+      );
+      return gui.addController(select);
+    },
+  };
 
-	userGUI?.(guiInterface);
+  userGUI?.(guiInterface, state);
 
-	guiInterface.addTitle(2, 'LANG_SUPPORT', false); // Always added
-	guiInterface.addButton('test', 'test', controller => {
-		console.log('test');
-	});
-	gui.addController(
-		new components.ResolutionSelect(gui, 'resolution', resolutionOptions, 0)
-	);
+  guiInterface.addTitle(2, "LANG_SUPPORT", false); // Always added
+  guiInterface.addButton("test", "test", (controller) => {
+    console.log("test");
+  });
+  gui.addController(
+    new components.ResolutionSelect(gui, "resolution", resolutionOptions, 0)
+  );
 
-	return gui;
+  return gui;
 };
