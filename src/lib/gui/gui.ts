@@ -39,6 +39,7 @@ class GUIForP5 {
 		this.div.id('gui');
 		this.p5Instance = p5Instance;
 		this.lang = new Lang();
+		this.lang.setup('en');
 		this.state = state;
 
 		// this.randomizer = new Randomizer();
@@ -48,14 +49,14 @@ class GUIForP5 {
 		this.setLeft();
 	}
 
-	//   /**
-	//    * Calls setup on all controllers.
-	//    */
-	//   setup() {
-	//     for (let controller of this.controllers) {
-	//       controller.setup();
-	//     }
-	//   }
+	/**
+	 * Calls setup on all controllers.
+	 */
+	setup() {
+		for (let controller of this.controllers) {
+			controller.setup();
+		}
+	}
 
 	/**
 	 * Moves the GUI to the left side of the main container.

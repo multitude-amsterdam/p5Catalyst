@@ -258,7 +258,6 @@ export class Lang {
 	 * @see availableLangKeys
 	 */
 	setup(langKey: LangCode) {
-		this.langKey = langKey;
 		this.langKey = (Lang.getURLLangKey() as LangCode) || langKey;
 	}
 

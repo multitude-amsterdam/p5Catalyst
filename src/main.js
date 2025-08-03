@@ -17,6 +17,7 @@ const sketchFunction = async (sketch, state) => {
 
 let { p5Instance, state } = catalyst.createContainer(sketchFunction);
 catalyst.createGUI(p5Instance, state, gui => {
+	gui.setOptions(undefined, 'nl');
 	gui.addField('test', 'test');
 	gui.addTitle(20, 'hello there', false);
 });

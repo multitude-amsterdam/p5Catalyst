@@ -3,6 +3,8 @@ import type { State } from './types/state_type';
 import p5 from 'p5';
 import { GUIForP5 } from './gui/gui';
 import * as components from './gui/gui';
+import { resolutionPresets } from './types/resolution_options';
+import type { LangCode } from './types/lang_types';
 
 export const createGUI = (
 	p5Instance: p5,
@@ -10,8 +12,13 @@ export const createGUI = (
 	userGUI?: (gui: GUIControllerInterface) => void
 ): GUIForP5 => {
 	const gui = new GUIForP5(p5Instance, state);
+	let resolutionOptions: string[] = resolutionPresets;
 
 	const guiInterface: GUIControllerInterface = {
+		setOptions: (resolutions, language) => {
+			resolutionOptions = resolutions || resolutionPresets;
+			gui.lang.setup(language || 'en');
+		},
 		addField: (id, className) => {
 			const field = new components.Field(gui, id, className);
 			return gui.addField(field);
@@ -49,39 +56,17 @@ export const createGUI = (
 			);
 			return gui.addController(select);
 		},
-		addResolutionSelect: (
-			labelStr,
-			resolutionOptions,
-			defaultIndex,
-			valueCallback?,
-			setupCallback?
-		) => {
-			const resolutionSelect = new components.ResolutionSelect(
-				gui,
-				labelStr,
-				resolutionOptions,
-				defaultIndex,
-				valueCallback,
-				setupCallback
-			);
-			return gui.addController(resolutionSelect);
-		},
 	};
+
+	userGUI?.(guiInterface);
 
 	guiInterface.addTitle(2, 'LANG_SUPPORT', false); // Always added
 	guiInterface.addButton('test', 'test', controller => {
 		console.log('test');
 	});
-	guiInterface.addResolutionSelect(
-		'resolution',
-		[
-			'Full-HD (1080p) LANG_PORTRAIT: 1080 x 1920',
-			'Full-HD (1080p) LANG_LANDSCAPE: 1920 x 1080',
-			'4K-Ultra-HD (2160p): 3840 x 2160',
-		],
-		0
+	gui.addController(
+		new components.ResolutionSelect(gui, 'resolution', resolutionOptions, 0)
 	);
 
-	userGUI?.(guiInterface);
 	return gui;
 };
