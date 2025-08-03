@@ -1,5 +1,5 @@
 import p5 from 'p5';
-import type { State } from './types/state_type';
+import type { Dimensions, State } from './types/state_type';
 
 export const createContainer = (
 	userSketch: (
@@ -8,6 +8,8 @@ export const createContainer = (
 	) => Promise<{ state?: any }> | { state?: any } | void
 ): { p5Instance: p5; state?: any } => {
 	const state: State = { width: 1, height: 1 };
+	let oldWidth = state.width;
+	let oldHeight = state.height;
 
 	const containerSketch = async (sketch: p5) => {
 		await userSketch(sketch, state);
@@ -17,17 +19,19 @@ export const createContainer = (
 		const originalMouseMoved = sketch.mouseMoved || (() => {});
 
 		let canvas: p5.Renderer, canvasWrapper: p5.Element, canvasScale: number;
-		state.resizeCatalyst = resizeCatalyst;
-
 		sketch.setup = async () => {
 			canvas = sketch.createCanvas(1, 1);
 			createCanvasWrapper();
 			containCanvasInWrapper();
-			resizeCatalyst(1080, 1920);
 			await Promise.resolve(originalSetup());
 		};
 
 		sketch.draw = () => {
+			if (state.width !== oldWidth || state.height !== oldHeight) {
+				resizeCatalyst(state.width, state.height);
+				oldWidth = state.width;
+				oldHeight = state.height;
+			}
 			originalDraw();
 		};
 
@@ -64,15 +68,11 @@ export const createContainer = (
 		}
 
 		function resizeCatalyst(width: number, height: number) {
-			if (width == state.width && height == state.height) return;
 			if (width < 1 || height < 1) return;
-
-			state.width = width;
-			state.height = height;
 
 			sketch.print(`Resizing to: ${width} x ${height}...`);
 			sketch.pixelDensity(1);
-			sketch.resizeCanvas(state.width, state.height);
+			sketch.resizeCanvas(width, height);
 
 			containCanvasInWrapper();
 			containCanvasInWrapper(); // needs a double call

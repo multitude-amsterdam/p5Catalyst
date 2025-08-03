@@ -23,13 +23,14 @@ export class ResolutionSelect extends Select {
 			labelStr,
 			resOptions.map(s => gui.lang.process(s, true)),
 			defaultIndex,
-			(controller, value) => {
+			async (controller, value) => {
 				if (value.indexOf(' x ') >= 0) {
 					const resolutionStr = value.split(': ')[1];
 					const wh = resolutionStr.split(' x ');
 					const w = parseInt(wh[0]);
 					const h = parseInt(wh[1]);
-					gui.state.resizeCatalyst(w, h);
+					gui.state.width = w;
+					gui.state.height = h;
 				}
 				if (valueCallback) valueCallback(controller, value);
 			},
