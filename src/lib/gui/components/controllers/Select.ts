@@ -2,6 +2,7 @@ import type {
 	setupCallback,
 	valueCallback,
 } from '../../../types/controller_types';
+import { Controller } from '../../controller';
 import type { GUIForP5 } from '../../gui';
 import { ValuedController } from '../../valued_controller';
 
@@ -24,9 +25,9 @@ export class Select extends ValuedController {
 
 	/**
 	 * The value callback.
-	 * @type {function}
+	 * @type {valueCallback}
 	 */
-	valueCallback;
+	valueCallback: valueCallback;
 
 	/**
 	 * Constructor for Select.
@@ -50,7 +51,6 @@ export class Select extends ValuedController {
 		super(gui, name, labelStr, setupCallback);
 
 		this.controllerElement = gui.p5Instance.createSelect();
-		console.log(this.controllerElement);
 		this.options = options;
 		this.optionStrs = options.map(option => option.toString());
 		this.setOptions();
@@ -63,7 +63,8 @@ export class Select extends ValuedController {
 			if (valueCallback) valueCallback(this, this.value);
 		};
 		this.controllerElement.elt.onchange = callback;
-		this.valueCallback = valueCallback;
+		this.valueCallback =
+			valueCallback || ((controller: Controller, value: any) => {});
 		this.setValue(options[defaultIndex]);
 	}
 
@@ -77,37 +78,37 @@ export class Select extends ValuedController {
 			(this.controllerElement as any).option(optionStr);
 	}
 
-	// /**
-	//  * Checks if an option exists.
-	//  * @param {*} option
-	//  * @returns {boolean}
-	//  */
-	// hasOption(option) {
-	// 	return this.options.some(o => o == option);
-	// }
-	// /**
-	//  * Checks if an option string exists.
-	//  * @param {string} optionStr
-	//  * @returns {boolean}
-	//  */
-	// hasOptionStr(optionStr) {
-	// 	return this.optionStrs.some(os => os == optionStr);
-	// }
+	/**
+	 * Checks if an option exists.
+	 * @param {string} option
+	 * @returns {boolean}
+	 */
+	hasOption(option: string): boolean {
+		return this.options.some(o => o == option);
+	}
+	/**
+	 * Checks if an option string exists.
+	 * @param {string} optionStr
+	 * @returns {boolean}
+	 */
+	hasOptionStr(optionStr: string): boolean {
+		return this.optionStrs.some(os => os == optionStr);
+	}
 
-	// /**
-	//  * Sets the value of the select.
-	//  * @param {*} option
-	//  */
-	// setValue(option) {
-	// 	if (!this.hasOption(option)) {
-	// 		throw new Error(option + ' was not found in options.');
-	// 	}
-	// 	this.value = option;
-	// 	const optStr = this.optionStrs[this.options.indexOf(option)];
-	// 	this.controllerElement.selected(optStr);
-	// 	this.valueCallback(this, option);
-	// 	if (this.doUpdateChangeSet()) changeSet.save();
-	// }
+	/**
+	 * Sets the value of the select.
+	 * @param {string} option
+	 */
+	setValue(option: string) {
+		if (!this.hasOption(option)) {
+			throw new Error(option + ' was not found in options.');
+		}
+		this.value = option;
+		const optStr = this.optionStrs[this.options.indexOf(option)];
+		(this.controllerElement as any).selected(optStr);
+		// this.valueCallback(this, option);
+		// if (this.doUpdateChangeSet()) changeSet.save();
+	}
 
 	// /**
 	//  * Randomizes the select value.

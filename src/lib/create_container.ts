@@ -8,6 +8,7 @@ export const createContainer = (
 	) => Promise<{ state?: any }> | { state?: any } | void
 ): { p5Instance: p5; state?: any } => {
 	const state: State = { width: 1, height: 1 };
+
 	const containerSketch = async (sketch: p5) => {
 		await userSketch(sketch, state);
 
@@ -16,12 +17,13 @@ export const createContainer = (
 		const originalMouseMoved = sketch.mouseMoved || (() => {});
 
 		let canvas: p5.Renderer, canvasWrapper: p5.Element, canvasScale: number;
+		state.resizeCatalyst = resizeCatalyst;
 
 		sketch.setup = async () => {
 			canvas = sketch.createCanvas(1, 1);
 			createCanvasWrapper();
 			containCanvasInWrapper();
-			resize(1920, 1080);
+			resizeCatalyst(1080, 1920);
 			await Promise.resolve(originalSetup());
 		};
 
@@ -61,7 +63,7 @@ export const createContainer = (
 			);
 		}
 
-		function resize(width: number, height: number) {
+		function resizeCatalyst(width: number, height: number) {
 			if (width == state.width && height == state.height) return;
 			if (width < 1 || height < 1) return;
 

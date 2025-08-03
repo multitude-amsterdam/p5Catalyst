@@ -25,4 +25,11 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Controller;
+	addResolutionSelect(
+		labelStr: string,
+		resolutionOptions: string[],
+		defaultIndex: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	);
 }

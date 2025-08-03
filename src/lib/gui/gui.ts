@@ -4,7 +4,9 @@ import { Title } from './components/fields/Title';
 import { Controller } from './controller';
 import { Button } from './components/controllers/Button';
 import { Select } from './components/controllers/Select';
+import { ResolutionSelect } from './components/controllers/ResolutionSelect';
 import { Lang } from '../language/lang';
+import type { State } from '../types/state_type';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -21,6 +23,7 @@ class GUIForP5 {
 	div: p5.Element;
 	//   randomizer: Randomizer;
 	p5Instance: p5;
+	state: State;
 	lang: Lang;
 	isOnLeftSide: boolean = true;
 	static verbose = !false;
@@ -31,11 +34,12 @@ class GUIForP5 {
 	/**
 	 * Constructs the GUI, creates the main div, and sets up theming and layout.
 	 */
-	constructor(p5Instance: p5) {
+	constructor(p5Instance: p5, state: State) {
 		this.div = p5Instance.createDiv();
 		this.div.id('gui');
 		this.p5Instance = p5Instance;
 		this.lang = new Lang();
+		this.state = state;
 
 		// this.randomizer = new Randomizer();
 
@@ -57,18 +61,17 @@ class GUIForP5 {
 	 * Moves the GUI to the left side of the main container.
 	 */
 	setLeft() {
-		console.log('left');
 		document.querySelector('main')?.prepend(this.div.elt);
 		this.isOnLeftSide = true;
 	}
 
-	//   /**
-	//    * Moves the GUI to the right side of the main container.
-	//    */
-	//   setRight() {
-	//     document.querySelector("main").append(this.div.elt);
-	//     this.isOnLeftSide = false;
-	//   }
+	// /**
+	//  * Moves the GUI to the right side of the main container.
+	//  */
+	// setRight() {
+	// 	document.querySelector('main')?.append(this.div.elt);
+	// 	this.isOnLeftSide = false;
+	// }
 
 	//   /**
 	//    * Toggles the GUI between left and right sides.
@@ -377,4 +380,4 @@ class GUIForP5 {
 	//   }
 }
 
-export { GUIForP5, Field, Title, Button, Select };
+export { GUIForP5, Field, Title, Button, Select, ResolutionSelect };
