@@ -6,6 +6,8 @@ import * as components from './gui/gui';
 import { resolutionPresets } from './types/resolution_options';
 import type { LangCode } from './types/lang_types';
 
+const validLanguages: LangCode[] = ['en', 'nl'];
+
 export const createGUI = (
 	p5Instance: p5,
 	state: State,
@@ -16,6 +18,14 @@ export const createGUI = (
 
 	const guiInterface: GUIControllerInterface = {
 		setOptions: (resolutions, language) => {
+			if (!validLanguages.includes(language as LangCode)) {
+				console.error(
+					`Invalid language code: ${language}. Valid codes are: ${validLanguages.join(
+						', '
+					)}`
+				);
+				language = undefined;
+			}
 			resolutionOptions = resolutions || resolutionPresets;
 			gui.lang.setup(language || 'en');
 		},

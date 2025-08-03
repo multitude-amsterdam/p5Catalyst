@@ -19,7 +19,7 @@ class GUIForP5 {
 	 * while typing.
 	 * @type {boolean}
 	 */
-	isTypingText = false;
+	isTypingText: boolean = false;
 	div: p5.Element;
 	//   randomizer: Randomizer;
 	p5Instance: p5;

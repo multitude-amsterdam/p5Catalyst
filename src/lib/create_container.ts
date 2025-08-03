@@ -1,5 +1,5 @@
 import p5 from 'p5';
-import type { Dimensions, State } from './types/state_type';
+import type { State } from './types/state_type';
 
 export const createContainer = (
 	userSketch: (
