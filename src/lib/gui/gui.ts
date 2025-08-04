@@ -7,6 +7,8 @@ import { Select } from './components/controllers/Select';
 import { ResolutionSelect } from './components/controllers/ResolutionSelect';
 import { Lang } from '../language/lang';
 import type { State } from '../types/state_type';
+import type { Config } from '../types/plugin_types';
+import type { LangCode } from '../types/lang_types';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -34,12 +36,12 @@ class GUIForP5 {
 	/**
 	 * Constructs the GUI, creates the main div, and sets up theming and layout.
 	 */
-	constructor(p5Instance: p5, state: State) {
+	constructor(p5Instance: p5, state: State, config: Config) {
 		this.div = p5Instance.createDiv();
 		this.div.id('gui');
 		this.p5Instance = p5Instance;
 		this.lang = new Lang();
-		this.lang.setup('en');
+		this.lang.setup(config.defaultLanguage as LangCode);
 		this.state = state;
 
 		// this.randomizer = new Randomizer();

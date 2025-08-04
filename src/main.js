@@ -1,9 +1,8 @@
 import { catalyst } from './lib';
+import { languagePlugin, resolutionPlugin } from './lib/plugins';
 
 const sketchFunction = async (sketch, state) => {
 	state.size = 50;
-	state.width = 1080;
-	state.height = 1080;
 	let img;
 
 	sketch.setup = async () => {
@@ -17,8 +16,13 @@ const sketchFunction = async (sketch, state) => {
 	};
 };
 
-catalyst.initialize(sketchFunction, gui => {
-  gui.setOptions(undefined, 'en');
-  gui.addField('test', 'test');
-  gui.addTitle(20, 'hello there', false);
+const config = catalyst.defineConfig({
+	plugins: [
+		resolutionPlugin(catalyst.resolutionPresets),
+		languagePlugin('nl'),
+	],
+});
+
+catalyst.initialize(sketchFunction, config, gui => {
+	gui.addTitle(20, 'LANG_WIDTH', false);
 });

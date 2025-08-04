@@ -6,10 +6,8 @@ import type {
 	setupCallback,
 	valueCallback,
 } from './controller_types';
-import type { LangCode } from './lang_types';
 
 export interface GUIControllerInterface {
-	setOptions: (resolutions?: string[], language?: LangCode) => void;
 	addField: (id: string, className: string) => Field;
 	addTitle: (hSize: number, text: string, doAlignCenter?: boolean) => Title;
 	addButton: (
@@ -22,6 +20,13 @@ export interface GUIControllerInterface {
 		name: string,
 		labelStr: string,
 		options: string[],
+		defaultIndex: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
+	addResolutionSelect: (
+		labelStr: string,
+		resOptions: string[],
 		defaultIndex: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
