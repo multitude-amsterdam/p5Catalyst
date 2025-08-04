@@ -2,6 +2,8 @@ import { catalyst } from './lib';
 
 const sketchFunction = async (sketch, state) => {
 	state.size = 50;
+	state.width = 1080;
+	state.height = 1080;
 	let img;
 
 	sketch.setup = async () => {
@@ -16,7 +18,7 @@ const sketchFunction = async (sketch, state) => {
 };
 
 catalyst.initialize(sketchFunction, gui => {
-  gui.setOptions(undefined, 'nl');
+  gui.setOptions(undefined, 'en');
   gui.addField('test', 'test');
   gui.addTitle(20, 'hello there', false);
 });

@@ -74,9 +74,9 @@ export const createGUI = (
   guiInterface.addButton("test", "test", (controller) => {
     console.log("test");
   });
-  gui.addController(
-    new components.ResolutionSelect(gui, "resolution", resolutionOptions, 0)
-  );
+  // gui.addController(
+  //   new components.ResolutionSelect(gui, "resolution", resolutionOptions, 0)
+  // );
 
   return gui;
 };

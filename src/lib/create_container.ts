@@ -25,6 +25,7 @@ export const createContainer = (
         canvas = sketch.createCanvas(1, 1);
         createCanvasWrapper();
         containCanvasInWrapper();
+        resizeCatalyst(state.width, state.height);
         await Promise.resolve(originalSetup());
         state.resize = (width: number, height: number) => {
           resizeCatalyst(width, height);
