@@ -5,7 +5,7 @@ import type {
 	controllerCallback,
 	setupCallback,
 	valueCallback,
-} from './controller_types';
+} from './controller';
 
 export interface GUIControllerInterface {
 	addField: (id: string, className: string) => Field;

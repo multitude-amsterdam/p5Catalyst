@@ -1,7 +1,4 @@
-import type {
-	setupCallback,
-	valueCallback,
-} from '../../../types/controller_types';
+import type { setupCallback, valueCallback } from '../../../types/controller';
 import type { GUIForP5 } from '../../gui';
 import { Select } from './Select';
 /**
@@ -35,7 +32,5 @@ export class ResolutionSelect extends Select {
 			},
 			setupCallback
 		);
-
-		console.log(resOptions);
 	}
 }

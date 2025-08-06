@@ -1,7 +1,4 @@
-import type {
-	controllerCallback,
-	setupCallback,
-} from '../../../types/controller_types';
+import type { controllerCallback, setupCallback } from '../../../types';
 import { Controller } from '../../controller';
 import type { GUIForP5 } from '../../gui';
 /**

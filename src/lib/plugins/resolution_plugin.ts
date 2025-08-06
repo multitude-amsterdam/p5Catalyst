@@ -1,6 +1,5 @@
-import type { GUIControllerInterface } from '../types/gui_interface_type';
-import type { Config, Plugin } from '../types/plugin_types';
-import type { State } from '../types/state_type';
+import type { State, Plugin, GUIControllerInterface } from '../types';
+
 // Language plugin
 export const resolutionPlugin: Plugin = (resolutionOptions: string[]) => ({
 	name: 'resolution',

@@ -1,9 +1,8 @@
-import type { GUIControllerInterface } from './types/gui_interface_type';
-import type { State } from './types/state_type';
 import p5 from 'p5';
 import { GUIForP5 } from './gui/gui';
 import * as components from './gui/gui';
-import type { Config } from './types/plugin_types';
+
+import type { GUIControllerInterface, State, Config } from './types';
 
 export const createGUI = (
 	p5Instance: p5,

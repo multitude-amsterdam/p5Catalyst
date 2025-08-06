@@ -1,5 +1,4 @@
-import type { Config } from '../types/plugin_types';
-import type { Plugin } from '../types/plugin_types';
+import type { Config, Plugin } from '../types';
 // Language plugin
 export const languagePlugin: Plugin = (lang: string = 'en') => ({
 	name: 'language',

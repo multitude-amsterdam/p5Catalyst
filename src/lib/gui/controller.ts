@@ -1,8 +1,5 @@
 import type { GUIForP5 } from './gui';
-import type {
-	controllerElement,
-	setupCallback,
-} from '../types/controller_types';
+import type { controllerElement, setupCallback } from '../types';
 import { Field } from './gui';
 import p5 from 'p5';
 

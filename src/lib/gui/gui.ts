@@ -6,9 +6,7 @@ import { Button } from './components/controllers/Button';
 import { Select } from './components/controllers/Select';
 import { ResolutionSelect } from './components/controllers/ResolutionSelect';
 import { Lang } from '../language/lang';
-import type { State } from '../types/state_type';
-import type { Config } from '../types/plugin_types';
-import type { LangCode } from '../types/lang_types';
+import type { State, Config, LangCode } from '../types';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.

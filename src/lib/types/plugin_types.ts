@@ -1,5 +1,5 @@
-import type { GUIControllerInterface } from './gui_interface_type';
-import type { State } from './state_type';
+import type { GUIControllerInterface } from './gui_interface';
+import type { State } from './construction';
 import type { Resolution } from '../plugins/resolution_plugin';
 import type { GUIForP5 } from '../gui/gui';
 
