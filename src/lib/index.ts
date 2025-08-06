@@ -4,9 +4,9 @@ import '../style.css';
 import type p5 from 'p5';
 import type { GUIControllerInterface } from './types/gui_interface_type';
 import type { Config } from './types/plugin_types';
-import { defineConfig } from './types/plugin_types';
 import { languagePlugin, resolutionPlugin } from './plugins';
 import { resolutionPresets } from './plugins/resolution_plugin';
+import type { Plugin } from './types/plugin_types';
 
 type SketchFunction = (
 	sketch: p5,
@@ -16,11 +16,11 @@ type GUISetupFunction = (gui: GUIControllerInterface, state: any) => void;
 
 const initialize = async (
 	sketchFunction: SketchFunction,
-	userConfig: Config,
-	guiSetup?: GUISetupFunction
+	guiSetup?: GUISetupFunction,
+	userPlugins?: Plugin[]
 ) => {
-	const config: Config = userConfig || { plugins: [], defaultLanguage: 'en' };
-	config.plugins.forEach(plugin => plugin.beforeInit?.(config));
+	const config: Config = {};
+	userPlugins?.forEach(plugin => plugin.beforeInit?.(config));
 
 	const container = await createContainer(sketchFunction);
 	const gui = createGUI(
@@ -28,13 +28,13 @@ const initialize = async (
 		container.state,
 		config,
 		(gui, state) => {
-			config.plugins.forEach(plugin => plugin.setup?.(gui, state));
+			userPlugins?.forEach(plugin => plugin.setup?.(gui, state));
 
 			guiSetup?.(gui, state);
 		}
 	);
 
-	// config?.plugins.forEach((plugin) => plugin.afterInit?.(container));
+	userPlugins?.forEach(plugin => plugin.afterInit?.(gui));
 
 	return { container, gui };
 };
@@ -43,7 +43,6 @@ export const catalyst = {
 	createContainer,
 	createGUI,
 	initialize,
-	defineConfig,
 	languagePlugin,
 	resolutionPlugin,
 	resolutionPresets,

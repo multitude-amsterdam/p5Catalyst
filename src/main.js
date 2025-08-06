@@ -16,13 +16,15 @@ const sketchFunction = async (sketch, state) => {
 	};
 };
 
-const config = catalyst.defineConfig({
-	plugins: [
-		resolutionPlugin(catalyst.resolutionPresets),
-		languagePlugin('nl'),
-	],
-});
+const plugins = [
+	resolutionPlugin(catalyst.resolutionPresets),
+	languagePlugin('nl'),
+];
 
-catalyst.initialize(sketchFunction, config, gui => {
-	gui.addTitle(20, 'LANG_WIDTH', false);
-});
+catalyst.initialize(
+	sketchFunction,
+	gui => {
+		gui.addTitle(20, 'LANG_WIDTH', false);
+	},
+	plugins
+);
