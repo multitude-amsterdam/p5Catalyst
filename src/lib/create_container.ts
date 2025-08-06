@@ -1,11 +1,8 @@
 import p5 from 'p5';
-import type { Container, State } from './types';
+import type { Container, SketchFunction, State } from './types';
 
 export const createContainer = (
-	userSketch: (
-		sketch: p5,
-		state: any
-	) => Promise<{ state?: any }> | { state?: any } | void
+	userSketch: SketchFunction
 ): Promise<Container> => {
 	const state: State = { width: 1080, height: 1080 };
 
