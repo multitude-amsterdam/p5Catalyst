@@ -16,16 +16,11 @@ const initialize = async (
 	console.log(config);
 
 	const container = await createContainer(sketchFunction);
-	const gui = createGUI(
-		container.p5Instance,
-		container.state,
-		config,
-		(gui, state) => {
-			userPlugins?.forEach(plugin => plugin.setup?.(gui, state));
+	const gui = createGUI(container, config, (gui, state) => {
+		userPlugins?.forEach(plugin => plugin.setup?.(gui, state));
 
-			guiSetup?.(gui, state);
-		}
-	);
+		guiSetup?.(gui, state);
+	});
 
 	userPlugins?.forEach(plugin => plugin.afterInit?.(gui));
 

@@ -29,7 +29,7 @@ const plugins = [
 
 catalyst.initialize(
 	sketchFunction,
-	gui => {
+	(gui, state) => {
 		gui.addTitle(20, 'LANG_SLEEP', false);
 	},
 	plugins
