@@ -2,15 +2,14 @@ import p5 from 'p5';
 import { GUIForP5 } from './gui/gui';
 import * as components from './gui/gui';
 
-import type { GUIControllerInterface, State, Config } from './types';
+import type { GUIControllerInterface, State, Config, Container } from './types';
 
 export const createGUI = (
-	p5Instance: p5,
-	state: State,
+	container: Container,
 	config: Config,
 	userGUI?: (gui: GUIControllerInterface, state: State) => void
 ): GUIForP5 => {
-	const gui = new GUIForP5(p5Instance, state, config);
+	const gui = new GUIForP5(container.p5Instance, container.state, config);
 
 	const guiInterface: GUIControllerInterface = {
 		addField: (id, className) => {
@@ -111,6 +110,6 @@ export const createGUI = (
 		},
 	};
 
-	userGUI?.(guiInterface, state);
+	userGUI?.(guiInterface, container.state);
 	return gui;
 };
