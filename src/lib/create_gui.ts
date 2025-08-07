@@ -86,6 +86,29 @@ export const createGUI = (
 			);
 			return gui.addController(toggle);
 		},
+		addSlider: (
+			name,
+			labelStr,
+			minVal,
+			maxVal,
+			defaultVal,
+			stepSize,
+			valueCallback?,
+			setupCallback?
+		) => {
+			const slider = new components.Slider(
+				gui,
+				name,
+				labelStr,
+				minVal,
+				maxVal,
+				defaultVal,
+				stepSize,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(slider);
+		},
 	};
 
 	userGUI?.(guiInterface, state);

@@ -7,6 +7,7 @@ import { Select } from './components/controllers/Select';
 import { ResolutionSelect } from './components/controllers/ResolutionSelect';
 import { Toggle } from './components/controllers/Toggle';
 import { Lang } from '../language/lang';
+import { Slider } from './components/controllers/Slider';
 import type { State, Config, LangCode } from '../types';
 
 /**
@@ -382,4 +383,13 @@ class GUIForP5 {
 	//   }
 }
 
-export { GUIForP5, Field, Title, Button, Select, ResolutionSelect, Toggle };
+export {
+	GUIForP5,
+	Field,
+	Title,
+	Button,
+	Select,
+	ResolutionSelect,
+	Toggle,
+	Slider,
+};

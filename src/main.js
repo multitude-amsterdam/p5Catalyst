@@ -29,9 +29,12 @@ const plugins = [
 
 catalyst.initialize(
 	sketchFunction,
-	gui => {
+	(gui, state) => {
 		gui.addTitle(20, 'LANG_SLEEP', false);
 		gui.addToggle('toggle', 'true', 'false', false);
+		gui.addSlider('slider', 'slider', 0, 500, 5, 1, (controller, value) => {
+			state.size = value;
+		});
 	},
 	plugins
 );
