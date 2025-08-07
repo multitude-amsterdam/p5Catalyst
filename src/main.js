@@ -4,6 +4,8 @@ const sketchFunction = async (sketch, state) => {
 	state.size = 50;
 	state.width = 50;
 	state.height = 300;
+	state.color;
+
 	let img;
 
 	sketch.setup = async () => {
@@ -11,6 +13,7 @@ const sketchFunction = async (sketch, state) => {
 	};
 
 	sketch.draw = () => {
+		sketch.fill(state.color);
 		sketch.image(img, 0, 0, state.width, state.height);
 		sketch.circle(sketch.mouseX, sketch.mouseY, state.size);
 		sketch.circle(200, 200, state.size * 2);
@@ -33,7 +36,7 @@ catalyst.initialize(
 		gui.addTitle(20, 'LANG_SLEEP', false);
 		gui.addToggle('toggle', 'true', 'false', false);
 		gui.addSlider('slider', 'slider', 0, 500, 5, 1, (controller, value) => {
-			console.log(value);
+			state.size = value;
 		});
 		gui.addTextbox(
 			'textbox',
@@ -44,6 +47,15 @@ catalyst.initialize(
 			}
 		);
 		gui.addCrementer('crementer', 'crementer', 0, 10, 5, 1);
+		gui.addColourBoxes(
+			'boxes',
+			'boxes',
+			['red', 'blue'],
+			0,
+			(controller, value) => {
+				state.color = value;
+			}
+		);
 	},
 	plugins
 );

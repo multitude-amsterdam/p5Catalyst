@@ -148,6 +148,25 @@ export const createGUI = (
 			);
 			return gui.addController(crementer);
 		},
+		addColourBoxes: (
+			name,
+			labelStr,
+			colours,
+			defaultIndex,
+			valueCallback,
+			setupCallback
+		) => {
+			const colourBoxes = new components.ColourBoxes(
+				gui,
+				name,
+				labelStr,
+				colours,
+				defaultIndex,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(colourBoxes);
+		},
 	};
 
 	userGUI?.(guiInterface, container.state);

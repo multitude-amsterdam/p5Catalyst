@@ -10,6 +10,7 @@ import { Lang } from '../language/lang';
 import { Slider } from './components/controllers/Slider';
 import { Textbox } from './components/controllers/Textbox';
 import { Crementer } from './components/controllers/Crementer';
+import { ColourBoxes } from './components/controllers/ColourBoxes';
 import type { State, Config, LangCode } from '../types';
 
 /**
@@ -396,4 +397,5 @@ export {
 	Slider,
 	Textbox,
 	Crementer,
+	ColourBoxes,
 };

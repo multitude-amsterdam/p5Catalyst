@@ -66,4 +66,12 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Controller;
+	addColourBoxes: (
+		name: string,
+		labelStr: string,
+		colours: p5.Color[],
+		defaultIndex: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
 }
