@@ -38,7 +38,7 @@ class GUIForP5 {
 		this.div = p5Instance.createDiv();
 		this.div.id('gui');
 		this.p5Instance = p5Instance;
-		this.lang = new Lang();
+		this.lang = new Lang(config.userDictionary);
 		this.lang.setup(config.defaultLanguage as LangCode);
 		this.state = state;
 

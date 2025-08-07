@@ -1,4 +1,4 @@
-import type { LangCode } from '../types';
+import type { Dictionary, LangCode } from '../types';
 import { dictionary } from './dictionary';
 /**
  * @fileoverview Simple helper class {@link Lang} used to translate GUI
@@ -18,6 +18,7 @@ const availableLangKeys = Object.keys(dictionary[Object.keys(dictionary)[0]]);
 export class Lang {
 	static verbose = false;
 	langKey: LangCode;
+	dictionary: Dictionary;
 
 	static getURLLangKey() {
 		// form: "?lang=nl"
@@ -36,8 +37,10 @@ export class Lang {
 		return urlLangKey;
 	}
 
-	constructor() {
+	constructor(userDictionary?: Dictionary) {
+		console.log(userDictionary);
 		this.langKey = 'en';
+		this.dictionary = { ...dictionary, ...userDictionary };
 	}
 
 	/**
@@ -68,8 +71,8 @@ export class Lang {
 	): string {
 		// recursively replace all hotStrings in str with their translations
 		let replaced = str;
-		for (let hotString in dictionary) {
-			const translation = dictionary[hotString][this.langKey];
+		for (let hotString in this.dictionary) {
+			const translation = this.dictionary[hotString][this.langKey];
 			if (Lang.verbose && str.match(hotString) != null)
 				console.log(hotString, translation);
 			replaced = replaced.replaceAll(hotString, translation);

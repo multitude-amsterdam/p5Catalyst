@@ -1,7 +1,7 @@
 import type { GUIControllerInterface } from './gui_interface';
 import type { State } from './construction';
-import type { Resolution } from '../plugins/resolution_plugin';
 import type { GUIForP5 } from '../gui/gui';
+import type { Dictionary } from './lang';
 
 export interface Plugin {
 	name: string;
@@ -12,5 +12,5 @@ export interface Plugin {
 
 export interface Config {
 	defaultLanguage?: string;
-	defaultResolution?: Resolution;
+	userDictionary?: Dictionary;
 }

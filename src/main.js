@@ -19,13 +19,18 @@ const sketchFunction = async (sketch, state) => {
 
 const plugins = [
 	catalyst.resolutionPlugin(catalyst.resolutionPresets),
-	catalyst.languagePlugin('nl'),
+	catalyst.languagePlugin('nl', {
+		LANG_SLEEP: {
+			nl: 'slaapen',
+			en: 'sleep',
+		},
+	}),
 ];
 
 catalyst.initialize(
 	sketchFunction,
 	gui => {
-		gui.addTitle(20, 'LANG_WIDTH', false);
+		gui.addTitle(20, 'LANG_SLEEP', false);
 	},
 	plugins
 );
