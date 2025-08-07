@@ -9,6 +9,7 @@ import { Toggle } from './components/controllers/Toggle';
 import { Lang } from '../language/lang';
 import { Slider } from './components/controllers/Slider';
 import { Textbox } from './components/controllers/Textbox';
+import { Crementer } from './components/controllers/Crementer';
 import type { State, Config, LangCode } from '../types';
 
 /**
@@ -394,4 +395,5 @@ export {
 	Toggle,
 	Slider,
 	Textbox,
+	Crementer,
 };

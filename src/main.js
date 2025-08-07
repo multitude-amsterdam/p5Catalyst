@@ -43,6 +43,7 @@ catalyst.initialize(
 				console.log(value);
 			}
 		);
+		gui.addCrementer('crementer', 'crementer', 0, 10, 5, 1);
 	},
 	plugins
 );

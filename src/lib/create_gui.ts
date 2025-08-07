@@ -125,6 +125,29 @@ export const createGUI = (
 			);
 			return gui.addController(textbox);
 		},
+		addCrementer: (
+			name,
+			labelStr,
+			minVal,
+			maxVal,
+			defaultVal,
+			stepSize,
+			valueCallback,
+			setupCallback
+		) => {
+			const crementer = new components.Crementer(
+				gui,
+				name,
+				labelStr,
+				minVal,
+				maxVal,
+				defaultVal,
+				stepSize,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(crementer);
+		},
 	};
 
 	userGUI?.(guiInterface, container.state);

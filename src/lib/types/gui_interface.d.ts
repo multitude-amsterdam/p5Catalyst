@@ -56,4 +56,14 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Controller;
+	addCrementer: (
+		name: string,
+		labelStr: string,
+		minVal: number,
+		maxVal: number,
+		defaultVal: number,
+		stepSize: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
 }
