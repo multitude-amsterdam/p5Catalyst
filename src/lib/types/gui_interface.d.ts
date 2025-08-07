@@ -31,4 +31,12 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Controller;
+	addToggle: (
+		name: string,
+		labelStr0: string,
+		labelStr1: string,
+		isToggled: boolean,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
 }

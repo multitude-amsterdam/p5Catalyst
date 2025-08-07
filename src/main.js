@@ -31,6 +31,7 @@ catalyst.initialize(
 	sketchFunction,
 	gui => {
 		gui.addTitle(20, 'LANG_SLEEP', false);
+		gui.addToggle('toggle', 'true', 'false', false);
 	},
 	plugins
 );

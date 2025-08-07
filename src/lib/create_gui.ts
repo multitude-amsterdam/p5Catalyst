@@ -67,6 +67,25 @@ export const createGUI = (
 			);
 			return gui.addController(resolutionSelect);
 		},
+		addToggle: (
+			name,
+			labelStr0,
+			labelStr1,
+			isToggled,
+			valueCallback,
+			setupCallback
+		) => {
+			const toggle = new components.Toggle(
+				gui,
+				name,
+				labelStr0,
+				labelStr1,
+				isToggled,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(toggle);
+		},
 	};
 
 	userGUI?.(guiInterface, state);
