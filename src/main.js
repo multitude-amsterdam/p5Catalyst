@@ -22,12 +22,10 @@ const plugins = [
 	catalyst.languagePlugin('nl'),
 ];
 
-catalyst.createContainer(sketchFunction);
-
-// catalyst.initialize(
-// 	sketchFunction,
-// 	gui => {
-// 		gui.addTitle(20, 'LANG_WIDTH', false);
-// 	},
-// 	plugins
-// );
+catalyst.initialize(
+	sketchFunction,
+	gui => {
+		gui.addTitle(20, 'LANG_WIDTH', false);
+	},
+	plugins
+);
