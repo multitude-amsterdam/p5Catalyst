@@ -8,6 +8,7 @@ import { ResolutionSelect } from './components/controllers/ResolutionSelect';
 import { Toggle } from './components/controllers/Toggle';
 import { Lang } from '../language/lang';
 import { Slider } from './components/controllers/Slider';
+import { Textbox } from './components/controllers/Textbox';
 import type { State, Config, LangCode } from '../types';
 
 /**
@@ -392,4 +393,5 @@ export {
 	ResolutionSelect,
 	Toggle,
 	Slider,
+	Textbox,
 };

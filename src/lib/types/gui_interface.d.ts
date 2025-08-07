@@ -49,4 +49,11 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback: setupCallback
 	) => Controller;
+	addTextbox: (
+		name: string,
+		labelStr: string,
+		defaultVal: string,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
 }

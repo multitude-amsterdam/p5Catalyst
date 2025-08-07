@@ -108,6 +108,23 @@ export const createGUI = (
 			);
 			return gui.addController(slider);
 		},
+		addTextbox: (
+			name,
+			labelStr,
+			defaultVal,
+			valueCallback,
+			setupCallback
+		) => {
+			const textbox = new components.Textbox(
+				gui,
+				name,
+				labelStr,
+				defaultVal,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(textbox);
+		},
 	};
 
 	userGUI?.(guiInterface, container.state);
