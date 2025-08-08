@@ -11,6 +11,7 @@ import { Slider } from './controllers/Slider';
 import { Textbox } from './controllers/Textbox';
 import { TextFileLoader } from './controllers/TextFileLoader';
 import { Toggle } from './controllers/Toggle';
+import { XYSlider } from './controllers/XYSlider';
 
 import { Title } from './fields/Title';
 import { TextField } from './fields/Textfield';
@@ -31,6 +32,7 @@ export {
 	ResolutionSelect,
 	Select,
 	Slider,
+	XYSlider,
 	Textbox,
 	ResolutionTextboxes,
 	TextFileLoader,

@@ -126,6 +126,38 @@ export const createGUI = (
 			);
 			return gui.addController(slider);
 		},
+		addXYSlider: (
+			name,
+			labelStr,
+			minValX,
+			maxValX,
+			defaultValX,
+			stepSizeX,
+			minValY,
+			maxValY,
+			defaultValY,
+			stepSizeY,
+			valueCallback,
+			setupCallback
+		) => {
+			const xySlider = new components.XYSlider(
+				gui,
+				name,
+				labelStr,
+				minValX,
+				maxValX,
+				defaultValX,
+				stepSizeX,
+				minValY,
+				maxValY,
+				defaultValY,
+				stepSizeY,
+				valueCallback,
+				setupCallback
+			);
+
+			return gui.addController(xySlider);
+		},
 		addTextbox: (
 			name,
 			labelStr,

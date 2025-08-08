@@ -59,6 +59,20 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback: setupCallback
 	) => Controller;
+	addXYSlider: (
+		name: string,
+		labelStr: string,
+		minValX: number,
+		maxValX: number,
+		defaultValX: number,
+		stepSizeX: number,
+		minValY: number,
+		maxValY: number,
+		defaultValY: number,
+		stepSizeY: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
 	addTextbox: (
 		name: string,
 		labelStr: string,

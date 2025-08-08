@@ -1,3 +1,4 @@
+import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
 import type { GUIForP5 } from '../../gui';
 import { ValuedController } from '../../valued_controller';
@@ -65,12 +66,12 @@ export class ResolutionTextboxes extends ValuedController {
 		}
 	}
 
-	// setValue(vec) {
-	// 	this.value = vec;
-	// 	this.wBox.setValue(vec.w);
-	// 	this.hBox.setValue(vec.h);
-	// 	if (this.doUpdateChangeSet()) changeSet.save();
-	// }
+	setValue(vec: p5.Vector) {
+		this.value = vec;
+		this.wBox.setValue(vec.x.toString());
+		this.hBox.setValue(vec.y.toString());
+		// if (this.doUpdateChangeSet()) changeSet.save();
+	}
 
 	/**
 	 * Sets the width and height values directly.
