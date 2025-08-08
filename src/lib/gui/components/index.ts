@@ -13,6 +13,7 @@ import { Textbox } from './controllers/Textbox';
 import { TextFileLoader } from './controllers/TextFileLoader';
 import { Toggle } from './controllers/Toggle';
 import { XYSlider } from './controllers/XYSlider';
+import { Textarea } from './controllers/TextArea';
 
 import { Title } from './fields/Title';
 import { TextField } from './fields/Textfield';
@@ -37,6 +38,7 @@ export {
 	XYSlider,
 	Textbox,
 	ResolutionTextboxes,
+	Textarea,
 	TextFileLoader,
 	Toggle,
 };

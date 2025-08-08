@@ -86,6 +86,13 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Controller;
+	addTextArea: (
+		name: string,
+		labelStr: string,
+		defaultVal: string,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
 	addCrementer: (
 		name: string,
 		labelStr: string,

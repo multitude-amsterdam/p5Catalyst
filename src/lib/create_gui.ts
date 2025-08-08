@@ -184,6 +184,23 @@ export const createGUI = (
 			);
 			return gui.addController(resbox);
 		},
+		addTextArea: (
+			name,
+			labelStr,
+			defaultVal,
+			valueCallback,
+			setupCallback
+		) => {
+			const textarea = new components.Textarea(
+				gui,
+				name,
+				labelStr,
+				defaultVal,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(textarea);
+		},
 		addCrementer: (
 			name,
 			labelStr,
