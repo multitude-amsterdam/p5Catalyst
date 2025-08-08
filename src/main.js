@@ -5,6 +5,7 @@ const sketchFunction = async (sketch, state) => {
 	state.width = 50;
 	state.height = 300;
 	state.color;
+	state.loadedImage;
 
 	let img;
 
@@ -54,6 +55,13 @@ catalyst.initialize(
 			0,
 			(controller, value) => {
 				state.color = value;
+			}
+		);
+		gui.addImageLoader(
+			'imageLoader',
+			'imageLoader',
+			(controller, value) => {
+				state.loadedImage = value;
 			}
 		);
 	},

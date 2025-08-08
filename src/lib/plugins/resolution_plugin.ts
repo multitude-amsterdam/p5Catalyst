@@ -56,7 +56,6 @@ export const resolutionPresets = [
 	'TikTok LANG_SQUARE: 1080 x 1080',
 
 	'PowerPoint: 1920 x 1080',
-	'HELLO',
 
 	getAPaperResolutionOptionAtDpi(5, 300),
 	getAPaperResolutionOptionAtDpi(4, 300),

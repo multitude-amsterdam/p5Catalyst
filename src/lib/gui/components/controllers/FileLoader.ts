@@ -1,8 +1,9 @@
+import type p5 from 'p5';
 import type {
 	setupCallback,
 	valueCallback,
-	fileReadyCallback,
 	controllerCallback,
+	fileReadyCallback,
 } from '../../../types';
 import type { GUIForP5 } from '../../gui';
 import { Button } from './Button';
@@ -20,15 +21,15 @@ export class FileLoader extends Button {
 
 	/**
 	 * The file object.
-	 * @type {File}
+	 * @type {p5.File}
 	 */
-	file: File | undefined;
+	file?: p5.File | p5.Element;
 
 	/**
 	 * The file name.
 	 * @type {string}
 	 */
-	fileName: string | undefined;
+	fileName?: string;
 
 	callback: controllerCallback;
 

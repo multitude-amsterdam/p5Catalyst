@@ -167,6 +167,16 @@ export const createGUI = (
 			);
 			return gui.addController(colourBoxes);
 		},
+		addImageLoader: (name, labelStr, valueCallback, setupCallback) => {
+			const imageLoader = new components.ImageLoader(
+				gui,
+				name,
+				labelStr,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(imageLoader);
+		},
 	};
 
 	userGUI?.(guiInterface, container.state);

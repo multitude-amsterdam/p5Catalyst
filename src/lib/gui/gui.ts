@@ -12,6 +12,7 @@ import { Textbox } from './components/controllers/Textbox';
 import { Crementer } from './components/controllers/Crementer';
 import { ColourBoxes } from './components/controllers/ColourBoxes';
 import { FileLoader } from './components/controllers/FileLoader';
+import { ImageLoader } from './components/controllers/ImageLoader';
 import type { State, Config, LangCode } from '../types';
 
 /**
@@ -400,4 +401,5 @@ export {
 	Crementer,
 	ColourBoxes,
 	FileLoader,
+	ImageLoader,
 };
