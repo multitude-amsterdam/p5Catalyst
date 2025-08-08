@@ -19,6 +19,7 @@ export interface GUIControllerInterface {
 		altText: string,
 		doAlignCenter?: boolean
 	) => Field;
+	addDivider: () => Field;
 	addButton: (
 		name: string,
 		labelStr: string,

@@ -34,6 +34,7 @@ catalyst.initialize(
 	sketchFunction,
 	(gui, state) => {
 		gui.addSlider('slider', 'slider', 0, 10, 5, 1);
+		gui.addDivider();
 	},
 	plugins
 );

@@ -14,13 +14,13 @@ import { Toggle } from './controllers/Toggle';
 import { Title } from './fields/Title';
 import { TextField } from './fields/Textfield';
 import { ImageField } from './fields/ImageField';
-import { Label } from '../controller';
+import { Divider } from './fields/Divider';
 
 export {
 	Title,
-	Label,
 	TextField,
 	ImageField,
+	Divider,
 	Button,
 	ColourBoxes,
 	Crementer,

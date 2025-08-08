@@ -34,6 +34,10 @@ export const createGUI = (
 			);
 			return gui.addField(imageField);
 		},
+		addDivider: () => {
+			const divider = new components.Divider(gui);
+			return gui.addField(divider);
+		},
 		addButton: (name, labelStr, callback?, setupCallback?) => {
 			const button = new components.Button(
 				gui,
