@@ -33,7 +33,7 @@ const plugins = [
 catalyst.initialize(
 	sketchFunction,
 	(gui, state) => {
-		gui.addImageField('assets/image.jpg', 'altText sry');
+		gui.addSlider('slider', 'slider', 0, 10, 5, 1);
 	},
 	plugins
 );

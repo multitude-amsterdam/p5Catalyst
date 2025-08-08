@@ -62,11 +62,11 @@ export class Controller extends Field {
 	 */
 	name: string;
 
-	// /**
-	//  * The label for the controller.
-	//  * @type {string}
-	//  */
-	// label: string;
+	/**
+	 * The label for the controller.
+	 * @type {Label}
+	 */
+	label?: Label;
 
 	/**
 	 * The wrapper div for the controller.
@@ -115,10 +115,10 @@ export class Controller extends Field {
 		this.gui = gui;
 		this.name = name;
 
-		// if (labelStr !== undefined) {
-		// 	labelStr = lang.process(labelStr, true);
-		// 	this.label = new Label(this, labelStr);
-		// }
+		if (labelStr !== undefined) {
+			labelStr = gui.lang.process(labelStr, true);
+			this.label = new Label(gui, this, labelStr, this.div);
+		}
 
 		this.controllerWrapper = gui.p5Instance.createDiv();
 		this.controllerWrapper.class('controller-wrapper');
@@ -199,4 +199,38 @@ export class Controller extends Field {
 	// 		Controller._doUpdateChangeSet
 	// 	);
 	// }
+}
+
+/**
+ * Text label associated with a controller.
+ * @extends Field
+ */
+export class Label extends Field {
+	controller: Controller;
+	text?: string;
+	/**
+	 * Creates a new Label instance.
+	 * @param {Controller} controller - The controller this label is associated with.
+	 * @param {string} text - The text content of the label.
+	 */
+	constructor(
+		gui: GUIForP5,
+		controller: Controller,
+		text: string,
+		parentDiv?: p5.Element
+	) {
+		super(gui, '', 'gui-label', parentDiv);
+		this.controller = controller;
+		text = gui.lang.process(text, true);
+		this.setText(text);
+	}
+
+	/**
+	 * Sets the text content of the label.
+	 * @param {string} text - The new text content for the label.
+	 */
+	setText(text: string) {
+		this.text = text;
+		this.div.elt.innerText = text;
+	}
 }
