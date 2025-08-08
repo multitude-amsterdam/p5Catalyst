@@ -85,7 +85,6 @@ export class ColourBoxes extends ValuedController {
 	}
 
 	setValue(colObj: string) {
-		console.log(colObj);
 		const index = this.colours.findIndex(col => col === colObj);
 		if (index < 0) {
 			throw new Error(colObj + ' can not be found in colours.');

@@ -99,8 +99,16 @@ export interface GUIControllerInterface {
 	addColourBoxes: (
 		name: string,
 		labelStr: string,
-		colours: p5.Color[],
+		colours: string[],
 		defaultIndex: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
+	addMultiColourBoxes: (
+		name: string,
+		labelStr: string,
+		colours: string[],
+		defaultIndices: number[],
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Controller;

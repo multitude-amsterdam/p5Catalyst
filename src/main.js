@@ -35,6 +35,24 @@ catalyst.initialize(
 	(gui, state) => {
 		gui.addSlider('slider', 'slider', 0, 10, 5, 1);
 		gui.addDivider();
+		gui.addMultiColourBoxes(
+			'multiColor',
+			'multiColor',
+			['red', 'green', 'blue'],
+			[0, 1],
+			(controller, value) => {
+				console.log(value);
+			}
+		);
+		gui.addColourBoxes(
+			'colorBox',
+			'colorBox',
+			['red', 'purple', 'yellow'],
+			0,
+			(controller, value) => {
+				console.log(value);
+			}
+		);
 	},
 	plugins
 );

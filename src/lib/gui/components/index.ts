@@ -1,5 +1,6 @@
 import { Button } from './controllers/Button';
 import { ColourBoxes } from './controllers/ColourBoxes';
+import { MultiColourBoxes } from './controllers/MultiColourBoxes';
 import { Crementer } from './controllers/Crementer';
 import { FileLoader } from './controllers/FileLoader';
 import { ImageLoader } from './controllers/ImageLoader';
@@ -25,6 +26,7 @@ export {
 	Divider,
 	Button,
 	ColourBoxes,
+	MultiColourBoxes,
 	Crementer,
 	FileLoader,
 	ImageLoader,

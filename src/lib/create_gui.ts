@@ -226,6 +226,26 @@ export const createGUI = (
 			);
 			return gui.addController(colourBoxes);
 		},
+		addMultiColourBoxes: (
+			name,
+			labelStr,
+			colours,
+			defaultIndices,
+			valueCallback,
+			setupCallback
+		) => {
+			const multiColourBoxes = new components.MultiColourBoxes(
+				gui,
+				name,
+				labelStr,
+				colours,
+				defaultIndices,
+				valueCallback,
+				setupCallback
+			);
+
+			return gui.addController(multiColourBoxes);
+		},
 		addTextLoader: (name, labelStr, valueCallback, setupCallback) => {
 			const textLoader = new components.TextFileLoader(
 				gui,
