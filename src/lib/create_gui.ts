@@ -12,13 +12,18 @@ export const createGUI = (
 	const gui = new GUIForP5(container.p5Instance, container.state, config);
 
 	const guiInterface: GUIControllerInterface = {
-		addField: (id, className) => {
-			const field = new components.Field(gui, id, className);
-			return gui.addField(field);
-		},
-		addTitle: (hSize, text, doAlignCenter = true) => {
+		addTitle: (hSize, text, doAlignCenter = false) => {
 			const title = new components.Title(gui, hSize, text, doAlignCenter);
 			return gui.addField(title);
+		},
+		addTextField: (text, className, doAlignCenter = false) => {
+			const textField = new components.Textfield(
+				gui,
+				text,
+				className,
+				doAlignCenter
+			);
+			return gui.addField(textField);
 		},
 		addButton: (name, labelStr, callback?, setupCallback?) => {
 			const button = new components.Button(

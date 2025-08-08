@@ -8,8 +8,12 @@ import type {
 } from './controller';
 
 export interface GUIControllerInterface {
-	addField: (id: string, className: string) => Field;
 	addTitle: (hSize: number, text: string, doAlignCenter?: boolean) => Title;
+	addTextField: (
+		text: string,
+		className?: string,
+		doAlignCenter?: boolean
+	) => Field;
 	addButton: (
 		name: string,
 		labelStr: string,

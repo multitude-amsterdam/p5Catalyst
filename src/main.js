@@ -5,7 +5,6 @@ const sketchFunction = async (sketch, state) => {
 	state.width = 50;
 	state.height = 300;
 	state.color;
-	state.loadedImage;
 
 	let img;
 
@@ -35,6 +34,7 @@ catalyst.initialize(
 	sketchFunction,
 	(gui, state) => {
 		gui.addTitle(20, 'LANG_SLEEP', false);
+		gui.addTextField('hey there, this is a very neat text :)');
 		gui.addToggle('toggle', 'true', 'false', false);
 		gui.addSlider('slider', 'slider', 0, 500, 5, 1, (controller, value) => {
 			state.size = value;

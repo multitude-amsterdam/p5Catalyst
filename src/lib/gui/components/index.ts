@@ -12,12 +12,11 @@ import { TextFileLoader } from './controllers/TextFileLoader';
 import { Toggle } from './controllers/Toggle';
 
 import { Title } from './fields/Title';
-
-import { Field } from '../field';
+import { Textfield } from './fields/Textfield';
 
 export {
-	Field,
 	Title,
+	Textfield,
 	Button,
 	ColourBoxes,
 	Crementer,
