@@ -14,6 +14,11 @@ export interface GUIControllerInterface {
 		className?: string,
 		doAlignCenter?: boolean
 	) => Field;
+	addImageField: (
+		url: string,
+		altText: string,
+		doAlignCenter?: boolean
+	) => Field;
 	addButton: (
 		name: string,
 		labelStr: string,

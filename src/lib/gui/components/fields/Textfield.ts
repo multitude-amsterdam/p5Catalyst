@@ -5,7 +5,7 @@ import type { GUIForP5 } from '../../gui';
  * Block of explanatory text.
  * @extends Field
  */
-export class Textfield extends Field {
+export class TextField extends Field {
 	constructor(
 		gui: GUIForP5,
 		text: string,

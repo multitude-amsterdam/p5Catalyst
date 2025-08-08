@@ -17,13 +17,22 @@ export const createGUI = (
 			return gui.addField(title);
 		},
 		addTextField: (text, className, doAlignCenter = false) => {
-			const textField = new components.Textfield(
+			const textField = new components.TextField(
 				gui,
 				text,
 				className,
 				doAlignCenter
 			);
 			return gui.addField(textField);
+		},
+		addImageField: (url, altText, doAlignCenter = false) => {
+			const imageField = new components.ImageField(
+				gui,
+				url,
+				altText,
+				doAlignCenter
+			);
+			return gui.addField(imageField);
 		},
 		addButton: (name, labelStr, callback?, setupCallback?) => {
 			const button = new components.Button(

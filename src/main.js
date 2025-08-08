@@ -33,43 +33,7 @@ const plugins = [
 catalyst.initialize(
 	sketchFunction,
 	(gui, state) => {
-		gui.addTitle(20, 'LANG_SLEEP', false);
-		gui.addTextField('hey there, this is a very neat text :)');
-		gui.addToggle('toggle', 'true', 'false', false);
-		gui.addSlider('slider', 'slider', 0, 500, 5, 1, (controller, value) => {
-			state.size = value;
-		});
-		gui.addTextbox(
-			'textbox',
-			'textbox',
-			'hey there',
-			(controller, value) => {
-				console.log(value);
-			}
-		);
-		gui.addCrementer('crementer', 'crementer', 0, 10, 5, 1);
-		gui.addColourBoxes(
-			'boxes',
-			'boxes',
-			['red', 'blue'],
-			0,
-			(controller, value) => {
-				state.color = value;
-			}
-		);
-		gui.addImageLoader(
-			'imageLoader',
-			'imageLoader',
-			(controller, value) => {
-				state.loadedImage = value;
-			}
-		);
-		gui.addJSONLoader('json', 'json', (controller, value) => {
-			console.log(value);
-		});
-		gui.addTextLoader('text', 'text', (controller, value) => {
-			console.log(value);
-		});
+		gui.addImageField('assets/image.jpg', 'altText sry');
 	},
 	plugins
 );
