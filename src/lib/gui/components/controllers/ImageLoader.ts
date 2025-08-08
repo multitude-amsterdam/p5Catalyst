@@ -1,6 +1,7 @@
 import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
-import { FileLoader, type GUIForP5 } from '../../gui';
+import type { GUIForP5 } from '../../gui';
+import { FileLoader } from './FileLoader';
 
 /**
  * Loader that converts files to p5.Image instances.

@@ -1,6 +1,6 @@
 import p5 from 'p5';
 import { GUIForP5 } from './gui/gui';
-import * as components from './gui/gui';
+import * as components from './gui/components';
 
 import type { GUIControllerInterface, State, Config, Container } from './types';
 

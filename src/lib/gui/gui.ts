@@ -1,27 +1,14 @@
 import type p5 from 'p5';
 import { Field } from './field';
-import { Title } from './components/fields/Title';
 import { Controller } from './controller';
-import { Button } from './components/controllers/Button';
-import { Select } from './components/controllers/Select';
-import { ResolutionSelect } from './components/controllers/ResolutionSelect';
-import { Toggle } from './components/controllers/Toggle';
 import { Lang } from '../language/lang';
-import { Slider } from './components/controllers/Slider';
-import { Textbox } from './components/controllers/Textbox';
-import { Crementer } from './components/controllers/Crementer';
-import { ColourBoxes } from './components/controllers/ColourBoxes';
-import { FileLoader } from './components/controllers/FileLoader';
-import { ImageLoader } from './components/controllers/ImageLoader';
-import { JSONFileLoader } from './components/controllers/JSONFileLoader';
-import { TextFileLoader } from './components/controllers/TextFileLoader';
 import type { State, Config, LangCode } from '../types';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
  * Handles layout, theming, controller management, and state persistence.
  */
-class GUIForP5 {
+export class GUIForP5 {
 	/**
 	 * Tracks whether typing is happening within the GUI.
 	 * This is used to prevent `keyPressed()` actions (like randomization)
@@ -389,21 +376,3 @@ class GUIForP5 {
 	//     Controller._doUpdateChangeSet = true;
 	//   }
 }
-
-export {
-	GUIForP5,
-	Field,
-	Title,
-	Button,
-	Select,
-	ResolutionSelect,
-	Toggle,
-	Slider,
-	Textbox,
-	Crementer,
-	ColourBoxes,
-	FileLoader,
-	ImageLoader,
-	JSONFileLoader,
-	TextFileLoader,
-};
