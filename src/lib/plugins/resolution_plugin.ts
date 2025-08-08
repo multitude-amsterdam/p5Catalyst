@@ -1,17 +1,22 @@
-import type { ResolutionSelect, ResolutionTextboxes } from '../gui/components';
-import type { GUIForP5 } from '../gui/gui';
-import type {
-	State,
-	Plugin,
-	GUIControllerInterface,
-	Container,
-} from '../types';
+import type { ResolutionTextboxes } from '../gui/components';
+import type { State, Plugin, GUIControllerInterface } from '../types';
 
 // Language plugin
 export const resolutionPlugin: Plugin = (resolutionOptions: string[]) => ({
 	name: 'resolution',
 	setup: (gui: GUIControllerInterface, state: State) => {
-		gui.addResolutionSelect('resolutionSelect', resolutionOptions, 0);
+		gui.addResolutionSelect(
+			'resolutionSelect',
+			resolutionOptions,
+			0,
+			(controller, value) => {
+				const resbox = gui.getController(
+					'resolutionTextboxes'
+				) as ResolutionTextboxes;
+				if (resbox)
+					resbox.setValueOnlyDisplay(state.width, state.height);
+			}
+		);
 		gui.addResolutionTextBoxes(state.width, state.height);
 	},
 });

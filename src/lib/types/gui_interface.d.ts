@@ -108,4 +108,5 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Controller;
+	getController: (name: string) => Controller | undefined;
 }

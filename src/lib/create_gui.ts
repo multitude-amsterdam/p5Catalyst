@@ -224,6 +224,9 @@ export const createGUI = (
 			);
 			return gui.addController(imageLoader);
 		},
+		getController: name => {
+			return gui.getController(name);
+		},
 	};
 
 	userGUI?.(guiInterface, container.state);
