@@ -66,6 +66,12 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Controller;
+	addResolutionTextBoxes: (
+		defaultWidth: number,
+		defaultHeight: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
 	addCrementer: (
 		name: string,
 		labelStr: string,

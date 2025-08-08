@@ -5,6 +5,7 @@ import { FileLoader } from './controllers/FileLoader';
 import { ImageLoader } from './controllers/ImageLoader';
 import { JSONFileLoader } from './controllers/JSONFileLoader';
 import { ResolutionSelect } from './controllers/ResolutionSelect';
+import { ResolutionTextboxes } from './controllers/ResolutionTextBoxes';
 import { Select } from './controllers/Select';
 import { Slider } from './controllers/Slider';
 import { Textbox } from './controllers/Textbox';
@@ -31,6 +32,7 @@ export {
 	Select,
 	Slider,
 	Textbox,
+	ResolutionTextboxes,
 	TextFileLoader,
 	Toggle,
 };

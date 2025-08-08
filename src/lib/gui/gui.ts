@@ -298,28 +298,28 @@ export class GUIForP5 {
 	//     return img;
 	//   }
 
-	//   /**
-	//    * Checks if a controller with the given name exists.
-	//    * @param {string} name
-	//    * @returns {boolean}
-	//    */
-	//   hasName(name) {
-	//     return this.controllers.some((controller) => controller.name == name);
-	//   }
+	/**
+	 * Checks if a controller with the given name exists.
+	 * @param {string} name
+	 * @returns {boolean}
+	 */
+	hasName(name: string): boolean {
+		return this.controllers.some(controller => controller.name == name);
+	}
 
-	//   /**
-	//    * Gets a controller by name.
-	//    * @param {string} name
-	//    * @returns {Controller|undefined}
-	//    */
-	//   getController(name) {
-	//     if (!this.hasName(name)) {
-	//       return undefined;
-	//     }
-	//     return this.controllers[
-	//       this.controllers.map((controller) => controller.name).indexOf(name)
-	//     ];
-	//   }
+	/**
+	 * Gets a controller by name.
+	 * @param {string} name
+	 * @returns {Controller|undefined}
+	 */
+	getController(name: string): Controller | undefined {
+		if (!this.hasName(name)) {
+			return undefined;
+		}
+		return this.controllers[
+			this.controllers.map(controller => controller.name).indexOf(name)
+		];
+	}
 
 	//   /**
 	//    * Gets multiple controllers by an array of names.

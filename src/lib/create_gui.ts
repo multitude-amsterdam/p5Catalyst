@@ -143,6 +143,15 @@ export const createGUI = (
 			);
 			return gui.addController(textbox);
 		},
+		addResolutionTextBoxes: (defaulWidth, defaultHeight, valueCallback) => {
+			const resbox = new components.ResolutionTextboxes(
+				gui,
+				defaulWidth,
+				defaultHeight,
+				valueCallback
+			);
+			return gui.addController(resbox);
+		},
 		addCrementer: (
 			name,
 			labelStr,
