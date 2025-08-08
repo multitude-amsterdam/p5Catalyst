@@ -61,6 +61,7 @@ export class FileLoader extends Button {
 			},
 			setupCallback
 		);
+
 		this.fileType = fileType;
 
 		this.callback = value => {
@@ -69,7 +70,7 @@ export class FileLoader extends Button {
 
 		this.controllerElement = gui.p5Instance.createFileInput(file => {
 			this.file = file;
-			this.fileName = file.file.name;
+			this.fileName = file.name;
 			if (fileReadyCallback) fileReadyCallback(file);
 			this.callback(this.file);
 		});

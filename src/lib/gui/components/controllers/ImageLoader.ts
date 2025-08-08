@@ -31,8 +31,8 @@ export class ImageLoader extends FileLoader {
 		super(
 			gui,
 			name,
-			'image',
 			labelStr,
+			'image',
 			file => {
 				this.img = gui.p5Instance.createImg(file.data, '');
 				this.img.hide();

@@ -13,6 +13,8 @@ import { Crementer } from './components/controllers/Crementer';
 import { ColourBoxes } from './components/controllers/ColourBoxes';
 import { FileLoader } from './components/controllers/FileLoader';
 import { ImageLoader } from './components/controllers/ImageLoader';
+import { JSONFileLoader } from './components/controllers/JSONFileLoader';
+import { TextFileLoader } from './components/controllers/TextFileLoader';
 import type { State, Config, LangCode } from '../types';
 
 /**
@@ -402,4 +404,6 @@ export {
 	ColourBoxes,
 	FileLoader,
 	ImageLoader,
+	JSONFileLoader,
+	TextFileLoader,
 };

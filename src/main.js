@@ -64,6 +64,12 @@ catalyst.initialize(
 				state.loadedImage = value;
 			}
 		);
+		gui.addJSONLoader('json', 'json', (controller, value) => {
+			console.log(value);
+		});
+		gui.addTextLoader('text', 'text', (controller, value) => {
+			console.log(value);
+		});
 	},
 	plugins
 );

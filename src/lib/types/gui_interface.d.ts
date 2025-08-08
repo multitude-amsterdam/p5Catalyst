@@ -74,6 +74,18 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Controller;
+	addTextLoader: (
+		name: string,
+		labelStr: string,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
+	addJSONLoader: (
+		name: string,
+		labelStr: string,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => Controller;
 	addImageLoader: (
 		name: string,
 		labelStr: string,

@@ -167,6 +167,26 @@ export const createGUI = (
 			);
 			return gui.addController(colourBoxes);
 		},
+		addTextLoader: (name, labelStr, valueCallback, setupCallback) => {
+			const textLoader = new components.TextFileLoader(
+				gui,
+				name,
+				labelStr,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(textLoader);
+		},
+		addJSONLoader: (name, labelStr, valueCallback, setupCallback) => {
+			const JSONLoader = new components.JSONFileLoader(
+				gui,
+				name,
+				labelStr,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(JSONLoader);
+		},
 		addImageLoader: (name, labelStr, valueCallback, setupCallback) => {
 			const imageLoader = new components.ImageLoader(
 				gui,
