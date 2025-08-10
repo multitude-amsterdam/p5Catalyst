@@ -18,8 +18,9 @@ export interface Config {
 	defaultLanguage?: string;
 	userDictionary?: Dictionary;
 	fileName?: string;
+	contactMail?: string;
 }
 
-export interface UserConfig extends Pick<Config, 'fileName'> {}
+export interface UserConfig extends Pick<Config, 'fileName' | 'contactMail'> {}
 
 export type imageFileType = 'png' | 'jpg' | 'webp';

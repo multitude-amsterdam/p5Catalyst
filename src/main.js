@@ -2,9 +2,6 @@ import { catalyst } from './lib';
 
 const sketchFunction = async (sketch, state) => {
 	state.size = 50;
-	state.width = 50;
-	state.height = 300;
-	state.color;
 
 	let img;
 
@@ -13,7 +10,6 @@ const sketchFunction = async (sketch, state) => {
 	};
 
 	sketch.draw = () => {
-		sketch.fill(state.color);
 		sketch.image(img, 0, 0, state.width, state.height);
 		sketch.circle(sketch.mouseX, sketch.mouseY, state.size);
 		sketch.circle(200, 200, state.size * 2);
@@ -21,7 +17,10 @@ const sketchFunction = async (sketch, state) => {
 };
 
 const plugins = [
-	catalyst.setConfigPlugin({ fileName: 'mySketch' }),
+	catalyst.setConfigPlugin({
+		fileName: 'mySketch',
+		contactMail: 'maxmustermann@gmx.de',
+	}),
 	catalyst.resolutionPlugin(catalyst.resolutionPresets),
 	catalyst.languagePlugin('en', {
 		LANG_SLEEP: {
@@ -35,7 +34,17 @@ const plugins = [
 catalyst.initialize(
 	sketchFunction,
 	gui => {
-		gui.addTitle(20, 'LANG_SLEEP', false);
+		gui.addSlider(
+			'slider',
+			'slider',
+			0,
+			100,
+			20,
+			1,
+			(controller, value) => {
+				state.size = value;
+			}
+		);
 	},
 	plugins
 );
