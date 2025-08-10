@@ -65,7 +65,7 @@ export const createGUI = (
 				valueCallback,
 				setupCallback
 			);
-			return gui.addController(select);
+			return gui.addController(select, true);
 		},
 		addResolutionSelect: (
 			labelStr,
@@ -101,7 +101,7 @@ export const createGUI = (
 				valueCallback,
 				setupCallback
 			);
-			return gui.addController(toggle);
+			return gui.addController(toggle, true);
 		},
 		addSlider: (
 			name,
@@ -124,7 +124,7 @@ export const createGUI = (
 				valueCallback,
 				setupCallback
 			);
-			return gui.addController(slider);
+			return gui.addController(slider, true);
 		},
 		addXYSlider: (
 			name,
@@ -156,7 +156,7 @@ export const createGUI = (
 				setupCallback
 			);
 
-			return gui.addController(xySlider);
+			return gui.addController(xySlider, true);
 		},
 		addTextbox: (
 			name,
@@ -222,7 +222,7 @@ export const createGUI = (
 				valueCallback,
 				setupCallback
 			);
-			return gui.addController(crementer);
+			return gui.addController(crementer, true);
 		},
 		addColourBoxes: (
 			name,
@@ -292,6 +292,9 @@ export const createGUI = (
 				setupCallback
 			);
 			return gui.addController(imageLoader);
+		},
+		randomize: () => {
+			gui.randomizer.randomize();
 		},
 		getController: name => {
 			return gui.getController(name);

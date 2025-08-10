@@ -20,6 +20,8 @@ import { TextField } from './fields/Textfield';
 import { ImageField } from './fields/ImageField';
 import { Divider } from './fields/Divider';
 
+import { DieIcon } from './DieIcon';
+
 export {
 	Title,
 	TextField,
@@ -41,4 +43,5 @@ export {
 	Textarea,
 	TextFileLoader,
 	Toggle,
+	DieIcon,
 };

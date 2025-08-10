@@ -45,6 +45,9 @@ catalyst.initialize(
 				state.size = value;
 			}
 		);
+		gui.addButton('buttonRandomize', 'LANG_RANDOMIZE', controller => {
+			gui.randomize();
+		});
 	},
 	plugins
 );

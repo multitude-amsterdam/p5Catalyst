@@ -4,6 +4,7 @@ import { Controller } from './controller';
 import { Lang } from '../language/lang';
 import type { State, Config, LangCode } from '../types';
 import type { P5Button } from '../types/controller';
+import { Randomizer } from './randomizer';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -18,7 +19,7 @@ export class GUIForP5 {
 	 */
 	isTypingText: boolean = false;
 	div: p5.Element;
-	//   randomizer: Randomizer;
+	randomizer: Randomizer;
 	p5Instance: p5;
 	state: State;
 	lang: Lang;
@@ -41,7 +42,7 @@ export class GUIForP5 {
 		this.lang.setup(config.defaultLanguage as LangCode);
 		this.state = state;
 
-		// this.randomizer = new Randomizer();
+		this.randomizer = new Randomizer(p5Instance);
 
 		this.darkMode = 'false';
 		this.loadLightDarkMode();
@@ -224,12 +225,12 @@ export class GUIForP5 {
 	//    */
 	addController<T extends Controller>(
 		controller: T,
-		doAddToRandomizerAs = undefined
+		doAddToRandomizerAs?: boolean
 	) {
 		this.addField(controller);
 		this.controllers.push(controller);
-		// if (doAddToRandomizerAs !== undefined)
-		//   this.randomizer.addController(controller, doAddToRandomizerAs);
+		if (doAddToRandomizerAs !== undefined)
+			this.randomizer.addController(controller, doAddToRandomizerAs);
 		return controller;
 	}
 

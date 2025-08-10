@@ -51,12 +51,12 @@ export class ValuedController extends Controller {
 		// if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
-	// /**
-	//  * Randomizes the value of the controller.
-	//  */
-	// randomize() {
-	// 	console.error('No randomize() method.');
-	// }
+	/**
+	 * Randomizes the value of the controller.
+	 */
+	randomize() {
+		console.error('No randomize() method.');
+	}
 
 	// /**
 	//  * Gets serialized form of the value property.

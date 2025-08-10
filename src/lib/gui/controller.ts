@@ -2,6 +2,7 @@ import type { GUIForP5 } from './gui';
 import type { controllerElement, setupCallback } from '../types';
 import { Field } from './field';
 import p5 from 'p5';
+import type { DieIcon } from './components';
 
 /**
  * Base class for all GUI controllers.
@@ -92,11 +93,11 @@ export class Controller extends Field {
 	//  */
 	// consoleText: string;
 
-	// /**
-	//  * The die icon for randomization.
-	//  * @type {DieIcon}
-	//  */
-	// die;
+	/**
+	 * The die icon for randomization.
+	 * @type {DieIcon}
+	 */
+	die?: DieIcon;
 
 	/**
 	 * Constructor for the Controller class.
@@ -179,14 +180,14 @@ export class Controller extends Field {
 	// 	randomizer.addController(this);
 	// }
 
-	// /**
-	//  * Adds a die to the controller.
-	//  * @param {DieIcon} die - The die to add.
-	//  */
-	// addDie(die) {
-	// 	die.imgContainer.parent(this.controllerWrapper);
-	// 	this.die = die;
-	// }
+	/**
+	 * Adds a die to the controller.
+	 * @param {DieIcon} die - The die to add.
+	 */
+	addDie(die: DieIcon) {
+		die.imgContainer.parent(this.controllerWrapper);
+		this.die = die;
+	}
 
 	// /**
 	//  * Checks if the change set should be updated.

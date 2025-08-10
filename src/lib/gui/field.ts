@@ -55,11 +55,11 @@ export class Field {
 	//     if (this.setDisplay) this.setDisplay(); // XYSlider needs this for now
 	//   }
 
-	//   /**
-	//    * Checks if this field is currently hidden.
-	//    * @returns {boolean} True if the field is hidden, false otherwise.
-	//    */
-	//   isHidden() {
-	//     return this.div.elt.style.display == "none";
-	//   }
+	/**
+	 * Checks if this field is currently hidden.
+	 * @returns {boolean} True if the field is hidden, false otherwise.
+	 */
+	isHidden() {
+		return this.div.elt.style.display == 'none';
+	}
 }

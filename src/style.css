@@ -1182,22 +1182,22 @@ a:hover {
 	background-image: url('assets/dice/die (6).svg');
 }
 body:where(.dark-mode) .die-icon--1 {
-	background-image: url('assets/dark-mode/dice/die (1).svg');
+	background-image: url('assets/dice/die (1).svg');
 }
 body:where(.dark-mode) .die-icon--2 {
-	background-image: url('assets/dark-mode/dice/die (2).svg');
+	background-image: url('assets/dice/die (2).svg');
 }
 body:where(.dark-mode) .die-icon--3 {
-	background-image: url('assets/dark-mode/dice/die (3).svg');
+	background-image: url('assets/dice/die (3).svg');
 }
 body:where(.dark-mode) .die-icon--4 {
-	background-image: url('assets/dark-mode/dice/die (4).svg');
+	background-image: url('assets/dice/die (4).svg');
 }
 body:where(.dark-mode) .die-icon--5 {
-	background-image: url('assets/dark-mode/dice/die (5).svg');
+	background-image: url('assets/dice/die (5).svg');
 }
 body:where(.dark-mode) .die-icon--6 {
-	background-image: url('assets/dark-mode/dice/die (6).svg');
+	background-image: url('assets/dice/die (6).svg');
 }
 
 /********************************* CANVAS SECTION *********************************/

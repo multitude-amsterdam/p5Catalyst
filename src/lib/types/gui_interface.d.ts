@@ -155,5 +155,6 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => ImageLoader;
+	randomize: () => void;
 	getController: <T extends Controller>(name: string) => T | undefined;
 }

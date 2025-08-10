@@ -107,10 +107,10 @@ export class Select extends ValuedController {
 		// if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
-	// /**
-	//  * Randomizes the select value.
-	//  */
-	// randomize() {
-	// 	this.setValue(random(this.options));
-	// }
+	/**
+	 * Randomizes the select value.
+	 */
+	randomize() {
+		this.setValue(this.gui.p5Instance.random(this.options));
+	}
 }
