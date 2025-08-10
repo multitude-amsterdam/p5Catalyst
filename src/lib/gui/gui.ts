@@ -196,7 +196,7 @@ export class GUIForP5 {
 	//    * @param {Field} field
 	//    * @returns {Field}
 	//    */
-	addField(field: Field) {
+	addField<T extends Field>(field: T) {
 		this.fields.push(field);
 		return field;
 	}
@@ -243,7 +243,10 @@ export class GUIForP5 {
 	//    * @param {boolean} [doAddToRandomizerAs]
 	//    * @returns {Controller}
 	//    */
-	addController(controller: Controller, doAddToRandomizerAs = undefined) {
+	addController<T extends Controller>(
+		controller: T,
+		doAddToRandomizerAs = undefined
+	) {
 		this.addField(controller);
 		this.controllers.push(controller);
 		// if (doAddToRandomizerAs !== undefined)
