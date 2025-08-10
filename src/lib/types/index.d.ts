@@ -12,12 +12,7 @@ import type { Plugin, Config, UserConfig } from './plugin_types';
 
 import type { GUIControllerInterface } from './gui_interface';
 
-import type {
-	State,
-	SketchFunction,
-	Container,
-	GUISetupFunction,
-} from './construction';
+import type { State, SketchFunction, Container } from './construction';
 
 export type {
 	controllerElement,
@@ -35,5 +30,4 @@ export type {
 	State,
 	Container,
 	SketchFunction,
-	GUISetupFunction,
 };
