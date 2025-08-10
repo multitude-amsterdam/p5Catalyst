@@ -38,7 +38,6 @@ export class Lang {
 	}
 
 	constructor(userDictionary?: Dictionary) {
-		console.log(userDictionary);
 		this.langKey = 'en';
 		this.dictionary = { ...dictionary, ...userDictionary };
 	}

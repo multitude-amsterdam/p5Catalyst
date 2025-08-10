@@ -12,9 +12,14 @@ export class Field {
 	 * @param {string} className - The CSS class to assign to the field (optional).
 	 */
 	div: p5.Element;
-	constructor(gui: GUIForP5, id: string, className: string) {
+	constructor(
+		gui: GUIForP5,
+		id: string,
+		className: string,
+		parentDiv?: p5.Element
+	) {
 		this.div = gui.p5Instance.createDiv();
-		this.div.parent(gui.div);
+		this.div.parent(parentDiv || gui.div);
 		if (id != '') this.div.id(id);
 		this.div.class(className);
 	}

@@ -1075,13 +1075,13 @@ input[type='checkbox']:checked::before {
 	background-image: url('assets/dark-mode-button/auto-mode-icon.svg');
 }
 body:where(.dark-mode) .dark-mode-button--light {
-	background-image: url('assets/dark-mode/dark-mode-button/light-mode-icon.svg');
+	background-image: url('assets/dark-mode-button/light-mode-icon.svg');
 }
 body:where(.dark-mode) .dark-mode-button--dark {
-	background-image: url('assets/dark-mode/dark-mode-button/dark-mode-icon.svg');
+	background-image: url('assets/dark-mode-button/dark-mode-icon.svg');
 }
 body:where(.dark-mode) .dark-mode-button--auto {
-	background-image: url('assets/dark-mode/dark-mode-button/auto-mode-icon.svg');
+	background-image: url('assets/dark-mode-button/auto-mode-icon.svg');
 }
 
 /********************************* VIDEO LOADING *********************************/

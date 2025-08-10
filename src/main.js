@@ -4,6 +4,8 @@ const sketchFunction = async (sketch, state) => {
 	state.size = 50;
 	state.width = 50;
 	state.height = 300;
+	state.color;
+
 	let img;
 
 	sketch.setup = async () => {
@@ -11,6 +13,7 @@ const sketchFunction = async (sketch, state) => {
 	};
 
 	sketch.draw = () => {
+		sketch.fill(state.color);
 		sketch.image(img, 0, 0, state.width, state.height);
 		sketch.circle(sketch.mouseX, sketch.mouseY, state.size);
 		sketch.circle(200, 200, state.size * 2);
@@ -29,7 +32,7 @@ const plugins = [
 
 catalyst.initialize(
 	sketchFunction,
-	(gui, state) => {
+	gui => {
 		gui.addTitle(20, 'LANG_SLEEP', false);
 	},
 	plugins

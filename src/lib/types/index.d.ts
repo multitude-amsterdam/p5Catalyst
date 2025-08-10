@@ -3,6 +3,7 @@ import type {
 	controllerCallback,
 	valueCallback,
 	setupCallback,
+	fileReadyCallback,
 } from './controller';
 
 import type { LangCode, Dictionary, DictionaryEntry } from './lang';
@@ -23,6 +24,7 @@ export type {
 	controllerCallback,
 	valueCallback,
 	setupCallback,
+	fileReadyCallback,
 	LangCode,
 	Dictionary,
 	DictionaryEntry,

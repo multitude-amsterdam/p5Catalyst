@@ -13,7 +13,6 @@ const initialize = async (
 ) => {
 	const config: Config = {};
 	userPlugins?.forEach(plugin => plugin.beforeInit?.(config));
-	console.log(config);
 
 	const container = await createContainer(sketchFunction);
 	const gui = createGUI(container, config, (gui, state) => {

@@ -1,20 +1,25 @@
+import type { ResolutionTextboxes } from '../gui/components';
 import type { State, Plugin, GUIControllerInterface } from '../types';
 
 // Language plugin
 export const resolutionPlugin: Plugin = (resolutionOptions: string[]) => ({
 	name: 'resolution',
-	// beforeInit: (config: Config) => {
-	// 	config.defaultResolution = resolution;
-	// },
 	setup: (gui: GUIControllerInterface, state: State) => {
-		gui.addResolutionSelect('resolution', resolutionOptions, 0);
+		gui.addResolutionSelect(
+			'resolutionSelect',
+			resolutionOptions,
+			0,
+			(controller, value) => {
+				const resbox = gui.getController(
+					'resolutionTextboxes'
+				) as ResolutionTextboxes;
+				if (resbox)
+					resbox.setValueOnlyDisplay(state.width, state.height);
+			}
+		);
+		gui.addResolutionTextBoxes(state.width, state.height);
 	},
 });
-
-export interface Resolution {
-	width: number;
-	height: number;
-}
 
 export const resolutionPresets = [
 	'Full-HD (1080p) LANG_PORTRAIT: 1080 x 1920',
@@ -56,7 +61,6 @@ export const resolutionPresets = [
 	'TikTok LANG_SQUARE: 1080 x 1080',
 
 	'PowerPoint: 1920 x 1080',
-	'HELLO',
 
 	getAPaperResolutionOptionAtDpi(5, 300),
 	getAPaperResolutionOptionAtDpi(4, 300),
