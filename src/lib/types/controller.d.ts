@@ -16,3 +16,7 @@ export interface P5SelectElement extends p5.Element {
 export interface P5CheckboxElement extends p5.Element {
 	checked(boolean?: boolean): boolean;
 }
+
+export interface P5Button extends p5.Element {
+	click(): void;
+}

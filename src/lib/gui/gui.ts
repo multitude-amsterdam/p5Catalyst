@@ -3,6 +3,7 @@ import { Field } from './field';
 import { Controller } from './controller';
 import { Lang } from '../language/lang';
 import type { State, Config, LangCode } from '../types';
+import type { P5Button } from '../types/controller';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -27,6 +28,8 @@ export class GUIForP5 {
 	fields: Field[] = [];
 	controllers: any[] = [];
 
+	darkMode: 'true' | 'false' | 'auto';
+
 	/**
 	 * Constructs the GUI, creates the main div, and sets up theming and layout.
 	 */
@@ -40,7 +43,8 @@ export class GUIForP5 {
 
 		// this.randomizer = new Randomizer();
 
-		// this.loadLightDarkMode();
+		this.darkMode = 'false';
+		this.loadLightDarkMode();
 
 		this.setLeft();
 	}
@@ -77,119 +81,94 @@ export class GUIForP5 {
 	//     this.isOnLeftSide ? this.setRight() : this.setLeft();
 	//   }
 
-	//   /**
-	//    * Loads the light/dark mode setting from localStorage and applies it.
-	//    */
-	//   loadLightDarkMode() {
-	//     const setting = window.localStorage["isDarkMode"];
-	//     switch (setting) {
-	//       case "true":
-	//         this.setDarkMode();
-	//         break;
-	//       case "false":
-	//         this.setLightMode();
-	//         break;
-	//       default:
-	//         this.setAutoLightDarkMode();
-	//     }
-	//   }
+	/**
+	 * Loads the light/dark mode setting from localStorage and applies it.
+	 */
+	loadLightDarkMode() {
+		const setting = window.localStorage['isDarkMode'];
+		const darkModeButton = this.createDarkModeButton();
+		switch (setting) {
+			case 'true':
+				this.setDarkMode(darkModeButton);
+				break;
+			case 'false':
+				this.setLightMode(darkModeButton);
+				break;
+			default:
+				this.setAutoLightDarkMode(darkModeButton);
+		}
+	}
 
-	//   /**
-	//    * Sets the GUI to light mode.
-	//    */
-	//   setLightMode() {
-	//     document.body.className = "";
-	//     window.localStorage["isDarkMode"] = "false";
-	//     this.darkMode = "false";
-	//     if (this.darkModeButton) this.darkModeButton.setLightMode();
-	//   }
+	/**
+	 * Sets the GUI to light mode.
+	 */
+	setLightMode(darkModeButton: P5Button) {
+		document.body.className = '';
+		window.localStorage['isDarkMode'] = 'false';
+		this.darkMode = 'false';
+		darkModeButton.class('dark-mode-button');
+		darkModeButton.addClass('dark-mode-button' + '--light');
+		darkModeButton.elt.title = 'Light mode';
+	}
 
-	//   /**
-	//    * Sets the GUI to dark mode.
-	//    */
-	//   setDarkMode() {
-	//     document.body.className = "dark-mode";
-	//     window.localStorage["isDarkMode"] = "true";
-	//     this.darkMode = "true";
-	//     if (this.darkModeButton) this.darkModeButton.setDarkMode();
-	//   }
+	/**
+	 * Sets the GUI to dark mode.
+	 */
+	setDarkMode(darkModeButton: P5Button) {
+		document.body.className = 'dark-mode';
+		window.localStorage['isDarkMode'] = 'true';
+		this.darkMode = 'true';
+		darkModeButton.class('dark-mode-button');
+		darkModeButton.addClass('dark-mode-button' + '--dark');
+		darkModeButton.elt.title = 'Dark mode';
+	}
 
-	//   /**
-	//    * Sets the GUI to automatically match the system's light/dark mode.
-	//    */
-	//   setAutoLightDarkMode() {
-	//     const isSystemDarkMode = () =>
-	//       window.matchMedia &&
-	//       window.matchMedia("(prefers-color-scheme: dark)").matches;
-	//     if (isSystemDarkMode()) {
-	//       this.setDarkMode();
-	//     } else {
-	//       this.setLightMode();
-	//     }
-	//     window.localStorage["isDarkMode"] = "auto";
-	//     this.darkMode = "auto";
-	//     if (this.darkModeButton) this.darkModeButton.setAutoLightDarkMode();
-	//   }
+	/**
+	 * Sets the GUI to automatically match the system's light/dark mode.
+	 */
+	setAutoLightDarkMode(darkModeButton: P5Button) {
+		const isSystemDarkMode = () =>
+			window.matchMedia &&
+			window.matchMedia('(prefers-color-scheme: dark)').matches;
+		if (isSystemDarkMode()) {
+			this.setDarkMode(darkModeButton);
+		} else {
+			this.setLightMode(darkModeButton);
+		}
+		window.localStorage['isDarkMode'] = 'auto';
+		this.darkMode = 'auto';
+		darkModeButton.class('dark-mode-button');
+		darkModeButton.addClass('dark-mode-button' + '--auto');
+		darkModeButton.elt.title = 'Auto light/dark mode';
+	}
 
-	//   /**
-	//    * Cycles between light, dark, and auto light/dark modes.
-	//    */
-	//   toggleLightDarkMode() {
-	//     // cycle modes
-	//     switch (this.darkMode) {
-	//       case "false":
-	//         this.setDarkMode();
-	//         break;
-	//       case "true":
-	//         this.setAutoLightDarkMode();
-	//         break;
-	//       default:
-	//         this.setLightMode();
-	//     }
-	//   }
+	/**
+	 * Cycles between light, dark, and auto light/dark modes.
+	 */
+	toggleLightDarkMode(darkModeButton: P5Button) {
+		// cycle modes
+		switch (this.darkMode) {
+			case 'false':
+				this.setDarkMode(darkModeButton);
+				break;
+			case 'true':
+				this.setAutoLightDarkMode(darkModeButton);
+				break;
+			default:
+				this.setLightMode(darkModeButton);
+		}
+	}
 
-	//   /**
-	//    * Creates and adds a button for toggling light/dark mode.
-	//    */
-	//   createDarkModeButton() {
-	//     this.darkModeButton = this.addController(
-	//       new Button(this, "buttonDarkMode", "", (controller) => {
-	//         this.toggleLightDarkMode();
-	//       })
-	//     );
-	//     this.darkModeButton.controllerElement.id("dark-mode-button");
-	//     this.darkModeButton.setLightMode = () => {
-	//       this.darkModeButton.controllerElement.style(
-	//         "background-image",
-	//         'url("assets/dark-mode/light-mode-icon.svg")'
-	//       );
-	//       this.darkModeButton.controllerElement.elt.title = "Light mode";
-	//     };
-	//     this.darkModeButton.setDarkMode = () => {
-	//       this.darkModeButton.controllerElement.style(
-	//         "background-image",
-	//         'url("assets/dark-mode/dark-mode-icon.svg")'
-	//       );
-	//       this.darkModeButton.controllerElement.elt.title = "Dark mode";
-	//     };
-	//     this.darkModeButton.setAutoLightDarkMode = () => {
-	//       this.darkModeButton.controllerElement.style(
-	//         "background-image",
-	//         'url("assets/dark-mode/auto-mode-icon.svg")'
-	//       );
-	//       this.darkModeButton.controllerElement.elt.title = "Auto light/dark mode";
-	//     };
-	//     switch (this.darkMode) {
-	//       case "false":
-	//         this.darkModeButton.setLightMode();
-	//         break;
-	//       case "true":
-	//         this.darkModeButton.setDarkMode();
-	//         break;
-	//       default:
-	//         this.darkModeButton.setAutoLightDarkMode();
-	//     }
-	//   }
+	/**
+	 * Creates and adds a button for toggling light/dark mode.
+	 */
+	createDarkModeButton() {
+		const darkModeButton = this.p5Instance.createButton('') as P5Button;
+		darkModeButton.elt.onclick = () => {
+			this.toggleLightDarkMode(darkModeButton);
+		};
+		return darkModeButton;
+	}
 
 	//   /**
 	//    * Adds a field (GUI element) to the GUI.
