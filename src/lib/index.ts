@@ -4,10 +4,11 @@ import '../style.css';
 import {
 	languagePlugin,
 	resolutionPlugin,
+	resolutionPresets,
 	imageExportPlugin,
 	setConfigPlugin,
+	randomizerPlugin,
 } from './plugins';
-import { resolutionPresets } from './plugins/resolution_plugin';
 
 import type { Plugin, SketchFunction, Config, GUISetupFunction } from './types';
 
@@ -40,4 +41,5 @@ export const catalyst = {
 	resolutionPresets,
 	imageExportPlugin,
 	setConfigPlugin,
+	randomizerPlugin,
 };

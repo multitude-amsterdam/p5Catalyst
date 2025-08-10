@@ -19,6 +19,7 @@ export interface Config {
 	userDictionary?: Dictionary;
 	fileName?: string;
 	contactMail?: string;
+	createRandomizer?: boolean;
 }
 
 export interface UserConfig extends Pick<Config, 'fileName' | 'contactMail'> {}

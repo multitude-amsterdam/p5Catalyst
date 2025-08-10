@@ -19,7 +19,7 @@ export class GUIForP5 {
 	 */
 	isTypingText: boolean = false;
 	div: p5.Element;
-	randomizer: Randomizer;
+	randomizer?: Randomizer;
 	p5Instance: p5;
 	state: State;
 	lang: Lang;
@@ -42,7 +42,8 @@ export class GUIForP5 {
 		this.lang.setup(config.defaultLanguage as LangCode);
 		this.state = state;
 
-		this.randomizer = new Randomizer(p5Instance);
+		if (config.createRandomizer)
+			this.randomizer = new Randomizer(p5Instance);
 
 		this.darkMode = 'false';
 		this.loadLightDarkMode();
@@ -304,21 +305,21 @@ export class GUIForP5 {
 		] as T;
 	}
 
-	//   /**
-	//    * Gets multiple controllers by an array of names.
-	//    * @param {string[]} names
-	//    * @returns {Controller[]}
-	//    */
-	//   getControllers(names) {
-	//     return this.controllers.filter((controller) =>
-	//       names.some((name) => {
-	//         if (!this.hasName(name)) {
-	//           return false;
-	//         }
-	//         return controller.name == name;
-	//       })
-	//     );
-	//   }
+	/**
+	 * Gets multiple controllers by an array of names.
+	 * @param {string[]} names
+	 * @returns {Controller[]}
+	 */
+	getControllers(names: string[]) {
+		return this.controllers.filter(controller =>
+			names.some(name => {
+				if (!this.hasName(name)) {
+					return false;
+				}
+				return controller.name == name;
+			})
+		);
+	}
 
 	//   /**
 	//    * Gets the current state of all controllers with values.

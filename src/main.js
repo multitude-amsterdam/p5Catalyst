@@ -29,6 +29,7 @@ const plugins = [
 		},
 	}),
 	catalyst.imageExportPlugin('jpg'),
+	catalyst.randomizerPlugin(['slider', 'select']),
 ];
 
 catalyst.initialize(
@@ -38,16 +39,14 @@ catalyst.initialize(
 			'slider',
 			'slider',
 			0,
-			100,
+			500,
 			20,
 			1,
 			(controller, value) => {
 				state.size = value;
 			}
 		);
-		gui.addButton('buttonRandomize', 'LANG_RANDOMIZE', controller => {
-			gui.randomize();
-		});
+		gui.addSelect('select', 'select', ['one', 'two', 'three'], 0);
 	},
 	plugins
 );
