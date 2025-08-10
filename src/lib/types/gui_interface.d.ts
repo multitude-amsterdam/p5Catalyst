@@ -155,5 +155,5 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => ImageLoader;
-	getController: (name: string) => Controller | undefined;
+	getController: <T extends Controller>(name: string) => T | undefined;
 }

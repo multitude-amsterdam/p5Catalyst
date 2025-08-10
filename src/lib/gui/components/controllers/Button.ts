@@ -31,10 +31,11 @@ export class Button extends Controller {
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, labelStr, setupCallback);
+		labelStr = gui.lang.process(labelStr);
 		this.controllerElement = gui.p5Instance.createButton(labelStr);
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.elt.onclick = () => {
-		if (callback) callback();
+			if (callback) callback();
 			// if (this.doUpdateChangeSet()) changeSet.save();
 		};
 	}

@@ -294,13 +294,13 @@ export class GUIForP5 {
 	 * @param {string} name
 	 * @returns {Controller|undefined}
 	 */
-	getController(name: string): Controller | undefined {
+	getController<T extends Controller>(name: string): T | undefined {
 		if (!this.hasName(name)) {
 			return undefined;
 		}
 		return this.controllers[
 			this.controllers.map(controller => controller.name).indexOf(name)
-		];
+		] as T;
 	}
 
 	//   /**

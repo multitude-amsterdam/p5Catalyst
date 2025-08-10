@@ -1,7 +1,12 @@
 import { createContainer } from './create_container';
 import { createGUI } from './create_gui';
 import '../style.css';
-import { languagePlugin, resolutionPlugin } from './plugins';
+import {
+	languagePlugin,
+	resolutionPlugin,
+	imageExportPlugin,
+	setConfigPlugin,
+} from './plugins';
 import { resolutionPresets } from './plugins/resolution_plugin';
 
 import type { Plugin, SketchFunction, Config, GUISetupFunction } from './types';
@@ -16,7 +21,7 @@ const initialize = async (
 
 	const container = await createContainer(sketchFunction);
 	const gui = createGUI(container, config, (gui, state) => {
-		userPlugins?.forEach(plugin => plugin.setup?.(gui, state));
+		userPlugins?.forEach(plugin => plugin.setup?.(gui, state, config));
 
 		guiSetup?.(gui, state);
 	});
@@ -33,4 +38,6 @@ export const catalyst = {
 	languagePlugin,
 	resolutionPlugin,
 	resolutionPresets,
+	imageExportPlugin,
+	setConfigPlugin,
 };

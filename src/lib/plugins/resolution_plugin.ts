@@ -10,9 +10,9 @@ export const resolutionPlugin: Plugin = (resolutionOptions: string[]) => ({
 			resolutionOptions,
 			0,
 			(controller, value) => {
-				const resbox = gui.getController(
+				const resbox = gui.getController<ResolutionTextboxes>(
 					'resolutionTextboxes'
-				) as ResolutionTextboxes;
+				);
 				if (resbox)
 					resbox.setValueOnlyDisplay(state.width, state.height);
 			}

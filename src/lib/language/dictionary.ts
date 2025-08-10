@@ -183,6 +183,10 @@ export const dictionary: Dictionary = {
 		nl: 'afbeelding kopiëren',
 		en: 'copy image',
 	},
+	LANG_DOWNLOAD_IMAGE: {
+		nl: 'afbeelding downloaden',
+		en: 'download image',
+	},
 	LANG_CONTACT_MSG: {
 		nl: 'Contact voor ondersteuning & feedback',
 		en: 'Contact for support & feedback',

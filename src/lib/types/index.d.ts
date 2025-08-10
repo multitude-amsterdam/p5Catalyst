@@ -8,7 +8,7 @@ import type {
 
 import type { LangCode, Dictionary, DictionaryEntry } from './lang';
 
-import type { Plugin, Config } from './plugin_types';
+import type { Plugin, Config, UserConfig } from './plugin_types';
 
 import type { GUIControllerInterface } from './gui_interface';
 
@@ -30,6 +30,7 @@ export type {
 	DictionaryEntry,
 	Plugin,
 	Config,
+	UserConfig,
 	GUIControllerInterface,
 	State,
 	Container,

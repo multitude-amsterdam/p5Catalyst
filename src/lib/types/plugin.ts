@@ -5,12 +5,21 @@ import type { Dictionary } from './lang';
 
 export interface Plugin {
 	name: string;
-	setup?: (gui: GUIControllerInterface, state: State) => void;
 	beforeInit?: (config: Config) => void;
+	setup?: (
+		gui: GUIControllerInterface,
+		state: State,
+		config?: Config
+	) => void;
 	afterInit?: (gui: GUIForP5) => void;
 }
 
 export interface Config {
 	defaultLanguage?: string;
 	userDictionary?: Dictionary;
+	fileName?: string;
 }
+
+export interface UserConfig extends Pick<Config, 'fileName'> {}
+
+export type imageFileType = 'png' | 'jpg' | 'webp';

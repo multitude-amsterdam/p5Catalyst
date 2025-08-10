@@ -21,13 +21,15 @@ const sketchFunction = async (sketch, state) => {
 };
 
 const plugins = [
+	catalyst.setConfigPlugin({ fileName: 'mySketch' }),
 	catalyst.resolutionPlugin(catalyst.resolutionPresets),
-	catalyst.languagePlugin('nl', {
+	catalyst.languagePlugin('en', {
 		LANG_SLEEP: {
 			nl: 'slaapen',
 			en: 'sleep',
 		},
 	}),
+	catalyst.imageExportPlugin('jpg'),
 ];
 
 catalyst.initialize(

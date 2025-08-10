@@ -1,5 +1,6 @@
 import p5 from 'p5';
 import type { Container, SketchFunction, State } from './types';
+import type { imageFileType } from './types/plugin';
 
 export const createContainer = (
 	userSketch: SketchFunction
@@ -17,6 +18,7 @@ export const createContainer = (
 			let canvas: p5.Renderer,
 				canvasWrapper: p5.Element,
 				canvasScale: number;
+
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
 				createCanvasWrapper();
@@ -24,6 +26,15 @@ export const createContainer = (
 				await Promise.resolve(originalSetup());
 				state.resize = (width: number, height: number) => {
 					resizeCatalyst(width, height);
+				};
+				state.canvasToClipboard = () => {
+					copyCanvasToClipboard();
+				};
+				state.exportImage = (
+					fileType: imageFileType,
+					fileName?: string
+				) => {
+					exportImage(fileType, fileName);
 				};
 
 				resolve({
@@ -79,6 +90,21 @@ export const createContainer = (
 
 				containCanvasInWrapper();
 				containCanvasInWrapper(); // needs a double call
+			}
+
+			/**
+			 * Copy the current canvas bitmap to the system clipboard.
+			 */
+			function copyCanvasToClipboard() {
+				canvas.elt.toBlob((blob: Blob) => {
+					navigator.clipboard.write([
+						new ClipboardItem({ 'image/png': blob }),
+					]);
+				});
+			}
+
+			function exportImage(fileType: imageFileType, fileName?: string) {
+				sketch.save(canvas, (fileName || 'canvas') + '.' + fileType);
 			}
 		};
 
