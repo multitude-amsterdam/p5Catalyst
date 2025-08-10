@@ -294,7 +294,7 @@ export const createGUI = (
 			return gui.addController(imageLoader);
 		},
 		randomize: () => {
-			gui.randomizer.randomize();
+			gui.randomizer?.randomize();
 		},
 		getController: name => {
 			return gui.getController(name);

@@ -17,18 +17,10 @@ const sketchFunction = async (sketch, state) => {
 };
 
 const plugins = [
-	catalyst.setConfigPlugin({
-		fileName: 'mySketch',
-		contactMail: 'maxmustermann@gmx.de',
+	catalyst.defaultPlugin(),
+	catalyst.languagePlugin('nl', {
+		LANG_SLEEP: { nl: 'slapen', en: 'sleep' },
 	}),
-	catalyst.resolutionPlugin(catalyst.resolutionPresets),
-	catalyst.languagePlugin('en', {
-		LANG_SLEEP: {
-			nl: 'slaapen',
-			en: 'sleep',
-		},
-	}),
-	catalyst.imageExportPlugin('jpg'),
 	catalyst.randomizerPlugin(['slider', 'select']),
 ];
 
@@ -47,6 +39,8 @@ catalyst.initialize(
 			}
 		);
 		gui.addSelect('select', 'select', ['one', 'two', 'three'], 0);
+		gui.addTitle(3, 'LANG_SLEEP');
+		gui.addButton();
 	},
 	plugins
 );

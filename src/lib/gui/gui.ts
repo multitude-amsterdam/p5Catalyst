@@ -231,7 +231,7 @@ export class GUIForP5 {
 		this.addField(controller);
 		this.controllers.push(controller);
 		if (doAddToRandomizerAs !== undefined)
-			this.randomizer.addController(controller, doAddToRandomizerAs);
+			this.randomizer?.addController(controller, doAddToRandomizerAs);
 		return controller;
 	}
 

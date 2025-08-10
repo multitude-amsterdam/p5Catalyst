@@ -2,6 +2,7 @@ import { createContainer } from './create_container';
 import { createGUI } from './create_gui';
 import '../style.css';
 import {
+	defaultPlugin,
 	languagePlugin,
 	resolutionPlugin,
 	resolutionPresets,
@@ -10,15 +11,24 @@ import {
 	randomizerPlugin,
 } from './plugins';
 
-import type { Plugin, SketchFunction, Config, GUISetupFunction } from './types';
+import type {
+	Plugin,
+	SketchFunction,
+	Config,
+	GUISetupFunction,
+	GUIControllerInterface,
+	State,
+} from './types';
 
 const initialize = async (
 	sketchFunction: SketchFunction,
-	guiSetup?: GUISetupFunction,
-	userPlugins?: Plugin[]
+	guiSetup?: (gui: GUIControllerInterface, state: State) => void,
+	userPlugins?: (Plugin | Plugin[])[]
 ) => {
 	const config: Config = {};
+	userPlugins = userPlugins?.flat();
 	userPlugins?.forEach(plugin => plugin.beforeInit?.(config));
+	console.log(config);
 
 	const container = await createContainer(sketchFunction);
 	const gui = createGUI(container, config, (gui, state) => {
@@ -36,6 +46,7 @@ export const catalyst = {
 	createContainer,
 	createGUI,
 	initialize,
+	defaultPlugin,
 	languagePlugin,
 	resolutionPlugin,
 	resolutionPresets,
