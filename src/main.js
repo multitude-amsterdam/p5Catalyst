@@ -33,7 +33,7 @@ const plugins = [
 
 catalyst.initialize(
 	sketchFunction,
-	gui => {
+	(gui, state) => {
 		gui.addSlider(
 			'slider',
 			'slider',
