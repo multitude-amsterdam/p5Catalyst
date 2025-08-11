@@ -50,10 +50,7 @@ export class Controller extends Field {
 	 * The HTML element representing the controller.
 	 * @type {p5.Element}
 	 */
-	controllerElement:
-		| p5.Element
-		| (HTMLElement & { disabled?: boolean })
-		| null = null;
+	controllerElement?: p5.Element;
 
 	/**
 	 * The GUIForP5 instance this controller belongs to.
@@ -132,22 +129,14 @@ export class Controller extends Field {
 	 * Disables the controller.
 	 */
 	disable() {
-		if (this.controllerElement instanceof p5.Element)
-			this.controllerElement.elt.disabled = true;
-		else if (this.controllerElement) {
-			this.controllerElement.disabled = true;
-		}
+		if (this.controllerElement) this.controllerElement.elt.disabled = true;
 	}
 
 	/**
 	 * Enables the controller.
 	 */
 	enable() {
-		if (this.controllerElement instanceof p5.Element)
-			this.controllerElement.elt.disabled = false;
-		else if (this.controllerElement) {
-			this.controllerElement.disabled = true;
-		}
+		if (this.controllerElement) this.controllerElement.elt.disabled = false;
 	}
 
 	/**
@@ -155,11 +144,7 @@ export class Controller extends Field {
 	 * @returns {boolean} - True if the controller is disabled, false otherwise.
 	 */
 	isDisabled(): boolean | undefined {
-		if (this.controllerElement instanceof p5.Element)
-			return this.controllerElement.elt.disabled;
-		else if (this.controllerElement) {
-			return this.controllerElement.disabled;
-		}
+		if (this.controllerElement) return this.controllerElement.elt.disabled;
 	}
 
 	/**
@@ -191,7 +176,7 @@ export class Controller extends Field {
 	 * Checks if the change set should be updated.
 	 * @returns {boolean} - True if the change set should be updated, false otherwise.
 	 */
-	doUpdateChangeSet() {
+	doUpdateChangeSet(): boolean {
 		return (
 			// changeSet !== undefined &&
 			this._doUpdateChangeSet && Controller._doUpdateChangeSet

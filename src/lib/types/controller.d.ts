@@ -1,4 +1,4 @@
-import p5 from 'p5';
+import p5, { Image } from 'p5';
 import type { Controller } from '../gui/controller';
 
 export type controllerElement = p5.Element | P5SelectElement | null;
@@ -19,4 +19,11 @@ export interface P5CheckboxElement extends p5.Element {
 
 export interface P5Button extends p5.Element {
 	click(): void;
+}
+
+export type controllerValue = string | number | p5.Color | p5.Vector;
+
+export interface serializedValue {
+	type: 'Vector' | 'Color' | 'Value';
+	value: number | string | boolean | { x: number; y: number; z: number };
 }

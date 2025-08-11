@@ -4,6 +4,9 @@ import type {
 	valueCallback,
 	setupCallback,
 	fileReadyCallback,
+	controllerValue,
+	serializedValue,
+	serializedVector,
 } from './controller';
 
 import type { LangCode, Dictionary, DictionaryEntry } from './lang';
@@ -15,6 +18,9 @@ import type { GUIControllerInterface } from './gui_interface';
 import type { State, SketchFunction, Container } from './construction';
 
 export type {
+	controllerValue,
+	serializedValue,
+	serializedVector,
 	controllerElement,
 	controllerCallback,
 	valueCallback,
