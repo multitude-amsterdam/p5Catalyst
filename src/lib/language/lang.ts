@@ -74,7 +74,7 @@ export class Lang {
 			const translation = this.dictionary[hotString][this.langKey];
 			if (Lang.verbose && str.match(hotString) != null)
 				console.log(hotString, translation);
-			replaced = replaced.replaceAll(hotString, translation);
+			replaced = replaced?.replaceAll(hotString, translation);
 		}
 		if (str === replaced) {
 			return replaced;

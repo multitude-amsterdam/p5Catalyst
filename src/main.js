@@ -40,7 +40,7 @@ catalyst.initialize(
 		);
 		gui.addSelect('select', 'select', ['one', 'two', 'three'], 0);
 		gui.addTitle(3, 'LANG_SLEEP');
-		gui.addButton();
+		gui.addButton('button');
 	},
 	plugins
 );
