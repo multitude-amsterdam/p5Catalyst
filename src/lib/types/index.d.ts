@@ -7,6 +7,7 @@ import type {
 	controllerValue,
 	serializedValue,
 	serializedVector,
+	Serializable,
 } from './controller';
 
 import type { LangCode, Dictionary, DictionaryEntry } from './lang';
@@ -20,6 +21,7 @@ import type { State, SketchFunction, Container } from './construction';
 export type {
 	controllerValue,
 	serializedValue,
+	Serializable,
 	serializedVector,
 	controllerElement,
 	controllerCallback,

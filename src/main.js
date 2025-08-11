@@ -43,9 +43,12 @@ catalyst.initialize(
 			}
 		);
 		gui.addSelect('select', 'select', ['one', 'two', 'three'], 0);
-		gui.addTitle(3, 'LANG_SLEEP');
-		gui.addButton('button');
-		gui.addTextbox('textbox', 'texbox', 'hello');
+		gui.addButton('undo', 'LANG_UNDO', controller => {
+			gui.undo();
+		});
+		gui.addButton('redo', 'LANG_REDO', controller => {
+			gui.redo();
+		});
 	},
 	plugins
 );

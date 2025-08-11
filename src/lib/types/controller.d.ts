@@ -27,3 +27,9 @@ export interface serializedValue {
 	type: 'Vector' | 'Color' | 'Value';
 	value: number | string | boolean | { x: number; y: number; z: number };
 }
+
+export interface Serializable {
+	name: string;
+	value: serializedValue;
+	isDieActive?: boolean;
+}

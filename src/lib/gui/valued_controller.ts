@@ -49,7 +49,7 @@ export class ValuedController extends Controller {
 	 */
 	setValue(value: number | string | boolean | p5.Color | p5.Vector) {
 		this.value = value;
-		// if (this.doUpdateChangeSet()) changeSet.save();
+		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	/**

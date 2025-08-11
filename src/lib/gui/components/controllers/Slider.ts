@@ -61,7 +61,7 @@ export class Slider extends ValuedController {
 			this.gui.p5Instance.round(value / this.stepSize) * this.stepSize;
 		this.valueCallback(this, value);
 		this.controllerElement?.value(value);
-		// if (this.doUpdateChangeSet()) changeSet.save();
+		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	randomize() {

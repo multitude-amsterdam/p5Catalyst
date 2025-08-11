@@ -296,6 +296,12 @@ export const createGUI = (
 		randomize: () => {
 			gui.randomizer?.randomize();
 		},
+		undo: () => {
+			gui.changeSet.undo();
+		},
+		redo: () => {
+			gui.changeSet.redo();
+		},
 		getController: name => {
 			return gui.getController(name);
 		},

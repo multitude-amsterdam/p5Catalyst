@@ -3,8 +3,10 @@ import { Field } from './field';
 import { Controller } from './controller';
 import { Lang } from '../language/lang';
 import type { State, Config, LangCode } from '../types';
-import type { P5Button } from '../types/controller';
+import type { P5Button, Serializable } from '../types/controller';
 import { Randomizer } from './randomizer';
+import { ChangeSet } from './changeset';
+import { ValuedController } from './valued_controller';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -23,6 +25,7 @@ export class GUIForP5 {
 	controllers: any[] = [];
 
 	darkMode: 'true' | 'false' | 'auto';
+	changeSet: ChangeSet;
 
 	/**
 	 * Constructs the GUI, creates the main div, and sets up theming and layout.
@@ -34,6 +37,7 @@ export class GUIForP5 {
 		this.lang = new Lang(config.userDictionary);
 		this.lang.setup(config.defaultLanguage as LangCode);
 		this.state = state;
+		this.changeSet = new ChangeSet(this, false);
 
 		if (config.createRandomizer)
 			this.randomizer = new Randomizer(p5Instance);
@@ -314,42 +318,41 @@ export class GUIForP5 {
 		);
 	}
 
-	//   /**
-	//    * Gets the current state of all controllers with values.
-	//    * @returns {Array<{name: string, value: any, isDieActive?: boolean}>}
-	//    */
-	//   getState() {
-	//     return this.controllers
-	//       .filter((controller) => controller.value !== undefined)
-	//       .map((controller) => {
-	//         const serializable = {
-	//           name: controller.name,
-	//           value: controller.getSerializedValue(),
-	//         };
-	//         if (controller.die !== undefined)
-	//           serializable.isDieActive = controller.die.isActive;
-	//         print(serializable);
-	//         return serializable;
-	//       });
-	//   }
+	/**
+	 * Gets the current state of all controllers with values.
+	 * @returns {Array<{name: string, value: any, isDieActive?: boolean}>}
+	 */
+	getState() {
+		return this.controllers
+			.filter(controller => controller.value !== undefined)
+			.map(controller => {
+				const serializable: Serializable = {
+					name: controller.name,
+					value: controller.getSerializedValue(),
+				};
+				if (controller.die !== undefined)
+					serializable.isDieActive = controller.die.isActive;
+				console.log(serializable);
+				return serializable;
+			});
+	}
 
-	//   /**
-	//    * Restores the state of controllers from a saved state.
-	//    * @param {Array<{name: string, value: any, isDieActive?: boolean}>} state
-	//    */
-	//   restoreState(state) {
-	//     Controller._doUpdateChangeSet = false;
-	//     for (let { name, value: serializedValue, isDieActive } of state) {
-	//       if (serializedValue === undefined) continue;
+	/**
+	 * Restores the state of controllers from a saved state.
+	 * @param {Array<{name: string, value: any, isDieActive?: boolean}>} state
+	 */
+	restoreState(state: Serializable[]) {
+		Controller._doUpdateChangeSet = false;
+		for (let { name, value: serializedValue, isDieActive } of state) {
+			if (serializedValue === undefined) continue;
 
-	//       const controller = gui.getController(name);
-	//       if (controller.setValue === undefined) continue;
-
-	//       controller.restoreValueFromSerialized(serializedValue);
-
-	//       if (isDieActive === undefined) continue;
-	//       controller.die.setActive(isDieActive);
-	//     }
-	//     Controller._doUpdateChangeSet = true;
-	//   }
+			const controller = this.getController(name);
+			if (controller instanceof ValuedController) {
+				controller.restoreValueFromSerialized(serializedValue);
+			}
+			if (isDieActive === undefined) continue;
+			controller?.die?.setActive(isDieActive);
+		}
+		Controller._doUpdateChangeSet = true;
+	}
 }

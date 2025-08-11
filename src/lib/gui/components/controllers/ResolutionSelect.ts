@@ -6,6 +6,11 @@ import { Select } from './Select';
  * @extends Select
  */
 export class ResolutionSelect extends Select {
+	/**
+	 * Flag to control whether the change set should be updated.
+	 * @type {boolean}
+	 */
+	_doUpdateChangeSet: boolean = false;
 	constructor(
 		gui: GUIForP5,
 		labelStr: string,

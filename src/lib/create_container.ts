@@ -100,7 +100,7 @@ export const createContainer = (
 				state.width = width;
 				state.height = height;
 
-				sketch.print(`Resizing to: ${width} x ${height}...`);
+				console.log(`Resizing to: ${width} x ${height}...`);
 				sketch.pixelDensity(1);
 				sketch.resizeCanvas(width, height);
 
