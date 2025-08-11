@@ -36,7 +36,7 @@ const initialize = async (
 	});
 
 	userPlugins?.forEach(plugin => plugin.afterInit?.(gui));
-
+	gui.changeSet.save();
 	return { container, gui };
 };
 

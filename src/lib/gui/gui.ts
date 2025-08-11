@@ -332,7 +332,6 @@ export class GUIForP5 {
 				};
 				if (controller.die !== undefined)
 					serializable.isDieActive = controller.die.isActive;
-				console.log(serializable);
 				return serializable;
 			});
 	}
