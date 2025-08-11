@@ -3,6 +3,7 @@ import type { controllerElement, setupCallback } from '../types';
 import { Field } from './field';
 import p5 from 'p5';
 import type { DieIcon } from './components';
+import type { Randomizer } from './randomizer';
 
 /**
  * Base class for all GUI controllers.
@@ -49,7 +50,10 @@ export class Controller extends Field {
 	 * The HTML element representing the controller.
 	 * @type {p5.Element}
 	 */
-	controllerElement: controllerElement = null;
+	controllerElement:
+		| p5.Element
+		| (HTMLElement & { disabled?: boolean })
+		| null = null;
 
 	/**
 	 * The GUIForP5 instance this controller belongs to.
@@ -80,18 +84,6 @@ export class Controller extends Field {
 	 * @type {setupCallback}
 	 */
 	setupCallback: setupCallback;
-
-	// /**
-	//  * The console div element for displaying messages.
-	//  * @type {p5.Element}
-	//  */
-	// console: p5.Element;
-
-	// /**
-	//  * The current console text.
-	//  * @type {string}
-	//  */
-	// consoleText: string;
 
 	/**
 	 * The die icon for randomization.
@@ -136,49 +128,55 @@ export class Controller extends Field {
 		if (this.setupCallback) this.setupCallback(this);
 	}
 
-	// /**
-	//  * Disables the controller.
-	//  */
-	// disable() {
-	// 	if (this.controllerElement instanceof p5.Element)
-	// 		this.controllerElement.elt.disabled = true;
-	// 	else this.controllerElement.disabled = true;
-	// }
+	/**
+	 * Disables the controller.
+	 */
+	disable() {
+		if (this.controllerElement instanceof p5.Element)
+			this.controllerElement.elt.disabled = true;
+		else if (this.controllerElement) {
+			this.controllerElement.disabled = true;
+		}
+	}
 
-	// /**
-	//  * Enables the controller.
-	//  */
-	// enable() {
-	// 	if (this.controllerElement instanceof p5.Element)
-	// 		this.controllerElement.elt.disabled = false;
-	// 	else this.controllerElement.disabled = false;
-	// }
+	/**
+	 * Enables the controller.
+	 */
+	enable() {
+		if (this.controllerElement instanceof p5.Element)
+			this.controllerElement.elt.disabled = false;
+		else if (this.controllerElement) {
+			this.controllerElement.disabled = true;
+		}
+	}
 
-	// /**
-	//  * Checks if the controller is disabled.
-	//  * @returns {boolean} - True if the controller is disabled, false otherwise.
-	//  */
-	// isDisabled() {
-	// 	if (this.controllerElement instanceof p5.Element)
-	// 		return this.controllerElement.elt.disabled;
-	// 	else return this.controllerElement.disabled;
-	// }
+	/**
+	 * Checks if the controller is disabled.
+	 * @returns {boolean} - True if the controller is disabled, false otherwise.
+	 */
+	isDisabled(): boolean | undefined {
+		if (this.controllerElement instanceof p5.Element)
+			return this.controllerElement.elt.disabled;
+		else if (this.controllerElement) {
+			return this.controllerElement.disabled;
+		}
+	}
 
-	// /**
-	//  * Sets the disabled state of the controller.
-	//  * @param {boolean} doSetDisabled - True to disable the controller, false to enable it.
-	//  */
-	// setDisabled(doSetDisabled) {
-	// 	doSetDisabled ? this.disable() : this.enable();
-	// }
+	/**
+	 * Sets the disabled state of the controller.
+	 * @param {boolean} doSetDisabled - True to disable the controller, false to enable it.
+	 */
+	setDisabled(doSetDisabled: boolean) {
+		doSetDisabled ? this.disable() : this.enable();
+	}
 
-	// /**
-	//  * Adds this controller to a randomizer.
-	//  * @param {Randomizer} randomizer - The randomizer to add this controller to.
-	//  */
-	// addToRandomizer(randomizer) {
-	// 	randomizer.addController(this);
-	// }
+	/**
+	 * Adds this controller to a randomizer.
+	 * @param {Randomizer} randomizer - The randomizer to add this controller to.
+	 */
+	addToRandomizer(randomizer: Randomizer) {
+		randomizer.addController(this, true);
+	}
 
 	/**
 	 * Adds a die to the controller.
@@ -189,17 +187,16 @@ export class Controller extends Field {
 		this.die = die;
 	}
 
-	// /**
-	//  * Checks if the change set should be updated.
-	//  * @returns {boolean} - True if the change set should be updated, false otherwise.
-	//  */
-	// doUpdateChangeSet() {
-	// 	return (
-	// 		changeSet !== undefined &&
-	// 		this._doUpdateChangeSet &&
-	// 		Controller._doUpdateChangeSet
-	// 	);
-	// }
+	/**
+	 * Checks if the change set should be updated.
+	 * @returns {boolean} - True if the change set should be updated, false otherwise.
+	 */
+	doUpdateChangeSet() {
+		return (
+			// changeSet !== undefined &&
+			this._doUpdateChangeSet && Controller._doUpdateChangeSet
+		);
+	}
 }
 
 /**
