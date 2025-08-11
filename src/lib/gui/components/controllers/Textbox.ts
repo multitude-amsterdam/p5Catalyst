@@ -48,12 +48,12 @@ export class Textbox extends ValuedController {
 
 		this.controllerElement.elt.addEventListener(
 			'focusin',
-			(event: FocusEvent) => (gui.isTypingText = true)
+			(event: FocusEvent) => gui.state.setTyping(true)
 		);
 		this.controllerElement.elt.addEventListener(
 			'focusout',
 			(event: FocusEvent) => {
-				gui.isTypingText = false;
+				gui.state.setTyping(false);
 				const target = event.target as HTMLInputElement;
 				const value = target.value;
 				this.setValue(value);

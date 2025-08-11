@@ -11,13 +11,6 @@ import { Randomizer } from './randomizer';
  * Handles layout, theming, controller management, and state persistence.
  */
 export class GUIForP5 {
-	/**
-	 * Tracks whether typing is happening within the GUI.
-	 * This is used to prevent `keyPressed()` actions (like randomization)
-	 * while typing.
-	 * @type {boolean}
-	 */
-	isTypingText: boolean = false;
 	div: p5.Element;
 	randomizer?: Randomizer;
 	p5Instance: p5;

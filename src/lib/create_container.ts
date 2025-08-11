@@ -14,10 +14,14 @@ export const createContainer = (
 			const originalSetup = sketch.setup || (() => {});
 			const originalDraw = sketch.draw || (() => {});
 			const originalMouseMoved = sketch.mouseMoved || (() => {});
+			const originalKeyPressed =
+				sketch.keyPressed || ((event: KeyboardEvent) => {});
 
 			let canvas: p5.Renderer,
 				canvasWrapper: p5.Element,
 				canvasScale: number;
+
+			let isGuiTyping = false;
 
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
@@ -36,6 +40,9 @@ export const createContainer = (
 				) => {
 					exportImage(fileType, fileName);
 				};
+				state.setTyping = (currentlyTyping: boolean) => {
+					setTyping(currentlyTyping);
+				};
 
 				resolve({
 					p5Instance,
@@ -50,6 +57,15 @@ export const createContainer = (
 			sketch.mouseMoved = () => {
 				originalMouseMoved();
 			};
+
+			sketch.keyPressed = (event: KeyboardEvent) => {
+				console.log(isGuiTyping);
+				originalKeyPressed(event);
+			};
+
+			function setTyping(currentlyTyping: boolean) {
+				isGuiTyping = currentlyTyping;
+			}
 
 			function createCanvasWrapper() {
 				canvasWrapper = sketch.createDiv();
