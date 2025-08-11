@@ -15,7 +15,6 @@ import type {
 	Plugin,
 	SketchFunction,
 	Config,
-	GUISetupFunction,
 	GUIControllerInterface,
 	State,
 } from './types';
