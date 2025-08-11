@@ -21,7 +21,7 @@ export const createContainer = (
 				canvasWrapper: p5.Element,
 				canvasScale: number;
 
-			let isGuiTyping = false;
+			let GuiTyping = false;
 
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
@@ -59,12 +59,12 @@ export const createContainer = (
 			};
 
 			sketch.keyPressed = (event: KeyboardEvent) => {
-				console.log(isGuiTyping);
+				if (GuiTyping) return;
 				originalKeyPressed(event);
 			};
 
 			function setTyping(currentlyTyping: boolean) {
-				isGuiTyping = currentlyTyping;
+				GuiTyping = currentlyTyping;
 			}
 
 			function createCanvasWrapper() {

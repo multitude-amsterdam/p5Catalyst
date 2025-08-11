@@ -14,6 +14,10 @@ const sketchFunction = async (sketch, state) => {
 		sketch.circle(sketch.mouseX, sketch.mouseY, state.size);
 		sketch.circle(200, 200, state.size * 2);
 	};
+
+	sketch.keyPressed = event => {
+		console.log(event);
+	};
 };
 
 const plugins = [
