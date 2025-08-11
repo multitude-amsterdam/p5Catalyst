@@ -42,7 +42,10 @@ catalyst.initialize(
 				state.size = value;
 			}
 		);
+		gui.addCrementer('crementer', 'crementer', 0, 10, 1, 1);
 		gui.addSelect('select', 'select', ['one', 'two', 'three'], 0);
+		gui.addToggle('toggle', 'true', 'false', true);
+		gui.addXYSlider('xyslider', 'xyslider', 0, 10, 1, 1, 0, 10, 1, 1);
 		gui.addButton('undo', 'LANG_UNDO', controller => {
 			gui.undo();
 		});

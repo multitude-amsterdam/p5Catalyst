@@ -93,7 +93,7 @@ export class ColourBoxes extends ValuedController {
 		this.value = this.gui.p5Instance.color(this.colours[index]);
 		(this.controllerElement as P5SelectElement).selected('' + index);
 		this.valueCallback(this, this.value);
-		// if (this.doUpdateChangeSet()) changeSet.save();
+		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	randomize() {

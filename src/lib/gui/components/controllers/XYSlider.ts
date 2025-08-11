@@ -80,7 +80,8 @@ export class XYSlider extends ValuedController {
 			this.setValue(this.getValueFromHandlePosition(e));
 		});
 
-		this.setValue(gui.p5Instance.createVector(defaultValX, defaultValY));
+		this.value = gui.p5Instance.createVector(defaultValX, defaultValY);
+		this.setDisplay();
 	}
 
 	getValueFromHandlePosition(mouseEvent: MouseEvent) {
@@ -166,7 +167,7 @@ export class XYSlider extends ValuedController {
 		this.value = vec;
 		this.setDisplay();
 		if (this.valueCallback) this.valueCallback(this, this.value);
-		// if (this.doUpdateChangeSet()) changeSet.save();
+		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	setDisplay() {

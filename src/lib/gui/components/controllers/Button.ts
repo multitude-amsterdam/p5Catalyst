@@ -36,7 +36,7 @@ export class Button extends Controller {
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.elt.onclick = () => {
 			if (callback) callback();
-			// if (this.doUpdateChangeSet()) changeSet.save();
+			if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 		};
 	}
 

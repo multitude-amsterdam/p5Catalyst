@@ -56,13 +56,13 @@ export class Select extends ValuedController {
 			const target = event.target as HTMLSelectElement;
 			const valueStr = target.value;
 			const ind = this.optionStrs.indexOf(valueStr);
-			this.value = this.options[ind];
+			this.setValue(this.options[ind]);
 			if (valueCallback) valueCallback(this, this.value);
 		};
 		this.controllerElement.elt.onchange = callback;
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
-		this.setValue(options[defaultIndex]);
+		this.value = options[defaultIndex];
 	}
 
 	/**
@@ -104,7 +104,7 @@ export class Select extends ValuedController {
 		const optStr = this.optionStrs[this.options.indexOf(option)];
 		(this.controllerElement as any).selected(optStr);
 		this.valueCallback(this, option);
-		// if (this.doUpdateChangeSet()) changeSet.save();
+		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	/**

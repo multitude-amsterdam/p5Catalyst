@@ -66,7 +66,7 @@ export class Crementer extends ValuedController {
 		plusButton.parent(this.controllerElement);
 		plusButton.elt.onclick = () => this.increment();
 
-		this.setValue(defaultVal);
+		this.value = defaultVal;
 	}
 
 	mod(value: number) {
@@ -90,7 +90,7 @@ export class Crementer extends ValuedController {
 		);
 		this.valueDisplay.html(this.value);
 		this.valueCallback(this, this.value);
-		// if (this.doUpdateChangeSet()) changeSet.save();
+		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	randomize() {

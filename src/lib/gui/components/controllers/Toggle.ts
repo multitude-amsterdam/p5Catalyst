@@ -53,7 +53,7 @@ export class Toggle extends ValuedController {
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
 
-		this.setValue(isToggled ? true : false);
+		this.value = isToggled ? true : false;
 	}
 
 	/**
@@ -72,7 +72,7 @@ export class Toggle extends ValuedController {
 			this.controllerElement?.elt.toggleAttribute('toggled');
 		this.value = value;
 		this.valueCallback(this, this.value);
-		// if (this.doUpdateChangeSet()) changeSet.save();
+		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	/**

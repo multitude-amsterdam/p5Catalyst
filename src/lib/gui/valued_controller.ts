@@ -47,7 +47,16 @@ export class ValuedController extends Controller {
 	 * Sets the value of the controller.
 	 * @param {any} value - The value to set.
 	 */
-	setValue(value: number | string | boolean | p5.Color | p5.Vector) {
+	setValue(
+		value:
+			| number
+			| number[]
+			| string
+			| string[]
+			| boolean
+			| p5.Color
+			| p5.Vector
+	) {
 		this.value = value;
 		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
