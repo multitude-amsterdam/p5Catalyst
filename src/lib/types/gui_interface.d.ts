@@ -26,6 +26,7 @@ import type {
 } from '../gui/components';
 
 export interface GUIControllerInterface {
+	addField: (id: string, className: string, parentDiv?: p5.Element) => Field;
 	addTitle: (hSize: number, text: string, doAlignCenter?: boolean) => Title;
 	addTextField: (
 		text: string,

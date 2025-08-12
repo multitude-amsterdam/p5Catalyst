@@ -63,6 +63,7 @@ export class Select extends ValuedController {
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
 		this.value = options[defaultIndex];
+		this.valueCallback(this, this.value);
 	}
 
 	/**

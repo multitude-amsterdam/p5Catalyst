@@ -168,7 +168,7 @@ body:where(.dark-mode) {
 	color: var(--text-col);
 }
 
-.undo-redo-container {
+.button-group {
 	display: flex;
 	flex-direction: row;
 	gap: var(--spacing-x);

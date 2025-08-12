@@ -43,6 +43,7 @@ export class ColourBoxes extends ValuedController {
 			valueCallback || ((controller: Controller, value: any) => {});
 		this.createRadioFromColours(colours);
 		this.value = gui.p5Instance.color(colours[defaultIndex]);
+		this.valueCallback(this, this.value);
 		this.colours = colours.map(colour => gui.p5Instance.color(colour));
 	}
 

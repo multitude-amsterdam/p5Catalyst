@@ -45,6 +45,7 @@ export class Textbox extends ValuedController {
 
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
+		this.valueCallback(this, this.value);
 
 		this.controllerElement.elt.addEventListener(
 			'focusin',

@@ -34,6 +34,7 @@ export class Textarea extends ValuedController {
 		this.controllerElement = gui.p5Instance.createElement('textarea');
 		this.controllerElement.parent(this.controllerWrapper);
 		this.value = defaultVal;
+
 		this.controllerElement.html(this.value);
 
 		this.controllerElement.elt.oninput = (event: InputEvent) => {
@@ -43,6 +44,7 @@ export class Textarea extends ValuedController {
 		};
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
+		this.valueCallback(this, this.value);
 
 		this.controllerElement.elt.addEventListener(
 			'focusin',

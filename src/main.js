@@ -43,12 +43,17 @@ catalyst.initialize(
 				state.color = value;
 			}
 		);
-		gui.addButton('undo', 'LANG_UNDO', controller => {
-			gui.undo();
-		});
-		gui.addButton('redo', 'LANG_REDO', controller => {
-			gui.redo();
-		});
+		gui.addSlider(
+			'slider',
+			'slider',
+			0,
+			500,
+			250,
+			1,
+			(controller, value) => {
+				state.size = value;
+			}
+		);
 	},
 	plugins
 );

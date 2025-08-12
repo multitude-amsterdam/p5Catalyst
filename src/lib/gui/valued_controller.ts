@@ -5,6 +5,7 @@ import type {
 	serializedValue,
 	serializedVector,
 	setupCallback,
+	valueCallback,
 } from '../types';
 import { Controller } from './controller';
 import type { GUIForP5 } from './gui';

@@ -54,6 +54,7 @@ export class Toggle extends ValuedController {
 			valueCallback || ((controller: Controller, value: any) => {});
 
 		this.value = isToggled ? true : false;
+		this.valueCallback(this, this.value);
 	}
 
 	/**

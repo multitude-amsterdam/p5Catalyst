@@ -67,6 +67,7 @@ export class Crementer extends ValuedController {
 		plusButton.elt.onclick = () => this.increment();
 
 		this.value = defaultVal;
+		this.valueCallback(this, this.value);
 	}
 
 	mod(value: number) {

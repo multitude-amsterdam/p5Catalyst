@@ -22,7 +22,10 @@ import { Divider } from './fields/Divider';
 
 import { DieIcon } from './DieIcon';
 
+import { Field } from '../field';
+
 export {
+	Field,
 	Title,
 	TextField,
 	ImageField,

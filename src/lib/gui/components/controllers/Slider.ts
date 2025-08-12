@@ -51,9 +51,9 @@ export class Slider extends ValuedController {
 			const value = parseFloat(target.value);
 			this.setValue(value);
 		};
-		if (valueCallback) valueCallback(this, defaultVal);
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
+		this.valueCallback(this, this.value);
 	}
 
 	setValue(value: number) {
