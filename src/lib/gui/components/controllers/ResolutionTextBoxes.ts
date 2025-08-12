@@ -70,7 +70,7 @@ export class ResolutionTextboxes extends ValuedController {
 		this.value = vec;
 		this.wBox.setValue(vec.x.toString());
 		this.hBox.setValue(vec.y.toString());
-		// if (this.doUpdateChangeSet()) changeSet.save();
+		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	/**

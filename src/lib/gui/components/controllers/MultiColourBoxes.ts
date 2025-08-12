@@ -110,7 +110,7 @@ export class MultiColourBoxes extends ValuedController {
 			cb.checked(indices.includes(i));
 		});
 		this.valueCallback(this, this.value);
-		// if (this.doUpdateChangeSet()) changeSet.save();
+		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	setValue(colArray: string[]) {

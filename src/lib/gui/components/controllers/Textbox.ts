@@ -65,7 +65,7 @@ export class Textbox extends ValuedController {
 		this.value = value;
 		this.valueCallback(this, value);
 		this.controllerElement?.value(value);
-		// if (this.doUpdateChangeSet()) changeSet.save();
+		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	randomize() {}
