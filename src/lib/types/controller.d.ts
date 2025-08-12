@@ -24,8 +24,21 @@ export interface P5Button extends p5.Element {
 export type controllerValue = string | number | p5.Color | p5.Vector;
 
 export interface serializedValue {
-	type: 'Vector' | 'Color' | 'Value';
-	value: number | string | boolean | { x: number; y: number; z: number };
+	type: 'Vector' | 'Color' | 'Basic';
+	value: number | string | boolean | serializedVector | serializedColor;
+}
+
+export interface serializedColor {
+	r: number;
+	g: number;
+	b: number;
+	a: number;
+}
+
+export interface serializedVector {
+	x: number;
+	y: number;
+	z: number;
 }
 
 export interface Serializable {

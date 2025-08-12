@@ -7,6 +7,7 @@ import type {
 	controllerValue,
 	serializedValue,
 	serializedVector,
+	serializedColor,
 	Serializable,
 } from './controller';
 
@@ -23,6 +24,7 @@ export type {
 	serializedValue,
 	Serializable,
 	serializedVector,
+	serializedColor,
 	controllerElement,
 	controllerCallback,
 	valueCallback,

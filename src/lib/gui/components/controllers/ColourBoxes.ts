@@ -1,4 +1,4 @@
-import type p5 from 'p5';
+import p5 from 'p5';
 import type { GUIForP5 } from '../../gui';
 import { ValuedController } from '../../valued_controller';
 import type { setupCallback, valueCallback } from '../../../types';
@@ -17,7 +17,7 @@ export class ColourBoxes extends ValuedController {
 	 */
 	valueCallback: valueCallback;
 
-	colours: string[];
+	colours: p5.Color[];
 
 	/**
 	 * Constructor for ColourBoxes.
@@ -42,8 +42,8 @@ export class ColourBoxes extends ValuedController {
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
 		this.createRadioFromColours(colours);
-		this.setValue(colours[defaultIndex]);
-		this.colours = colours;
+		this.value = gui.p5Instance.color(colours[defaultIndex]);
+		this.colours = colours.map(colour => gui.p5Instance.color(colour));
 	}
 
 	/**
@@ -80,14 +80,16 @@ export class ColourBoxes extends ValuedController {
 			};
 		}
 
-		this.colours = colours;
 		this.controllerElement = radio;
 	}
 
-	setValue(colObj: string) {
-		const index = this.colours.findIndex(col => col === colObj);
+	setValue(colour: p5.Color) {
+		console.log(colour, this.colours);
+		const index = this.colours.findIndex(
+			col => col.toString() == colour.toString()
+		);
 		if (index < 0) {
-			throw new Error(colObj + ' can not be found in colours.');
+			throw new Error(colour + ' can not be found in colours.');
 		}
 
 		this.value = this.gui.p5Instance.color(this.colours[index]);

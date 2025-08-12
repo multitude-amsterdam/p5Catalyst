@@ -1,5 +1,11 @@
 import p5 from 'p5';
-import type { controllerValue, serializedValue, setupCallback } from '../types';
+import type {
+	controllerValue,
+	serializedColor,
+	serializedValue,
+	serializedVector,
+	setupCallback,
+} from '../types';
 import { Controller } from './controller';
 import type { GUIForP5 } from './gui';
 
@@ -74,7 +80,7 @@ export class ValuedController extends Controller {
 	 * @see serialize
 	 */
 	getSerializedValue(): serializedValue {
-		return ValuedController.serialize(this.value);
+		return this.serialize(this.value);
 	}
 
 	/**
@@ -97,10 +103,10 @@ export class ValuedController extends Controller {
 	 * @param {*} value
 	 * @returns {*}
 	 */
-	static serialize(value: controllerValue): serializedValue {
+	serialize(value: controllerValue): serializedValue {
 		if (value instanceof p5.Vector) return this.serializeVector(value);
 		if (value instanceof p5.Color) return this.serializeColor(value);
-		return { type: 'Value', value };
+		return { type: 'Basic', value };
 	}
 
 	/**
@@ -117,12 +123,12 @@ export class ValuedController extends Controller {
 				return this.restoreSerializedVector(serializedValue);
 			case 'Color':
 				return this.restoreSerializedColor(serializedValue);
-			case 'Value':
+			case 'Basic':
 				return serializedValue.value as number | string | boolean;
 		}
 	}
 
-	static serializeVector(vector: p5.Vector): serializedValue {
+	serializeVector(vector: p5.Vector): serializedValue {
 		const { x, y, z } = vector;
 		return { type: 'Vector', value: { x, y, z } };
 	}
@@ -131,7 +137,7 @@ export class ValuedController extends Controller {
 		if (vector.type !== 'Vector') {
 			throw new Error('Object is not a serialized Vector');
 		}
-		const { x, y, z } = vector.value as { x: number; y: number; z: number };
+		const { x, y, z } = vector.value as serializedVector;
 		return new p5.Vector(x, y, z);
 	}
 
@@ -143,8 +149,12 @@ export class ValuedController extends Controller {
 	 * @returns {Object}
 	 * @see restoreSerializedColor
 	 */
-	static serializeColor(color: p5.Color): serializedValue {
-		return { type: 'Color', value: color.toString() };
+	serializeColor(color: p5.Color): serializedValue {
+		const r = this.gui.p5Instance.red(color);
+		const g = this.gui.p5Instance.green(color);
+		const b = this.gui.p5Instance.blue(color);
+		const a = this.gui.p5Instance.alpha(color);
+		return { type: 'Color', value: { r, g, b, a } };
 	}
 	/**
 	 * @static
@@ -155,17 +165,12 @@ export class ValuedController extends Controller {
 	restoreSerializedColor(color: serializedValue): p5.Color {
 		if (color.type !== 'Color')
 			throw new Error('Object is not a serialized p5.Color.');
-		color.value = color.value as string;
-		const RGBA = color.value.match(/[\d.]+/g)?.map(Number) ?? [];
+		const { r, g, b, a } = color.value as serializedColor;
 		this.gui.p5Instance.push();
 		this.gui.p5Instance.colorMode(this.gui.p5Instance.RGB);
-		const col = this.gui.p5Instance.color(
-			RGBA[0],
-			RGBA[1],
-			RGBA[2],
-			RGBA[3]
-		);
+		const col = this.gui.p5Instance.color(r, g, b, a);
 		this.gui.p5Instance.pop();
+		console.log(col);
 		return col;
 	}
 }

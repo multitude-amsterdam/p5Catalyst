@@ -32,7 +32,6 @@ export class ChangeSet {
 		this.cutToIndex();
 		this.changeset.push(json);
 		this.index++;
-		console.log(this.changeset);
 	}
 
 	save() {

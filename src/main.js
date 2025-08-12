@@ -2,14 +2,17 @@ import { catalyst } from './lib';
 
 const sketchFunction = async (sketch, state) => {
 	state.size = 50;
+	state.color;
 
 	let img;
 
 	sketch.setup = async () => {
 		img = await sketch.loadImage('assets/image.jpg');
+		state.color = sketch.color(0);
 	};
 
 	sketch.draw = () => {
+		sketch.fill(state.color);
 		sketch.image(img, 0, 0, state.width, state.height);
 		sketch.circle(sketch.mouseX, sketch.mouseY, state.size);
 		sketch.circle(200, 200, state.size * 2);
@@ -31,21 +34,15 @@ const plugins = [
 catalyst.initialize(
 	sketchFunction,
 	(gui, state) => {
-		gui.addSlider(
-			'slider',
-			'slider',
+		gui.addColourBoxes(
+			'colorBox',
+			'colorBox',
+			['red', '#00bf0073', 'blue'],
 			0,
-			500,
-			20,
-			1,
 			(controller, value) => {
-				state.size = value;
+				state.color = value;
 			}
 		);
-		gui.addCrementer('crementer', 'crementer', 0, 10, 1, 1);
-		gui.addSelect('select', 'select', ['one', 'two', 'three'], 0);
-		gui.addToggle('toggle', 'true', 'false', true);
-		gui.addXYSlider('xyslider', 'xyslider', 0, 10, 1, 1, 0, 10, 1, 1);
 		gui.addButton('undo', 'LANG_UNDO', controller => {
 			gui.undo();
 		});
