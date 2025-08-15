@@ -7,6 +7,7 @@ import type { P5Button, Serializable } from '../types/controller';
 import { Randomizer } from './randomizer';
 import { ChangeSet } from './changeset';
 import { ValuedController } from './valued_controller';
+import type { sketchHook } from '../types/construction';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -17,6 +18,7 @@ export class GUIForP5 {
 	randomizer?: Randomizer;
 	p5Instance: p5;
 	state: State;
+	sketch: sketchHook;
 	lang: Lang;
 	isOnLeftSide: boolean = true;
 	static verbose = !false;
@@ -30,13 +32,19 @@ export class GUIForP5 {
 	/**
 	 * Constructs the GUI, creates the main div, and sets up theming and layout.
 	 */
-	constructor(p5Instance: p5, state: State, config: Config) {
+	constructor(
+		p5Instance: p5,
+		state: State,
+		sketch: sketchHook,
+		config: Config
+	) {
 		this.div = p5Instance.createDiv();
 		this.div.id('gui');
 		this.p5Instance = p5Instance;
 		this.lang = new Lang(config.userDictionary);
 		this.lang.setup(config.defaultLanguage as LangCode);
 		this.state = state;
+		this.sketch = sketch;
 		this.changeSet = new ChangeSet(this, false);
 
 		if (config.createRandomizer)

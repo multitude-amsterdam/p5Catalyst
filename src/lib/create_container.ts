@@ -1,11 +1,18 @@
 import p5 from 'p5';
 import type { Container, SketchFunction, State } from './types';
 import type { imageFileType } from './types/plugin';
+import type { sketchHook } from './types/construction';
 
 export const createContainer = (
 	userSketch: SketchFunction
 ): Promise<Container> => {
 	const state: State = { width: 1080, height: 1080 };
+	const sketchHook: sketchHook = {
+		resize: () => {},
+		canvasToClipboard: () => {},
+		exportImage: () => {},
+		setTyping: () => {},
+	};
 
 	return new Promise(resolve => {
 		const containerSketch = async (sketch: p5) => {
@@ -28,25 +35,26 @@ export const createContainer = (
 				createCanvasWrapper();
 				containCanvasInWrapper();
 				await Promise.resolve(originalSetup());
-				state.resize = (width: number, height: number) => {
+				sketchHook.resize = (width: number, height: number) => {
 					resizeCatalyst(width, height);
 				};
-				state.canvasToClipboard = () => {
+				sketchHook.canvasToClipboard = () => {
 					copyCanvasToClipboard();
 				};
-				state.exportImage = (
+				sketchHook.exportImage = (
 					fileType: imageFileType,
 					fileName?: string
 				) => {
 					exportImage(fileType, fileName);
 				};
-				state.setTyping = (currentlyTyping: boolean) => {
+				sketchHook.setTyping = (currentlyTyping: boolean) => {
 					setTyping(currentlyTyping);
 				};
 
 				resolve({
 					p5Instance,
 					state,
+					sketchHook,
 				});
 			};
 

@@ -6,7 +6,6 @@ export type SketchFunction = (
 export interface State {
 	width: number;
 	height: number;
-	resize?: (width: number, height: number) => void;
 	[key: string]: any; // Allow other properties
 }
 
@@ -15,4 +14,15 @@ export type GUISetupFunction = (
 	state: any
 ) => void;
 
-export type Container = { p5Instance: p5; state: State };
+export interface sketchHook {
+	resize: (width: number, height: number) => void;
+	canvasToClipboard: () => void;
+	exportImage: (fileType: imageFileType, fileName?: string) => void;
+	setTyping: (currentlyTyping: boolean) => void;
+}
+
+export type Container = {
+	p5Instance: p5;
+	state: State;
+	sketchHook: sketchHook;
+};

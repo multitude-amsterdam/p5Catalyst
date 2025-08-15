@@ -31,7 +31,7 @@ export class ResolutionSelect extends Select {
 					const wh = resolutionStr.split(' x ');
 					const w = parseInt(wh[0]);
 					const h = parseInt(wh[1]);
-					gui.state.resize?.(w, h);
+					gui.sketch.resize?.(w, h);
 				}
 				if (valueCallback) valueCallback(controller, value);
 			},

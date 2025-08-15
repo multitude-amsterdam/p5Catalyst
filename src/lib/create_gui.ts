@@ -9,7 +9,12 @@ export const createGUI = (
 	config: Config,
 	userGUI?: (gui: GUIControllerInterface, state: State) => void
 ): GUIForP5 => {
-	const gui = new GUIForP5(container.p5Instance, container.state, config);
+	const gui = new GUIForP5(
+		container.p5Instance,
+		container.state,
+		container.sketchHook,
+		config
+	);
 
 	const guiInterface: GUIControllerInterface = {
 		addField: (id, className, parentDiv) => {
