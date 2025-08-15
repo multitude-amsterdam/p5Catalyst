@@ -18,6 +18,7 @@ import type {
 	GUIControllerInterface,
 	State,
 } from './types';
+import { ffmpegInit } from './ffmpeg/ffmpeg';
 
 const initialize = async (
 	sketchFunction: SketchFunction,
@@ -28,6 +29,7 @@ const initialize = async (
 	userPlugins = userPlugins?.flat();
 	userPlugins?.forEach(plugin => plugin.beforeInit?.(config));
 
+	await ffmpegInit();
 	const container = await createContainer(sketchFunction);
 	const gui = createGUI(container, config, (gui, state) => {
 		userPlugins?.forEach(plugin => plugin.setup?.(gui, state, config));

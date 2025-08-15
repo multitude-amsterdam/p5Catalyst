@@ -2,6 +2,7 @@ import p5 from 'p5';
 import type { Container, SketchFunction, State } from './types';
 import type { imageFileType } from './types/plugin';
 import type { sketchHook } from './types/construction';
+import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg/ffmpeg';
 
 export const createContainer = (
 	userSketch: SketchFunction
@@ -12,6 +13,7 @@ export const createContainer = (
 		canvasToClipboard: () => {},
 		exportImage: () => {},
 		setTyping: () => {},
+		stopRecording: () => {},
 	};
 
 	return new Promise(resolve => {
@@ -29,6 +31,7 @@ export const createContainer = (
 				canvasScale: number;
 
 			let GuiTyping = false;
+			let isRecording = true;
 
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
@@ -50,6 +53,10 @@ export const createContainer = (
 				sketchHook.setTyping = (currentlyTyping: boolean) => {
 					setTyping(currentlyTyping);
 				};
+				sketchHook.stopRecording = () => {
+					isRecording = false;
+					ffmpegCreateMP4();
+				};
 
 				resolve({
 					p5Instance,
@@ -59,6 +66,9 @@ export const createContainer = (
 			};
 
 			sketch.draw = () => {
+				if (isRecording) {
+					saveToLocalFFMPEG(sketch.frameCount, canvas);
+				}
 				originalDraw();
 			};
 

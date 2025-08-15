@@ -314,6 +314,9 @@ export const createGUI = (
 		getController: name => {
 			return gui.getController(name);
 		},
+		stopRecording: () => {
+			container.sketchHook.stopRecording();
+		},
 	};
 
 	userGUI?.(guiInterface, container.state);

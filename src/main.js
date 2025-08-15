@@ -1,4 +1,5 @@
 import { catalyst } from './lib';
+import { ffmpegInit, logFFMPEG } from './lib/ffmpeg/ffmpeg';
 
 const sketchFunction = async (sketch, state) => {
 	state.size = 50;
@@ -7,15 +8,18 @@ const sketchFunction = async (sketch, state) => {
 	let img;
 
 	sketch.setup = async () => {
-		img = await sketch.loadImage('assets/image.jpg');
 		state.color = sketch.color(0);
+		sketch.angleMode(sketch.DEGREES);
 	};
 
 	sketch.draw = () => {
 		sketch.fill(state.color);
-		sketch.image(img, 0, 0, state.width, state.height);
-		sketch.circle(sketch.mouseX, sketch.mouseY, state.size);
-		sketch.circle(200, 200, state.size * 2);
+		sketch.background(255, 0, 255);
+		sketch.circle(
+			state.width / 2,
+			state.height / 2 + sketch.sin(sketch.frameCount * 5) * 500,
+			state.size
+		);
 	};
 
 	sketch.keyPressed = event => {
@@ -25,7 +29,7 @@ const sketchFunction = async (sketch, state) => {
 
 const plugins = [
 	catalyst.defaultPlugin(),
-	catalyst.languagePlugin('nl', {
+	catalyst.languagePlugin('en', {
 		LANG_SLEEP: { nl: 'slapen', en: 'sleep' },
 	}),
 	catalyst.randomizerPlugin(['slider', 'select']),
@@ -54,6 +58,9 @@ catalyst.initialize(
 				state.size = value;
 			}
 		);
+		gui.addButton('stopRecording', 'Stop Recording', controller => {
+			gui.stopRecording();
+		});
 	},
 	plugins
 );

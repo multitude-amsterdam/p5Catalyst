@@ -19,6 +19,8 @@ import type { GUIControllerInterface } from './gui_interface';
 
 import type { State, SketchFunction, Container } from './construction';
 
+import type { FFmpegLogEvent, FFmpegProgressEvent } from './ffmpeg';
+
 export type {
 	controllerValue,
 	serializedValue,
@@ -40,4 +42,6 @@ export type {
 	State,
 	Container,
 	SketchFunction,
+	FFmpegLogEvent,
+	FFmpegProgressEvent
 };
