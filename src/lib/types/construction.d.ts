@@ -19,6 +19,7 @@ export interface sketchHook {
 	canvasToClipboard: () => void;
 	exportImage: (fileType: imageFileType, fileName?: string) => void;
 	setTyping: (currentlyTyping: boolean) => void;
+	startRecording: () => void;
 	stopRecording: () => void;
 }
 

@@ -9,12 +9,7 @@ export const createGUI = (
 	config: Config,
 	userGUI?: (gui: GUIControllerInterface, state: State) => void
 ): GUIForP5 => {
-	const gui = new GUIForP5(
-		container.p5Instance,
-		container.state,
-		container.sketchHook,
-		config
-	);
+	const gui = new GUIForP5(container, config);
 
 	const guiInterface: GUIControllerInterface = {
 		addField: (id, className, parentDiv) => {
@@ -313,6 +308,9 @@ export const createGUI = (
 		},
 		getController: name => {
 			return gui.getController(name);
+		},
+		startRecording: () => {
+			container.sketchHook.startRecording();
 		},
 		stopRecording: () => {
 			container.sketchHook.stopRecording();

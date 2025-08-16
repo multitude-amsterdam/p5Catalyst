@@ -5,6 +5,7 @@ import { setConfigPlugin } from './setConfig_plugin';
 import { randomizerPlugin } from './randomizer_plugin';
 import { resolutionPresets } from './resolution_plugin';
 import { defaultPlugin } from './default_plugin';
+import { videoExportPlugin } from './videoExport_plugin';
 
 export {
 	defaultPlugin,
@@ -12,6 +13,7 @@ export {
 	resolutionPlugin,
 	resolutionPresets,
 	imageExportPlugin,
+	videoExportPlugin,
 	setConfigPlugin,
 	randomizerPlugin,
 };

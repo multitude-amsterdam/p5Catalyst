@@ -7,7 +7,7 @@ import type { P5Button, Serializable } from '../types/controller';
 import { Randomizer } from './randomizer';
 import { ChangeSet } from './changeset';
 import { ValuedController } from './valued_controller';
-import type { sketchHook } from '../types/construction';
+import type { Container, sketchHook } from '../types/construction';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -32,23 +32,21 @@ export class GUIForP5 {
 	/**
 	 * Constructs the GUI, creates the main div, and sets up theming and layout.
 	 */
-	constructor(
-		p5Instance: p5,
-		state: State,
-		sketch: sketchHook,
-		config: Config
-	) {
-		this.div = p5Instance.createDiv();
+	constructor(container: Container, config: Config) {
+		this.p5Instance = container.p5Instance;
+		this.state = container.state;
+		this.sketch = container.sketchHook;
+
+		this.div = this.p5Instance.createDiv();
 		this.div.id('gui');
-		this.p5Instance = p5Instance;
+
 		this.lang = new Lang(config.userDictionary);
 		this.lang.setup(config.defaultLanguage as LangCode);
-		this.state = state;
-		this.sketch = sketch;
+
 		this.changeSet = new ChangeSet(this, false);
 
 		if (config.createRandomizer)
-			this.randomizer = new Randomizer(p5Instance);
+			this.randomizer = new Randomizer(this.p5Instance);
 
 		this.darkMode = 'false';
 		this.loadLightDarkMode();

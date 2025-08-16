@@ -1,5 +1,4 @@
 import { catalyst } from './lib';
-import { ffmpegInit, logFFMPEG } from './lib/ffmpeg/ffmpeg';
 
 const sketchFunction = async (sketch, state) => {
 	state.size = 50;
@@ -10,14 +9,16 @@ const sketchFunction = async (sketch, state) => {
 	sketch.setup = async () => {
 		state.color = sketch.color(0);
 		sketch.angleMode(sketch.DEGREES);
+		sketch.noStroke();
+		sketch.frameRate(60);
 	};
 
 	sketch.draw = () => {
 		sketch.fill(state.color);
-		sketch.background(255, 0, 255);
+		sketch.background(0, 0, 255);
 		sketch.circle(
 			state.width / 2,
-			state.height / 2 + sketch.sin(sketch.frameCount * 5) * 500,
+			state.height / 2 + sketch.sin(sketch.frameCount * 2) * 700,
 			state.size
 		);
 	};
@@ -58,9 +59,6 @@ catalyst.initialize(
 				state.size = value;
 			}
 		);
-		gui.addButton('stopRecording', 'Stop Recording', controller => {
-			gui.stopRecording();
-		});
 	},
 	plugins
 );

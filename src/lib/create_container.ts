@@ -2,7 +2,7 @@ import p5 from 'p5';
 import type { Container, SketchFunction, State } from './types';
 import type { imageFileType } from './types/plugin';
 import type { sketchHook } from './types/construction';
-import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg/ffmpeg';
+import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg';
 
 export const createContainer = (
 	userSketch: SketchFunction
@@ -13,6 +13,7 @@ export const createContainer = (
 		canvasToClipboard: () => {},
 		exportImage: () => {},
 		setTyping: () => {},
+		startRecording: () => {},
 		stopRecording: () => {},
 	};
 

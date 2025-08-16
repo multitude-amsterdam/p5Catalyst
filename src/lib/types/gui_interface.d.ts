@@ -160,5 +160,6 @@ export interface GUIControllerInterface {
 	undo: () => void;
 	redo: () => void;
 	getController: <T extends Controller>(name: string) => T | undefined;
+	startRecording: () => void;
 	stopRecording: () => void;
 }
