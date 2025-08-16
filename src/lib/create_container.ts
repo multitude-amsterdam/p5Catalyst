@@ -32,7 +32,7 @@ export const createContainer = (
 				canvasScale: number;
 
 			let GuiTyping = false;
-			let isRecording = true;
+			let isRecording = false;
 
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
@@ -54,9 +54,17 @@ export const createContainer = (
 				sketchHook.setTyping = (currentlyTyping: boolean) => {
 					setTyping(currentlyTyping);
 				};
+				sketchHook.startRecording = () => {
+					console.log(canvas, canvas.elt);
+					isRecording = true;
+				};
 				sketchHook.stopRecording = () => {
 					isRecording = false;
-					ffmpegCreateMP4();
+					ffmpegCreateMP4(
+						state.width,
+						state.height,
+						sketch.getTargetFrameRate()
+					);
 				};
 
 				resolve({
@@ -68,7 +76,7 @@ export const createContainer = (
 
 			sketch.draw = () => {
 				if (isRecording) {
-					saveToLocalFFMPEG(sketch.frameCount, canvas);
+					saveToLocalFFMPEG(canvas);
 				}
 				originalDraw();
 			};

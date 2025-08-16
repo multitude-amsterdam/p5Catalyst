@@ -3,6 +3,7 @@ import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import type p5 from 'p5';
 
 let ffmpeg: FFmpeg;
+let frameId = 0;
 
 const MP4 = {
 	ext: 'mp4',
@@ -23,9 +24,13 @@ export async function ffmpegInit() {
 	ffmpeg = new FFmpeg();
 	const baseURL = 'https://unpkg.com/@ffmpeg/core-mt@0.12.10/dist/esm';
 
-	ffmpeg.on('log', ({ message }) => {});
+	ffmpeg.on('log', ({ message }) => {
+		console.log(message);
+	});
 
-	ffmpeg.on('progress', ({ progress, time }) => {});
+	ffmpeg.on('progress', ({ progress, time }) => {
+		console.log(progress, time);
+	});
 
 	await ffmpeg.load({
 		coreURL: await toBlobURL(
@@ -59,10 +64,11 @@ function convertDataURLToBinary(dataURL: string) {
 	return array;
 }
 
-export function saveToLocalFFMPEG(frameId: number, canvas: p5.Renderer) {
+export function saveToLocalFFMPEG(canvas: p5.Renderer) {
 	let dataURL = canvas.elt.toDataURL('image/png');
 	let pngData = convertDataURLToBinary(dataURL);
 	ffmpegSaveFrame(frameId, pngData);
+	frameId++;
 }
 
 let framesDirectoryCreated = false;
@@ -95,7 +101,11 @@ async function getFrameFileNames() {
 	return frameNames;
 }
 
-export async function ffmpegCreateMP4() {
+export async function ffmpegCreateMP4(
+	width: number,
+	height: number,
+	fps: number
+) {
 	console.log('exporting');
 	// create concatenation file list as .txt
 	let frames = await getFrameFileNames();
@@ -105,13 +115,9 @@ export async function ffmpegCreateMP4() {
 
 	// run ffmpeg concatenation
 	const outputFile = 'output.' + 'mp4';
-	const width = 1080,
-		height = 1920;
 
 	let args =
-		`-r ${30} -f image2 -safe 0 -f concat -i ${concatFile} -progress pipe:2 -vcodec libx264 -pix_fmt yuv420p -crf ${
-			ffmpegExportSettings.crf
-		} -vf fps=${30}.0,scale=${width}:${height}:flags=lanczos -movflags faststart ${outputFile}`.split(
+		`-r ${fps} -f image2 -safe 0 -f concat -i ${concatFile} -progress pipe:2 -vcodec libx264 -pix_fmt yuv420p -crf ${ffmpegExportSettings.crf} -vf fps=${fps}.0,scale=${width}:${height}:flags=lanczos -movflags faststart ${outputFile}`.split(
 			' '
 		);
 
@@ -124,4 +130,5 @@ export async function ffmpegCreateMP4() {
 		type: ffmpegExportSettings.mimeType,
 	});
 	downloadBlob(blob, 'output.mp4');
+	frameId = 0;
 }
