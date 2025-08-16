@@ -22,7 +22,7 @@ const sketchFunction = async (sketch, state) => {
 	};
 
 	sketch.keyPressed = event => {
-		console.log(event);
+		sketch.frameCount = 0;
 	};
 };
 

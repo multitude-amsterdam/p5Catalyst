@@ -8,14 +8,6 @@ export const createContainer = (
 	userSketch: SketchFunction
 ): Promise<Container> => {
 	const state: State = { width: 1080, height: 1080, time: 0 };
-	const sketchHook: sketchHook = {
-		resize: () => {},
-		canvasToClipboard: () => {},
-		exportImage: () => {},
-		setTyping: () => {},
-		startRecording: () => {},
-		stopRecording: () => {},
-	};
 
 	return new Promise(resolve => {
 		const containerSketch = async (sketch: p5) => {
@@ -34,37 +26,54 @@ export const createContainer = (
 			let GuiTyping = false;
 			let isRecording = false;
 
+			let duration = 20; //seconds
+			let framesToRender = duration * 60; //60fps
+			let progress = 0;
+
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
 				createCanvasWrapper();
 				containCanvasInWrapper();
 				await Promise.resolve(originalSetup());
-				sketchHook.resize = (width: number, height: number) => {
-					resizeCatalyst(width, height);
-				};
-				sketchHook.canvasToClipboard = () => {
-					copyCanvasToClipboard();
-				};
-				sketchHook.exportImage = (
-					fileType: imageFileType,
-					fileName?: string
-				) => {
-					exportImage(fileType, fileName);
-				};
-				sketchHook.setTyping = (currentlyTyping: boolean) => {
-					setTyping(currentlyTyping);
-				};
-				sketchHook.startRecording = () => {
-					console.log(canvas, canvas.elt);
-					isRecording = true;
-				};
-				sketchHook.stopRecording = () => {
-					isRecording = false;
-					ffmpegCreateMP4(
-						state.width,
-						state.height,
-						sketch.getTargetFrameRate()
-					);
+				const sketchHook = {
+					resize: (width: number, height: number) => {
+						resizeCatalyst(width, height);
+					},
+					canvasToClipboard: () => {
+						copyCanvasToClipboard();
+					},
+					exportImage: (
+						fileType: imageFileType,
+						fileName?: string
+					) => {
+						exportImage(fileType, fileName);
+					},
+					setTyping: (currentlyTyping: boolean) => {
+						setTyping(currentlyTyping);
+					},
+					startRecording: () => {
+						isRecording = true;
+						framesToRender = duration * sketch.getTargetFrameRate();
+						sketch.frameCount = 0;
+						progress = sketch.frameCount / framesToRender;
+						console.log('recording started here!');
+						console.log(duration, framesToRender, progress);
+					},
+					stopRecording: () => {
+						isRecording = false;
+						ffmpegCreateMP4(
+							state.width,
+							state.height,
+							sketch.getTargetFrameRate()
+						);
+					},
+					setDuration: (newDuration: number) => {
+						console.log('setting duration');
+						duration = newDuration;
+					},
+					setFrameRate: (frameRate: number) => {
+						sketch.frameRate(frameRate);
+					},
 				};
 
 				resolve({
@@ -75,10 +84,19 @@ export const createContainer = (
 			};
 
 			sketch.draw = () => {
+				progress = sketch.frameCount / framesToRender;
 				state.time = sketch.frameCount / sketch.getTargetFrameRate();
 				originalDraw();
 				if (isRecording) {
 					saveToLocalFFMPEG(canvas);
+					if (progress == 1) {
+						isRecording = false;
+						ffmpegCreateMP4(
+							state.width,
+							state.height,
+							sketch.getTargetFrameRate()
+						);
+					}
 				}
 			};
 

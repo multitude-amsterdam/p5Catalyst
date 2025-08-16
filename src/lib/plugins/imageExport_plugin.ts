@@ -9,7 +9,7 @@ export const imageExportPlugin: Plugin = (fileType: imageFileType) => ({
 		}
 		let fileName = config.fileName || 'p5Catalyst';
 
-		const exportField = gui.addField('exportField', 'button-group');
+		const exportField = gui.addField('imageExportField', 'button-group');
 
 		const copyButton = gui.addButton(
 			'buttonCopyPNG',

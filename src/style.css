@@ -170,8 +170,15 @@ body:where(.dark-mode) {
 
 .button-group {
 	display: flex;
-	flex-direction: row;
 	gap: var(--spacing-x);
+}
+
+.row {
+	flex-direction: row;
+}
+
+.column {
+	flex-direction: column;
 }
 
 /********************************* SCROLLBARS *********************************/

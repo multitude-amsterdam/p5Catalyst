@@ -315,6 +315,12 @@ export const createGUI = (
 		stopRecording: () => {
 			container.sketchHook.stopRecording();
 		},
+		setDuration: (duration: number) => {
+			container.sketchHook.setDuration(duration);
+		},
+		setFrameRate: (frameRate: number) => {
+			container.sketchHook.setFrameRate(frameRate);
+		},
 	};
 
 	userGUI?.(guiInterface, container.state);

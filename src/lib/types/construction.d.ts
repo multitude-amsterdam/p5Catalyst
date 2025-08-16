@@ -22,6 +22,8 @@ export interface sketchHook {
 	setTyping: (currentlyTyping: boolean) => void;
 	startRecording: () => void;
 	stopRecording: () => void;
+	setDuration: (duration: number) => void;
+	setFrameRate: (frameRate: number) => void;
 }
 
 export type Container = {

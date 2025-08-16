@@ -5,7 +5,35 @@ import type { Config, GUIControllerInterface, Plugin, State } from '../types';
 export const videoExportPlugin: Plugin = () => ({
 	name: 'videoExport',
 	setup: (gui: GUIControllerInterface, state: State) => {
-		const exportField = gui.addField('videoExportField', 'button-group');
+		const exportField = gui.addField(
+			'videoExportField',
+			'button-group column'
+		);
+		const timeField = gui.addField('timeField', 'button-group row');
+
+		const durationInput = gui.addTextbox(
+			'durationInput',
+			'Duration',
+			'10',
+			(controller, value) => {
+				const duration = parseFloat(value);
+				if (!isNaN(duration)) {
+					gui.setDuration(duration);
+				}
+			}
+		);
+
+		const frameRateInput = gui.addTextbox(
+			'frameRateInput',
+			'Framerate',
+			'60',
+			(controller, value) => {
+				const frameRate = parseInt(value);
+				if (!isNaN(frameRate)) {
+					gui.setFrameRate(frameRate);
+				}
+			}
+		);
 
 		const startButton = gui.addButton(
 			'startExport',
@@ -14,16 +42,11 @@ export const videoExportPlugin: Plugin = () => ({
 				gui.startRecording();
 			}
 		);
-		const stopButton = gui.addButton(
-			'stopExport',
-			'Stop Export',
-			controller => {
-				gui.stopRecording();
-			}
-		);
 
+		timeField.div.child(durationInput.div);
+		timeField.div.child(frameRateInput.div);
+		exportField.div.child(timeField.div);
 		exportField.div.child(startButton.div);
-		exportField.div.child(stopButton.div);
 	},
 
 	afterInit: () => {

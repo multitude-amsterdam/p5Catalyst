@@ -162,4 +162,6 @@ export interface GUIControllerInterface {
 	getController: <T extends Controller>(name: string) => T | undefined;
 	startRecording: () => void;
 	stopRecording: () => void;
+	setDuration: (duration: number) => void;
+	setFrameRate: (frameRate: number) => void;
 }
