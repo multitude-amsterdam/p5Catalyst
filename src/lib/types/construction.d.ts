@@ -6,6 +6,7 @@ export type SketchFunction = (
 export interface State {
 	width: number;
 	height: number;
+	time: number;
 	[key: string]: any; // Allow other properties
 }
 

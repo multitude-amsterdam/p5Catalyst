@@ -18,7 +18,7 @@ const WEBM_TRANSPARENT = {
 	crf: 21, // inverse quality (constant rate factor)
 };
 
-let ffmpegExportSettings = MP4;
+let ffmpegExportSettings = WEBM_TRANSPARENT;
 
 export async function ffmpegInit() {
 	ffmpeg = new FFmpeg();

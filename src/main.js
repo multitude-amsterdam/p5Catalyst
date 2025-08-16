@@ -4,8 +4,6 @@ const sketchFunction = async (sketch, state) => {
 	state.size = 50;
 	state.color;
 
-	let img;
-
 	sketch.setup = async () => {
 		state.color = sketch.color(0);
 		sketch.angleMode(sketch.DEGREES);
@@ -15,10 +13,10 @@ const sketchFunction = async (sketch, state) => {
 
 	sketch.draw = () => {
 		sketch.fill(state.color);
-		sketch.background(0, 0, 255);
+		sketch.clear();
 		sketch.circle(
-			state.width / 2,
-			state.height / 2 + sketch.sin(sketch.frameCount * 2) * 700,
+			state.width / 2 - state.size,
+			state.height / 2 + sketch.sin(state.time * 100) * 700,
 			state.size
 		);
 	};

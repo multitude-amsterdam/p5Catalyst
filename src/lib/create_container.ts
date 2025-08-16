@@ -7,7 +7,7 @@ import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg';
 export const createContainer = (
 	userSketch: SketchFunction
 ): Promise<Container> => {
-	const state: State = { width: 1080, height: 1080 };
+	const state: State = { width: 1080, height: 1080, time: 0 };
 	const sketchHook: sketchHook = {
 		resize: () => {},
 		canvasToClipboard: () => {},
@@ -75,10 +75,11 @@ export const createContainer = (
 			};
 
 			sketch.draw = () => {
+				state.time = sketch.frameCount / sketch.getTargetFrameRate();
+				originalDraw();
 				if (isRecording) {
 					saveToLocalFFMPEG(canvas);
 				}
-				originalDraw();
 			};
 
 			sketch.mouseMoved = () => {
