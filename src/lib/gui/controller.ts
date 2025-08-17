@@ -105,7 +105,7 @@ export class Controller extends Field {
 		this.gui = gui;
 		this.name = name;
 
-		if (labelStr !== undefined) {
+		if (labelStr !== undefined && labelStr !== '') {
 			labelStr = gui.lang.process(labelStr, true);
 			this.label = new Label(gui, this, labelStr, this.div);
 		}

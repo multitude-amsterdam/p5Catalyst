@@ -12,6 +12,12 @@ export const createGUI = (
 	const gui = new GUIForP5(container, config);
 
 	const guiInterface: GUIControllerInterface = {
+		addTabs: (...names) => {
+			return gui.addTabs(...names);
+		},
+		getTab: name => {
+			return gui.getTab(name);
+		},
 		addField: (id, className, parentDiv) => {
 			const field = new components.Field(gui, id, className, parentDiv);
 			return gui.addField(field);

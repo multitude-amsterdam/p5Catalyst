@@ -168,6 +168,11 @@ body:where(.dark-mode) {
 	color: var(--text-col);
 }
 
+.tab {
+	min-height: 500px;
+	border-bottom: var(--line-width) solid var(--base-col);
+}
+
 .button-group {
 	display: flex;
 	gap: var(--spacing-x);

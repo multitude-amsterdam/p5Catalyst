@@ -2,6 +2,8 @@ import { catalyst } from './lib';
 
 const sketchFunction = async (sketch, state) => {
 	state.size = 50;
+	state.width = 1080;
+	state.height = 1920;
 	state.color;
 
 	sketch.setup = async () => {
@@ -13,9 +15,9 @@ const sketchFunction = async (sketch, state) => {
 
 	sketch.draw = () => {
 		sketch.fill(state.color);
-		sketch.clear();
+		sketch.background(0, 0, 255);
 		sketch.circle(
-			state.width / 2 - state.size,
+			state.width / 2,
 			state.height / 2 + sketch.sin(state.time * 100) * 700,
 			state.size
 		);
@@ -31,32 +33,23 @@ const plugins = [
 	catalyst.languagePlugin('en', {
 		LANG_SLEEP: { nl: 'slapen', en: 'sleep' },
 	}),
-	catalyst.randomizerPlugin(['slider', 'select']),
+	catalyst.randomizerPlugin(['slider', 'select', 'crementer']),
 ];
 
 catalyst.initialize(
 	sketchFunction,
 	(gui, state) => {
-		gui.addColourBoxes(
-			'colorBox',
-			'colorBox',
-			['red', '#00bf0073', 'blue'],
+		const crementer = gui.addCrementer(
+			'crementer',
+			'Crementer',
 			0,
-			(controller, value) => {
-				state.color = value;
-			}
+			10,
+			5,
+			1
 		);
-		gui.addSlider(
-			'slider',
-			'slider',
-			0,
-			500,
-			250,
-			1,
-			(controller, value) => {
-				state.size = value;
-			}
-		);
+		const slider = gui.addSlider('slider', 'slider', 0, 10, 5, 1);
+
+		gui.getTab('appearance').addFields(crementer, slider);
 	},
 	plugins
 );

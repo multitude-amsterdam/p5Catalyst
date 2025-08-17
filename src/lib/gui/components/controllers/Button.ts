@@ -30,7 +30,7 @@ export class Button extends Controller {
 		callback?: controllerCallback,
 		setupCallback?: setupCallback
 	) {
-		super(gui, name, labelStr, setupCallback);
+		super(gui, name, '', setupCallback);
 		labelStr = gui.lang.process(labelStr);
 		this.controllerElement = gui.p5Instance.createButton(labelStr);
 		this.controllerElement.parent(this.controllerWrapper);

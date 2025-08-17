@@ -9,7 +9,16 @@ export const imageExportPlugin: Plugin = (fileType: imageFileType) => ({
 		}
 		let fileName = config.fileName || 'p5Catalyst';
 
-		const exportField = gui.addField('imageExportField', 'button-group');
+		const exportTab = gui.getTab('export');
+
+		const exportField = gui.addField(
+			'imageExportField',
+			'button-group column'
+		);
+
+		const buttonGroup = gui.addField('buttonGroup', 'button-group row');
+
+		const title = gui.addTitle(3, 'Export Image');
 
 		const copyButton = gui.addButton(
 			'buttonCopyPNG',
@@ -25,7 +34,12 @@ export const imageExportPlugin: Plugin = (fileType: imageFileType) => ({
 				state.exportImage(fileType, fileName);
 			}
 		);
-		exportField.div.child(copyButton.div);
-		exportField.div.child(downloadButton.div);
+
+		exportField.div.child(title.div);
+		buttonGroup.div.child(copyButton.div);
+		buttonGroup.div.child(downloadButton.div);
+		exportField.div.child(buttonGroup.div);
+
+		exportTab?.addFields(exportField);
 	},
 });

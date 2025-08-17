@@ -9,7 +9,12 @@ export const videoExportPlugin: Plugin = () => ({
 			'videoExportField',
 			'button-group column'
 		);
+
+		const exportTab = gui.getTab('export');
+
 		const timeField = gui.addField('timeField', 'button-group row');
+
+		const title = gui.addTitle(3, 'Export Video');
 
 		const durationInput = gui.addTextbox(
 			'durationInput',
@@ -37,7 +42,7 @@ export const videoExportPlugin: Plugin = () => ({
 
 		const startButton = gui.addButton(
 			'startExport',
-			'Start Export',
+			'Start Export!',
 			controller => {
 				gui.startRecording();
 			}
@@ -45,8 +50,11 @@ export const videoExportPlugin: Plugin = () => ({
 
 		timeField.div.child(durationInput.div);
 		timeField.div.child(frameRateInput.div);
+		exportField.div.child(title.div);
 		exportField.div.child(timeField.div);
 		exportField.div.child(startButton.div);
+
+		exportTab?.addFields(exportField);
 	},
 
 	afterInit: () => {

@@ -5,8 +5,15 @@ import type { State, Plugin, GUIControllerInterface } from '../types';
 export const resolutionPlugin: Plugin = (resolutionOptions: string[]) => ({
 	name: 'resolution',
 	setup: (gui: GUIControllerInterface, state: State) => {
-		gui.addResolutionSelect(
-			'resolutionSelect',
+		const exportTab = gui.getTab('export');
+
+		const resolutionField = gui.addField(
+			'resolutionField',
+			'button-group column'
+		);
+		const title = gui.addTitle(3, 'Resolution');
+		const resolutionSelect = gui.addResolutionSelect(
+			'',
 			resolutionOptions,
 			0,
 			(controller, value) => {
@@ -17,7 +24,16 @@ export const resolutionPlugin: Plugin = (resolutionOptions: string[]) => ({
 					resbox.setValueOnlyDisplay(state.width, state.height);
 			}
 		);
-		gui.addResolutionTextBoxes(state.width, state.height);
+		const resolutionTextbox = gui.addResolutionTextBoxes(
+			state.width,
+			state.height
+		);
+
+		resolutionField.div.child(title.div);
+		resolutionField.div.child(resolutionSelect.div);
+		resolutionField.div.child(resolutionTextbox.div);
+
+		exportTab?.addFields(resolutionField);
 	},
 });
 

@@ -26,6 +26,8 @@ import type {
 } from '../gui/components';
 
 export interface GUIControllerInterface {
+	addTabs: (...names: string[]) => Tab[];
+	getTab: (name: string) => Tab | undefined;
 	addField: (id: string, className: string, parentDiv?: p5.Element) => Field;
 	addTitle: (hSize: number, text: string, doAlignCenter?: boolean) => Title;
 	addTextField: (
@@ -164,4 +166,14 @@ export interface GUIControllerInterface {
 	stopRecording: () => void;
 	setDuration: (duration: number) => void;
 	setFrameRate: (frameRate: number) => void;
+}
+
+export class Tab {
+	gui: GUIForP5;
+	name: string;
+	div: p5.Element;
+
+	addFields<T extends Field>(field: T);
+	hide();
+	show();
 }

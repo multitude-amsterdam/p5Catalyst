@@ -8,6 +8,7 @@ import { Randomizer } from './randomizer';
 import { ChangeSet } from './changeset';
 import { ValuedController } from './valued_controller';
 import type { Container, sketchHook } from '../types/construction';
+import { Tab } from './tab';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -25,6 +26,10 @@ export class GUIForP5 {
 
 	fields: Field[] = [];
 	controllers: any[] = [];
+
+	tabs: Tab[] = [];
+	tabBar?: p5.Element;
+	activeTab?: Tab;
 
 	darkMode: 'true' | 'false' | 'auto';
 	changeSet: ChangeSet;
@@ -236,6 +241,64 @@ export class GUIForP5 {
 		if (doAddToRandomizerAs !== undefined)
 			this.randomizer?.addController(controller, doAddToRandomizerAs);
 		return controller;
+	}
+
+	/**
+	 * @param  {...Tab} tabs
+	 */
+	addTabs(...names: string[]): Tab[] {
+		if (this.tabs.length == 0) {
+			this.tabs = [];
+			// this.activeTab = null;
+			this.tabBar = this.p5Instance.createDiv();
+			this.tabBar.addClass('tab-bar');
+			this.div.child(this.tabBar);
+		}
+
+		let newTabs: Tab[] = [];
+
+		console.log(names);
+		for (const name of names) {
+			const tab = new Tab(this, name);
+			newTabs.push(tab);
+			this.tabs.push(tab);
+
+			this.div.child(tab.div);
+			tab.hide();
+
+			const tabBtn = this.p5Instance.createButton(tab.name);
+			// tabBtn.attribute('data-tabname', tab.name);
+			tabBtn.mousePressed(() => this.activateTab(tab.name));
+			this.tabBar?.child(tabBtn);
+		}
+
+		if (this.tabs.length > 0) {
+			this.activateTab(this.tabs[0].name);
+		}
+
+		return newTabs;
+	}
+
+	activateTab(tabName: string) {
+		const tabToShow = this.getTab(tabName);
+		if (!tabToShow) return;
+
+		for (let tab of this.tabs) {
+			tab.hide();
+		}
+
+		tabToShow.show();
+		this.activeTab = tabToShow;
+
+		const buttons = this.tabBar?.elt.querySelectorAll('button');
+		for (let [i, button] of buttons.entries()) {
+			button.classList.toggle('active', tabName === this.tabs[i].name);
+		}
+	}
+
+	getTab(name: string): Tab | undefined {
+		const tab = this.tabs.find(tab => tab.name === name);
+		return tab;
 	}
 
 	//   /**
