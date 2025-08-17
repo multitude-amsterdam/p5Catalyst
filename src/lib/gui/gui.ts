@@ -266,7 +266,9 @@ export class GUIForP5 {
 			this.div.child(tab.div);
 			tab.hide();
 
-			const tabBtn = this.p5Instance.createButton(tab.name);
+			const tabBtn = this.p5Instance.createButton(
+				tab.name.charAt(0).toUpperCase() + tab.name.slice(1)
+			);
 			// tabBtn.attribute('data-tabname', tab.name);
 			tabBtn.mousePressed(() => this.activateTab(tab.name));
 			this.tabBar?.child(tabBtn);

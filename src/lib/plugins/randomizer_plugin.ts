@@ -8,7 +8,6 @@ export const randomizerPlugin: Plugin = (controllerNames: string[]) => ({
 		config.createRandomizer = true;
 	},
 	setup: (gui: GUIControllerInterface, state: State) => {
-		const settingsTab = gui.getTab('settings');
 		const randomizerButton = gui.addButton(
 			'randomizer',
 			'LANG_RANDOMIZE',
@@ -16,7 +15,6 @@ export const randomizerPlugin: Plugin = (controllerNames: string[]) => ({
 				gui.randomize();
 			}
 		);
-		settingsTab?.addFields(randomizerButton);
 	},
 	afterInit: (gui: GUIForP5) => {
 		const controllers: Controller[] = gui.getControllers(controllerNames);

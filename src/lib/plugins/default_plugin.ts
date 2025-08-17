@@ -10,7 +10,15 @@ export const defaultPlugin: Plugin = () => [
 	{
 		name: 'test',
 		setup: (gui: GUIControllerInterface, state: State) => {
-			gui.addTabs('appearance', 'export', 'settings');
+			const [appearanceTab, exportTab, settingsTab] = gui.addTabs(
+				'appearance',
+				'export',
+				'settings'
+			);
+			const appearanceTitle = gui.addTitle(3, 'Appearance');
+			const settingsTitle = gui.addTitle(3, 'Settings');
+			appearanceTab.addFields(appearanceTitle);
+			settingsTab.addFields(settingsTitle);
 		},
 	},
 	languagePlugin('en'),
@@ -20,7 +28,6 @@ export const defaultPlugin: Plugin = () => [
 	{
 		name: 'changeSetButtons',
 		setup: (gui: GUIControllerInterface, state: State) => {
-			const settingsTab = gui.getTab('settings');
 			const undoRedoField = gui.addField('', 'button-group');
 			const undoButton = gui.addButton(
 				'undo',
@@ -38,7 +45,6 @@ export const defaultPlugin: Plugin = () => [
 			);
 			undoRedoField.div.child(undoButton.div);
 			undoRedoField.div.child(redoButton.div);
-			settingsTab?.addFields(undoRedoField);
 		},
 	},
 ];

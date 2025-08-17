@@ -33,23 +33,34 @@ const plugins = [
 	catalyst.languagePlugin('en', {
 		LANG_SLEEP: { nl: 'slapen', en: 'sleep' },
 	}),
-	catalyst.randomizerPlugin(['slider', 'select', 'crementer']),
+	catalyst.randomizerPlugin(['slider', 'colorBox']),
 ];
 
 catalyst.initialize(
 	sketchFunction,
 	(gui, state) => {
-		const crementer = gui.addCrementer(
-			'crementer',
-			'Crementer',
+		const colorBox = gui.addColourBoxes(
+			'colorBox',
+			'Circle Color',
+			['red', 'green', 'yellow'],
 			0,
-			10,
-			5,
-			1
+			(controller, value) => {
+				state.color = value;
+			}
 		);
-		const slider = gui.addSlider('slider', 'slider', 0, 10, 5, 1);
+		const slider = gui.addSlider(
+			'slider',
+			'slider',
+			1,
+			500,
+			100,
+			1,
+			(controller, value) => {
+				state.size = value;
+			}
+		);
 
-		gui.getTab('appearance').addFields(crementer, slider);
+		gui.getTab('appearance').addFields(colorBox, slider);
 	},
 	plugins
 );
