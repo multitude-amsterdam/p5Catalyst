@@ -13,11 +13,12 @@ export const createContainer = (
 		const containerSketch = async (sketch: p5) => {
 			await userSketch(sketch, state);
 
-			const originalSetup = sketch.setup || (() => {});
-			const originalDraw = sketch.draw || (() => {});
-			const originalMouseMoved = sketch.mouseMoved || (() => {});
-			const originalKeyPressed =
+			const userSetup = sketch.setup || (() => {});
+			const userDraw = sketch.draw || (() => {});
+			const userMouseMoved = sketch.mouseMoved || (() => {});
+			const userKeyPressed =
 				sketch.keyPressed || ((event: KeyboardEvent) => {});
+			// TODO: add all possible p5 event functions
 
 			let canvas: p5.Renderer,
 				canvasWrapper: p5.Element,
@@ -34,7 +35,7 @@ export const createContainer = (
 				canvas = sketch.createCanvas(state.width, state.height);
 				createCanvasWrapper();
 				containCanvasInWrapper();
-				await Promise.resolve(originalSetup());
+				await Promise.resolve(userSetup());
 				const sketchHook = {
 					resize: (width: number, height: number) => {
 						resizeCatalyst(width, height);
@@ -86,7 +87,7 @@ export const createContainer = (
 			sketch.draw = () => {
 				progress = sketch.frameCount / framesToRender;
 				state.time = sketch.frameCount / sketch.getTargetFrameRate();
-				originalDraw();
+				userDraw();
 				if (isRecording) {
 					saveToLocalFFMPEG(canvas);
 					if (progress == 1) {
@@ -101,12 +102,12 @@ export const createContainer = (
 			};
 
 			sketch.mouseMoved = () => {
-				originalMouseMoved();
+				userMouseMoved();
 			};
 
 			sketch.keyPressed = (event: KeyboardEvent) => {
 				if (GuiTyping) return;
-				originalKeyPressed(event);
+				userKeyPressed(event);
 			};
 
 			function setTyping(currentlyTyping: boolean) {
