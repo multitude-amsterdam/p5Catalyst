@@ -2,23 +2,28 @@ import { FFmpeg, type FSNode } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import type p5 from 'p5';
 
+import type { VideoFormatSettings } from '../types';
+
 let ffmpeg: FFmpeg;
 let frameId = 0;
 
-const MP4 = {
+const MP4: VideoFormatSettings = {
 	ext: 'mp4',
 	mimeType: 'video/mp4',
-	crf: 21, // inverse quality (constant rate factor)
+	crf: 21,
+	command:
+		'-r FFMPEG_FPS -f image2 -safe 0 -f concat -i FFMPEG_CONCATFILE -progress pipe:2 -vcodec libx264 -pix_fmt yuv420p -crf FFMPEG_CRF -vf fps=FFMPEG_FPS,scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos -movflags faststart FFMPEG_OUTPUTFILE',
 };
 
-const WEBM_TRANSPARENT = {
+const WEBM_TRANSPARENT: VideoFormatSettings = {
 	ext: 'webm',
 	// mimeType: 'video/webm;codecs=vp9',
 	mimeType: 'video/webm',
-	crf: 21, // inverse quality (constant rate factor)
+	crf: 21,
+	command: 'TODO: see legacy file',
 };
 
-let ffmpegExportSettings = WEBM_TRANSPARENT;
+let videoExportSettings = MP4;
 
 export async function ffmpegInit() {
 	ffmpeg = new FFmpeg();
@@ -75,7 +80,7 @@ let framesDirectoryCreated = false;
 
 async function ffmpegSaveFrame(frameId: number, pngData: Uint8Array) {
 	if (!framesDirectoryCreated) {
-		await ffmpeg.createDir('frames');
+		await ffmpeg.createDir('/frames');
 		framesDirectoryCreated = true;
 	}
 
@@ -94,7 +99,7 @@ function downloadBlob(blob: Blob, filename: string) {
 }
 
 async function getFrameFileNames() {
-	const frames: FSNode[] = await ffmpeg.listDir('frames');
+	const frames: FSNode[] = await ffmpeg.listDir('/frames');
 	const frameNames: string[] = frames
 		.filter(item => !item.isDir)
 		.map(frame => frame.name);
@@ -114,12 +119,18 @@ export async function ffmpegCreateMP4(
 	await ffmpeg.writeFile(concatFile, inputPaths.join('\n'));
 
 	// run ffmpeg concatenation
-	const outputFile = 'output.' + 'mp4';
+	const outputFile = 'output.' + videoExportSettings.ext;
 
-	let args =
-		`-r ${fps} -f image2 -safe 0 -f concat -i ${concatFile} -progress pipe:2 -vcodec libx264 -pix_fmt yuv420p -crf ${ffmpegExportSettings.crf} -vf fps=${fps}.0,scale=${width}:${height}:flags=lanczos -movflags faststart ${outputFile}`.split(
-			' '
-		);
+	let cmd = videoExportSettings.command;
+	cmd = cmd.replaceAll('FFMPEG_FPS', '' + fps);
+	cmd = cmd.replaceAll('FFMPEG_CONCATFILE', concatFile);
+	cmd = cmd.replaceAll('FFMPEG_CRF', '' + (videoExportSettings.crf || 21));
+	cmd = cmd.replaceAll('FFMPEG_OUTPUTFILE', outputFile);
+	cmd = cmd.replaceAll('FFMPEG_WIDTH', '' + width);
+	cmd = cmd.replaceAll('FFMPEG_HEIGHT', '' + height);
+	let args = cmd.split(' ');
+
+	console.log(cmd);
 
 	let execResult = await ffmpeg.exec(args);
 	console.log(execResult);
@@ -127,8 +138,11 @@ export async function ffmpegCreateMP4(
 	// load mp4 to HTML video element
 	const data = await ffmpeg.readFile(outputFile);
 	const blob = new Blob([data as Uint8Array], {
-		type: ffmpegExportSettings.mimeType,
+		type: videoExportSettings.mimeType,
 	});
-	downloadBlob(blob, 'output.mp4');
+	downloadBlob(blob, outputFile);
 	frameId = 0;
+
+	// await ffmpeg.deleteDir('/frames');
+	// framesDirectoryCreated = false;
 }
