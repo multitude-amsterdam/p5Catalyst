@@ -13,7 +13,7 @@ import type {
 
 import type { LangCode, Dictionary, DictionaryEntry } from './lang';
 
-import type { Plugin, Config, UserConfig } from './plugin_types';
+import type { Plugin, Config, UserConfig } from './plugin';
 
 import type { GUIControllerInterface } from './gui_interface';
 
@@ -43,5 +43,5 @@ export type {
 	Container,
 	SketchFunction,
 	FFmpegLogEvent,
-	FFmpegProgressEvent
+	FFmpegProgressEvent,
 };
