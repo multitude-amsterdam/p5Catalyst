@@ -28,7 +28,8 @@ export const createContainer = (
 			let isRecording = false;
 
 			let duration = 20; //seconds
-			let framesToRender = duration * 60; //60fps
+			let fps = 60;
+			let nFramesToRender = Math.floor(duration * fps);
 			let progress = 0;
 
 			sketch.setup = async () => {
@@ -54,11 +55,12 @@ export const createContainer = (
 					},
 					startRecording: () => {
 						isRecording = true;
-						framesToRender = duration * sketch.getTargetFrameRate();
+						nFramesToRender =
+							duration * sketch.getTargetFrameRate();
 						sketch.frameCount = 0;
-						progress = sketch.frameCount / framesToRender;
+						progress = 0;
 						console.log('recording started here!');
-						console.log(duration, framesToRender, progress);
+						console.log(duration, nFramesToRender, progress);
 					},
 					stopRecording: () => {
 						isRecording = false;
@@ -77,15 +79,11 @@ export const createContainer = (
 					},
 				};
 
-				resolve({
-					p5Instance,
-					state,
-					sketchHook,
-				});
+				resolve({ p5Instance, state, sketchHook });
 			};
 
 			sketch.draw = () => {
-				progress = sketch.frameCount / framesToRender;
+				progress = sketch.frameCount / nFramesToRender;
 				state.time = sketch.frameCount / sketch.getTargetFrameRate();
 				userDraw();
 				if (isRecording) {
