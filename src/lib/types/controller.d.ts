@@ -21,7 +21,7 @@ export interface P5Button extends p5.Element {
 	click(): void;
 }
 
-export type controllerValue = string | number | p5.Color | p5.Vector;
+export type controllerValue = string | number | boolean | p5.Color | p5.Vector;
 
 export interface serializedValue {
 	type: 'Vector' | 'Color' | 'Basic';
