@@ -1,5 +1,5 @@
-![p5Catalyst](./app/assets/p5catalyst-logo-darkmode.svg#gh-dark-mode-only)
-![p5Catalyst](./app/assets/p5catalyst-logo-lightmode.svg#gh-light-mode-only)
+![p5Catalyst](./app/assets/dark-mode/p5catalyst-logo.svg#gh-dark-mode-only)
+![p5Catalyst](./app/assets/p5catalyst-logo.svg#gh-light-mode-only)
 
 <p align="center">
 	<a style="text-decoration:none !important;" href="./LICENSE"><img alt="p5Catalyst license" src="https://img.shields.io/github/license/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7"></a>
@@ -12,7 +12,7 @@
 	<a style="text-decoration:none !important;" href="https://github.com/multitude-amsterdam/p5Catalyst/pulls"><img alt="p5Catalyst pull-requests" src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7"></a>
 </p>
 
-<p align="center"><em>🚧 Major update underway: we're migrating to Vite + modular architecture. Follow progress in the <code>vite-refactor</code> branch.</em></p>
+<p align="center"><em>🚧 Major update underway: we're migrating to Vite + modular architecture. Follow progress in the <code>vite</code> branch.</em></p>
 
 ---
 
