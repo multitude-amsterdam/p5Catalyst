@@ -19,7 +19,11 @@
 		"noUnusedParameters": false,
 		"erasableSyntaxOnly": true,
 		"noFallthroughCasesInSwitch": true,
-		"noUncheckedSideEffectImports": true
+		"noUncheckedSideEffectImports": true,
+
+		/* Browser dev tools */
+		"sourceMap": true,
+		"inlineSources": true
 	},
 	"include": ["src"]
 }
