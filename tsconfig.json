@@ -28,8 +28,14 @@
 		/* Path aliases */
 		"baseUrl": ".",
 		"paths": {
-			"@utils/*": ["src/lib/utils/*"]
+			"utils/*": ["src/lib/utils/*"]
 		}
+
+		// "typeRoots": [
+		// 	"./node_modules/@types",
+		// 	"./node_modules/vite/client",
+		// 	"./node_modules/p5/*"
+		// ]
 	},
 	"include": ["src"]
 }
