@@ -23,7 +23,13 @@
 
 		/* Browser dev tools */
 		"sourceMap": true,
-		"inlineSources": true
+		"inlineSources": true,
+
+		/* Path aliases */
+		"baseUrl": ".",
+		"paths": {
+			"@utils/*": ["src/lib/utils/*"]
+		}
 	},
 	"include": ["src"]
 }
