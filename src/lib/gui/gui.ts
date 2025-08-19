@@ -21,7 +21,9 @@ export class GUIForP5 {
 	state: State;
 	sketch: sketchHook;
 	lang: Lang;
+	dialog: Dialog;
 	isOnLeftSide: boolean = true;
+	isTypingText: boolean = false;
 	static verbose = !false;
 
 	fields: Field[] = [];
@@ -57,6 +59,8 @@ export class GUIForP5 {
 		this.loadLightDarkMode();
 
 		this.setLeft();
+
+		this.dialog = new Dialog(this);
 	}
 
 	/**
@@ -66,6 +70,17 @@ export class GUIForP5 {
 		for (let controller of this.controllers) {
 			controller.setup();
 		}
+
+		this.changeSet.save();
+
+		if (localStorage.doShowHelpOnLoad === undefined) {
+			this.showHelp();
+			localStorage.doShowHelpOnLoad = 'false';
+		}
+	}
+
+	showHelp() {
+		this.dialog.alert('HELP');
 	}
 
 	/**
