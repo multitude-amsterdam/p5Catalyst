@@ -36,8 +36,6 @@ const plugins = [
 	catalyst.randomizerPlugin(['slider', 'colorBox']),
 ];
 
-const container = await catalyst.createContainer(sketchFunction);
-
 catalyst.initialize(
 	sketchFunction,
 	(gui, state) => {
@@ -62,7 +60,11 @@ catalyst.initialize(
 			}
 		);
 
-		gui.getTab('appearance').addFields(colorBox, slider);
+		const panel = gui.addPanel('Panel');
+
+		panel.addFields([colorBox, slider]);
+
+		gui.getTab('appearance').addFields(panel);
 	},
 	plugins
 );

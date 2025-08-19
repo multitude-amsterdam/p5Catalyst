@@ -20,7 +20,8 @@ export default class Tab {
 	//    * @param {Field} field
 	//    * @returns {Field}
 	//    */
-	addFields<T extends Field>(...fields: T[]) {
+	addFields<T extends Field>(fields: T | T[]) {
+		fields = Array.isArray(fields) ? fields : [fields];
 		for (const field of fields) {
 			this.div.child(field.div);
 		}

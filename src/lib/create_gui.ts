@@ -18,6 +18,11 @@ export const createGUI = (
 		getTab: name => {
 			return gui.getTab(name);
 		},
+		addPanel: name => {
+			const panel = new components.Panel(gui, name);
+
+			return gui.addField(panel);
+		},
 		addField: (id, className, parentDiv) => {
 			const field = new components.Field(gui, id, className, parentDiv);
 			return gui.addField(field);
