@@ -1,4 +1,4 @@
-import p5, { Vector, Color, __Graphics__ as Graphics } from 'p5';
+import p5 from 'p5';
 /**
  * Execute a drawing function wrapped in push/pop calls. Can also operate on a
  * {@link p5.Graphics} instance if provided.
@@ -11,8 +11,6 @@ export function pushpop(canvas: p5.Graphics, func: () => void): void {
 
 /**
  * Draw an image fitted to the canvas centre.
- * @param {p5.Image} img Image to draw.
- * @param {boolean} doFill Fit or contain flag.
  */
 export function imageCentered(
 	sketch: p5,
@@ -41,7 +39,7 @@ export function imageCenteredXYScale(
 	posY: number = 0,
 	sc: number = 1,
 	doFlipHorizontal = false
-) {
+): void {
 	canvas.push();
 	{
 		canvas.resetMatrix();

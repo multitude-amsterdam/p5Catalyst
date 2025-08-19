@@ -1,4 +1,4 @@
-import { Vector, __Graphics__ as Graphics } from 'p5';
+import p5, { Vector } from 'p5';
 // import p5 from 'p5';
 
 /* -------------------------------- CONSTANTS ------------------------------- */
@@ -227,7 +227,7 @@ export function isInCanvas(
 /**
  * Check whether a vector lies within the offscreen graphics buffer.
  */
-export function inPg(v: Vector, pg: Graphics, offs: number = 0): boolean {
+export function inPg(v: Vector, pg: p5.Graphics, offs: number = 0): boolean {
 	return isInBounds(v, 0, 0, pg.width, pg.height, offs);
 }
 

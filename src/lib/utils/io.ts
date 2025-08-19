@@ -1,4 +1,4 @@
-import type p5 from 'p5';
+import p5 from 'p5';
 
 /**
  * Check if two arrays contain the same values in the same order.

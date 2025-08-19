@@ -30,7 +30,7 @@ export class Circle extends Vector {
 		this.r = r;
 	}
 
-	distanceToPoint(pt: Vector) {
+	distanceToPoint(pt: Vector): number {
 		return Vector.dist(this, pt) - this.r;
 	}
 }
