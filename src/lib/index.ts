@@ -22,7 +22,7 @@ import type {
 const initialize = async (
 	sketchFunction: SketchFunction,
 	guiSetup?: (gui: GUIControllerInterface, state: State) => void,
-	userPlugins?: (Plugin | Plugin[])[]
+	userPlugins?: Plugin[]
 ) => {
 	const config: Config = {};
 	userPlugins = userPlugins?.flat();
