@@ -241,17 +241,67 @@ function randCol() {
 }
 
 /**
- * Calculate the luminance of a colour.
- * @param {p5.Color|number[]} col
- * @returns {number}
+ * Calculates the relative luminance of a color in sRGB color space.
+ * The returned value is a number between 0 (black) and 1 (white), representing the perceived brightness.
+ *
+ * From: https://alvaromontoro.medium.com/building-a-color-contrast-checker-e62d53618318
+ *
+ * @param {p5.Color} color - The color value to compute luminance for. Must be compatible with p5.js color functions.
+ * @returns {number} The relative luminance of the color (0 to 1).
  */
-function lum(col) {
-	if (!col.levels) col = color(col);
-	return (
-		(0.2125 * col.levels[0]) / 255 +
-		(0.7154 * col.levels[1]) / 255 +
-		(0.0721 * col.levels[2]) / 255
-	);
+function luminance(color) {
+	// luminance as sRGB
+	const a = [red(color), green(color), blue(color)].map(v => {
+		v /= 255;
+		return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+	});
+	return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+}
+
+/**
+ * Calculate the contrast ratio between two colors.
+ * The contrast ratio is calculated using the formula:
+ * ( L1 + 0.05 ) / ( L2 + 0.05 )
+ * where L1 is the luminance of the lighter color and L2 is the luminance of the darker color.
+ * From: https://alvaromontoro.medium.com/building-a-color-contrast-checker-e62d53618318
+ * @param {p5.Color} colA - The first color.
+ * @param {p5.Color} colB - The second color.
+ * @returns {number} The contrast ratio between the two colors.
+ */
+function colorContrast(colA, colB) {
+	const lumA = luminance(colA);
+	const lumB = luminance(colB);
+
+	return lumA > lumB
+		? (lumB + 0.05) / (lumA + 0.05)
+		: (lumA + 0.05) / (lumB + 0.05);
+}
+/**
+ * Check if two colors are WCAG compliant.
+ * Returns an object with boolean values indicating compliance for different text sizes.
+ * WCAG AA guidelines: https://www.w3.org/TR/WCAG21/#contrast-minimum
+ * WCAG AAA guidelines: https://www.w3.org/TR/WCAG21/#contrast-enhanced
+ * @param {p5.Color} colA - The first color.
+ * @param {p5.Color} colB - The second color.
+ * @return {Object} An object with boolean values indicating compliance for different text sizes.
+ * @example
+ * isWCAGCompliant(color(255, 255, 255), color(0, 0, 0));
+ * // Returns:
+ * // {
+ * //   'AA-level large text': true,
+ * //   'AA-level small text': true,
+ * //   'AAA-level large text': true,
+ * //   'AAA-level small text': true
+ * // }
+ */
+function isWCAGCompliant(colA, colB) {
+	const contrast = colorContrast(colA, colB);
+	return {
+		'AA-level large text': ratio < 1 / 3,
+		'AA-level small text': ratio < 1 / 4.5,
+		'AAA-level large text': ratio < 1 / 4.5,
+		'AAA-level small text': ratio < 1 / 7,
+	};
 }
 
 /**
