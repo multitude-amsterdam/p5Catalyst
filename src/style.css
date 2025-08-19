@@ -1,4 +1,7 @@
 /********************************* FONTS *********************************/
+
+@import url('https://rsms.me/inter/inter.css');
+
 * {
 	font-size: 1rem;
 	font-family: InterVariable, Inter, sans-serif;
