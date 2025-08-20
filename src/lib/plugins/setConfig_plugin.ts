@@ -1,8 +1,10 @@
 import type { Plugin, Config, UserConfig } from '../types';
 
-export const setConfigPlugin: Plugin = (userConfig: UserConfig) => ({
-	name: 'setConfig',
-	beforeInit: (config: Config) => {
-		Object.assign(config, userConfig);
-	},
-});
+export function setConfigPlugin(userConfig: UserConfig): Plugin {
+	return {
+		name: 'setConfig',
+		beforeInit: (config: Config) => {
+			Object.assign(config, userConfig);
+		},
+	};
+}

@@ -1,6 +1,6 @@
 import type { GUIControllerInterface } from './gui_interface';
 import type { State } from './construction';
-import type { GUIForP5 } from '../gui/gui';
+import type GUIForP5 from '../gui/gui';
 import type { Dictionary } from './lang';
 
 export interface Plugin {

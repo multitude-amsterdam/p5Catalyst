@@ -21,7 +21,7 @@ export const defaultPlugin: Plugin = () => [
 			settingsTab.addFields(settingsTitle);
 		},
 	},
-	languagePlugin('en'),
+	languagePlugin('en'), // empty userDictionary
 	resolutionPlugin(resolutionPresets),
 	imageExportPlugin('jpg'),
 	videoExportPlugin(),

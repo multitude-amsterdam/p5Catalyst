@@ -1,5 +1,5 @@
-import type { Controller } from '../gui/controller';
-import type { GUIForP5 } from '../gui/gui';
+import type Controller from '../gui/controller';
+import type GUIForP5 from '../gui/gui';
 import type { Plugin, Config, GUIControllerInterface, State } from '../types';
 
 export const randomizerPlugin: Plugin = (controllerNames: string[]) => ({

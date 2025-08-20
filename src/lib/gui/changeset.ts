@@ -1,4 +1,4 @@
-import type { GUIForP5 } from './gui';
+import type GUIForP5 from './gui';
 
 export default class ChangeSet {
 	static localStorageKey = 'changeset';
