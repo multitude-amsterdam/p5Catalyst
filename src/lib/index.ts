@@ -9,6 +9,7 @@ import {
 	imageExportPlugin,
 	setConfigPlugin,
 	randomizerPlugin,
+	debugPlugin,
 } from './plugins';
 
 import type {
@@ -30,11 +31,7 @@ const initialize = async (
 
 	const container = await createContainer(sketchFunction);
 	const gui = createGUI(container, config, (gui, state) => {
-		userPlugins?.forEach(
-			plugin => (
-				plugin.setup?.(gui, state, config), console.log(plugin.name)
-			)
-		);
+		userPlugins?.forEach(plugin => plugin.setup?.(gui, state, config));
 
 		guiSetup?.(gui, state);
 	});
@@ -55,4 +52,5 @@ export const catalyst = {
 	imageExportPlugin,
 	setConfigPlugin,
 	randomizerPlugin,
+	debugPlugin,
 };

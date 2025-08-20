@@ -34,43 +34,38 @@ const plugins = [
 		LANG_SLEEP: { nl: 'slapen', en: 'sleep' },
 	}),
 	catalyst.randomizerPlugin(['slider', 'colorBox']),
+	catalyst.debugPlugin(),
 ];
 
-catalyst
-	.initialize(
-		sketchFunction,
-		(gui, state) => {
-			const colorBox = gui.addColourBoxes(
-				'colorBox',
-				'Circle Color',
-				['red', 'green', 'yellow'],
-				0,
-				(controller, value) => {
-					state.color = value;
-				}
-			);
-			const slider = gui.addSlider(
-				'slider',
-				'slider',
-				1,
-				500,
-				100,
-				1,
-				(controller, value) => {
-					state.size = value;
-				}
-			);
+catalyst.initialize(
+	sketchFunction,
+	(gui, state) => {
+		const colorBox = gui.addColourBoxes(
+			'colorBox',
+			'Circle Color',
+			['red', 'green', 'yellow'],
+			0,
+			(controller, value) => {
+				state.color = value;
+			}
+		);
+		const slider = gui.addSlider(
+			'slider',
+			'slider',
+			1,
+			500,
+			100,
+			1,
+			(controller, value) => {
+				state.size = value;
+			}
+		);
 
-			const panel = gui.addPanel('Panel');
+		const panel = gui.addPanel('Panel');
 
-			panel.addFields([colorBox, slider]);
+		panel.addFields([colorBox, slider]);
 
-			gui.getTab('appearance').addFields(panel);
-		},
-		plugins
-	)
-	.then(({ container, gui }) => {
-		globalThis.gui = gui;
-		globalThis.container = container;
-		globalThis.state = container.state;
-	});
+		gui.getTab('appearance').addFields(panel);
+	},
+	plugins
+);

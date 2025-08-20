@@ -70,7 +70,6 @@ export const createContainer = (
 						);
 					},
 					setDuration: (newDuration: number) => {
-						console.log('setting duration');
 						duration = newDuration;
 					},
 					setFrameRate: (frameRate: number) => {
