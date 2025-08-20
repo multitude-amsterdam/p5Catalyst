@@ -1,6 +1,6 @@
 import type p5 from 'p5';
 import type GUIForP5 from './gui';
-import type Field from './field';
+import type { Field } from './components';
 
 export default class Tab {
 	gui: GUIForP5;

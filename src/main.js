@@ -49,6 +49,7 @@ catalyst.initialize(
 				state.color = value;
 			}
 		);
+
 		const slider = gui.addSlider(
 			'slider',
 			'slider',

@@ -1,6 +1,6 @@
 import p5 from 'p5';
-import Field from '../../field';
-import Controller from '../../controller';
+import Field from '../field';
+import Controller from '../controller';
 import GUIForP5 from '../../gui';
 
 /**

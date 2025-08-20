@@ -1,13 +1,15 @@
 import type p5 from 'p5';
-import Field from './field';
-import Controller from './controller';
-import Lang from '../language/lang';
+
+import { Field, Controller, ValuedController } from './components';
+
 import type { State, Config, LangCode } from '../types';
 import type { P5Button, Serializable } from '../types/controller';
+import type { Container, sketchHook } from '../types/construction';
+
 import Randomizer from './randomizer';
 import ChangeSet from './changeset';
-import ValuedController from './valued_controller';
-import type { Container, sketchHook } from '../types/construction';
+import Lang from '../language/lang';
+
 import Tab from './tab';
 import Dialog from './dialog';
 
