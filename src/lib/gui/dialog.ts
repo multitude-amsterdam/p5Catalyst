@@ -3,53 +3,70 @@ import type GUIForP5 from './gui';
 
 export default class Dialog {
 	gui: GUIForP5;
-	dialog: HTMLDialogElement;
-	dialogClose: HTMLElement;
-	dialogBackdropClose: HTMLElement;
-	contentWrapper: HTMLElement;
-	promptForm: HTMLElement;
-	promptInput: HTMLInputElement;
-	promptConfirmButton: HTMLElement;
+	dialogElement: p5.Element;
+	divContent: p5.Element;
+	buttonCloseDialog: p5.Element;
+	dialogBackdropClose: p5.Element;
+	contentWrapper: p5.Element;
+	divPrompt: p5.Element;
+	promptInput: p5.Element;
+	promptConfirmButton: p5.Element;
 
 	constructor(gui: GUIForP5) {
 		this.gui = gui;
-		this.dialog = document.querySelector('.dialog') as HTMLDialogElement;
-		this.dialogClose = document.querySelector(
-			'.dialog-close'
-		) as HTMLElement;
-		this.dialogBackdropClose = document.querySelector(
-			'.dialog-backdrop-close'
-		) as HTMLElement;
-		this.contentWrapper = this.dialog?.querySelector(
-			'.dialog-content-wrapper'
-		) as HTMLElement;
 
-		this.dialogClose.addEventListener('click', () => {
-			this.close();
-		});
-		this.dialogBackdropClose.addEventListener('click', () => {
-			this.close();
-		});
+		// create html structure
+		this.dialogElement = gui.p5Instance
+			.createElement('dialog')
+			.class('dialog');
+		{
+			this.dialogBackdropClose = gui.p5Instance
+				.createButton('')
+				.parent(this.dialogElement)
+				.class('dialog-backdrop-close')
+				.attribute('tabindex', '-1')
+				.mousePressed(() => this.close());
 
-		this.promptForm = this.dialog.querySelector(
-			'.dialog-prompt-form'
-		) as HTMLElement;
-		this.promptInput = this.dialog.querySelector(
-			'.dialog-prompt-input'
-		) as HTMLInputElement;
-		this.promptConfirmButton = this.dialog.querySelector(
-			'.dialog-prompt-confirm'
-		) as HTMLElement;
+			this.divContent = gui.p5Instance
+				.createDiv()
+				.parent(this.dialogElement)
+				.class('dialog-content');
+			{
+				this.buttonCloseDialog = gui.p5Instance
+					.createButton('&#10005;') // cross
+					.parent(this.divContent)
+					.class('dialog-close')
+					.mousePressed(() => this.close());
+
+				this.contentWrapper = gui.p5Instance
+					.createDiv()
+					.parent(this.divContent)
+					.class('dialog-content-wrapper');
+
+				this.divPrompt = gui.p5Instance
+					.createDiv()
+					.parent(this.divContent)
+					.class('dialog-prompt-form');
+				{
+					this.promptInput = gui.p5Instance
+						.createInput()
+						.parent(this.divPrompt)
+						.class('dialog-prompt-input');
+					this.promptConfirmButton = gui.p5Instance
+						.createButton('OK')
+						.parent(this.divPrompt)
+						.class('dialog-prompt-confirm');
+				}
+			}
+		}
 	}
 
 	alert(html: string): void {
-		console.log(html);
-
-		this.promptForm.style.display = 'none';
-		this.contentWrapper.innerHTML = `<p>${html}</p>`;
+		this.divPrompt.style('display', 'none');
+		this.contentWrapper.html(html);
 
 		// close with Enter or Escape keys
-		this.contentWrapper.onkeydown = (e: KeyboardEvent) => {
+		this.contentWrapper.elt.onkeydown = (e: KeyboardEvent) => {
 			// prevent p5 keyPressed function firing for this key
 			this.gui.isTypingText = true;
 			if (e.key === 'Enter' || e.key === 'Escape') {
@@ -57,6 +74,7 @@ export default class Dialog {
 				this.close();
 			}
 		};
+
 		this.show();
 	}
 
@@ -68,28 +86,29 @@ export default class Dialog {
 		console.log(html);
 
 		// reset contentWrapper on keydown from alert()
-		this.contentWrapper.onkeydown = () => {};
+		this.contentWrapper.elt.onkeydown = () => {};
 
-		this.promptForm.style.display = '';
-		html += this.contentWrapper.innerHTML = html;
+		this.divPrompt.style('display', '');
+		html += this.contentWrapper.html(html);
 
-		this.promptInput.value = defaultVal;
-		this.promptConfirmButton.innerHTML = confirmButtonLabel;
+		this.promptInput.value(defaultVal);
+		this.promptConfirmButton.html(confirmButtonLabel);
 		this.show();
-		this.promptInput.focus();
+
+		this.promptInput.elt.focus();
 
 		return new Promise(resolve => {
 			// clicking button resolves the promise
-			this.promptConfirmButton.onclick = () => {
-				resolve(this.promptInput.value);
+			this.promptConfirmButton.mousePressed(() => {
+				resolve(this.promptInput.value().toString());
 				this.close();
-			};
+			});
 			// Enter key resolves the promise
-			this.promptInput.onkeydown = e => {
+			this.promptInput.elt.onkeydown = (e: KeyboardEvent) => {
 				this.gui.isTypingText = true;
 				if (e.key === 'Enter') {
 					e.preventDefault();
-					resolve(this.promptInput.value);
+					resolve(this.promptInput.value().toString());
 					this.close();
 				}
 			};
@@ -97,10 +116,11 @@ export default class Dialog {
 	}
 
 	show() {
-		this.dialog.showModal();
+		this.dialogElement.elt.showModal();
 	}
 
 	close() {
-		this.dialog.close();
+		console.trace(this);
+		this.dialogElement.elt.close();
 	}
 }
