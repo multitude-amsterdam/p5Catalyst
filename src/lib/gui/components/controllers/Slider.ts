@@ -1,12 +1,11 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import type { Controller } from '../../controller';
-import type { GUIForP5 } from '../../gui';
-import { ValuedController } from '../../valued_controller';
+import type GUIForP5 from '../../gui';
+import ValuedController from '../../valued_controller';
 /**
  * One dimensional slider controller.
  * @extends ValuedController
  */
-export class Slider extends ValuedController {
+export default class Slider extends ValuedController {
 	minVal: number;
 	maxVal: number;
 	defaultVal: number;
@@ -52,7 +51,7 @@ export class Slider extends ValuedController {
 			this.setValue(value);
 		};
 		this.valueCallback =
-			valueCallback || ((controller: Controller, value: any) => {});
+			valueCallback || ((controller: ValuedController, value: any) => {});
 		this.valueCallback(this, this.value);
 	}
 

@@ -1,5 +1,5 @@
 import p5 from 'p5';
-import type { GUIForP5 } from './gui';
+import type GUIForP5 from './gui';
 
 export default class Dialog {
 	gui: GUIForP5;

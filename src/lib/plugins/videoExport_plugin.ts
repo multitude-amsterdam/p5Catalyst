@@ -1,6 +1,5 @@
 import { ffmpegInit } from '../ffmpeg';
-import { Controller } from '../gui/controller';
-import type { Config, GUIControllerInterface, Plugin, State } from '../types';
+import type { GUIControllerInterface, Plugin, State } from '../types';
 // Language plugin
 export const videoExportPlugin: Plugin = () => ({
 	name: 'videoExport',

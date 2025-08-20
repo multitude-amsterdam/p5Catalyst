@@ -1,20 +1,21 @@
 import type p5 from 'p5';
-import { Field } from './field';
-import { Controller } from './controller';
-import { Lang } from '../language/lang';
+import Field from './field';
+import Controller from './controller';
+import Lang from '../language/lang';
 import type { State, Config, LangCode } from '../types';
 import type { P5Button, Serializable } from '../types/controller';
-import { Randomizer } from './randomizer';
-import { ChangeSet } from './changeset';
-import { ValuedController } from './valued_controller';
+import Randomizer from './randomizer';
+import ChangeSet from './changeset';
+import ValuedController from './valued_controller';
 import type { Container, sketchHook } from '../types/construction';
-import { Tab } from './tab';
+import Tab from './tab';
+import Dialog from './dialog';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
  * Handles layout, theming, controller management, and state persistence.
  */
-export class GUIForP5 {
+export default class GUIForP5 {
 	div: p5.Element;
 	randomizer?: Randomizer;
 	p5Instance: p5;

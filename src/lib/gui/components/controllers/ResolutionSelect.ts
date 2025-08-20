@@ -1,11 +1,11 @@
 import type { setupCallback, valueCallback } from '../../../types/controller';
-import type { GUIForP5 } from '../../gui';
-import { Select } from './Select';
+import type GUIForP5 from '../../gui';
+import Select from './Select';
 /**
  * Specialised select for common resolutions.
  * @extends Select
  */
-export class ResolutionSelect extends Select {
+export default class ResolutionSelect extends Select {
 	/**
 	 * Flag to control whether the change set should be updated.
 	 * @type {boolean}

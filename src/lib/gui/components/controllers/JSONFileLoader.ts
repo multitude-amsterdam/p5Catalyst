@@ -1,12 +1,12 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import type { GUIForP5 } from '../../gui';
-import { FileLoader } from './FileLoader';
+import type GUIForP5 from '../../gui';
+import FileLoader from './FileLoader';
 
 /**
  * Loader for JSON files.
  * @extends FileLoader
  */
-export class JSONFileLoader extends FileLoader {
+export default class JSONFileLoader extends FileLoader {
 	/**
 	 * Constructor for JSONFileLoader.
 	 * @param {GUIForP5} gui

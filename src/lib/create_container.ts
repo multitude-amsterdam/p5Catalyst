@@ -1,7 +1,6 @@
 import p5 from 'p5';
 import type { Container, SketchFunction, State } from './types';
 import type { imageFileType } from './types/plugin';
-import type { sketchHook } from './types/construction';
 import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg';
 
 export const createContainer = (

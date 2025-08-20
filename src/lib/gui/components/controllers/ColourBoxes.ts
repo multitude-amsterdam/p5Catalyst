@@ -1,8 +1,8 @@
 import p5 from 'p5';
-import type { GUIForP5 } from '../../gui';
-import { ValuedController } from '../../valued_controller';
+import type GUIForP5 from '../../gui';
+import ValuedController from '../../valued_controller';
 import type { setupCallback, valueCallback } from '../../../types';
-import type { Controller } from '../../controller';
+import type Controller from '../../controller';
 import type { P5SelectElement } from '../../../types/controller';
 
 /**
@@ -10,7 +10,7 @@ import type { P5SelectElement } from '../../../types/controller';
  * @extends ValuedController
  * @see {MultiColourBoxes}
  */
-export class ColourBoxes extends ValuedController {
+export default class ColourBoxes extends ValuedController {
 	/**
 	 * The value callback.
 	 * @type {valueCallback}

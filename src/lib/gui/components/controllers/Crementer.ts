@@ -1,14 +1,14 @@
 import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
-import type { Controller } from '../../controller';
-import type { GUIForP5 } from '../../gui';
-import { ValuedController } from '../../valued_controller';
+import type Controller from '../../controller';
+import type GUIForP5 from '../../gui';
+import ValuedController from '../../valued_controller';
 
 /**
  * Side by side incrementer & decrementer button for a number
  * @extends ValuedController
  */
-export class Crementer extends ValuedController {
+export default class Crementer extends ValuedController {
 	minVal: number;
 	maxVal: number;
 	defaultVal: number;

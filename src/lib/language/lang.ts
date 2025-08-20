@@ -15,7 +15,7 @@ const availableLangKeys = Object.keys(dictionary[Object.keys(dictionary)[0]]);
 /**
  * Helper class that performs token replacement based on the selected language.
  */
-export class Lang {
+export default class Lang {
 	static verbose = false;
 	langKey: LangCode;
 	dictionary: Dictionary;

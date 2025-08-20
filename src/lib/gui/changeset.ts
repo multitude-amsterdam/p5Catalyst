@@ -1,6 +1,6 @@
 import type { GUIForP5 } from './gui';
 
-export class ChangeSet {
+export default class ChangeSet {
 	static localStorageKey = 'changeset';
 
 	changeset: string[] = [];

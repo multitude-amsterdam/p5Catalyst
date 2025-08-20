@@ -1,11 +1,11 @@
-import { Field } from '../../field';
-import type { GUIForP5 } from '../../gui';
+import Field from '../../field';
+import type GUIForP5 from '../../gui';
 
 /**
  * Heading element used as a section title.
  * @extends Field
  */
-export class Title extends Field {
+export default class Title extends Field {
 	/**
 	 * Creates a new Title instance.
 	 * @param {p5.Element} parentDiv - The parent element to attach the title to.

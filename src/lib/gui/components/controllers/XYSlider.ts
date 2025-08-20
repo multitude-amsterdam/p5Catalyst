@@ -1,14 +1,13 @@
 import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
-import type { GUIForP5 } from '../../gui';
-import { ValuedController } from '../../valued_controller';
-import type { Controller } from '../../controller';
+import type GUIForP5 from '../../gui';
+import ValuedController from '../../valued_controller';
 
 /**
  * Two dimensional slider returning an {x,y} object.
  * @extends ValuedController
  */
-export class XYSlider extends ValuedController {
+export default class XYSlider extends ValuedController {
 	minValX: number;
 	maxValX: number;
 	defaultValX: number;
@@ -50,7 +49,7 @@ export class XYSlider extends ValuedController {
 		this.stepSizeX = stepSizeX;
 		this.stepSizeY = stepSizeY;
 		this.valueCallback =
-			valueCallback || ((controller: Controller, value: any) => {});
+			valueCallback || ((controller: ValuedController, value: any) => {});
 
 		this.controllerElement = gui.p5Instance.createDiv();
 		this.controllerElement.class('xyslider');

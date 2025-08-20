@@ -2,7 +2,7 @@ import type p5 from 'p5';
 import type { GUIForP5 } from './gui';
 import type { Field } from './field';
 
-export class Tab {
+export default class Tab {
 	gui: GUIForP5;
 	name: string;
 	div: p5.Element;

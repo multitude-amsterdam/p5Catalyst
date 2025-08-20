@@ -1,11 +1,11 @@
-import { Field } from '../../field';
-import type { GUIForP5 } from '../../gui';
+import Field from '../../field';
+import type GUIForP5 from '../../gui';
 
 /**
  * Wrapper for <img> elements placed in the GUI.
  * @extends Field
  */
-export class ImageField extends Field {
+export default class ImageField extends Field {
 	/**
 	 * Creates a new GUI image element.
 	 * @param {p5.Element} parentDiv - The parent element to attach the image to.

@@ -1,11 +1,11 @@
-import { Field } from '../../field';
-import type { GUIForP5 } from '../../gui';
+import Field from '../../field';
+import type GUIForP5 from '../../gui';
 
 /**
  * Block of explanatory text.
  * @extends Field
  */
-export class TextField extends Field {
+export default class TextField extends Field {
 	constructor(
 		gui: GUIForP5,
 		text: string,

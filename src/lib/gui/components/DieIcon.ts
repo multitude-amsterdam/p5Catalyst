@@ -1,12 +1,12 @@
 import type p5 from 'p5';
-import type { Controller } from '../controller';
-import type { Randomizer } from '../randomizer';
+import type Controller from '../controller';
+import type Randomizer from '../randomizer';
 
 /**
  * Small dice icon indicating randomization state for a controller.
  * Handles icon display, rotation, and click interaction for toggling randomization.
  */
-export class DieIcon {
+export default class DieIcon {
 	static iconClass = 'die-icon';
 	static iconModifierClasses = [
 		'die-icon--1',

@@ -3,7 +3,7 @@ import type { GUIForP5 } from './gui';
 /**
  * Base GUI element container used by controllers.
  */
-export class Field {
+export default class Field {
 	/**
 	 * Creates a new Field instance.
 	 * @param {p5} p5Instance - The p5Instance.

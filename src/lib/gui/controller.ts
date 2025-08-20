@@ -1,9 +1,10 @@
-import type { GUIForP5 } from './gui';
+import type GUIForP5 from './gui';
 import type { controllerElement, setupCallback } from '../types';
-import { Field } from './field';
+import Field from './field';
 import p5 from 'p5';
-import type { DieIcon } from './components';
-import type { Randomizer } from './randomizer';
+import type DieIcon from './components/DieIcon';
+import type Randomizer from './randomizer';
+import Label from './components/fields/Label';
 
 /**
  * Base class for all GUI controllers.
@@ -34,7 +35,7 @@ import type { Randomizer } from './randomizer';
  * 	}
  * );
  */
-export class Controller extends Field {
+export default class Controller extends Field {
 	/**
 	 * Static flag to control whether the change set should be updated.
 	 * @type {boolean}
@@ -181,39 +182,5 @@ export class Controller extends Field {
 			// changeSet !== undefined &&
 			this._doUpdateChangeSet && Controller._doUpdateChangeSet
 		);
-	}
-}
-
-/**
- * Text label associated with a controller.
- * @extends Field
- */
-export class Label extends Field {
-	controller: Controller;
-	text?: string;
-	/**
-	 * Creates a new Label instance.
-	 * @param {Controller} controller - The controller this label is associated with.
-	 * @param {string} text - The text content of the label.
-	 */
-	constructor(
-		gui: GUIForP5,
-		controller: Controller,
-		text: string,
-		parentDiv?: p5.Element
-	) {
-		super(gui, '', 'gui-label', parentDiv);
-		this.controller = controller;
-		text = gui.lang.process(text, true);
-		this.setText(text);
-	}
-
-	/**
-	 * Sets the text content of the label.
-	 * @param {string} text - The new text content for the label.
-	 */
-	setText(text: string) {
-		this.text = text;
-		this.div.elt.innerText = text;
 	}
 }

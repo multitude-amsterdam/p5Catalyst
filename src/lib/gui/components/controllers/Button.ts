@@ -1,11 +1,11 @@
 import type { controllerCallback, setupCallback } from '../../../types';
-import { Controller } from '../../controller';
-import type { GUIForP5 } from '../../gui';
+import Controller from '../../controller';
+import type GUIForP5 from '../../gui';
 /**
  * Simple push button controller.
  * @extends Controller
  */
-export class Button extends Controller {
+export default class Button extends Controller {
 	/**
 	 * Constructor for Button.
 	 * @param {GUIForP5} gui

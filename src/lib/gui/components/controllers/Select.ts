@@ -1,13 +1,12 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import { Controller } from '../../controller';
-import type { GUIForP5 } from '../../gui';
-import { ValuedController } from '../../valued_controller';
+import type GUIForP5 from '../../gui';
+import ValuedController from '../../valued_controller';
 
 /**
  * Drop-down select controller.
  * @extends ValuedController
  */
-export class Select extends ValuedController {
+export default class Select extends ValuedController {
 	/**
 	 * The options for the select.
 	 * @type {Array}
@@ -61,7 +60,7 @@ export class Select extends ValuedController {
 		};
 		this.controllerElement.elt.onchange = callback;
 		this.valueCallback =
-			valueCallback || ((controller: Controller, value: any) => {});
+			valueCallback || ((controller: ValuedController, value: any) => {});
 		this.value = options[defaultIndex];
 		this.valueCallback(this, this.value);
 	}
