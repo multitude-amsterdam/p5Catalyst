@@ -24,7 +24,10 @@ import DieIcon from './DieIcon';
 
 import Field from '../field';
 
+import { Panel } from './panel';
+
 export {
+	Panel,
 	Field,
 	Title,
 	TextField,

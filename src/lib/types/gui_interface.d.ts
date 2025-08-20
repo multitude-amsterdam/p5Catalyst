@@ -1,11 +1,14 @@
 import type { Field } from '../gui/field';
 import type { Title } from '../gui/gui';
-import { Controller } from '../gui/controller';
+import type { Controller } from '../gui/controller';
+import type { Panel } from '../gui/components/panel';
+
 import type {
 	controllerCallback,
 	setupCallback,
 	valueCallback,
 } from './controller';
+
 import type {
 	Button,
 	ColourBoxes,
@@ -28,6 +31,7 @@ import type {
 export interface GUIControllerInterface {
 	addTabs: (...names: string[]) => Tab[];
 	getTab: (name: string) => Tab | undefined;
+	addPanel: (name: string) => Panel;
 	addField: (id: string, className: string, parentDiv?: p5.Element) => Field;
 	addTitle: (hSize: number, text: string, doAlignCenter?: boolean) => Title;
 	addTextField: (

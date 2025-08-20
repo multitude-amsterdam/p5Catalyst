@@ -60,7 +60,11 @@ catalyst.initialize(
 			}
 		);
 
-		gui.getTab('appearance').addFields(colorBox, slider);
+		const panel = gui.addPanel('Panel');
+
+		panel.addFields([colorBox, slider]);
+
+		gui.getTab('appearance').addFields(panel);
 	},
 	plugins
 );
