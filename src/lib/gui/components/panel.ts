@@ -1,6 +1,6 @@
 import type p5 from 'p5';
-import { Field } from '../field';
-import type { GUIForP5 } from '../gui';
+import Field from '../field';
+import type GUIForP5 from '../gui';
 
 export class Panel extends Field {
 	detailElement: p5.Element;
