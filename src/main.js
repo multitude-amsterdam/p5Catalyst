@@ -36,8 +36,6 @@ const plugins = [
 	catalyst.randomizerPlugin(['slider', 'colorBox']),
 ];
 
-const container = await catalyst.createContainer(sketchFunction);
-
 catalyst.initialize(
 	sketchFunction,
 	(gui, state) => {
