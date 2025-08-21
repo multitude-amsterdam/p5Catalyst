@@ -12,7 +12,7 @@ import Randomizer from './randomizer';
 import ChangeSet from './changeset';
 import Lang from '../language/lang';
 
-import { Tab } from './components/tab';
+import { Tab } from './components/groups/tab';
 import Dialog from './dialog';
 
 /**

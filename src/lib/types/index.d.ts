@@ -15,7 +15,10 @@ import type { LangCode, Dictionary, DictionaryEntry } from './lang';
 
 import type { Plugin, Config, UserConfig } from './plugin';
 
-import type { GUIControllerInterface } from './gui_interface';
+import type {
+	GUIControllerInterface,
+	GUIAddableInterface,
+} from './gui_interface';
 
 import type { State, SketchFunction, Container } from './construction';
 
@@ -24,8 +27,6 @@ import type {
 	FFmpegLogEvent,
 	FFmpegProgressEvent,
 } from './ffmpeg';
-
-import { Addable, Attachable } from '../gui/components/addable_trait';
 
 export type {
 	controllerValue,
@@ -45,6 +46,7 @@ export type {
 	Config,
 	UserConfig,
 	GUIControllerInterface,
+	GUIAddableInterface,
 	State,
 	Container,
 	SketchFunction,

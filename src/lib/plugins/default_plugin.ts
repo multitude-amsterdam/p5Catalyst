@@ -4,7 +4,7 @@ import { languagePlugin } from './language_plugin';
 import { resolutionPlugin, resolutionPresets } from './resolution_plugin';
 import { setConfigPlugin } from './setConfig_plugin';
 import type { GUIControllerInterface, Plugin, State } from '../types';
-import { ROW, COLUMN } from '../gui/components/group';
+import { ROW, COLUMN } from '../gui/components/groups/group';
 
 export const defaultPlugin: Plugin = () => [
 	setConfigPlugin({ fileName: 'p5Catalyst' }),

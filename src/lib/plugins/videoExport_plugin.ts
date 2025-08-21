@@ -1,5 +1,5 @@
 import { ffmpegInit } from '../ffmpeg';
-import { COLUMN, ROW } from '../gui/components/group';
+import { COLUMN, ROW } from '../gui/components/groups/group';
 import type { GUIControllerInterface, Plugin, State } from '../types';
 // Language plugin
 export function videoExportPlugin(): Plugin {

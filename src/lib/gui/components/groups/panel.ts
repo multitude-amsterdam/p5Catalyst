@@ -1,9 +1,9 @@
 import type p5 from 'p5';
-import Field from './field';
-import type GUIForP5 from '../gui';
-import { Addable, type Attachable } from './addable_trait';
+import Field from '../field';
+import GUIForP5 from '../../gui';
+import { baseGroup } from './baseGroup';
 
-class PanelBase extends Field implements Attachable {
+export class Panel extends baseGroup {
 	container: p5.Element;
 	gui: GUIForP5;
 
@@ -30,5 +30,3 @@ class PanelBase extends Field implements Attachable {
 		this.container.child(field.div);
 	}
 }
-
-export class Panel extends Addable(PanelBase) {}

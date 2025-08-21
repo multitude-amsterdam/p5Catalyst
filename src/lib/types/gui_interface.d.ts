@@ -1,9 +1,7 @@
 import type { Field } from '../gui/field';
 import type { Title } from '../gui/gui';
 import type { Controller } from '../gui/controller';
-import type { Panel } from '../gui/components/panel';
-import type { Group } from '../gui/components/group';
-import type { Tab } from '../gui/components/tab';
+import { Group, Panel, Tab } from '../gui/components/groups';
 
 import type {
 	controllerCallback,
@@ -30,7 +28,7 @@ import type {
 	Toggle,
 	XYSlider,
 } from '../gui/components';
-import type { Orientation } from '../gui/components/group';
+import type { Orientation } from '../gui/components/groups/group';
 
 export interface GUIControllerInterface {
 	addTabs: (...names: string[]) => Tab[];
@@ -43,7 +41,6 @@ export interface GUIControllerInterface {
 	stopRecording: () => void;
 	setDuration: (duration: number) => void;
 	setFrameRate: (frameRate: number) => void;
-
 	addPanel: (name: string) => Panel;
 	addGroup: (name: string, orientation: Orientation) => Group;
 	addTitle: (hSize: number, text: string, doAlignCenter?: boolean) => Title;

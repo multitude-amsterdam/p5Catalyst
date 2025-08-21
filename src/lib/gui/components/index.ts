@@ -22,8 +22,7 @@ import Divider from './fields/Divider';
 
 import DieIcon from './DieIcon';
 
-import { Group } from './group';
-import { Panel } from './panel';
+import { Group, Panel } from './groups';
 
 export {
 	Panel,

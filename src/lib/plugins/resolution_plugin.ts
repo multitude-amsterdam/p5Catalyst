@@ -1,5 +1,5 @@
 import type { ResolutionTextboxes } from '../gui/components';
-import { COLUMN } from '../gui/components/group';
+import { COLUMN } from '../gui/components/groups/group';
 
 import type { State, Plugin, GUIControllerInterface } from '../types';
 

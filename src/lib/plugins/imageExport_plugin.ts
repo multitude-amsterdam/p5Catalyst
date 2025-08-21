@@ -1,4 +1,4 @@
-import { COLUMN, ROW } from '../gui/components/group';
+import { COLUMN, ROW } from '../gui/components/groups/group';
 import type { Config, GUIControllerInterface, Plugin, State } from '../types';
 import type { imageFileType } from '../types/plugin';
 
