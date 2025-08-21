@@ -43,7 +43,7 @@ export default class DieIcon {
 
 		this.imgContainer = randomizer.p5Instance.createDiv();
 		this.imgContainer.class(DieIcon.iconClass);
-		this.imgContainer.mouseClicked(() => this.click());
+		this.imgContainer.mouseClicked(callback || (() => this.click()));
 		this.rotation = 0;
 
 		this.setDisplay();

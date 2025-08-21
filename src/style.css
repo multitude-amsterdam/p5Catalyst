@@ -1067,7 +1067,10 @@ input[type='checkbox']:checked::before {
 	top: 1rem;
 	z-index: 1;
 	display: flex;
-	background-color: red;
+	gap: var(--spacing-x);
+	border: var(--line-width) solid var(--base-col);
+	border-radius: 0.5rem;
+	padding: var(--spacing-x);
 }
 
 .controllRight {
@@ -1189,8 +1192,8 @@ a:hover {
 
 /* -------------------------------- DIE ICON -------------------------------- */
 .die-icon {
-	height: var(--base-height);
-	width: var(--base-height);
+	height: 1.75rem;
+	width: 1.75rem;
 
 	opacity: 1;
 	cursor: pointer;
@@ -1198,7 +1201,6 @@ a:hover {
 
 	background-size: contain;
 	background-repeat: no-repeat;
-	background-origin: content-box;
 }
 
 .die-icon--disabled {

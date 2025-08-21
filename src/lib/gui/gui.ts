@@ -11,6 +11,7 @@ import type { Container, sketchHook } from '../types/construction';
 import Tab from './tab';
 import Dialog from './dialog';
 import { LightModeToggle } from './gui-components/LightModeToggle';
+import { RandomizeButton } from './gui-components/randomizeButton';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -37,6 +38,7 @@ export default class GUIForP5 {
 
 	darkMode: 'true' | 'false' | 'auto';
 	lightModeToggle: LightModeToggle;
+	randomizeButton?: RandomizeButton;
 	controllContainer: p5.Element;
 	changeSet: ChangeSet;
 
@@ -56,15 +58,19 @@ export default class GUIForP5 {
 
 		this.changeSet = new ChangeSet(this, false);
 
-		if (config.createRandomizer)
+		if (config.createRandomizer) {
 			this.randomizer = new Randomizer(this.p5Instance);
+			this.randomizeButton = new RandomizeButton(this);
+		}
 
 		this.darkMode = 'false';
 		this.lightModeToggle = new LightModeToggle(this);
+
 		this.controllContainer = this.p5Instance
 			.createDiv()
 			.id('controll-container');
 		this.controllContainer.child(this.lightModeToggle.button);
+		this.controllContainer.child(this.randomizeButton?.button);
 
 		document.querySelector('main')?.append(this.controllContainer.elt);
 		document.querySelector('main')?.prepend(this.div.elt);

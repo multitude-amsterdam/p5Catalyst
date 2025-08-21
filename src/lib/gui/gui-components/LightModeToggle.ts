@@ -1,14 +1,12 @@
 import type { P5Button } from 'src/lib/types/controller';
 import type GUIForP5 from '../gui';
+import { GUIButton } from './guiButton';
 
-export class LightModeToggle {
-	button: P5Button;
-	gui: GUIForP5;
+export class LightModeToggle extends GUIButton {
 	constructor(gui: GUIForP5) {
-		this.button = gui.p5Instance.createButton('') as P5Button;
-		this.gui = gui;
+		super(gui);
 		this.button.elt.onclick = () => {
-			this.toggleLightDarkMode(this.button);
+			this.toggleLightDarkMode();
 		};
 		this.loadLightDarkMode();
 	}
@@ -16,18 +14,18 @@ export class LightModeToggle {
 	/**
 	 * Cycles between light, dark, and auto light/dark modes.
 	 */
-	toggleLightDarkMode(darkModeButton: P5Button) {
+	toggleLightDarkMode() {
 		// cycle modes
 		switch (this.gui.darkMode) {
 			case 'false':
-				this.setDarkMode(darkModeButton);
+				this.setDarkMode();
 				break;
 			case 'true':
-				this.setAutoLightDarkMode(darkModeButton);
+				this.setAutoLightDarkMode();
 
 				break;
 			default:
-				this.setLightMode(darkModeButton);
+				this.setLightMode();
 		}
 	}
 
@@ -38,56 +36,56 @@ export class LightModeToggle {
 		const setting = window.localStorage['isDarkMode'];
 		switch (setting) {
 			case 'true':
-				this.setDarkMode(this.button);
+				this.setDarkMode();
 				break;
 			case 'false':
-				this.setLightMode(this.button);
+				this.setLightMode();
 				break;
 			default:
-				this.setAutoLightDarkMode(this.button);
+				this.setAutoLightDarkMode();
 		}
 	}
 
 	/**
 	 * Sets the GUI to light mode.
 	 */
-	setLightMode(darkModeButton: P5Button) {
+	setLightMode() {
 		document.body.className = '';
 		window.localStorage['isDarkMode'] = 'false';
 		this.gui.darkMode = 'false';
-		darkModeButton.class('dark-mode-button');
-		darkModeButton.addClass('dark-mode-button' + '--light');
-		darkModeButton.elt.title = 'Light mode';
+		this.button.class('dark-mode-button');
+		this.button.addClass('dark-mode-button' + '--light');
+		this.button.elt.title = 'Light mode';
 	}
 
 	/**
 	 * Sets the GUI to dark mode.
 	 */
-	setDarkMode(darkModeButton: P5Button) {
+	setDarkMode() {
 		document.body.className = 'dark-mode';
 		window.localStorage['isDarkMode'] = 'true';
 		this.gui.darkMode = 'true';
-		darkModeButton.class('dark-mode-button');
-		darkModeButton.addClass('dark-mode-button' + '--dark');
-		darkModeButton.elt.title = 'Dark mode';
+		this.button.class('dark-mode-button');
+		this.button.addClass('dark-mode-button' + '--dark');
+		this.button.elt.title = 'Dark mode';
 	}
 
 	/**
 	 * Sets the GUI to automatically match the system's light/dark mode.
 	 */
-	setAutoLightDarkMode(darkModeButton: P5Button) {
+	setAutoLightDarkMode() {
 		const isSystemDarkMode = () =>
 			window.matchMedia &&
 			window.matchMedia('(prefers-color-scheme: dark)').matches;
 		if (isSystemDarkMode()) {
-			this.setDarkMode(darkModeButton);
+			this.setDarkMode();
 		} else {
-			this.setLightMode(darkModeButton);
+			this.setLightMode();
 		}
 		window.localStorage['isDarkMode'] = 'auto';
 		this.gui.darkMode = 'auto';
-		darkModeButton.class('dark-mode-button');
-		darkModeButton.addClass('dark-mode-button' + '--auto');
-		darkModeButton.elt.title = 'Auto light/dark mode';
+		this.button.class('dark-mode-button');
+		this.button.addClass('dark-mode-button' + '--auto');
+		this.button.elt.title = 'Auto light/dark mode';
 	}
 }

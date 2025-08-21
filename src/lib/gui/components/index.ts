@@ -20,7 +20,7 @@ import TextField from './fields/Textfield';
 import ImageField from './fields/ImageField';
 import Divider from './fields/Divider';
 
-import DieIcon from './DieIcon';
+import DieIcon from '../gui-components/DieIcon';
 
 import Field from '../field';
 
