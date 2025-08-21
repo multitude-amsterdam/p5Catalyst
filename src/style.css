@@ -189,6 +189,12 @@ body:where(.dark-mode) {
 	flex-direction: column;
 }
 
+.panel-container {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-x);
+}
+
 .panel summary {
 	/* background-color: red; */
 	border-bottom: solid var(--base-col) var(--line-width);

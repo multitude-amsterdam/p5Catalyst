@@ -4,17 +4,21 @@ import type GUIForP5 from '../gui';
 import { Addable, type Attachable } from './addable_trait';
 
 class PanelBase extends Field implements Attachable {
-	detailElement: p5.Element;
+	container: p5.Element;
 	gui: GUIForP5;
 
 	constructor(gui: GUIForP5, name: string) {
 		super(gui, name, 'panel');
 		this.gui = gui;
-		this.detailElement = gui.p5Instance.createElement(
+		let detailElement = gui.p5Instance.createElement(
 			'details',
 			`<summary>${name}</summary>`
 		);
-		this.div.child(this.detailElement);
+		this.container = gui.p5Instance
+			.createElement('div')
+			.addClass('panel-container');
+		detailElement.child(this.container);
+		this.div.child(detailElement);
 	}
 
 	//   /**
@@ -23,7 +27,7 @@ class PanelBase extends Field implements Attachable {
 	//    * @returns {Field}
 	//    */
 	attachField<T extends Field>(field: T) {
-		this.detailElement.child(field.div);
+		this.container.child(field.div);
 	}
 }
 

@@ -40,7 +40,11 @@ const plugins = [
 catalyst.initialize(
 	sketchFunction,
 	(gui, state) => {
-		const colorBox = gui.addColourBoxes(
+		const appearanceTab = gui.getTab('appearance');
+
+		const panel = appearanceTab.addPanel('Panel');
+
+		panel.addColourBoxes(
 			'colorBox',
 			'Circle Color',
 			['red', 'green', 'yellow'],
@@ -50,9 +54,9 @@ catalyst.initialize(
 			}
 		);
 
-		const slider = gui.addSlider(
+		panel.addSlider(
 			'slider',
-			'slider',
+			'Slider',
 			1,
 			500,
 			100,
@@ -61,16 +65,6 @@ catalyst.initialize(
 				state.size = value;
 			}
 		);
-
-		const panel = gui.addPanel('Panel');
-
-		panel.addButton('panelBUtton', 'panelButton');
-		panel.addDivider();
-		panel.addTitle(3, 'test');
-		panel.attachField(slider);
-		panel.attachField(colorBox);
-
-		// const tab = gui.getTab('appearance').addTitle(3, 'HELLO');
 	},
 	plugins
 );
