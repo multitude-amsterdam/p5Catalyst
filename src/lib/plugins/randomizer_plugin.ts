@@ -1,4 +1,4 @@
-import type Controller from '../gui/controller';
+import Controller from '../gui/components/controller';
 import type GUIForP5 from '../gui/gui';
 import type { Plugin, Config, GUIControllerInterface, State } from '../types';
 

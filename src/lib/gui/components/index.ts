@@ -22,17 +22,12 @@ import Divider from './fields/Divider';
 
 import DieIcon from './DieIcon';
 
-import Field from './field';
-import Controller from './controller';
-import ValuedController from './valued_controller';
-
+import { Group } from './group';
 import { Panel } from './panel';
 
 export {
 	Panel,
-	Field,
-	Controller,
-	ValuedController,
+	Group,
 	Title,
 	TextField,
 	ImageField,

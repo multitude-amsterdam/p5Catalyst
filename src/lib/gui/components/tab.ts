@@ -1,8 +1,9 @@
 import type p5 from 'p5';
-import type GUIForP5 from './gui';
-import type { Field } from './components';
+import type GUIForP5 from '../gui';
+import Field from './field';
+import { Addable, type Attachable } from './addable_trait';
 
-export default class Tab {
+class TabBase implements Attachable {
 	gui: GUIForP5;
 	name: string;
 	div: p5.Element;
@@ -20,11 +21,8 @@ export default class Tab {
 	//    * @param {Field} field
 	//    * @returns {Field}
 	//    */
-	addFields<T extends Field>(fields: T | T[]) {
-		fields = Array.isArray(fields) ? fields : [fields];
-		for (const field of fields) {
-			this.div.child(field.div);
-		}
+	attachField<T extends Field>(field: T) {
+		this.div.child(field.div);
 	}
 
 	/**
@@ -45,3 +43,5 @@ export default class Tab {
 		this.div.elt.style.display = ''; // more general than p5 .show()
 	}
 }
+
+export class Tab extends Addable(TabBase) {}

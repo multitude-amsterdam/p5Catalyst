@@ -1,6 +1,8 @@
 import type p5 from 'p5';
 
-import { Field, Controller, ValuedController } from './components';
+import Field from './components/field';
+import Controller from './components/controller';
+import ValuedController from './components/valued_controller';
 
 import type { State, Config, LangCode } from '../types';
 import type { P5Button, Serializable } from '../types/controller';
@@ -10,7 +12,7 @@ import Randomizer from './randomizer';
 import ChangeSet from './changeset';
 import Lang from '../language/lang';
 
-import Tab from './tab';
+import { Tab } from './components/tab';
 import Dialog from './dialog';
 
 /**

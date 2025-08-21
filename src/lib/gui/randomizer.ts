@@ -1,5 +1,6 @@
 import type p5 from 'p5';
-import { Controller, ValuedController } from './components';
+import Controller from './components/controller';
+import ValuedController from './components/valued_controller';
 import { Button, DieIcon } from './components';
 
 /**

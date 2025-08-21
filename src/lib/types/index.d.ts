@@ -25,6 +25,8 @@ import type {
 	FFmpegProgressEvent,
 } from './ffmpeg';
 
+import { Addable, Attachable } from '../gui/components/addable_trait';
+
 export type {
 	controllerValue,
 	serializedValue,

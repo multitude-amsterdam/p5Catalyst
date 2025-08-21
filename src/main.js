@@ -64,9 +64,13 @@ catalyst.initialize(
 
 		const panel = gui.addPanel('Panel');
 
-		panel.addFields([colorBox, slider]);
+		panel.addButton('panelBUtton', 'panelButton');
+		panel.addDivider();
+		panel.addTitle(3, 'test');
+		panel.attachField(slider);
+		panel.attachField(colorBox);
 
-		gui.getTab('appearance').addFields(panel);
+		// const tab = gui.getTab('appearance').addTitle(3, 'HELLO');
 	},
 	plugins
 );
