@@ -26,9 +26,9 @@ export default class Randomizer {
 	 * @param {Controller} controller - The controller to add.
 	 * @param {boolean} doRandomize - Whether this controller should be randomized.
 	 */
-	addController(controller: Controller, doRandomize: boolean) {
+	addController(controller: Controller) {
 		this.controllers.push(controller);
-		let die = new DieIcon(this, controller, doRandomize);
+		let die = new DieIcon(this, controller);
 		controller.addDie(die);
 	}
 

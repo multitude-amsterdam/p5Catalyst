@@ -1,6 +1,7 @@
 import type p5 from 'p5';
 import type Controller from '../controller';
 import type Randomizer from '../randomizer';
+import type { controllerCallback } from 'src/lib/types';
 
 /**
  * Small dice icon indicating randomization state for a controller.
@@ -18,11 +19,11 @@ export default class DieIcon {
 	];
 
 	randomizer: Randomizer;
-	controller: Controller;
+	controller?: Controller;
 	imgContainer: p5.Element;
 	rotation: number;
 	p5Instance: p5;
-	isActive?: boolean;
+	isActive: boolean = true;
 	currentModifierClass?: string;
 
 	/**
@@ -33,8 +34,8 @@ export default class DieIcon {
 	 */
 	constructor(
 		randomizer: Randomizer,
-		controller: Controller,
-		isActive: boolean
+		controller?: Controller,
+		callback?: () => void
 	) {
 		this.randomizer = randomizer;
 		this.controller = controller;
@@ -45,7 +46,7 @@ export default class DieIcon {
 		this.imgContainer.mouseClicked(() => this.click());
 		this.rotation = 0;
 
-		this.setActive(isActive);
+		this.setDisplay();
 	}
 
 	toggle() {

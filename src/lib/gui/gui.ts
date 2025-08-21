@@ -73,8 +73,9 @@ export default class GUIForP5 {
 		}
 
 		this.changeSet.save();
+		localStorage.doShowHelpOnLoad = 'true';
 
-		if (localStorage.doShowHelpOnLoad === undefined) {
+		if (localStorage.doShowHelpOnLoad === 'true' || undefined) {
 			this.showHelp();
 			localStorage.doShowHelpOnLoad = 'false';
 		}
@@ -248,14 +249,9 @@ export default class GUIForP5 {
 	//    * @param {boolean} [doAddToRandomizerAs]
 	//    * @returns {Controller}
 	//    */
-	addController<T extends Controller>(
-		controller: T,
-		doAddToRandomizerAs?: boolean
-	) {
+	addController<T extends Controller>(controller: T) {
 		this.addField(controller);
 		this.controllers.push(controller);
-		if (doAddToRandomizerAs !== undefined)
-			this.randomizer?.addController(controller, doAddToRandomizerAs);
 		return controller;
 	}
 
