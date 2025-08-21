@@ -4,6 +4,7 @@ import type GUIForP5 from '../gui';
 
 export class Panel extends Field {
 	detailElement: p5.Element;
+	panelContainer: p5.Element;
 
 	constructor(gui: GUIForP5, name: string) {
 		super(gui, name, 'panel');
@@ -11,6 +12,10 @@ export class Panel extends Field {
 			'details',
 			`<summary>${name}</summary>`
 		);
+		this.panelContainer = gui.p5Instance
+			.createDiv()
+			.class('panel-container');
+		this.detailElement.child(this.panelContainer);
 		this.div.child(this.detailElement);
 	}
 
@@ -22,7 +27,7 @@ export class Panel extends Field {
 	addFields<T extends Field>(fields: T | T[]) {
 		fields = Array.isArray(fields) ? fields : [fields];
 		for (const field of fields) {
-			this.detailElement.child(field.div);
+			this.panelContainer.child(field.div);
 		}
 	}
 }
