@@ -37,6 +37,7 @@ export default class GUIForP5 {
 
 	darkMode: 'true' | 'false' | 'auto';
 	lightModeToggle: LightModeToggle;
+	controllContainer: p5.Element;
 	changeSet: ChangeSet;
 
 	/**
@@ -60,8 +61,15 @@ export default class GUIForP5 {
 
 		this.darkMode = 'false';
 		this.lightModeToggle = new LightModeToggle(this);
+		this.controllContainer = this.p5Instance
+			.createDiv()
+			.id('controll-container');
+		this.controllContainer.child(this.lightModeToggle.button);
 
-		this.setRight();
+		document.querySelector('main')?.append(this.controllContainer.elt);
+		document.querySelector('main')?.prepend(this.div.elt);
+
+		this.setLeft();
 
 		this.dialog = new Dialog(this);
 	}
@@ -75,9 +83,6 @@ export default class GUIForP5 {
 		}
 
 		this.changeSet.save();
-
-		document.querySelector('main')?.append(this.lightModeToggle.button.elt);
-		document.querySelector('main')?.prepend(this.div.elt);
 
 		if (localStorage.doShowHelpOnLoad === 'true' || undefined) {
 			this.showHelp();
@@ -95,10 +100,9 @@ export default class GUIForP5 {
 	setLeft() {
 		const main = document.querySelector('main');
 		if (main) {
-			main.className = 'left';
+			main.className = 'guiLeft';
 		}
-		this.lightModeToggle.button.removeClass('guiRight');
-		this.lightModeToggle.button.addClass('guiLeft');
+		this.controllContainer.class('controllLeft');
 		this.isOnLeftSide = true;
 	}
 
@@ -108,10 +112,9 @@ export default class GUIForP5 {
 	setRight() {
 		const main = document.querySelector('main');
 		if (main) {
-			main.className = 'right';
+			main.className = 'guiRight';
 		}
-		this.lightModeToggle.button.removeClass('guiLeft');
-		this.lightModeToggle.button.addClass('guiRight');
+		this.controllContainer.class('controllRight');
 		this.isOnLeftSide = false;
 	}
 

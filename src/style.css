@@ -1060,21 +1060,27 @@ input[type='checkbox']:checked::before {
 	text-align: center;
 }
 
-/********************************* DARK MODE BUTTON *********************************/
+/********************************* GUI CONTROL *********************************/
 
-.guiLeft {
-	right: 1rem;
-}
-
-.guiRight {
-	left: 1rem;
-}
-
-.dark-mode-button {
+#controll-container {
 	position: fixed;
 	top: 1rem;
 	z-index: 1;
+	display: flex;
+	background-color: red;
+}
 
+.controllRight {
+	left: 1rem;
+}
+
+.controllLeft {
+	right: 1rem;
+}
+
+/********************************* DARK MODE BUTTON *********************************/
+
+.dark-mode-button {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-size: contain;
@@ -1255,11 +1261,11 @@ main {
 	padding: 0;
 }
 
-.left {
+.guiLeft {
 	flex-direction: row;
 }
 
-.right {
+.guiRight {
 	flex-direction: row-reverse;
 }
 
