@@ -1062,10 +1062,17 @@ input[type='checkbox']:checked::before {
 
 /********************************* DARK MODE BUTTON *********************************/
 
+.guiLeft {
+	right: 1rem;
+}
+
+.guiRight {
+	left: 1rem;
+}
+
 .dark-mode-button {
 	position: fixed;
 	top: 1rem;
-	right: 1rem;
 	z-index: 1;
 
 	background-color: transparent;
@@ -1078,14 +1085,17 @@ input[type='checkbox']:checked::before {
 
 	transition: none;
 }
+
 .dark-mode-button:hover {
 	border-radius: 100%;
 	background-color: transparent;
 }
+
 .dark-mode-button:focus {
 	border-radius: 100%;
 	outline: none;
 }
+
 .dark-mode-button:focus:hover {
 	border-radius: 100%;
 	outline: none;
@@ -1243,6 +1253,14 @@ main {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+}
+
+.left {
+	flex-direction: row;
+}
+
+.right {
+	flex-direction: row-reverse;
 }
 
 canvas,

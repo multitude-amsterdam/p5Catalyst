@@ -10,6 +10,7 @@ import ValuedController from './valued_controller';
 import type { Container, sketchHook } from '../types/construction';
 import Tab from './tab';
 import Dialog from './dialog';
+import { LightModeToggle } from './gui-components/LightModeToggle';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -35,6 +36,7 @@ export default class GUIForP5 {
 	activeTab?: Tab;
 
 	darkMode: 'true' | 'false' | 'auto';
+	lightModeToggle: LightModeToggle;
 	changeSet: ChangeSet;
 
 	/**
@@ -57,9 +59,9 @@ export default class GUIForP5 {
 			this.randomizer = new Randomizer(this.p5Instance);
 
 		this.darkMode = 'false';
-		this.loadLightDarkMode();
+		this.lightModeToggle = new LightModeToggle(this);
 
-		this.setLeft();
+		this.setRight();
 
 		this.dialog = new Dialog(this);
 	}
@@ -73,7 +75,9 @@ export default class GUIForP5 {
 		}
 
 		this.changeSet.save();
-		localStorage.doShowHelpOnLoad = 'true';
+
+		document.querySelector('main')?.append(this.lightModeToggle.button.elt);
+		document.querySelector('main')?.prepend(this.div.elt);
 
 		if (localStorage.doShowHelpOnLoad === 'true' || undefined) {
 			this.showHelp();
@@ -89,17 +93,27 @@ export default class GUIForP5 {
 	 * Moves the GUI to the left side of the main container.
 	 */
 	setLeft() {
-		document.querySelector('main')?.prepend(this.div.elt);
+		const main = document.querySelector('main');
+		if (main) {
+			main.className = 'left';
+		}
+		this.lightModeToggle.button.removeClass('guiRight');
+		this.lightModeToggle.button.addClass('guiLeft');
 		this.isOnLeftSide = true;
 	}
 
-	// /**
-	//  * Moves the GUI to the right side of the main container.
-	//  */
-	// setRight() {
-	// 	document.querySelector('main')?.append(this.div.elt);
-	// 	this.isOnLeftSide = false;
-	// }
+	/**
+	 * Moves the GUI to the right side of the main container.
+	 */
+	setRight() {
+		const main = document.querySelector('main');
+		if (main) {
+			main.className = 'right';
+		}
+		this.lightModeToggle.button.removeClass('guiLeft');
+		this.lightModeToggle.button.addClass('guiRight');
+		this.isOnLeftSide = false;
+	}
 
 	//   /**
 	//    * Toggles the GUI between left and right sides.
@@ -107,95 +121,6 @@ export default class GUIForP5 {
 	//   toggleSide() {
 	//     this.isOnLeftSide ? this.setRight() : this.setLeft();
 	//   }
-
-	/**
-	 * Loads the light/dark mode setting from localStorage and applies it.
-	 */
-	loadLightDarkMode() {
-		const setting = window.localStorage['isDarkMode'];
-		const darkModeButton = this.createDarkModeButton();
-		switch (setting) {
-			case 'true':
-				this.setDarkMode(darkModeButton);
-				break;
-			case 'false':
-				this.setLightMode(darkModeButton);
-				break;
-			default:
-				this.setAutoLightDarkMode(darkModeButton);
-		}
-	}
-
-	/**
-	 * Sets the GUI to light mode.
-	 */
-	setLightMode(darkModeButton: P5Button) {
-		document.body.className = '';
-		window.localStorage['isDarkMode'] = 'false';
-		this.darkMode = 'false';
-		darkModeButton.class('dark-mode-button');
-		darkModeButton.addClass('dark-mode-button' + '--light');
-		darkModeButton.elt.title = 'Light mode';
-	}
-
-	/**
-	 * Sets the GUI to dark mode.
-	 */
-	setDarkMode(darkModeButton: P5Button) {
-		document.body.className = 'dark-mode';
-		window.localStorage['isDarkMode'] = 'true';
-		this.darkMode = 'true';
-		darkModeButton.class('dark-mode-button');
-		darkModeButton.addClass('dark-mode-button' + '--dark');
-		darkModeButton.elt.title = 'Dark mode';
-	}
-
-	/**
-	 * Sets the GUI to automatically match the system's light/dark mode.
-	 */
-	setAutoLightDarkMode(darkModeButton: P5Button) {
-		const isSystemDarkMode = () =>
-			window.matchMedia &&
-			window.matchMedia('(prefers-color-scheme: dark)').matches;
-		if (isSystemDarkMode()) {
-			this.setDarkMode(darkModeButton);
-		} else {
-			this.setLightMode(darkModeButton);
-		}
-		window.localStorage['isDarkMode'] = 'auto';
-		this.darkMode = 'auto';
-		darkModeButton.class('dark-mode-button');
-		darkModeButton.addClass('dark-mode-button' + '--auto');
-		darkModeButton.elt.title = 'Auto light/dark mode';
-	}
-
-	/**
-	 * Cycles between light, dark, and auto light/dark modes.
-	 */
-	toggleLightDarkMode(darkModeButton: P5Button) {
-		// cycle modes
-		switch (this.darkMode) {
-			case 'false':
-				this.setDarkMode(darkModeButton);
-				break;
-			case 'true':
-				this.setAutoLightDarkMode(darkModeButton);
-				break;
-			default:
-				this.setLightMode(darkModeButton);
-		}
-	}
-
-	/**
-	 * Creates and adds a button for toggling light/dark mode.
-	 */
-	createDarkModeButton() {
-		const darkModeButton = this.p5Instance.createButton('') as P5Button;
-		darkModeButton.elt.onclick = () => {
-			this.toggleLightDarkMode(darkModeButton);
-		};
-		return darkModeButton;
-	}
 
 	//   /**
 	//    * Adds a field (GUI element) to the GUI.
