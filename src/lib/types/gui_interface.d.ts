@@ -30,7 +30,7 @@ import type {
 } from '../gui/components';
 import type { Orientation } from '../gui/components/groups/group';
 
-export interface GUIControllerInterface {
+export interface GUIControllerInterface extends GUIAddableInterface {
 	addTabs: (...names: string[]) => Tab[];
 	getTab: (name: string) => Tab | undefined;
 	randomize: () => void;
@@ -41,6 +41,9 @@ export interface GUIControllerInterface {
 	stopRecording: () => void;
 	setDuration: (duration: number) => void;
 	setFrameRate: (frameRate: number) => void;
+}
+
+export interface GUIAddableInterface {
 	addPanel: (name: string) => Panel;
 	addGroup: (name: string, orientation: Orientation) => Group;
 	addTitle: (hSize: number, text: string, doAlignCenter?: boolean) => Title;
@@ -173,17 +176,3 @@ export interface GUIControllerInterface {
 		setupCallback?: setupCallback
 	) => ImageLoader;
 }
-
-export type GUIAddableInterface = Omit<
-	GUIControllerInterface,
-	| 'addTabs'
-	| 'getTab'
-	| 'randomize'
-	| 'undo'
-	| 'redo'
-	| 'getController'
-	| 'startRecording'
-	| 'stopRecording'
-	| 'setDuration'
-	| 'setFrameRate'
->;
