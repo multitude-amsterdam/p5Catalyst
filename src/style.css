@@ -287,6 +287,7 @@ body:where(.dark-mode) .p5catalyst-logo {
 	gap: var(--spacing-x);
 	align-items: center;
 	justify-content: space-between;
+	height: var(--base-height);
 }
 
 .gui-controller {
@@ -1198,15 +1199,18 @@ a:hover {
 
 /* -------------------------------- DIE ICON -------------------------------- */
 .die-icon {
-	height: 1.75rem;
-	width: 1.75rem;
+	height: 100%;
+	aspect-ratio: 1;
 
 	opacity: 1;
 	cursor: pointer;
-	transition: var(--transition);
+	transition: rotate 0.25s ease;
 
 	background-size: contain;
 	background-repeat: no-repeat;
+	background-origin: content-box;
+
+	transform-origin: center;
 }
 
 .die-icon--disabled {
