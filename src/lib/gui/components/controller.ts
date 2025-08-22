@@ -1,10 +1,10 @@
-import type GUIForP5 from './gui';
-import type { controllerElement, setupCallback } from '../types';
+import type GUIForP5 from '../gui';
+import type { controllerElement, setupCallback } from '../../types';
 import Field from './field';
 import p5 from 'p5';
-import type DieIcon from './components/DieIcon';
-import type Randomizer from './randomizer';
-import Label from './components/fields/Label';
+import type DieIcon from './DieIcon';
+import type Randomizer from '../randomizer';
+import Label from './fields/Label';
 
 /**
  * Base class for all GUI controllers.

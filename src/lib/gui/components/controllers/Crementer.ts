@@ -1,8 +1,8 @@
 import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
-import type Controller from '../../controller';
+import type Controller from '../controller';
 import type GUIForP5 from '../../gui';
-import ValuedController from '../../valued_controller';
+import ValuedController from '../valued_controller';
 
 /**
  * Side by side incrementer & decrementer button for a number

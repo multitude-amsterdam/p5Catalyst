@@ -1,5 +1,5 @@
 import type p5 from 'p5';
-import type Controller from '../controller';
+import Controller from './controller';
 import type Randomizer from '../randomizer';
 
 /**

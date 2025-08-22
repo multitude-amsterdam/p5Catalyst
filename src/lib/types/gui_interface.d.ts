@@ -1,7 +1,7 @@
 import type { Field } from '../gui/field';
 import type { Title } from '../gui/gui';
 import type { Controller } from '../gui/controller';
-import type { Panel } from '../gui/components/panel';
+import { Group, Panel, Tab } from '../gui/components/groups';
 
 import type {
 	controllerCallback,
@@ -13,6 +13,7 @@ import type {
 	Button,
 	ColourBoxes,
 	Crementer,
+	Group,
 	ImageLoader,
 	JSONFileLoader,
 	MultiColourBoxes,
@@ -27,12 +28,24 @@ import type {
 	Toggle,
 	XYSlider,
 } from '../gui/components';
+import type { Orientation } from '../gui/components/groups/group';
 
-export interface GUIControllerInterface {
+export interface GUIControllerInterface extends GUIAddableInterface {
 	addTabs: (...names: string[]) => Tab[];
 	getTab: (name: string) => Tab | undefined;
+	randomize: () => void;
+	undo: () => void;
+	redo: () => void;
+	getController: <T extends Controller>(name: string) => T | undefined;
+	startRecording: () => void;
+	stopRecording: () => void;
+	setDuration: (duration: number) => void;
+	setFrameRate: (frameRate: number) => void;
+}
+
+export interface GUIAddableInterface {
 	addPanel: (name: string) => Panel;
-	addField: (id: string, className: string, parentDiv?: p5.Element) => Field;
+	addGroup: (name: string, orientation: Orientation) => Group;
 	addTitle: (hSize: number, text: string, doAlignCenter?: boolean) => Title;
 	addTextField: (
 		text: string,
@@ -82,7 +95,7 @@ export interface GUIControllerInterface {
 		defaultVal: number,
 		stepSize: number,
 		valueCallback?: valueCallback,
-		setupCallback: setupCallback
+		setupCallback?: setupCallback
 	) => Slider;
 	addXYSlider: (
 		name: string,
@@ -162,22 +175,4 @@ export interface GUIControllerInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => ImageLoader;
-	randomize: () => void;
-	undo: () => void;
-	redo: () => void;
-	getController: <T extends Controller>(name: string) => T | undefined;
-	startRecording: () => void;
-	stopRecording: () => void;
-	setDuration: (duration: number) => void;
-	setFrameRate: (frameRate: number) => void;
-}
-
-export class Tab {
-	gui: GUIForP5;
-	name: string;
-	div: p5.Element;
-
-	addFields<T extends Field>(field: T);
-	hide();
-	show();
 }

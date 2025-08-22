@@ -1,6 +1,6 @@
 import type { setupCallback, valueCallback } from '../../../types';
 import type GUIForP5 from '../../gui';
-import ValuedController from '../../valued_controller';
+import ValuedController from '../valued_controller';
 
 /**
  * Multi line text area controller.

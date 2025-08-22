@@ -22,13 +22,11 @@ import Divider from './fields/Divider';
 
 import DieIcon from './DieIcon';
 
-import Field from '../field';
-
-import { Panel } from './panel';
+import { Group, Panel } from './groups';
 
 export {
 	Panel,
-	Field,
+	Group,
 	Title,
 	TextField,
 	ImageField,

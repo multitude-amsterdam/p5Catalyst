@@ -1,5 +1,6 @@
 import type p5 from 'p5';
-import type GUIForP5 from './gui';
+import type GUIForP5 from '../gui';
+
 /**
  * Base GUI element container used by controllers.
  */
@@ -12,6 +13,7 @@ export default class Field {
 	 * @param {string} className - The CSS class to assign to the field (optional).
 	 */
 	div: p5.Element;
+
 	constructor(
 		gui: GUIForP5,
 		id: string,

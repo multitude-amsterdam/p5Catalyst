@@ -1,5 +1,5 @@
 import type { controllerCallback, setupCallback } from '../../../types';
-import Controller from '../../controller';
+import Controller from '../controller';
 import type GUIForP5 from '../../gui';
 /**
  * Simple push button controller.

@@ -23,9 +23,10 @@ export const createGUI = (
 
 			return gui.addField(panel);
 		},
-		addField: (id, className, parentDiv) => {
-			const field = new components.Field(gui, id, className, parentDiv);
-			return gui.addField(field);
+		addGroup: (name, orientation) => {
+			const group = new components.Group(gui, name, orientation);
+
+			return gui.addField(group);
 		},
 		addTitle: (hSize, text, doAlignCenter = false) => {
 			const title = new components.Title(gui, hSize, text, doAlignCenter);

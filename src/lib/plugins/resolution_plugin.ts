@@ -1,4 +1,6 @@
 import type { ResolutionTextboxes } from '../gui/components';
+import { COLUMN } from '../gui/components/groups/group';
+
 import type { State, Plugin, GUIControllerInterface } from '../types';
 
 // Language plugin
@@ -7,13 +9,12 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 		name: 'resolution',
 		setup: (gui: GUIControllerInterface, state: State) => {
 			const exportTab = gui.getTab('export');
-
-			const resolutionField = gui.addField(
+			const resolutionField = exportTab?.addGroup(
 				'resolutionField',
-				'button-group column'
+				COLUMN
 			);
-			const title = gui.addTitle(3, 'Resolution');
-			const resolutionSelect = gui.addResolutionSelect(
+			resolutionField?.addTitle(3, 'Resolution');
+			resolutionField?.addResolutionSelect(
 				'',
 				resolutionOptions,
 				0,
@@ -25,16 +26,7 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 						resbox.setValueOnlyDisplay(state.width, state.height);
 				}
 			);
-			const resolutionTextbox = gui.addResolutionTextBoxes(
-				state.width,
-				state.height
-			);
-
-			resolutionField.div.child(title.div);
-			resolutionField.div.child(resolutionSelect.div);
-			resolutionField.div.child(resolutionTextbox.div);
-
-			exportTab?.addFields(resolutionField);
+			resolutionField?.addResolutionTextBoxes(state.width, state.height);
 		},
 	};
 }
