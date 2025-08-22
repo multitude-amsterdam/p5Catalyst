@@ -1,10 +1,11 @@
 import p5 from 'p5';
 import type { Container, SketchFunction, State } from './types';
-import type { imageFileType } from './types/plugin';
+import type { Config, imageFileType } from './types/plugin';
 import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg';
 
 export const createContainer = (
-	userSketch: SketchFunction
+	userSketch: SketchFunction,
+	config?: Config
 ): Promise<Container> => {
 	const state: State = { width: 1080, height: 1080, time: 0 };
 
@@ -83,7 +84,36 @@ export const createContainer = (
 			sketch.draw = () => {
 				progress = sketch.frameCount / nFramesToRender;
 				state.time = sketch.frameCount / sketch.getTargetFrameRate();
+				if (config?.clearBackground) sketch.clear();
+				if (state.backdrop) {
+					sketch.image(
+						state.backdrop,
+						0,
+						0,
+						state.width,
+						state.height,
+						0,
+						0,
+						state.backdrop.width,
+						state.backdrop.height,
+						sketch.CONTAIN
+					);
+				}
 				userDraw();
+				if (state.overlay) {
+					sketch.image(
+						state.overlay,
+						0,
+						0,
+						state.width,
+						state.height,
+						0,
+						0,
+						state.overlay.width,
+						state.overlay.height,
+						sketch.CONTAIN
+					);
+				}
 				if (isRecording) {
 					saveToLocalFFMPEG(canvas);
 					if (progress == 1) {

@@ -7,6 +7,7 @@ import { resolutionPresets } from './resolution_plugin';
 import { defaultPlugin } from './default_plugin';
 import { videoExportPlugin } from './videoExport_plugin';
 import { debugPlugin } from './debug_plugin';
+import { backdropPlugin } from './backdrop_plugin';
 
 export {
 	defaultPlugin,
@@ -18,4 +19,5 @@ export {
 	setConfigPlugin,
 	randomizerPlugin,
 	debugPlugin,
+	backdropPlugin,
 };

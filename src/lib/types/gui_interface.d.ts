@@ -26,6 +26,7 @@ import type {
 	TextField,
 	TextFileLoader,
 	Toggle,
+	VideoLoader,
 	XYSlider,
 } from '../gui/components';
 import type { Orientation } from '../gui/components/groups/group';
@@ -175,4 +176,16 @@ export interface GUIAddableInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => ImageLoader;
+	addVideoLoader: (
+		name: string,
+		labelStr: string,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => VideoLoader;
+	addMediaLoader: (
+		name: string,
+		labelStr: string,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => MediaLoader;
 }

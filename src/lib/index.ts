@@ -10,6 +10,7 @@ import {
 	setConfigPlugin,
 	randomizerPlugin,
 	debugPlugin,
+	backdropPlugin,
 } from './plugins';
 
 import type {
@@ -29,7 +30,7 @@ const initialize = async (
 	userPlugins = userPlugins?.flat();
 	userPlugins?.forEach(plugin => plugin.beforeInit?.(config));
 
-	const container = await createContainer(sketchFunction);
+	const container = await createContainer(sketchFunction, config);
 	const gui = createGUI(container, config, (gui, state) => {
 		userPlugins?.forEach(plugin => plugin.setup?.(gui, state, config));
 
@@ -53,4 +54,5 @@ export const catalyst = {
 	setConfigPlugin,
 	randomizerPlugin,
 	debugPlugin,
+	backdropPlugin,
 };

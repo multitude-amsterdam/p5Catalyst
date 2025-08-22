@@ -309,6 +309,26 @@ export const createGUI = (
 			);
 			return gui.addController(imageLoader);
 		},
+		addVideoLoader: (name, labelStr, valueCallback, setupCallback) => {
+			const videoLoader = new components.VideoLoader(
+				gui,
+				name,
+				labelStr,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(videoLoader);
+		},
+		addMediaLoader: (name, labelStr, valueCallback, setupCallback) => {
+			const mediaLoader = new components.MediaLoader(
+				gui,
+				name,
+				labelStr,
+				valueCallback,
+				setupCallback
+			);
+			return gui.addController(mediaLoader);
+		},
 		randomize: () => {
 			gui.randomizer?.randomize();
 		},

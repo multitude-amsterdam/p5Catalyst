@@ -20,6 +20,7 @@ export interface Config {
 	fileName?: string;
 	contactMail?: string;
 	createRandomizer?: boolean;
+	clearBackground?: boolean;
 }
 
 export interface UserConfig extends Pick<Config, 'fileName' | 'contactMail'> {}
