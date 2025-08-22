@@ -51,6 +51,9 @@ export default class GUIForP5 {
 
 		this.div = this.p5Instance.createDiv();
 		this.div.id('gui');
+		window.addEventListener('keyup', (e: KeyboardEvent) => {
+			this.handleKeyboardEvent(e);
+		});
 
 		this.lang = new Lang(config.userDictionary);
 		this.lang.setup(config.defaultLanguage as LangCode);
@@ -81,6 +84,12 @@ export default class GUIForP5 {
 		if (localStorage.doShowHelpOnLoad === undefined) {
 			this.showHelp();
 			localStorage.doShowHelpOnLoad = 'false';
+		}
+	}
+
+	handleKeyboardEvent(event: KeyboardEvent) {
+		if (event.key === 'h') {
+			this.dialog.show();
 		}
 	}
 

@@ -22,10 +22,6 @@ const sketchFunction = async (sketch, state) => {
 			state.size
 		);
 	};
-
-	sketch.keyPressed = event => {
-		sketch.frameCount = 0;
-	};
 };
 
 const plugins = [

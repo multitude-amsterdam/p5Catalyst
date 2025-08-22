@@ -103,7 +103,16 @@ export const createContainer = (
 
 			sketch.keyPressed = (event: KeyboardEvent) => {
 				if (GuiTyping) return;
-				userKeyPressed(event);
+
+				switch (event.key) {
+					case ' ':
+						sketch.frameCount = 0;
+						return;
+					case 'h':
+						return;
+					default:
+						userKeyPressed(event);
+				}
 			};
 
 			function setTyping(currentlyTyping: boolean) {
