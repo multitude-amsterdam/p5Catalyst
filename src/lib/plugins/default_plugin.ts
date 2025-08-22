@@ -5,6 +5,7 @@ import { resolutionPlugin, resolutionPresets } from './resolution_plugin';
 import { setConfigPlugin } from './setConfig_plugin';
 import type { GUIControllerInterface, Plugin, State } from '../types';
 import { ROW, COLUMN } from '../gui/components/groups/group';
+import { backdropPlugin } from './backdrop_plugin';
 
 export const defaultPlugin: Plugin = () => [
 	setConfigPlugin({ fileName: 'p5Catalyst' }),
@@ -24,6 +25,7 @@ export const defaultPlugin: Plugin = () => [
 	resolutionPlugin(resolutionPresets),
 	imageExportPlugin('jpg'),
 	videoExportPlugin(),
+	backdropPlugin(),
 	{
 		name: 'changeSetButtons',
 		setup: (gui: GUIControllerInterface, state: State) => {

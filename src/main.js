@@ -28,7 +28,6 @@ const plugins = [
 	}),
 	catalyst.randomizerPlugin(['slider', 'colorBox']),
 	catalyst.debugPlugin(),
-	catalyst.backdropPlugin(),
 ];
 
 catalyst.initialize(
