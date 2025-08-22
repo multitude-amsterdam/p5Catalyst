@@ -4,6 +4,8 @@ import MultiColourBoxes from './controllers/MultiColourBoxes';
 import Crementer from './controllers/Crementer';
 import FileLoader from './controllers/FileLoader';
 import ImageLoader from './controllers/ImageLoader';
+import VideoLoader from './controllers/VideoLoader';
+import MediaLoader from './controllers/MediaLoader';
 import JSONFileLoader from './controllers/JSONFileLoader';
 import ResolutionSelect from './controllers/ResolutionSelect';
 import ResolutionTextboxes from './controllers/ResolutionTextBoxes';
@@ -37,6 +39,8 @@ export {
 	Crementer,
 	FileLoader,
 	ImageLoader,
+	VideoLoader,
+	MediaLoader,
 	JSONFileLoader,
 	ResolutionSelect,
 	Select,

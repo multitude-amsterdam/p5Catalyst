@@ -402,4 +402,38 @@ export class baseGroup extends Field implements GUIAddableInterface {
 		this.attachField(imageLoader);
 		return imageLoader;
 	};
+	addVideoLoader: GUIAddableInterface['addVideoLoader'] = (
+		name,
+		labelStr,
+		valueCallback,
+		setupCallback
+	) => {
+		const videoLoader = new components.VideoLoader(
+			this.gui,
+			name,
+			labelStr,
+			valueCallback,
+			setupCallback
+		);
+		this.gui.addField(videoLoader);
+		this.attachField(videoLoader);
+		return videoLoader;
+	};
+	addMediaLoader: GUIAddableInterface['addMediaLoader'] = (
+		name: string,
+		labelStr: string,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => {
+		const mediaLoader = new components.MediaLoader(
+			this.gui,
+			name,
+			labelStr,
+			valueCallback,
+			setupCallback
+		);
+		this.gui.addField(mediaLoader);
+		this.attachField(mediaLoader);
+		return mediaLoader;
+	};
 }
