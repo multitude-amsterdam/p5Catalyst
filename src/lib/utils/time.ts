@@ -1,4 +1,4 @@
-import { toB64 } from 'utils/io';
+import { toB64 } from 'utils/data';
 
 /**
  * Generate a base 64 and unix timestamp.
