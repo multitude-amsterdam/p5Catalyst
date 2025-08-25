@@ -1209,6 +1209,7 @@ a:hover {
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-origin: content-box;
+	background-position: center;
 
 	transform-origin: center;
 }
