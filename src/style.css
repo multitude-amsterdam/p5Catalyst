@@ -1,4 +1,4 @@
-/********************************* FONTS *********************************/
+/* ---------------------------------- FONTS --------------------------------- */
 
 @import url('https://rsms.me/inter/inter.css');
 
@@ -50,7 +50,7 @@ strong {
 	font-weight: 500;
 }
 
-/********************************* BOX SIZING *********************************/
+/* ------------------------------- BOX SIZING ------------------------------- */
 *,
 *::before,
 *::after {
@@ -61,7 +61,7 @@ html {
 	overflow: hidden;
 }
 
-/********************************* BODY *********************************/
+/* ---------------------------------- BODY ---------------------------------- */
 body {
 	/* darkest and lightest colours */
 	--blackRGB: 0, 0, 0;
@@ -126,6 +126,7 @@ body {
 
 	/* animation */
 	--transition: all 0.25s ease;
+	--transition-properties: 0.25s ease;
 
 	/* body styles */
 	margin: 0;
@@ -141,7 +142,7 @@ body:where(.dark-mode) {
 	--fgRGB: var(--whiteRGB);
 }
 
-/********************************* SELECTIONS *********************************/
+/* ------------------------------- SELECTIONS ------------------------------- */
 ::-moz-selection {
 	/* Code for Firefox */
 	color: var(--text-col-on-hover);
@@ -153,7 +154,7 @@ body:where(.dark-mode) {
 	background: var(--hover-col);
 }
 
-/********************************* GUI *********************************/
+/* ----------------------------------- GUI ---------------------------------- */
 #gui,
 .tab {
 	display: flex;
@@ -206,7 +207,7 @@ summary:hover {
 	cursor: pointer;
 }
 
-/********************************* SCROLLBARS *********************************/
+/* ------------------------------- SCROLLBARS ------------------------------- */
 /* modern browsers with `scrollbar-*` support */
 @supports (scrollbar-width: auto) {
 	* {
@@ -230,7 +231,7 @@ summary:hover {
 	}
 }
 
-/********************************* LOGO STYLING *********************************/
+/* ------------------------------ LOGO STYLING ------------------------------ */
 #logo {
 	min-height: 4rem;
 	background-image: url('assets/generator-logo.svg');
@@ -268,7 +269,7 @@ body:where(.dark-mode) .p5catalyst-logo {
 	background-image: url('assets/dark-mode/p5catalyst-logo.svg');
 }
 
-/********************************* TEXTFIELD *********************************/
+/* -------------------------------- TEXTFIELD ------------------------------- */
 .gui-textfield {
 	margin: 0.5em 0;
 }
@@ -280,7 +281,7 @@ body:where(.dark-mode) .p5catalyst-logo {
 	color: var(--black);
 }
 
-/********************************* CONTROLLER *********************************/
+/* ------------------------------- CONTROLLER ------------------------------- */
 .controller-wrapper {
 	display: flex;
 	flex-direction: row;
@@ -309,14 +310,14 @@ textarea {
 	width: 100%;
 }
 
-/********************************* LABEL *********************************/
+/* ---------------------------------- LABEL --------------------------------- */
 .gui-label {
 	margin: 0;
 	padding: 0;
 	font-size: 1em;
 }
 
-/********************************* CONSOLE *********************************/
+/* --------------------------------- CONSOLE -------------------------------- */
 .gui-console {
 	text-align: center;
 	padding: 0.5em;
@@ -330,7 +331,7 @@ textarea {
 	font-weight: 800;
 }
 
-/********************************* DIVIDER *********************************/
+/* --------------------------------- DIVIDER -------------------------------- */
 hr {
 	border: none;
 	height: var(--line-width);
@@ -339,7 +340,7 @@ hr {
 	width: 100%;
 }
 
-/********************************* HEADINGS *********************************/
+/* -------------------------------- HEADINGS -------------------------------- */
 h1,
 h2,
 h3,
@@ -351,13 +352,12 @@ h6 {
 	margin-bottom: 0.25em;
 }
 
-/********************************* BUTTON *********************************/
+/* --------------------------------- BUTTON --------------------------------- */
 button {
 	cursor: pointer;
 	background-color: var(--base-col);
 	color: var(--text-col-on-base);
 	border: none;
-	transition: var(--transition);
 	border-radius: var(--corner-radius);
 	min-height: var(--base-height);
 	padding: 0 var(--button-padding-sides);
@@ -382,7 +382,7 @@ button:focus {
 	border-radius: var(--corner-radius);
 }
 
-/********************************* TOGGLE *********************************/
+/* --------------------------------- TOGGLE --------------------------------- */
 button.toggle {
 	display: inline-flex;
 	position: relative;
@@ -399,7 +399,6 @@ button.toggle:focus {
 /* Span elements within the toggle button */
 button.toggle span {
 	display: inline-block;
-	transition: var(--transition);
 	width: 100%;
 	align-content: center;
 	text-align: var(--text-align);
@@ -478,7 +477,7 @@ button.toggle[toggled]:focus span:last-child {
 	z-index: 1;
 }
 
-/********************************* SELECT *********************************/
+/* --------------------------------- SELECT --------------------------------- */
 select {
 	/* removing the default dropdown arrow */
 	-webkit-appearance: none;
@@ -495,7 +494,6 @@ select {
 	text-align: var(--text-align);
 	border-radius: var(--corner-radius);
 	border: var(--line-width) solid var(--base-col);
-	transition: var(--transition);
 
 	--arrow-url: url('data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%3Csvg%20width%3D%2222.498px%22%20height%3D%2222.11px%22%20version%3D%221.1%22%20viewBox%3D%22352.21%20170.29%2022.498%2022.11%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Abx%3D%22https%3A%2F%2Fboxy-svg.com%22%3E%3Cpath%20class%3D%22select-arrow-svg%22%20d%3D%22m363.46%20183.85-4.9997-5.0233h10z%22%20fill%3D%22%237685F7%22%20stroke-width%3D%220px%22%20bx%3Ashape%3D%22triangle%20-373.34%20-187.05%2019.493%209.792%200.5%200%201%406f3e846f%22%2F%3E%3C%2Fsvg%3E');
 	/* Some browsers will not display the caret when using calc, so we put the fallback first */
@@ -529,7 +527,7 @@ option:hover {
 	color: var(--text-col-on-hover);
 }
 
-/********************************* TEXTAREA *********************************/
+/* -------------------------------- TEXTAREA -------------------------------- */
 textarea {
 	background-color: var(--input-text-bg-col);
 	color: var(--input-text-text-col);
@@ -545,7 +543,6 @@ textarea {
 	font-style: normal;
 	resize: vertical;
 	overflow-y: auto;
-	transition: var(--transition);
 }
 
 textarea:hover {
@@ -557,7 +554,7 @@ textarea:focus {
 	outline-offset: var(--focus-outline-offset);
 }
 
-/********************************* COLOURTEXTAREA *********************************/
+/* ----------------------------- COLOURTEXTAREA ----------------------------- */
 .colour-text-area-display {
 	width: 100%;
 	display: flex;
@@ -566,7 +563,6 @@ textarea:focus {
 	justify-content: flex-start;
 	/*	gap: var(--line-width);*/
 	gap: calc(var(--target-diameter) * 0.25);
-	transition: var(--transition);
 }
 
 .colour-text-area-block {
@@ -574,7 +570,7 @@ textarea:focus {
 	height: calc(var(--target-diameter) * 0.5);
 }
 
-/********************************* TEXTBOX *********************************/
+/* --------------------------------- TEXTBOX -------------------------------- */
 input[type='text'] {
 	-webkit-appearance: none;
 	-moz-appearance: none;
@@ -585,7 +581,6 @@ input[type='text'] {
 	color: var(--input-text-text-col);
 	border-radius: var(--corner-radius);
 	border: var(--line-width) solid var(--base-col);
-	transition: var(--transition);
 }
 
 input[type='text']:hover {
@@ -598,7 +593,7 @@ input[type='text']:focus {
 	border-radius: var(--corner-radius);
 }
 
-/********************************* RANGE *********************************/
+/* ---------------------------------- RANGE --------------------------------- */
 input[type='range'] {
 	-webkit-appearance: none;
 	appearance: none;
@@ -631,7 +626,6 @@ input[type='range']::-webkit-slider-thumb {
 	height: var(--target-diameter);
 	width: var(--target-diameter);
 	border-radius: 100%;
-	transition: var(--transition);
 }
 
 input[type='range']:hover::-webkit-slider-thumb {
@@ -644,7 +638,7 @@ input[type='range']:focus::-webkit-slider-thumb {
 	outline-offset: var(--focus-outline-offset);
 }
 
-/******** Firefox styles ********/
+/* Firefox styles */
 /* slider track */
 input[type='range']::-moz-range-track {
 	background-color: var(--base-col);
@@ -659,7 +653,6 @@ input[type='range']::-moz-range-thumb {
 	height: var(--target-diameter);
 	width: var(--target-diameter);
 	border-radius: 100%;
-	transition: var(--transition);
 }
 
 input[type='range']:hover::-moz-range-thumb {
@@ -672,7 +665,7 @@ input[type='range']:focus::-moz-range-thumb {
 	outline-offset: var(--focus-outline-offset);
 }
 
-/********************************* RADIO *********************************/
+/* ---------------------------------- RADIO --------------------------------- */
 input[type='radio'] {
 	-webkit-appearance: none;
 	appearance: none;
@@ -686,7 +679,6 @@ input[type='radio'] {
 	border-radius: var(--corner-radius);
 
 	cursor: pointer;
-	transition: var(--transition);
 }
 
 input[type='radio']:hover {
@@ -713,15 +705,13 @@ input[type='radio']::before {
 		var(--target-col);
 	border: none;
 	border-radius: var(--corner-radius);
-	transition: var(--transition);
 }
 
 input[type='radio']:checked::before {
 	transform: scale(1);
 }
 
-/********************************* RANGE-SLIDER *********************************/
-
+/* ------------------------------ RANGE-SLIDER ------------------------------ */
 .dual-range-input {
 	--dri-height: 1.5rem;
 	--dri-thumb-width: var(--target-diameter);
@@ -890,7 +880,7 @@ input[type='radio']:checked::before {
 	border-color: var(--dri-thumb-border-active-color);
 }
 
-/********************************* CHECKBOX *********************************/
+/* -------------------------------- CHECKBOX -------------------------------- */
 input[type='checkbox'] {
 	-webkit-appearance: none;
 	appearance: none;
@@ -904,7 +894,6 @@ input[type='checkbox'] {
 	border-radius: var(--corner-radius);
 
 	cursor: pointer;
-	transition: var(--transition);
 	margin: 0;
 }
 input[type='checkbox']:hover {
@@ -928,13 +917,12 @@ input[type='checkbox']::before {
 		var(--target-col);
 	border: none;
 	border-radius: var(--corner-radius);
-	transition: var(--transition);
 }
 input[type='checkbox']:checked::before {
 	transform: scale(1);
 }
 
-/********************************* XY SLIDER *********************************/
+/* -------------------------------- XY SLIDER ------------------------------- */
 .xyslider {
 	width: 100%;
 	/* constrains height: */
@@ -952,8 +940,6 @@ input[type='checkbox']:checked::before {
 	);
 	background-position: center;
 	cursor: pointer;
-
-	transition: var(--transition);
 
 	border-radius: var(--corner-radius);
 	border: var(--line-width) solid var(--base-col);
@@ -973,7 +959,7 @@ input[type='checkbox']:checked::before {
 	top: calc(50% - var(--target-diameter) / 2);
 	left: calc(50% - var(--target-diameter) / 2);
 
-	transition: background-color 0.25s ease;
+	transition: background-color var(--transition-properties);
 }
 
 .xyslider .handle:hover {
@@ -986,7 +972,7 @@ input[type='checkbox']:checked::before {
 	border-radius: 100%;
 }
 
-/********************************* COLOUR BOXES *********************************/
+/* ------------------------------ COLOUR BOXES ------------------------------ */
 .colour-boxes {
 	width: 100%;
 	display: flex;
@@ -994,7 +980,6 @@ input[type='checkbox']:checked::before {
 	align-content: flex-end;
 	justify-content: flex-start;
 	gap: calc(var(--target-diameter) * 0.25);
-	transition: var(--transition);
 }
 
 .colour-boxes input[type='radio'] {
@@ -1023,7 +1008,7 @@ input[type='checkbox']:checked::before {
 	display: none;
 }
 
-/********************************* MULTI COLOUR BOXES *********************************/
+/* --------------------------- MULTI COLOUR BOXES --------------------------- */
 .colour-boxes input[type='checkbox'] {
 	margin: 0;
 	border: none;
@@ -1045,7 +1030,7 @@ input[type='checkbox']:checked::before {
 	display: none;
 }
 
-/********************************* CREMENTER *********************************/
+/* -------------------------------- CREMENTER ------------------------------- */
 .crementer {
 	display: flex;
 	width: 100%;
@@ -1066,8 +1051,7 @@ input[type='checkbox']:checked::before {
 	text-align: center;
 }
 
-/********************************* DARK MODE BUTTON *********************************/
-
+/* ---------------------------- DARK MODE BUTTON ---------------------------- */
 .dark-mode-button {
 	position: fixed;
 	top: 1rem;
@@ -1116,7 +1100,7 @@ body:where(.dark-mode) .dark-mode-button--auto {
 	background-image: url('assets/dark-mode-button/auto-mode-icon.svg');
 }
 
-/********************************* VIDEO LOADING *********************************/
+/* ------------------------------ VIDEO LOADING ----------------------------- */
 #vidLoad {
 	margin: auto;
 	padding: 0;
@@ -1162,7 +1146,7 @@ body:where(.dark-mode) .dark-mode-button--auto {
 	}
 }
 
-/********************************* CONTACT SECTION *********************************/
+/* ----------------------------- CONTACT SECTION ---------------------------- */
 #contact {
 	/*	margin-top: 1em;*/
 	font-size: 0.8em;
@@ -1170,7 +1154,6 @@ body:where(.dark-mode) .dark-mode-button--auto {
 
 a {
 	color: var(--link-col);
-	transition: var(--transition);
 }
 
 a:hover {
@@ -1184,7 +1167,6 @@ a:hover {
 
 	opacity: 1;
 	cursor: pointer;
-	transition: var(--transition);
 
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -1232,7 +1214,7 @@ body:where(.dark-mode) .die-icon--6 {
 	background-image: url('assets/dice/die (6).svg');
 }
 
-/********************************* CANVAS SECTION *********************************/
+/* ----------------------------- CANVAS SECTION ----------------------------- */
 #canvas-workarea {
 	background-color: var(--transpSquareCol0);
 	display: flex;
@@ -1280,7 +1262,7 @@ canvas,
 	z-index: 1000;
 }
 
-/********************************* DIALOG *********************************/
+/* --------------------------------- DIALOG --------------------------------- */
 /* based on implementation at: https://github.com/Stanko/cca/blob/dev/docs/index.html#L78-L91 */
 html:has(dialog[open]) {
 	overflow: hidden;
@@ -1345,7 +1327,7 @@ button.dialog-backdrop-close {
 }
 
 .dialog[open] button.dialog-backdrop-close {
-	animation: dialog-backdrop-in 250ms ease-out forwards;
+	animation: dialog-backdrop-in 0.25s ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1358,7 +1340,6 @@ button.dialog-backdrop-close {
 .dialog-close {
 	opacity: 1;
 	position: absolute;
-	transition: var(--transition);
 	z-index: 1;
 	border-radius: var(--corner-radius);
 
@@ -1400,7 +1381,7 @@ button.dialog-close:hover {
 }
 
 .dialog[open] .dialog-content {
-	animation: dialog-content-scale-in 250ms ease-out forwards;
+	animation: dialog-content-scale-in 0.25s ease-out forwards;
 }
 
 .dialog-content-wrapper > *:first-child {
@@ -1440,7 +1421,7 @@ button.dialog-close:hover {
 	}
 }
 
-/********************************* HELPME DIALOG *********************************/
+/* ------------------------------ HELPME DIALOG ----------------------------- */
 .helpme ul {
 	padding-inline-start: 0;
 }
@@ -1457,11 +1438,10 @@ button.dialog-close:hover {
 	width: 100%;
 }
 
-/********************************* TAB BAR *********************************/
+/* --------------------------------- TAB BAR -------------------------------- */
 .tab-bar {
 	display: flex;
 	gap: 0;
-	transition: var(--transition);
 	margin-bottom: calc(var(--base-height) / 2);
 }
 
@@ -1489,7 +1469,7 @@ button.dialog-close:hover {
 	border-bottom: var(--line-width) solid var(--hover-col);
 }
 
-/********************************* AUXILIARY *********************************/
+/* -------------------------------- AUXILIARY ------------------------------- */
 code {
 	/* used for displaying buttons keys */
 	font-family: monospace;
@@ -1507,4 +1487,23 @@ ol li {
 
 .gui-filler {
 	height: 100%;
+}
+
+/* ------------------------------- TRANSITIONS ------------------------------ */
+button,
+button span,
+select,
+input,
+textarea,
+.die-icon,
+.crementer,
+.colour-boxes,
+.xyslider,
+.colour-text-area-display {
+	transition: color var(--transition-properties),
+		background var(--transition-properties),
+		border var(--transition-properties),
+		outline var(--transition-properties),
+		transform var(--transition-properties),
+		font var(--transition-properties);
 }
