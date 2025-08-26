@@ -1069,7 +1069,7 @@ input[type='checkbox']:checked::before {
 
 /********************************* GUI CONTROL *********************************/
 
-#controll-container {
+#control-container {
 	position: fixed;
 	top: 1rem;
 	z-index: 1;
