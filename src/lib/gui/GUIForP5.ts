@@ -1,25 +1,25 @@
 import type p5 from 'p5';
 
-import Field from './components/field';
-import Controller from './components/controller';
-import ValuedController from './components/valued_controller';
+import { Field } from './components/Field';
+import { Controller } from './components/Controller';
+import { ValuedController } from './components/ValuedController';
 
 import type { State, Config, LangCode } from '../types';
 import type { P5Button, Serializable } from '../types/controller';
 import type { Container, sketchHook } from '../types/construction';
 
-import Randomizer from './randomizer';
-import ChangeSet from './changeset';
-import Lang from '../language/lang';
+import { Randomizer } from './Randomizer';
+import { ChangeSet } from './ChangeSet';
+import { Lang } from '../language/Lang';
 
-import { Tab } from './components/groups/tab';
-import Dialog from './dialog';
+import { Tab } from './components/groups/Tab';
+import { Dialog } from './Dialog';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
  * Handles layout, theming, controller management, and state persistence.
  */
-export default class GUIForP5 {
+export class GUIForP5 {
 	div: p5.Element;
 	randomizer?: Randomizer;
 	p5Instance: p5;
@@ -276,7 +276,7 @@ export default class GUIForP5 {
 	 * @param  {...Tab} tabs
 	 */
 	addTabs(...names: string[]): Tab[] {
-		if (this.tabs.length == 0) {
+                if (this.tabs.length === 0) {
 			this.tabs = [];
 			// this.activeTab = null;
 			this.tabBar = this.p5Instance.createDiv();
@@ -384,9 +384,9 @@ export default class GUIForP5 {
 	 * @param {string} name
 	 * @returns {boolean}
 	 */
-	hasName(name: string): boolean {
-		return this.controllers.some(controller => controller.name == name);
-	}
+        hasName(name: string): boolean {
+                return this.controllers.some(controller => controller.name === name);
+        }
 
 	/**
 	 * Gets a controller by name.
@@ -413,7 +413,7 @@ export default class GUIForP5 {
 				if (!this.hasName(name)) {
 					return false;
 				}
-				return controller.name == name;
+                                return controller.name === name;
 			})
 		);
 	}

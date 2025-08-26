@@ -1,8 +1,8 @@
 import p5 from 'p5';
-import type GUIForP5 from '../../gui';
-import ValuedController from '../valued_controller';
+import type { GUIForP5 } from '../../GUIForP5';
+import { ValuedController } from '../ValuedController';
 import type { setupCallback, valueCallback } from '../../../types';
-import type Controller from '../controller';
+import type { Controller } from '../Controller';
 import type { P5SelectElement } from '../../../types/controller';
 
 /**
@@ -10,7 +10,7 @@ import type { P5SelectElement } from '../../../types/controller';
  * @extends ValuedController
  * @see {MultiColourBoxes}
  */
-export default class ColourBoxes extends ValuedController {
+export class ColourBoxes extends ValuedController {
 	/**
 	 * The value callback.
 	 * @type {valueCallback}
@@ -86,9 +86,9 @@ export default class ColourBoxes extends ValuedController {
 
 	setValue(colour: p5.Color) {
 		console.log(colour, this.colours);
-		const index = this.colours.findIndex(
-			col => col.toString() == colour.toString()
-		);
+                const index = this.colours.findIndex(
+                        col => col.toString() === colour.toString()
+                );
 		if (index < 0) {
 			throw new Error(colour + ' can not be found in colours.');
 		}

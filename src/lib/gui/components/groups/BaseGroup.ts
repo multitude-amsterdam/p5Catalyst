@@ -1,6 +1,6 @@
-import Field from '../field';
-import type GUIForP5 from '../../gui';
-import type { Orientation } from './group';
+import { Field } from '../Field';
+import type { GUIForP5 } from '../../GUIForP5';
+import type { Orientation } from './Group';
 
 import type {
 	controllerCallback,
@@ -10,10 +10,10 @@ import type {
 } from 'src/lib/types';
 import * as components from '../index';
 
-export class baseGroup extends Field implements GUIAddableInterface {
-	gui: GUIForP5;
+export class BaseGroup extends Field implements GUIAddableInterface {
+        gui: GUIForP5;
 
-	constructor(gui: GUIForP5, id: string, className: string) {
+        constructor(gui: GUIForP5, id: string, className: string) {
 		super(gui, id, className);
 		this.gui = gui;
 	}
@@ -248,36 +248,36 @@ export class baseGroup extends Field implements GUIAddableInterface {
 		this.attachField(textbox);
 		return textbox;
 	};
-	addResolutionTextBoxes: GUIAddableInterface['addResolutionTextBoxes'] = (
-		defaultWidth: number,
-		defaultHeight: number,
-		valueCallback?: valueCallback,
-		setupCallback?: setupCallback
-	) => {
-		const resolutionTextboxes = new components.ResolutionTextboxes(
-			this.gui,
-			defaultWidth,
-			defaultHeight,
-			valueCallback,
-			setupCallback
-		);
-		this.gui.addField(resolutionTextboxes);
-		this.attachField(resolutionTextboxes);
-		return resolutionTextboxes;
-	};
-	addTextArea: GUIAddableInterface['addTextArea'] = (
-		name: string,
-		labelStr: string,
-		defaultVal: string,
-		valueCallback?: valueCallback,
-		setupCallback?: setupCallback
-	) => {
-		const textArea = new components.Textarea(
-			this.gui,
-			name,
-			labelStr,
-			defaultVal,
-			valueCallback,
+        addResolutionTextBoxes: GUIAddableInterface['addResolutionTextBoxes'] = (
+                defaultWidth: number,
+                defaultHeight: number,
+                valueCallback?: valueCallback,
+                setupCallback?: setupCallback
+        ) => {
+                const resolutionTextBoxes = new components.ResolutionTextBoxes(
+                        this.gui,
+                        defaultWidth,
+                        defaultHeight,
+                        valueCallback,
+                        setupCallback
+                );
+                this.gui.addField(resolutionTextBoxes);
+                this.attachField(resolutionTextBoxes);
+                return resolutionTextBoxes;
+        };
+        addTextArea: GUIAddableInterface['addTextArea'] = (
+                name: string,
+                labelStr: string,
+                defaultVal: string,
+                valueCallback?: valueCallback,
+                setupCallback?: setupCallback
+        ) => {
+                const textArea = new components.TextArea(
+                        this.gui,
+                        name,
+                        labelStr,
+                        defaultVal,
+                        valueCallback,
 			setupCallback
 		);
 		this.gui.addField(textArea);

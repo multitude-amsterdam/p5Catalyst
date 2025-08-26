@@ -1,5 +1,6 @@
 import type { Dictionary, LangCode } from '../types';
 import { dictionary } from './dictionary';
+
 /**
  * @fileoverview Simple helper class {@link Lang} used to translate GUI
  * strings into user-defined languages. Modifiable/extensible.
@@ -15,7 +16,7 @@ const availableLangKeys = Object.keys(dictionary[Object.keys(dictionary)[0]]);
 /**
  * Helper class that performs token replacement based on the selected language.
  */
-export default class Lang {
+export class Lang {
 	static verbose = false;
 	langKey: LangCode;
 	dictionary: Dictionary;
@@ -23,13 +24,13 @@ export default class Lang {
 	static getURLLangKey() {
 		// form: "?lang=nl"
 		const urlParams = new URLSearchParams(window.location.search);
-		let urlLangKey = urlParams.get('lang');
-		if (urlLangKey == null) {
+                let urlLangKey = urlParams.get('lang');
+                if (urlLangKey === null) {
 			if (Lang.verbose) console.log('No lang key set in URL.');
 			return;
 		}
 		urlLangKey = urlLangKey.toLowerCase();
-		if (!availableLangKeys.some(key => key == urlLangKey)) {
+                if (!availableLangKeys.some(key => key === urlLangKey)) {
 			console.error('Lang key set in URL but is invalid: ' + urlLangKey);
 			return;
 		}
@@ -72,7 +73,7 @@ export default class Lang {
 		let replaced = str;
 		for (let hotString in this.dictionary) {
 			const translation = this.dictionary[hotString][this.langKey];
-			if (Lang.verbose && str.match(hotString) != null)
+                        if (Lang.verbose && str.match(hotString) !== null)
 				console.log(hotString, translation);
 			replaced = replaced?.replaceAll(hotString, translation);
 		}
@@ -94,7 +95,7 @@ export default class Lang {
 
 	capFirst(str: string) {
 		const ind = this.indexOfFirstAlphabetic(str);
-		if (ind == -1) return str;
+                if (ind === -1) return str;
 		return (
 			str.slice(0, ind) +
 			str.charAt(ind).toUpperCase() +

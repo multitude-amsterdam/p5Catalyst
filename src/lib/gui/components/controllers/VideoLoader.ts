@@ -1,13 +1,13 @@
 import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
-import type GUIForP5 from '../../gui';
-import FileLoader from './FileLoader';
+import type { GUIForP5 } from '../../GUIForP5';
+import { FileLoader } from './FileLoader';
 
 /**
  * Loader that converts files to p5.Image instances.
  * @extends FileLoader
  */
-export default class VideoLoader extends FileLoader {
+export class VideoLoader extends FileLoader {
 	/**
 	 * The loaded image.
 	 * @type {p5.Element}

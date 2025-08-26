@@ -1,13 +1,13 @@
-import { languagePlugin } from './language_plugin';
-import { resolutionPlugin } from './resolution_plugin';
-import { imageExportPlugin } from './imageExport_plugin';
-import { setConfigPlugin } from './setConfig_plugin';
-import { randomizerPlugin } from './randomizer_plugin';
-import { resolutionPresets } from './resolution_plugin';
-import { defaultPlugin } from './default_plugin';
-import { videoExportPlugin } from './videoExport_plugin';
-import { debugPlugin } from './debug_plugin';
-import { backdropPlugin } from './backdrop_plugin';
+import { languagePlugin } from './languagePlugin';
+import { resolutionPlugin } from './resolutionPlugin';
+import { imageExportPlugin } from './imageExportPlugin';
+import { setConfigPlugin } from './setConfigPlugin';
+import { randomizerPlugin } from './randomizerPlugin';
+import { resolutionPresets } from './resolutionPlugin';
+import { defaultPlugin } from './defaultPlugin';
+import { videoExportPlugin } from './videoExportPlugin';
+import { debugPlugin } from './debugPlugin';
+import { backdropPlugin } from './backdropPlugin';
 
 export {
 	defaultPlugin,

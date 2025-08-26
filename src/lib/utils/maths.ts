@@ -283,7 +283,7 @@ export function numsToRoundedPercentages(list: number[]): number[] | undefined {
 		let sum = percentages
 			.map(item => item.rounded)
 			.reduce((acc, x) => acc + x, 0);
-		if (sum == 100 || sum <= 0) break;
+                if (sum === 100 || sum <= 0) break;
 
 		percentages.sort((a, b) => Math.abs(b.error) - Math.abs(a.error));
 		percentages[0].rounded += sign(percentages[0].error);

@@ -1,13 +1,13 @@
 import type p5 from 'p5';
-import Controller from './components/controller';
-import ValuedController from './components/valued_controller';
+import { Controller } from './components/Controller';
+import { ValuedController } from './components/ValuedController';
 import { Button, DieIcon } from './components';
 
 /**
  * Helper class that manages randomization of controllers marked as randomizable.
  * Handles toggling, adding/removing controllers, and triggering randomization.
  */
-export default class Randomizer {
+export class Randomizer {
 	controllers: Controller[];
 	p5Instance: p5;
 	/**

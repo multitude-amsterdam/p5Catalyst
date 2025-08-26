@@ -1,4 +1,4 @@
-import { COLUMN, ROW } from '../gui/components/groups/group';
+import { COLUMN, ROW } from '../gui/components/groups/Group';
 import type { Config, GUIControllerInterface, Plugin, State } from '../types';
 import type { imageFileType } from '../types/plugin';
 
@@ -6,9 +6,15 @@ export function imageExportPlugin(fileType: imageFileType): Plugin {
 	return {
 		name: 'image_export',
 		setup: (gui: GUIControllerInterface, state: State, config?: Config) => {
-			if (fileType !== 'jpg' || 'png' || 'webp') {
-				console.log('p5Catalyst can only export jpg, png or webp');
-			}
+                        if (
+                                fileType !== 'jpg' &&
+                                fileType !== 'png' &&
+                                fileType !== 'webp'
+                        ) {
+                                console.log(
+                                        'p5Catalyst can only export jpg, png or webp'
+                                );
+                        }
 			let fileName = config?.fileName || 'p5Catalyst';
 
 			const exportTab = gui.getTab('export');

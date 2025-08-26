@@ -1,7 +1,7 @@
-import type GUIForP5 from '../../gui';
-import { baseGroup } from './baseGroup';
+import type { GUIForP5 } from '../../GUIForP5';
+import { BaseGroup } from './BaseGroup';
 
-export class Tab extends baseGroup {
+export class Tab extends BaseGroup {
 	gui: GUIForP5;
 	name: string;
 

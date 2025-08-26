@@ -1,19 +1,19 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import type GUIForP5 from '../../gui';
-import ValuedController from '../valued_controller';
+import type { GUIForP5 } from '../../GUIForP5';
+import { ValuedController } from '../ValuedController';
 
 /**
  * Multi line text area controller.
  * @extends ValuedController
  */
-export default class Textarea extends ValuedController {
+export class TextArea extends ValuedController {
 	/**
 	 * The value callback.
 	 * @type {valueCallback}
 	 */
 	valueCallback: valueCallback;
-	/**
-	 * Constructor for Textarea.
+        /**
+         * Constructor for TextArea.
 	 * @param {GUIForP5} gui - The GUI instance.
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label for the controller.
@@ -67,5 +67,5 @@ export default class Textarea extends ValuedController {
 		// if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
-	randomize() {}
+        randomize() {}
 }

@@ -1,6 +1,6 @@
-import type { Field } from '../gui/field';
-import type { Title } from '../gui/gui';
-import type { Controller } from '../gui/controller';
+import type { Field } from '../gui/components/Field';
+import type { Title } from '../gui/components/fields/Title';
+import type { Controller } from '../gui/components/Controller';
 import { Group, Panel, Tab } from '../gui/components/groups';
 
 import type {
@@ -10,26 +10,26 @@ import type {
 } from './controller';
 
 import type {
-	Button,
-	ColourBoxes,
-	Crementer,
-	Group,
-	ImageLoader,
-	JSONFileLoader,
-	MultiColourBoxes,
-	ResolutionSelect,
-	ResolutionTextboxes,
-	Select,
-	Slider,
-	Textarea,
-	Textbox,
-	TextField,
-	TextFileLoader,
-	Toggle,
-	VideoLoader,
-	XYSlider,
+        Button,
+        ColourBoxes,
+        Crementer,
+        Group,
+        ImageLoader,
+        JSONFileLoader,
+        MultiColourBoxes,
+        ResolutionSelect,
+        ResolutionTextBoxes,
+        Select,
+        Slider,
+        TextArea,
+        Textbox,
+        TextField,
+        TextFileLoader,
+        Toggle,
+        VideoLoader,
+        XYSlider,
 } from '../gui/components';
-import type { Orientation } from '../gui/components/groups/group';
+import type { Orientation } from '../gui/components/groups/Group';
 
 export interface GUIControllerInterface extends GUIAddableInterface {
 	addTabs: (...names: string[]) => Tab[];
@@ -124,14 +124,14 @@ export interface GUIAddableInterface {
 		defaultHeight: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => ResolutionTextboxes;
+        ) => ResolutionTextBoxes;
 	addTextArea: (
 		name: string,
 		labelStr: string,
 		defaultVal: string,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => Textarea;
+        ) => TextArea;
 	addCrementer: (
 		name: string,
 		labelStr: string,

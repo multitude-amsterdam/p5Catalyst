@@ -1,10 +1,10 @@
 import type p5 from 'p5';
-import type GUIForP5 from '../gui';
+import type { GUIForP5 } from '../GUIForP5';
 
 /**
  * Base GUI element container used by controllers.
  */
-export default class Field {
+export class Field {
 	/**
 	 * Creates a new Field instance.
 	 * @param {p5} p5Instance - The p5Instance.
@@ -21,8 +21,8 @@ export default class Field {
 		parentDiv?: p5.Element
 	) {
 		this.div = gui.p5Instance.createDiv();
-		this.div.parent(parentDiv || gui.div);
-		if (id != '') this.div.id(id);
+                this.div.parent(parentDiv || gui.div);
+                if (id !== '') this.div.id(id);
 		this.div.class(className);
 	}
 
@@ -61,7 +61,7 @@ export default class Field {
 	 * Checks if this field is currently hidden.
 	 * @returns {boolean} True if the field is hidden, false otherwise.
 	 */
-	isHidden() {
-		return this.div.elt.style.display == 'none';
-	}
+        isHidden() {
+                return this.div.elt.style.display === 'none';
+        }
 }

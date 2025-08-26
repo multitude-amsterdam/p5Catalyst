@@ -1,5 +1,5 @@
-import { createContainer } from './create_container';
-import { createGUI } from './create_gui';
+import { createContainer } from './createContainer';
+import { createGUI } from './createGUI';
 import '../style.css';
 import {
 	defaultPlugin,

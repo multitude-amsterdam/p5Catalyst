@@ -1,5 +1,5 @@
-import type { ResolutionTextboxes } from '../gui/components';
-import { COLUMN } from '../gui/components/groups/group';
+import type { ResolutionTextBoxes } from '../gui/components';
+import { COLUMN } from '../gui/components/groups/Group';
 
 import type { State, Plugin, GUIControllerInterface } from '../types';
 
@@ -19,7 +19,7 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 				resolutionOptions,
 				0,
 				(controller, value) => {
-					const resbox = gui.getController<ResolutionTextboxes>(
+                                        const resbox = gui.getController<ResolutionTextBoxes>(
 						'resolutionTextboxes'
 					);
 					if (resbox)

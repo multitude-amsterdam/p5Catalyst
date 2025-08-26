@@ -1,5 +1,5 @@
 import p5 from 'p5';
-import GUIForP5 from './gui/gui';
+import { GUIForP5 } from './gui/GUIForP5';
 import * as components from './gui/components';
 
 import type { GUIControllerInterface, State, Config, Container } from './types';
@@ -191,8 +191,8 @@ export const createGUI = (
 			);
 			return gui.addController(textbox);
 		},
-		addResolutionTextBoxes: (defaulWidth, defaultHeight, valueCallback) => {
-			const resbox = new components.ResolutionTextboxes(
+                addResolutionTextBoxes: (defaulWidth, defaultHeight, valueCallback) => {
+                        const resbox = new components.ResolutionTextBoxes(
 				gui,
 				defaulWidth,
 				defaultHeight,
@@ -200,14 +200,14 @@ export const createGUI = (
 			);
 			return gui.addController(resbox);
 		},
-		addTextArea: (
-			name,
-			labelStr,
-			defaultVal,
-			valueCallback,
-			setupCallback
-		) => {
-			const textarea = new components.Textarea(
+                addTextArea: (
+                        name,
+                        labelStr,
+                        defaultVal,
+                        valueCallback,
+                        setupCallback
+                ) => {
+                        const textarea = new components.TextArea(
 				gui,
 				name,
 				labelStr,

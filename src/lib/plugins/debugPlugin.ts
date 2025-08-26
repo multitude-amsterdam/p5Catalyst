@@ -1,4 +1,4 @@
-import type GUIForP5 from '../gui/gui';
+import type { GUIForP5 } from '../gui/GUIForP5';
 import type { Plugin } from '../types';
 
 export function debugPlugin(): Plugin {

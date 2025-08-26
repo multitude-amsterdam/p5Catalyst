@@ -1,12 +1,12 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import type GUIForP5 from '../../gui';
-import ValuedController from '../valued_controller';
+import type { GUIForP5 } from '../../GUIForP5';
+import { ValuedController } from '../ValuedController';
 
 /**
  * Drop-down select controller.
  * @extends ValuedController
  */
-export default class Select extends ValuedController {
+export class Select extends ValuedController {
 	/**
 	 * The options for the select.
 	 * @type {Array}
@@ -81,7 +81,7 @@ export default class Select extends ValuedController {
 	 * @returns {boolean}
 	 */
 	hasOption(option: string): boolean {
-		return this.options.some(o => o == option);
+                return this.options.some(o => o === option);
 	}
 	/**
 	 * Checks if an option string exists.
@@ -89,7 +89,7 @@ export default class Select extends ValuedController {
 	 * @returns {boolean}
 	 */
 	hasOptionStr(optionStr: string): boolean {
-		return this.optionStrs.some(os => os == optionStr);
+                return this.optionStrs.some(os => os === optionStr);
 	}
 
 	/**

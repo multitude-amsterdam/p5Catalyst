@@ -1,6 +1,6 @@
-import type GUIForP5 from './gui';
+import type { GUIForP5 } from './GUIForP5';
 
-export default class ChangeSet {
+export class ChangeSet {
 	static localStorageKey = 'changeset';
 
 	changeset: string[] = [];
@@ -27,7 +27,7 @@ export default class ChangeSet {
 	}
 
 	addState(json: string) {
-		if (this.changeset[this.index] == json) return;
+                if (this.changeset[this.index] === json) return;
 
 		this.cutToIndex();
 		this.changeset.push(json);

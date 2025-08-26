@@ -1,5 +1,5 @@
 import p5, { Image } from 'p5';
-import type { Controller } from '../gui/controller';
+import type { Controller } from '../gui/components/Controller';
 
 export type controllerElement = p5.Element | P5SelectElement | null;
 export type controllerCallback = (file?: p5.File | p5.Element) => void;

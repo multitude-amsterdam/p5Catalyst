@@ -1,5 +1,5 @@
-import { Panel } from './panel';
-import { Group } from './group';
-import { Tab } from './tab';
+import { Panel } from './Panel';
+import { Group } from './Group';
+import { Tab } from './Tab';
 
 export { Panel, Group, Tab };

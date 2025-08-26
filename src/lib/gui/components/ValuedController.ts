@@ -1,14 +1,14 @@
 import p5 from 'p5';
 import type {
-	controllerValue,
-	serializedColor,
-	serializedValue,
-	serializedVector,
-	setupCallback,
-	valueCallback,
+        controllerValue,
+        serializedColor,
+        serializedValue,
+        serializedVector,
+        setupCallback,
+        valueCallback,
 } from '../../types';
-import Controller from './controller';
-import type GUIForP5 from '../gui';
+import { Controller } from './Controller';
+import type { GUIForP5 } from '../GUIForP5';
 
 /**
  * Controller that holds a value which can be serialized.
@@ -27,7 +27,7 @@ import type GUIForP5 from '../gui';
  * 	}
  * );
  */
-export default class ValuedController extends Controller {
+export class ValuedController extends Controller {
 	/**
 	 * The value of the controller.
 	 * @type {any}

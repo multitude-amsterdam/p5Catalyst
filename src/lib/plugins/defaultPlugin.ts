@@ -1,11 +1,11 @@
-import { imageExportPlugin } from './imageExport_plugin';
-import { videoExportPlugin } from './videoExport_plugin';
-import { languagePlugin } from './language_plugin';
-import { resolutionPlugin, resolutionPresets } from './resolution_plugin';
-import { setConfigPlugin } from './setConfig_plugin';
+import { imageExportPlugin } from './imageExportPlugin';
+import { videoExportPlugin } from './videoExportPlugin';
+import { languagePlugin } from './languagePlugin';
+import { resolutionPlugin, resolutionPresets } from './resolutionPlugin';
+import { setConfigPlugin } from './setConfigPlugin';
 import type { GUIControllerInterface, Plugin, State } from '../types';
-import { ROW, COLUMN } from '../gui/components/groups/group';
-import { backdropPlugin } from './backdrop_plugin';
+import { ROW, COLUMN } from '../gui/components/groups/Group';
+import { backdropPlugin } from './backdropPlugin';
 
 export const defaultPlugin: Plugin = () => [
 	setConfigPlugin({ fileName: 'p5Catalyst' }),
