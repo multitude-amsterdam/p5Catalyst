@@ -11,9 +11,9 @@ import type {
 import * as components from '../index';
 
 export class BaseGroup extends Field implements GUIAddableInterface {
-        gui: GUIForP5;
+	gui: GUIForP5;
 
-        constructor(gui: GUIForP5, id: string, className: string) {
+	constructor(gui: GUIForP5, id: string, className: string) {
 		super(gui, id, className);
 		this.gui = gui;
 	}
@@ -248,36 +248,36 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.attachField(textbox);
 		return textbox;
 	};
-        addResolutionTextBoxes: GUIAddableInterface['addResolutionTextBoxes'] = (
-                defaultWidth: number,
-                defaultHeight: number,
-                valueCallback?: valueCallback,
-                setupCallback?: setupCallback
-        ) => {
-                const resolutionTextBoxes = new components.ResolutionTextBoxes(
-                        this.gui,
-                        defaultWidth,
-                        defaultHeight,
-                        valueCallback,
-                        setupCallback
-                );
-                this.gui.addField(resolutionTextBoxes);
-                this.attachField(resolutionTextBoxes);
-                return resolutionTextBoxes;
-        };
-        addTextArea: GUIAddableInterface['addTextArea'] = (
-                name: string,
-                labelStr: string,
-                defaultVal: string,
-                valueCallback?: valueCallback,
-                setupCallback?: setupCallback
-        ) => {
-                const textArea = new components.TextArea(
-                        this.gui,
-                        name,
-                        labelStr,
-                        defaultVal,
-                        valueCallback,
+	addResolutionTextBoxes: GUIAddableInterface['addResolutionTextBoxes'] = (
+		defaultWidth: number,
+		defaultHeight: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => {
+		const resolutionTextBoxes = new components.ResolutionTextBoxes(
+			this.gui,
+			defaultWidth,
+			defaultHeight,
+			valueCallback,
+			setupCallback
+		);
+		this.gui.addField(resolutionTextBoxes);
+		this.attachField(resolutionTextBoxes);
+		return resolutionTextBoxes;
+	};
+	addTextArea: GUIAddableInterface['addTextArea'] = (
+		name: string,
+		labelStr: string,
+		defaultVal: string,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) => {
+		const textArea = new components.TextArea(
+			this.gui,
+			name,
+			labelStr,
+			defaultVal,
+			valueCallback,
 			setupCallback
 		);
 		this.gui.addField(textArea);

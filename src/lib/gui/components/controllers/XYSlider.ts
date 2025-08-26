@@ -2,6 +2,7 @@ import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
 import type { GUIForP5 } from '../../GUIForP5';
 import { ValuedController } from '../ValuedController';
+import { Controller } from '../Controller';
 
 /**
  * Two dimensional slider returning an {x,y} object.
@@ -49,7 +50,7 @@ export class XYSlider extends ValuedController {
 		this.stepSizeX = stepSizeX;
 		this.stepSizeY = stepSizeY;
 		this.valueCallback =
-			valueCallback || ((controller: ValuedController, value: any) => {});
+			valueCallback || ((controller: Controller, value: any) => {});
 
 		this.controllerElement = gui.p5Instance.createDiv();
 		this.controllerElement.class('xyslider');

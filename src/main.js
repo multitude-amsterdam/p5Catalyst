@@ -1,10 +1,11 @@
 import { catalyst } from './lib';
 
 const sketchFunction = async (sketch, state) => {
-        state.size = 50;
+	state.size = 50;
 
-        sketch.setup = async () => {
-                state.color = sketch.color(0);
+	sketch.setup = async () => {
+		state.color = sketch.color(0);
+
 		sketch.angleMode(sketch.DEGREES);
 		sketch.noStroke();
 		sketch.frameRate(60);

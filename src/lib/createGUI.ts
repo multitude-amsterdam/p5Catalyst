@@ -191,8 +191,8 @@ export const createGUI = (
 			);
 			return gui.addController(textbox);
 		},
-                addResolutionTextBoxes: (defaulWidth, defaultHeight, valueCallback) => {
-                        const resbox = new components.ResolutionTextBoxes(
+		addResolutionTextBoxes: (defaulWidth, defaultHeight, valueCallback) => {
+			const resbox = new components.ResolutionTextBoxes(
 				gui,
 				defaulWidth,
 				defaultHeight,
@@ -200,14 +200,14 @@ export const createGUI = (
 			);
 			return gui.addController(resbox);
 		},
-                addTextArea: (
-                        name,
-                        labelStr,
-                        defaultVal,
-                        valueCallback,
-                        setupCallback
-                ) => {
-                        const textarea = new components.TextArea(
+		addTextArea: (
+			name,
+			labelStr,
+			defaultVal,
+			valueCallback,
+			setupCallback
+		) => {
+			const textarea = new components.TextArea(
 				gui,
 				name,
 				labelStr,

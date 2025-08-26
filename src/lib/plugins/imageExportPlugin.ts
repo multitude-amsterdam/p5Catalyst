@@ -6,15 +6,13 @@ export function imageExportPlugin(fileType: imageFileType): Plugin {
 	return {
 		name: 'image_export',
 		setup: (gui: GUIControllerInterface, state: State, config?: Config) => {
-                        if (
-                                fileType !== 'jpg' &&
-                                fileType !== 'png' &&
-                                fileType !== 'webp'
-                        ) {
-                                console.log(
-                                        'p5Catalyst can only export jpg, png or webp'
-                                );
-                        }
+			if (
+				fileType !== 'jpg' &&
+				fileType !== 'png' &&
+				fileType !== 'webp'
+			) {
+				console.log('p5Catalyst can only export jpg, png or webp');
+			}
 			let fileName = config?.fileName || 'p5Catalyst';
 
 			const exportTab = gui.getTab('export');
