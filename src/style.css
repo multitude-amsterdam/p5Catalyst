@@ -1073,10 +1073,10 @@ input[type='checkbox']:checked::before {
 	position: fixed;
 	top: 1rem;
 	z-index: 1;
+
 	display: flex;
+	/* flex-direction: column; */
 	gap: var(--spacing-x);
-	border: var(--line-width) solid var(--base-col);
-	border-radius: 0.5rem;
 	padding: var(--spacing-x);
 }
 
@@ -1094,12 +1094,13 @@ input[type='checkbox']:checked::before {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-size: contain;
-	width: 1.75rem;
+	height: 1.75rem;
 	min-height: 1.75rem;
+	aspect-ratio: 1;
 	padding: 0;
 	border-radius: 100%;
 
-	transition: none;
+	transition: background var(--transition-properties);
 }
 
 .dark-mode-button:hover {
@@ -1199,19 +1200,19 @@ a:hover {
 
 /* -------------------------------- DIE ICON -------------------------------- */
 .die-icon {
-	height: 100%;
 	aspect-ratio: 1;
-
-	opacity: 1;
-	cursor: pointer;
-	transition: rotate 0.25s ease;
+	/* correlates with target diameter, but compensates for shape */
+	height: calc(var(--target-diameter) * 1.25);
+	transform-origin: center;
 
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-origin: content-box;
 	background-position: center;
 
-	transform-origin: center;
+	opacity: 1;
+	cursor: pointer;
+	transition: rotate 0.25s ease;
 }
 
 .die-icon--disabled {
