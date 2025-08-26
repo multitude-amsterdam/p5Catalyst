@@ -7,9 +7,9 @@ import p5 from 'p5';
  * @returns {boolean}
  */
 export function isArraysEqual(a: any[], b: any[]): boolean {
-        if (a === b) return true;
-        if (a === null || a === undefined || b === null || b === undefined)
-                return false;
+	if (a === b) return true;
+	if (a === null || a === undefined || b === null || b === undefined)
+		return false;
 	if (a.length !== b.length) return false;
 	// If you don't care about the order of the elements inside
 	// the array, you should sort both arrays here.

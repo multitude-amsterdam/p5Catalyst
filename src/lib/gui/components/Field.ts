@@ -21,8 +21,8 @@ export class Field {
 		parentDiv?: p5.Element
 	) {
 		this.div = gui.p5Instance.createDiv();
-                this.div.parent(parentDiv || gui.div);
-                if (id !== '') this.div.id(id);
+		this.div.parent(parentDiv || gui.div);
+		if (id !== '') this.div.id(id);
 		this.div.class(className);
 	}
 
@@ -61,7 +61,7 @@ export class Field {
 	 * Checks if this field is currently hidden.
 	 * @returns {boolean} True if the field is hidden, false otherwise.
 	 */
-        isHidden() {
-                return this.div.elt.style.display === 'none';
-        }
+	isHidden() {
+		return this.div.elt.style.display === 'none';
+	}
 }

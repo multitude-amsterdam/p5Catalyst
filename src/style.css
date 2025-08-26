@@ -46,7 +46,7 @@ h4 {
 strong {
 	font-weight: 800;
 }
-.gui-label {
+.label {
 	font-weight: 500;
 }
 
@@ -311,7 +311,7 @@ textarea {
 }
 
 /* ---------------------------------- LABEL --------------------------------- */
-.gui-label {
+.label {
 	margin: 0;
 	padding: 0;
 	font-size: 1em;

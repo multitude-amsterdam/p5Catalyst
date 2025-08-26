@@ -10,24 +10,24 @@ import type {
 } from './controller';
 
 import type {
-        Button,
-        ColourBoxes,
-        Crementer,
-        Group,
-        ImageLoader,
-        JSONFileLoader,
-        MultiColourBoxes,
-        ResolutionSelect,
-        ResolutionTextBoxes,
-        Select,
-        Slider,
-        TextArea,
-        Textbox,
-        TextField,
-        TextFileLoader,
-        Toggle,
-        VideoLoader,
-        XYSlider,
+	Button,
+	ColourBoxes,
+	Crementer,
+	Group,
+	ImageLoader,
+	JSONFileLoader,
+	MultiColourBoxes,
+	ResolutionSelect,
+	ResolutionTextBoxes,
+	Select,
+	Slider,
+	TextArea,
+	Textbox,
+	TextField,
+	TextFileLoader,
+	Toggle,
+	VideoLoader,
+	XYSlider,
 } from '../gui/components';
 import type { Orientation } from '../gui/components/groups/Group';
 
@@ -124,14 +124,14 @@ export interface GUIAddableInterface {
 		defaultHeight: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-        ) => ResolutionTextBoxes;
+	) => ResolutionTextBoxes;
 	addTextArea: (
 		name: string,
 		labelStr: string,
 		defaultVal: string,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-        ) => TextArea;
+	) => TextArea;
 	addCrementer: (
 		name: string,
 		labelStr: string,

@@ -2,9 +2,10 @@ import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
 import type { GUIForP5 } from '../../GUIForP5';
 import { ValuedController } from '../ValuedController';
+import { Controller } from '../Controller';
 import type {
-        P5CheckboxElement,
-        P5SelectElement,
+	P5CheckboxElement,
+	P5SelectElement,
 } from '../../../types/controller';
 
 /**
@@ -45,7 +46,7 @@ export class MultiColourBoxes extends ValuedController {
 
 		this.colours = colours;
 		this.valueCallback =
-			valueCallback || ((controller: ValuedController, value: any) => {});
+			valueCallback || ((controller: Controller, value: any) => {});
 
 		this.setControllerColours();
 

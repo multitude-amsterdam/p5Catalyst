@@ -21,7 +21,7 @@ export class Label extends Field {
 		text: string,
 		parentDiv?: p5.Element
 	) {
-		super(gui, '', 'gui-label', parentDiv);
+		super(gui, '', 'label', parentDiv);
 		this.controller = controller;
 		text = gui.lang.process(text, true);
 		this.setText(text);

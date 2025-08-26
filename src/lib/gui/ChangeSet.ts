@@ -27,7 +27,7 @@ export class ChangeSet {
 	}
 
 	addState(json: string) {
-                if (this.changeset[this.index] === json) return;
+		if (this.changeset[this.index] === json) return;
 
 		this.cutToIndex();
 		this.changeset.push(json);

@@ -14,8 +14,8 @@ export class ResolutionTextBoxes extends ValuedController {
 	wBox: Textbox;
 	hBox: Textbox;
 
-        /**
-         * Constructor for ResolutionTextBoxes.
+	/**
+	 * Constructor for ResolutionTextBoxes.
 	 * @param {GUIForP5} gui - The GUI instance.
 	 * @param {number} defaultWidth - Default width value.
 	 * @param {number} defaultHeight - Default height value.

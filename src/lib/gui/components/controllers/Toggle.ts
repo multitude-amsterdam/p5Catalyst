@@ -1,6 +1,7 @@
 import type { setupCallback, valueCallback } from '../../../types';
 import type { GUIForP5 } from '../../GUIForP5';
 import { ValuedController } from '../ValuedController';
+import { Controller } from '../Controller';
 
 /**
  * On/off toggle represented by a button.
@@ -50,7 +51,7 @@ export class Toggle extends ValuedController {
 			this.setValue(!this.value);
 		};
 		this.valueCallback =
-			valueCallback || ((controller: ValuedController, value: any) => {});
+			valueCallback || ((controller: Controller, value: any) => {});
 
 		this.value = isToggled ? true : false;
 		this.valueCallback(this, this.value);
@@ -68,7 +69,7 @@ export class Toggle extends ValuedController {
 	 * @param {boolean} value
 	 */
 	setValue(value: boolean) {
-                if (value !== this.value)
+		if (value !== this.value)
 			this.controllerElement?.elt.toggleAttribute('toggled');
 		this.value = value;
 		this.valueCallback(this, this.value);

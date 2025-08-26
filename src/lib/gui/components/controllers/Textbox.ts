@@ -1,6 +1,7 @@
 import type { setupCallback, valueCallback } from '../../../types';
 import type { GUIForP5 } from '../../GUIForP5';
 import { ValuedController } from '../ValuedController';
+import { Controller } from '../Controller';
 
 /**
  * Single line text input controller.
@@ -43,7 +44,7 @@ export class Textbox extends ValuedController {
 		};
 
 		this.valueCallback =
-			valueCallback || ((controller: ValuedController, value: any) => {});
+			valueCallback || ((controller: Controller, value: any) => {});
 		this.valueCallback(this, this.value);
 
 		this.controllerElement.elt.addEventListener(
