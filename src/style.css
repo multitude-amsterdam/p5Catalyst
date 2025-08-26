@@ -1080,11 +1080,11 @@ input[type='checkbox']:checked::before {
 	padding: var(--spacing-x);
 }
 
-.controllRight {
+.controlRight {
 	left: 1rem;
 }
 
-.controllLeft {
+.controlLeft {
 	right: 1rem;
 }
 

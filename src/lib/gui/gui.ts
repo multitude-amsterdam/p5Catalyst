@@ -39,7 +39,7 @@ export default class GUIForP5 {
 	darkMode: 'true' | 'false' | 'auto';
 	lightModeToggle: LightModeToggle;
 	randomizeButton?: RandomizeButton;
-	controllContainer: p5.Element;
+	controlContainer: p5.Element;
 	changeSet: ChangeSet;
 
 	/**
@@ -66,13 +66,13 @@ export default class GUIForP5 {
 		this.darkMode = 'false';
 		this.lightModeToggle = new LightModeToggle(this);
 
-		this.controllContainer = this.p5Instance
+		this.controlContainer = this.p5Instance
 			.createDiv()
-			.id('controll-container');
-		this.controllContainer.child(this.lightModeToggle.button);
-		this.controllContainer.child(this.randomizeButton?.button);
+			.id('control-container');
+		this.controlContainer.child(this.lightModeToggle.button);
+		this.controlContainer.child(this.randomizeButton?.button);
 
-		document.querySelector('main')?.append(this.controllContainer.elt);
+		document.querySelector('main')?.append(this.controlContainer.elt);
 		document.querySelector('main')?.prepend(this.div.elt);
 
 		this.setLeft();
@@ -108,7 +108,7 @@ export default class GUIForP5 {
 		if (main) {
 			main.className = 'guiLeft';
 		}
-		this.controllContainer.class('controllLeft');
+		this.controlContainer.class('controlLeft');
 		this.isOnLeftSide = true;
 	}
 
@@ -120,7 +120,7 @@ export default class GUIForP5 {
 		if (main) {
 			main.className = 'guiRight';
 		}
-		this.controllContainer.class('controllRight');
+		this.controlContainer.class('controlRight');
 		this.isOnLeftSide = false;
 	}
 
