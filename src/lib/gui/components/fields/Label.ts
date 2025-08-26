@@ -1,13 +1,13 @@
 import p5 from 'p5';
-import Field from '../field';
-import Controller from '../controller';
-import GUIForP5 from '../../gui';
+import { Field } from '../Field';
+import { Controller } from '../Controller';
+import { GUIForP5 } from '../../GUIForP5';
 
 /**
  * Text label associated with a controller.
  * @extends Field
  */
-export default class Label extends Field {
+export class Label extends Field {
 	controller: Controller;
 	text?: string;
 	/**

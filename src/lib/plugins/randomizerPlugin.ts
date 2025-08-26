@@ -1,5 +1,5 @@
-import Controller from '../gui/components/controller';
-import type GUIForP5 from '../gui/gui';
+import { Controller } from '../gui/components/Controller';
+import type { GUIForP5 } from '../gui/GUIForP5';
 import type { Plugin, Config, GUIControllerInterface, State } from '../types';
 
 export function randomizerPlugin(controllerNames: string[]): Plugin {

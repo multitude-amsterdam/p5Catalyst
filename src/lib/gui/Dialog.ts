@@ -1,7 +1,7 @@
 import p5 from 'p5';
-import type GUIForP5 from './gui';
+import type { GUIForP5 } from './GUIForP5';
 
-export default class Dialog {
+export class Dialog {
 	gui: GUIForP5;
 	dialogElement: p5.Element;
 	divContent: p5.Element;

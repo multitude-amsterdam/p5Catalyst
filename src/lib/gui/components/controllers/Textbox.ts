@@ -1,12 +1,12 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import type GUIForP5 from '../../gui';
-import ValuedController from '../valued_controller';
+import type { GUIForP5 } from '../../GUIForP5';
+import { ValuedController } from '../ValuedController';
 
 /**
  * Single line text input controller.
  * @extends ValuedController
  */
-export default class Textbox extends ValuedController {
+export class Textbox extends ValuedController {
 	/**
 	 * The value callback.
 	 * @type {valueCallback}

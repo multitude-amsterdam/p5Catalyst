@@ -1,21 +1,21 @@
 import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
-import type GUIForP5 from '../../gui';
-import ValuedController from '../valued_controller';
-import Textbox from './Textbox';
+import type { GUIForP5 } from '../../GUIForP5';
+import { ValuedController } from '../ValuedController';
+import { Textbox } from './Textbox';
 
 /**
  * Pair of textboxes for width and height values.
  * @extends ValuedController
  */
-export default class ResolutionTextboxes extends ValuedController {
+export class ResolutionTextBoxes extends ValuedController {
 	w: number;
 	h: number;
 	wBox: Textbox;
 	hBox: Textbox;
 
-	/**
-	 * Constructor for ResolutionTextboxes.
+        /**
+         * Constructor for ResolutionTextBoxes.
 	 * @param {GUIForP5} gui - The GUI instance.
 	 * @param {number} defaultWidth - Default width value.
 	 * @param {number} defaultHeight - Default height value.

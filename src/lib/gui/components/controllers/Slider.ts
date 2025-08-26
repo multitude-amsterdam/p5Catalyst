@@ -1,11 +1,11 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import type GUIForP5 from '../../gui';
-import ValuedController from '../valued_controller';
+import type { GUIForP5 } from '../../GUIForP5';
+import { ValuedController } from '../ValuedController';
 /**
  * One dimensional slider controller.
  * @extends ValuedController
  */
-export default class Slider extends ValuedController {
+export class Slider extends ValuedController {
 	minVal: number;
 	maxVal: number;
 	defaultVal: number;

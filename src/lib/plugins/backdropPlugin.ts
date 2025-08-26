@@ -1,4 +1,4 @@
-import { ROW } from '../gui/components/groups/group';
+import { ROW } from '../gui/components/groups/Group';
 import type { Plugin } from '../types';
 
 export function backdropPlugin(): Plugin {

@@ -1,18 +1,18 @@
 import type p5 from 'p5';
 import type {
-	setupCallback,
-	valueCallback,
-	controllerCallback,
-	fileReadyCallback,
+        setupCallback,
+        valueCallback,
+        controllerCallback,
+        fileReadyCallback,
 } from '../../../types';
-import type GUIForP5 from '../../gui';
-import Button from './Button';
+import type { GUIForP5 } from '../../GUIForP5';
+import { Button } from './Button';
 
 /**
  * Base class for file input controllers.
  * @extends Button
  */
-export default class FileLoader extends Button {
+export class FileLoader extends Button {
 	/**
 	 * The file type accepted.
 	 * @type {string}

@@ -1,9 +1,9 @@
 import type p5 from 'p5';
-import Field from '../field';
-import GUIForP5 from '../../gui';
-import { baseGroup } from './baseGroup';
+import { Field } from '../Field';
+import { GUIForP5 } from '../../GUIForP5';
+import { BaseGroup } from './BaseGroup';
 
-export class Panel extends baseGroup {
+export class Panel extends BaseGroup {
 	container: p5.Element;
 	gui: GUIForP5;
 

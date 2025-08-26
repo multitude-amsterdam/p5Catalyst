@@ -1,10 +1,10 @@
-import type GUIForP5 from '../gui';
+import type { GUIForP5 } from '../GUIForP5';
 import type { controllerElement, setupCallback } from '../../types';
-import Field from './field';
+import { Field } from './Field';
 import p5 from 'p5';
-import type DieIcon from './DieIcon';
-import type Randomizer from '../randomizer';
-import Label from './fields/Label';
+import type { DieIcon } from './DieIcon';
+import type { Randomizer } from '../Randomizer';
+import { Label } from './fields/Label';
 
 /**
  * Base class for all GUI controllers.
@@ -35,7 +35,7 @@ import Label from './fields/Label';
  * 	}
  * );
  */
-export default class Controller extends Field {
+export class Controller extends Field {
 	/**
 	 * Static flag to control whether the change set should be updated.
 	 * @type {boolean}

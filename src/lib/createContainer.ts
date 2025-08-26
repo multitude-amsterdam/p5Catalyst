@@ -116,7 +116,7 @@ export const createContainer = (
 				}
 				if (isRecording) {
 					saveToLocalFFMPEG(canvas);
-					if (progress == 1) {
+                                        if (progress === 1) {
 						isRecording = false;
 						ffmpegCreateMP4(
 							state.width,
