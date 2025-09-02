@@ -2,7 +2,7 @@ import type { GUIForP5 } from '../GUIForP5';
 import type { controllerElement, setupCallback } from '../../types';
 import { Field } from './Field';
 import p5 from 'p5';
-import type { DieIcon } from './DieIcon';
+import type { DieIcon } from '../gui-components/DieIcon';
 import type { Randomizer } from '../Randomizer';
 import { Label } from './fields/Label';
 

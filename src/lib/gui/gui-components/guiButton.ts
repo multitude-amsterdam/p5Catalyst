@@ -1,5 +1,5 @@
 import type { P5Button } from 'src/lib/types/controller';
-import type GUIForP5 from '../gui';
+import type { GUIForP5 } from '../GUIForP5';
 
 export class GUIButton {
 	button: P5Button;
