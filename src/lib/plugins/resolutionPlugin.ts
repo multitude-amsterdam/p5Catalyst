@@ -19,7 +19,7 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 				resolutionOptions,
 				0,
 				(controller, value) => {
-                                        const resbox = gui.getController<ResolutionTextBoxes>(
+					const resbox = gui.getController<ResolutionTextBoxes>(
 						'resolutionTextboxes'
 					);
 					if (resbox)
@@ -72,35 +72,35 @@ export const resolutionPresets = [
 
 	'PowerPoint: 1920 x 1080',
 
-	getAPaperResolutionOptionAtDpi(5, 300),
-	getAPaperResolutionOptionAtDpi(4, 300),
-	getAPaperResolutionOptionAtDpi(3, 300),
-	getAPaperResolutionOptionAtDpi(2, 300),
-	getAPaperResolutionOptionAtDpi(1, 300),
-	getAPaperResolutionOptionAtDpi(0, 300),
-	getAPaperResolutionOptionAtDpi(5, 300, false),
-	getAPaperResolutionOptionAtDpi(4, 300, false),
-	getAPaperResolutionOptionAtDpi(3, 300, false),
-	getAPaperResolutionOptionAtDpi(2, 300, false),
-	getAPaperResolutionOptionAtDpi(1, 300, false),
-	getAPaperResolutionOptionAtDpi(0, 300, false),
+	getASeriesPaperResolutionOptionAtDpi(5, 300),
+	getASeriesPaperResolutionOptionAtDpi(4, 300),
+	getASeriesPaperResolutionOptionAtDpi(3, 300),
+	getASeriesPaperResolutionOptionAtDpi(2, 300),
+	getASeriesPaperResolutionOptionAtDpi(1, 300),
+	getASeriesPaperResolutionOptionAtDpi(0, 300),
+	getASeriesPaperResolutionOptionAtDpi(5, 300, false),
+	getASeriesPaperResolutionOptionAtDpi(4, 300, false),
+	getASeriesPaperResolutionOptionAtDpi(3, 300, false),
+	getASeriesPaperResolutionOptionAtDpi(2, 300, false),
+	getASeriesPaperResolutionOptionAtDpi(1, 300, false),
+	getASeriesPaperResolutionOptionAtDpi(0, 300, false),
 ];
 
-function getAPaperResolutionOptionAtDpi(
-	aNumber: number,
+function getASeriesPaperResolutionOptionAtDpi(
+	sizeASeriesPaper: number,
 	dpi: number,
 	isPortrait: boolean = true
 ) {
 	// A0 paper size in mm
 	const baseWidth = 841;
 	const baseHeight = 1189;
-	const factor = Math.pow(2, aNumber / 2);
+	const factor = Math.pow(2, sizeASeriesPaper / 2);
 	const wMm = Math.floor(baseWidth / factor);
 	const hMm = Math.floor(baseHeight / factor);
 	const wPx = Math.round((wMm / 25.4) * dpi);
 	const hPx = Math.round((hMm / 25.4) * dpi);
 	return (
-		`A${aNumber} ${
+		`A${sizeASeriesPaper} ${
 			isPortrait ? 'LANG_PORTRAIT' : 'LANG_LANDSCAPE'
 		} @ ${dpi} DPI: ` +
 		`${isPortrait ? wPx : hPx} x ${isPortrait ? hPx : wPx}`
