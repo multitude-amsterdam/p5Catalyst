@@ -1,5 +1,5 @@
 import { DieIcon } from '../components';
-import type GUIForP5 from '../gui';
+import type { GUIForP5 } from '../GUIForP5';
 import { GUIButton } from './guiButton';
 
 export class RandomizeButton extends GUIButton {
