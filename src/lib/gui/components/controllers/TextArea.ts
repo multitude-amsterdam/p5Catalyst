@@ -1,6 +1,7 @@
 import type { setupCallback, valueCallback } from '../../../types';
 import type { GUIForP5 } from '../../GUIForP5';
 import { ValuedController } from '../ValuedController';
+import { Controller } from '../Controller';
 
 /**
  * Multi line text area controller.
@@ -12,8 +13,8 @@ export class TextArea extends ValuedController {
 	 * @type {valueCallback}
 	 */
 	valueCallback: valueCallback;
-        /**
-         * Constructor for TextArea.
+	/**
+	 * Constructor for TextArea.
 	 * @param {GUIForP5} gui - The GUI instance.
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label for the controller.
@@ -42,7 +43,7 @@ export class TextArea extends ValuedController {
 			if (valueCallback) valueCallback(this, value);
 		};
 		this.valueCallback =
-			valueCallback || ((controller: ValuedController, value: any) => {});
+			valueCallback || ((controller: Controller, value: any) => {});
 		this.valueCallback(this, this.value);
 
 		this.controllerElement.elt.addEventListener(
@@ -67,5 +68,5 @@ export class TextArea extends ValuedController {
 		// if (this.doUpdateChangeSet()) changeSet.save();
 	}
 
-        randomize() {}
+	randomize() {}
 }

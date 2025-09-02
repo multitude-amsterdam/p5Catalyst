@@ -86,9 +86,9 @@ export class ColourBoxes extends ValuedController {
 
 	setValue(colour: p5.Color) {
 		console.log(colour, this.colours);
-                const index = this.colours.findIndex(
-                        col => col.toString() === colour.toString()
-                );
+		const index = this.colours.findIndex(
+			col => col.toString() === colour.toString()
+		);
 		if (index < 0) {
 			throw new Error(colour + ' can not be found in colours.');
 		}

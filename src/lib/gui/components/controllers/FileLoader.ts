@@ -1,9 +1,9 @@
 import type p5 from 'p5';
 import type {
-        setupCallback,
-        valueCallback,
-        controllerCallback,
-        fileReadyCallback,
+	setupCallback,
+	valueCallback,
+	controllerCallback,
+	fileReadyCallback,
 } from '../../../types';
 import type { GUIForP5 } from '../../GUIForP5';
 import { Button } from './Button';

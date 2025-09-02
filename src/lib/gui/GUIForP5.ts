@@ -276,7 +276,7 @@ export class GUIForP5 {
 	 * @param  {...Tab} tabs
 	 */
 	addTabs(...names: string[]): Tab[] {
-                if (this.tabs.length === 0) {
+		if (this.tabs.length === 0) {
 			this.tabs = [];
 			// this.activeTab = null;
 			this.tabBar = this.p5Instance.createDiv();
@@ -384,9 +384,9 @@ export class GUIForP5 {
 	 * @param {string} name
 	 * @returns {boolean}
 	 */
-        hasName(name: string): boolean {
-                return this.controllers.some(controller => controller.name === name);
-        }
+	hasName(name: string): boolean {
+		return this.controllers.some(controller => controller.name === name);
+	}
 
 	/**
 	 * Gets a controller by name.
@@ -413,7 +413,7 @@ export class GUIForP5 {
 				if (!this.hasName(name)) {
 					return false;
 				}
-                                return controller.name === name;
+				return controller.name === name;
 			})
 		);
 	}
