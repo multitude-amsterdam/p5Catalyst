@@ -2,7 +2,7 @@ import type { GUIForP5 } from '../GUIForP5';
 import type { controllerElement, setupCallback } from '../../types';
 import { Field } from './Field';
 import p5 from 'p5';
-import type { DieIcon } from './DieIcon';
+import type { DieIcon } from '../gui-components/DieIcon';
 import type { Randomizer } from '../Randomizer';
 import { Label } from './fields/Label';
 
@@ -161,7 +161,7 @@ export class Controller extends Field {
 	 * @param {Randomizer} randomizer - The randomizer to add this controller to.
 	 */
 	addToRandomizer(randomizer: Randomizer) {
-		randomizer.addController(this, true);
+		randomizer.addController(this);
 	}
 
 	/**

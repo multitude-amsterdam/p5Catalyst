@@ -22,7 +22,7 @@ import { TextField } from './fields/TextField';
 import { ImageField } from './fields/ImageField';
 import { Divider } from './fields/Divider';
 
-import { DieIcon } from './DieIcon';
+import { DieIcon } from '../gui-components/DieIcon';
 
 import { Group, Panel } from './groups';
 

@@ -197,7 +197,6 @@ body:where(.dark-mode) {
 }
 
 .panel summary {
-	/* background-color: red; */
 	border-bottom: solid var(--base-col) var(--line-width);
 	padding: 0 0 0.5rem 0;
 	margin: 0 0 0.5rem 0;
@@ -288,6 +287,7 @@ body:where(.dark-mode) .p5catalyst-logo {
 	gap: var(--spacing-x);
 	align-items: center;
 	justify-content: space-between;
+	height: var(--base-height);
 }
 
 .gui-controller {
@@ -1051,31 +1051,51 @@ input[type='checkbox']:checked::before {
 	text-align: center;
 }
 
-/* ---------------------------- DARK MODE BUTTON ---------------------------- */
-.dark-mode-button {
+/* ---------------------------- GUI CONTROL ---------------------------- */
+#control-container {
 	position: fixed;
 	top: 1rem;
-	right: 1rem;
 	z-index: 1;
 
+	display: flex;
+	/* flex-direction: column; */
+	gap: var(--spacing-x);
+	padding: var(--spacing-x);
+}
+
+.controlRight {
+	left: 1rem;
+}
+
+.controlLeft {
+	right: 1rem;
+}
+
+/********************************* DARK MODE BUTTON *********************************/
+
+.dark-mode-button {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-size: contain;
-	width: 1.75rem;
+	height: 1.75rem;
 	min-height: 1.75rem;
+	aspect-ratio: 1;
 	padding: 0;
 	border-radius: 100%;
 
-	transition: none;
+	transition: background var(--transition-properties);
 }
+
 .dark-mode-button:hover {
 	border-radius: 100%;
 	background-color: transparent;
 }
+
 .dark-mode-button:focus {
 	border-radius: 100%;
 	outline: none;
 }
+
 .dark-mode-button:focus:hover {
 	border-radius: 100%;
 	outline: none;
@@ -1162,15 +1182,19 @@ a:hover {
 
 /* -------------------------------- DIE ICON -------------------------------- */
 .die-icon {
-	height: var(--base-height);
-	width: var(--base-height);
-
-	opacity: 1;
-	cursor: pointer;
+	aspect-ratio: 1;
+	/* correlates with target diameter, but compensates for shape */
+	height: calc(var(--target-diameter) * 1.25);
+	transform-origin: center;
 
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-origin: content-box;
+	background-position: center;
+
+	opacity: 1;
+	cursor: pointer;
+	transition: rotate 0.25s ease;
 }
 
 .die-icon--disabled {
@@ -1231,6 +1255,14 @@ main {
 	height: 100%;
 	margin: 0;
 	padding: 0;
+}
+
+.guiLeft {
+	flex-direction: row;
+}
+
+.guiRight {
+	flex-direction: row-reverse;
 }
 
 canvas,
