@@ -1,5 +1,5 @@
 import type p5 from 'p5';
-import { Controller } from './Controller';
+import { Controller } from '../components/Controller';
 import type { Randomizer } from '../Randomizer';
 
 /**
@@ -18,11 +18,11 @@ export class DieIcon {
 	];
 
 	randomizer: Randomizer;
-	controller: Controller;
+	controller?: Controller;
 	imgContainer: p5.Element;
 	rotation: number;
 	p5Instance: p5;
-	isActive?: boolean;
+	isActive: boolean = true;
 	currentModifierClass?: string;
 
 	/**
@@ -33,8 +33,8 @@ export class DieIcon {
 	 */
 	constructor(
 		randomizer: Randomizer,
-		controller: Controller,
-		isActive: boolean
+		controller?: Controller,
+		callback?: () => void
 	) {
 		this.randomizer = randomizer;
 		this.controller = controller;
@@ -42,10 +42,10 @@ export class DieIcon {
 
 		this.imgContainer = randomizer.p5Instance.createDiv();
 		this.imgContainer.class(DieIcon.iconClass);
-		this.imgContainer.mouseClicked(() => this.click());
+		this.imgContainer.mouseClicked(callback || (() => this.click()));
 		this.rotation = 0;
 
-		this.setActive(isActive);
+		this.setDisplay();
 	}
 
 	toggle() {

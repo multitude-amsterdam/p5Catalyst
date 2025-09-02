@@ -161,7 +161,7 @@ export class Controller extends Field {
 	 * @param {Randomizer} randomizer - The randomizer to add this controller to.
 	 */
 	addToRandomizer(randomizer: Randomizer) {
-		randomizer.addController(this, true);
+		randomizer.addController(this);
 	}
 
 	/**

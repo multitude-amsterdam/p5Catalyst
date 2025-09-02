@@ -14,6 +14,8 @@ import { Lang } from '../language/Lang';
 
 import { Tab } from './components/groups/Tab';
 import { Dialog } from './Dialog';
+import { LightModeToggle } from './gui-components/LightModeToggle';
+import { RandomizeButton } from './gui-components/randomizeButton';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -39,6 +41,9 @@ export class GUIForP5 {
 	activeTab?: Tab;
 
 	darkMode: 'true' | 'false' | 'auto';
+	lightModeToggle: LightModeToggle;
+	randomizeButton?: RandomizeButton;
+	controlContainer: p5.Element;
 	changeSet: ChangeSet;
 
 	/**
@@ -60,11 +65,22 @@ export class GUIForP5 {
 
 		this.changeSet = new ChangeSet(this, false);
 
-		if (config.createRandomizer)
+		if (config.createRandomizer) {
 			this.randomizer = new Randomizer(this.p5Instance);
+			this.randomizeButton = new RandomizeButton(this);
+		}
 
 		this.darkMode = 'false';
-		this.loadLightDarkMode();
+		this.lightModeToggle = new LightModeToggle(this);
+
+		this.controlContainer = this.p5Instance
+			.createDiv()
+			.id('control-container');
+		this.controlContainer.child(this.lightModeToggle.button);
+		this.controlContainer.child(this.randomizeButton?.button);
+
+		document.querySelector('main')?.append(this.controlContainer.elt);
+		document.querySelector('main')?.prepend(this.div.elt);
 
 		this.setLeft();
 
@@ -81,7 +97,7 @@ export class GUIForP5 {
 
 		this.changeSet.save();
 
-		if (localStorage.doShowHelpOnLoad === undefined) {
+		if (localStorage.doShowHelpOnLoad === 'true' || undefined) {
 			this.showHelp();
 			localStorage.doShowHelpOnLoad = 'false';
 		}
@@ -101,17 +117,25 @@ export class GUIForP5 {
 	 * Moves the GUI to the left side of the main container.
 	 */
 	setLeft() {
-		document.querySelector('main')?.prepend(this.div.elt);
+		const main = document.querySelector('main');
+		if (main) {
+			main.className = 'guiLeft';
+		}
+		this.controlContainer.class('controlLeft');
 		this.isOnLeftSide = true;
 	}
 
-	// /**
-	//  * Moves the GUI to the right side of the main container.
-	//  */
-	// setRight() {
-	// 	document.querySelector('main')?.append(this.div.elt);
-	// 	this.isOnLeftSide = false;
-	// }
+	/**
+	 * Moves the GUI to the right side of the main container.
+	 */
+	setRight() {
+		const main = document.querySelector('main');
+		if (main) {
+			main.className = 'guiRight';
+		}
+		this.controlContainer.class('controlRight');
+		this.isOnLeftSide = false;
+	}
 
 	//   /**
 	//    * Toggles the GUI between left and right sides.
@@ -119,95 +143,6 @@ export class GUIForP5 {
 	//   toggleSide() {
 	//     this.isOnLeftSide ? this.setRight() : this.setLeft();
 	//   }
-
-	/**
-	 * Loads the light/dark mode setting from localStorage and applies it.
-	 */
-	loadLightDarkMode() {
-		const setting = window.localStorage['isDarkMode'];
-		const darkModeButton = this.createDarkModeButton();
-		switch (setting) {
-			case 'true':
-				this.setDarkMode(darkModeButton);
-				break;
-			case 'false':
-				this.setLightMode(darkModeButton);
-				break;
-			default:
-				this.setAutoLightDarkMode(darkModeButton);
-		}
-	}
-
-	/**
-	 * Sets the GUI to light mode.
-	 */
-	setLightMode(darkModeButton: P5Button) {
-		document.body.className = '';
-		window.localStorage['isDarkMode'] = 'false';
-		this.darkMode = 'false';
-		darkModeButton.class('dark-mode-button');
-		darkModeButton.addClass('dark-mode-button' + '--light');
-		darkModeButton.elt.title = 'Light mode';
-	}
-
-	/**
-	 * Sets the GUI to dark mode.
-	 */
-	setDarkMode(darkModeButton: P5Button) {
-		document.body.className = 'dark-mode';
-		window.localStorage['isDarkMode'] = 'true';
-		this.darkMode = 'true';
-		darkModeButton.class('dark-mode-button');
-		darkModeButton.addClass('dark-mode-button' + '--dark');
-		darkModeButton.elt.title = 'Dark mode';
-	}
-
-	/**
-	 * Sets the GUI to automatically match the system's light/dark mode.
-	 */
-	setAutoLightDarkMode(darkModeButton: P5Button) {
-		const isSystemDarkMode = () =>
-			window.matchMedia &&
-			window.matchMedia('(prefers-color-scheme: dark)').matches;
-		if (isSystemDarkMode()) {
-			this.setDarkMode(darkModeButton);
-		} else {
-			this.setLightMode(darkModeButton);
-		}
-		window.localStorage['isDarkMode'] = 'auto';
-		this.darkMode = 'auto';
-		darkModeButton.class('dark-mode-button');
-		darkModeButton.addClass('dark-mode-button' + '--auto');
-		darkModeButton.elt.title = 'Auto light/dark mode';
-	}
-
-	/**
-	 * Cycles between light, dark, and auto light/dark modes.
-	 */
-	toggleLightDarkMode(darkModeButton: P5Button) {
-		// cycle modes
-		switch (this.darkMode) {
-			case 'false':
-				this.setDarkMode(darkModeButton);
-				break;
-			case 'true':
-				this.setAutoLightDarkMode(darkModeButton);
-				break;
-			default:
-				this.setLightMode(darkModeButton);
-		}
-	}
-
-	/**
-	 * Creates and adds a button for toggling light/dark mode.
-	 */
-	createDarkModeButton() {
-		const darkModeButton = this.p5Instance.createButton('') as P5Button;
-		darkModeButton.elt.onclick = () => {
-			this.toggleLightDarkMode(darkModeButton);
-		};
-		return darkModeButton;
-	}
 
 	//   /**
 	//    * Adds a field (GUI element) to the GUI.
@@ -261,14 +196,9 @@ export class GUIForP5 {
 	//    * @param {boolean} [doAddToRandomizerAs]
 	//    * @returns {Controller}
 	//    */
-	addController<T extends Controller>(
-		controller: T,
-		doAddToRandomizerAs?: boolean
-	) {
+	addController<T extends Controller>(controller: T) {
 		this.addField(controller);
 		this.controllers.push(controller);
-		if (doAddToRandomizerAs !== undefined)
-			this.randomizer?.addController(controller, doAddToRandomizerAs);
 		return controller;
 	}
 
