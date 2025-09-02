@@ -31,7 +31,9 @@ export const createContainer = (
 				sketch.keyPressed || ((event: KeyboardEvent) => {});
 			// TODO: add all possible p5 event functions
 
-			let canvas: p5.Renderer, canvasWrapper: p5.Element;
+			let canvas: p5.Renderer,
+				canvasWorkArea: p5.Element,
+				canvasWrapper: p5.Element;
 
 			let isGuiTyping = false;
 			let isRecording = false;
@@ -183,10 +185,14 @@ export const createContainer = (
 			}
 
 			function createCanvasWrapper() {
+				canvasWorkArea = sketch.createDiv();
 				canvasWrapper = sketch.createDiv();
-				canvasWrapper.id('canvas-workarea');
+				canvasWorkArea.id('canvas-workarea');
+				canvasWrapper.id('canvas-wrapper');
+
 				canvas.parent(canvasWrapper);
-				document.querySelector('main')?.append(canvasWrapper.elt);
+				canvasWrapper.parent(canvasWorkArea);
+				canvasWorkArea.parent(sketch.select('main') as p5.Element);
 			}
 
 			function containCanvasInWrapper() {
