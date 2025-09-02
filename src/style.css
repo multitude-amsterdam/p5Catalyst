@@ -1071,7 +1071,7 @@ input[type='checkbox']:checked::before {
 	right: 1rem;
 }
 
-/********************************* DARK MODE BUTTON *********************************/
+/* ---------------------------- DARK MODE BUTTON ---------------------------- */
 
 .dark-mode-button {
 	background-color: transparent;
