@@ -11,6 +11,7 @@ export const createContainer = (
 		width: 1080,
 		height: 1080,
 		time: 0,
+		progress: 0,
 		isPlaying: true,
 	};
 
@@ -20,7 +21,12 @@ export const createContainer = (
 
 			const userSetup = sketch.setup || (() => {});
 			const userDraw = sketch.draw || (() => {});
-			const userMouseMoved = sketch.mouseMoved || (() => {});
+			const userMousePressed = sketch.mousePressed || (() => {});
+			const userMouseReleased = sketch.mouseReleased || (() => {});
+			const userMouseClicked = sketch.mouseClicked || (() => {});
+			const userMouseWheel = sketch.mouseWheel || (() => {});
+			const userMouseDragged = sketch.mouseDragged || (() => {});
+			const userDoubleClicked = sketch.doubleClicked || (() => {});
 			const userKeyPressed =
 				sketch.keyPressed || ((event: KeyboardEvent) => {});
 			// TODO: add all possible p5 event functions
@@ -33,7 +39,6 @@ export const createContainer = (
 			let duration = 20; //seconds
 			let fps = 60;
 			let nFramesToRender = Math.floor(duration * fps);
-			let progress = 0;
 
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
@@ -60,12 +65,13 @@ export const createContainer = (
 					},
 					startRecording: () => {
 						isRecording = true;
-						nFramesToRender =
-							duration * sketch.getTargetFrameRate();
+						nFramesToRender = Math.floor(
+							duration * sketch.getTargetFrameRate()
+						);
 						sketch.frameCount = 0;
-						progress = 0;
+						state.progress = 0;
 						console.log('recording started here!');
-						console.log(duration, nFramesToRender, progress);
+						console.log(duration, nFramesToRender, state.progress);
 					},
 					stopRecording: () => {
 						isRecording = false;
@@ -87,9 +93,15 @@ export const createContainer = (
 			};
 
 			sketch.draw = () => {
-				progress = sketch.frameCount / nFramesToRender;
+				if (!state.isPlaying) {
+					sketch.frameCount--;
+				}
+
+				state.progress = sketch.frameCount / nFramesToRender;
 				state.time = sketch.frameCount / sketch.getTargetFrameRate();
+
 				if (config?.clearBackground) sketch.clear();
+
 				if (state.backdrop) {
 					sketch.image(
 						state.backdrop,
@@ -121,9 +133,10 @@ export const createContainer = (
 						sketch.CONTAIN
 					);
 				}
+
 				if (isRecording) {
 					saveToLocalFFMPEG(canvas);
-					if (progress === 1) {
+					if (state.progress >= 1) {
 						isRecording = false;
 						ffmpegCreateMP4(
 							state.width,
@@ -134,8 +147,23 @@ export const createContainer = (
 				}
 			};
 
-			sketch.mouseMoved = () => {
-				userMouseMoved();
+			sketch.mousePressed = () => {
+				userMousePressed();
+			};
+			sketch.mouseReleased = () => {
+				userMouseReleased();
+			};
+			sketch.mouseClicked = () => {
+				userMouseClicked();
+			};
+			sketch.mouseWheel = () => {
+				userMouseWheel();
+			};
+			sketch.mouseDragged = () => {
+				userMouseDragged();
+			};
+			sketch.doubleClicked = () => {
+				userDoubleClicked();
 			};
 
 			sketch.keyPressed = (event: KeyboardEvent) => {
