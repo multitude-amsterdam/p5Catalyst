@@ -7,7 +7,12 @@ export const createContainer = (
 	userSketch: SketchFunction,
 	config?: Config
 ): Promise<Container> => {
-	const state: State = { width: 1080, height: 1080, time: 0 };
+	const state: State = {
+		width: 1080,
+		height: 1080,
+		time: 0,
+		isPlaying: true,
+	};
 
 	return new Promise(resolve => {
 		const containerSketch = async (sketch: p5) => {
@@ -20,11 +25,9 @@ export const createContainer = (
 				sketch.keyPressed || ((event: KeyboardEvent) => {});
 			// TODO: add all possible p5 event functions
 
-			let canvas: p5.Renderer,
-				canvasWrapper: p5.Element,
-				canvasScale: number;
+			let canvas: p5.Renderer, canvasWrapper: p5.Element;
 
-			let GuiTyping = false;
+			let isGuiTyping = false;
 			let isRecording = false;
 
 			let duration = 20; //seconds
@@ -36,7 +39,9 @@ export const createContainer = (
 				canvas = sketch.createCanvas(state.width, state.height);
 				createCanvasWrapper();
 				containCanvasInWrapper();
+
 				await Promise.resolve(userSetup());
+
 				const sketchHook = {
 					resize: (width: number, height: number) => {
 						resizeCatalyst(width, height);
@@ -99,7 +104,9 @@ export const createContainer = (
 						sketch.CONTAIN
 					);
 				}
+
 				userDraw();
+
 				if (state.overlay) {
 					sketch.image(
 						state.overlay,
@@ -132,21 +139,19 @@ export const createContainer = (
 			};
 
 			sketch.keyPressed = (event: KeyboardEvent) => {
-				if (GuiTyping) return;
+				if (isGuiTyping) return;
 
 				switch (event.key) {
 					case ' ':
-						sketch.frameCount = 0;
-						return;
-					case 'h':
+						state.isPlaying = !state.isPlaying;
 						return;
 					default:
 						userKeyPressed(event);
 				}
 			};
 
-			function setTyping(currentlyTyping: boolean) {
-				GuiTyping = currentlyTyping;
+			function setTyping(isCurrentlyTyping: boolean) {
+				isGuiTyping = isCurrentlyTyping;
 			}
 
 			function createCanvasWrapper() {
@@ -171,10 +176,6 @@ export const createContainer = (
 					canvas.elt.style.width = '';
 					canvas.elt.style.height = 'calc(100vh - 2rem)';
 				}
-
-				canvasScale = sketch.sqrt(
-					(state.width * state.height) / (1920 * 1080)
-				);
 			}
 
 			function resizeCatalyst(width: number, height: number) {

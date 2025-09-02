@@ -7,6 +7,7 @@ export interface State {
 	width: number;
 	height: number;
 	time: number;
+	isPlaying: boolean;
 	[key: string]: any; // Allow other properties
 }
 
