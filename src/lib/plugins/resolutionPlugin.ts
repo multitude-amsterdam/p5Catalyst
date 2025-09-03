@@ -8,9 +8,9 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 	return {
 		name: 'resolution',
 		setup: (gui: GUIControllerInterface, state: State) => {
-			const exportTab = gui.getTab('export');
+			const appearanceTab = gui.getTab('appearance');
 
-			const panel = exportTab?.addPanel('LANG_RESOLUTION');
+			const panel = appearanceTab?.addPanel('LANG_RESOLUTION');
 
 			panel?.addResolutionSelect(
 				'Presets',
@@ -20,8 +20,7 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 					const resbox = gui.getController<ResolutionTextBoxes>(
 						'resolutionTextboxes'
 					);
-					if (resbox)
-						resbox.setValueOnlyDisplay(state.width, state.height);
+					resbox?.setValueOnlyDisplay(state.width, state.height);
 				}
 			);
 
