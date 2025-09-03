@@ -1,4 +1,5 @@
 import type { Dictionary } from '../types';
+import { getControlKeyName } from '../utils/data';
 
 /**
  * Holds all translatable "hot strings".
@@ -148,8 +149,8 @@ export const dictionary: Dictionary = {
 			`<ul>` +
 			`<li><span>Geselcteerde controls randomizen</span> <span><code>R</code></span></li>` +
 			`<li><span>Pauzeren / afspelen animatie</span> <span><code>spatiebalk</code></span></li>` +
-			`<li><span>Ongedaan maken</span> <span><code>CTRL / CMD</code> + <code>Z</code></span></li>` +
-			`<li><span>Opnieuw</span> <span><code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></span></li>` +
+			`<li><span>Ongedaan maken</span> <span><code>${getControlKeyName()}</code> + <code>Z</code></span></li>` +
+			`<li><span>Opnieuw</span> <span><code>${getControlKeyName()}</code> + <code>SHIFT</code> + <code>Z</code></span></li>` +
 			`<li><span>Volledig scherm</span> <span><code>F</code></span></li>` +
 			`<li><span>Zijbalk verspringen</span> <span><code>B</code></span></li>` +
 			`<li><span>Wissel tussen licht/donker thema</span> <span><code>M</code></span></li>` +
@@ -162,8 +163,8 @@ export const dictionary: Dictionary = {
 			`<ul>` +
 			`<li><span>Randomize selected controls</span> <span><code>R</code></span></li>` +
 			`<li><span>Pause / play animation</span> <span><code>spacebar</code></span></li>` +
-			`<li><span>Undo</span> <span><code>CTRL / CMD</code> + <code>Z</code></span></li>` +
-			`<li><span>Redo</span> <span><code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></span></li>` +
+			`<li><span>Undo</span> <span><code>${getControlKeyName()}</code> + <code>Z</code></span></li>` +
+			`<li><span>Redo</span> <span><code>${getControlKeyName()}</code> + <code>SHIFT</code> + <code>Z</code></span></li>` +
 			`<li><span>Toggle fullscreen</span> <span><code>F</code></span></li>` +
 			`<li><span>Flip sidebar</span> <span><code>B</code></span></li>` +
 			`<li><span>Toggle light/dark mode</span> <span><code>M</code></span></li>` +
