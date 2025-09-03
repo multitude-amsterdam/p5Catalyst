@@ -39,10 +39,10 @@ export function videoExportPlugin(): Plugin {
 			panel?.addButton('startExport', 'Start export', controller => {
 				if (state.isRecording) {
 					gui.stopRecording();
-					controller?.setLabel('Start export');
+					controller?.controllerElement?.html('Start export');
 				} else {
 					gui.startRecording();
-					controller?.setLabel('Stop export');
+					controller?.controllerElement?.html('Stop export');
 				}
 			});
 
