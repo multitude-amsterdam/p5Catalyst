@@ -92,6 +92,8 @@ export const createContainer = (
 					},
 				};
 
+				state.sketchHook = sketchHook;
+
 				resolve({ p5Instance, state, sketchHook });
 			};
 
