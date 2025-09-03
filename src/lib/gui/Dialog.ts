@@ -62,6 +62,8 @@ export class Dialog {
 	}
 
 	alert(html: string): void {
+		html = this.gui.lang.process(html, true);
+
 		this.divPrompt.style('display', 'none');
 		this.contentWrapper.html(html);
 
@@ -83,7 +85,7 @@ export class Dialog {
 		defaultVal: string = '',
 		confirmButtonLabel: string = 'OK'
 	): Promise<string> {
-		console.log(html);
+		html = this.gui.lang.process(html, true);
 
 		// reset contentWrapper on keydown from alert()
 		this.contentWrapper.elt.onkeydown = () => {};
