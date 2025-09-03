@@ -1,24 +1,25 @@
 import p5 from 'p5';
 import { GUIForP5 } from '../GUIForP5';
 import { Field } from './Field';
+import type { Config } from 'src/lib/types';
+import { ThemeToggle } from '../gui-components/ThemeToggle';
+import { RandomizeButton } from '../gui-components/RandomizeButton';
+import { GUIButton } from '../gui-components/GUIButton';
 
 export class CommandBar extends Field {
-	randomizerButton?: p5.Element;
+	undoButton: GUIButton;
+	redoButton: GUIButton;
+	resetButton: GUIButton;
+	settingsButton: GUIButton;
+	helpButton: GUIButton;
 
-	undoButton: p5.Element;
-	redoButton: p5.Element;
-
-	settingsButton: p5.Element;
-
-	darkModeButton: p5.Element;
-
-	helpButton: p5.Element;
+	themeToggle: ThemeToggle;
+	randomizeButton?: RandomizeButton;
 
 	filler: p5.Element;
-
 	centerDiv: p5.Element;
 
-	constructor(gui: GUIForP5) {
+	constructor(config: Config, gui: GUIForP5) {
 		super(
 			gui,
 			'',
@@ -29,65 +30,89 @@ export class CommandBar extends Field {
 		this.div.class('command-bar');
 		gui.p5Instance.select('#canvas-workarea')?.elt.prepend(this.div.elt);
 
-		if (this.gui.randomizer) {
-			this.randomizerButton = this.createButton('LANG_RANDOMIZE', () => {
-				this.gui.randomizer?.randomize();
-			});
-			this.createIconDiv(
-				this.randomizerButton,
-				'command-bar__icon--randomizer'
+		// randomizer button
+		if (config.createRandomizer) {
+			this.randomizeButton = new RandomizeButton(gui);
+			this.randomizeButton.button.parent(this.div);
+			this.randomizeButton.button.addClass('command-bar__button');
+			this.randomizeButton.button.elt.title = gui.lang.process(
+				'LANG_RANDOMIZE',
+				true
 			);
 		}
 
-		this.undoButton = this.createButton('LANG_UNDO', () => {
-			this.gui.changeSet.undo();
-		});
-		this.createIconDiv(this.undoButton, 'command-bar__icon--undo');
+		// undo/redo buttons
+		{
+			this.undoButton = this.createButton('LANG_UNDO', () => {
+				this.gui.changeSet.undo();
+			});
+			this.createIconDiv(this.undoButton, 'command-bar__icon--undo');
 
-		this.redoButton = this.createButton('LANG_REDO', () => {
-			this.gui.changeSet.redo();
-		});
-		this.createIconDiv(this.redoButton, 'command-bar__icon--redo');
+			this.redoButton = this.createButton('LANG_REDO', () => {
+				this.gui.changeSet.redo();
+			});
+			this.createIconDiv(this.redoButton, 'command-bar__icon--redo');
+		}
 
-		this.redoButton = this.createButton('LANG_RESET', () => {
-			this.gui.resetToDefaults();
-		});
-		this.createIconDiv(this.redoButton, 'command-bar__icon--reset');
+		// reset button
+		{
+			this.resetButton = this.createButton('LANG_RESET', () => {
+				this.gui.resetToDefaults();
+			});
+			this.createIconDiv(this.resetButton, 'command-bar__icon--reset');
+		}
 
+		// middle filler
+		// pushes buttons either sides
 		this.filler = gui.p5Instance
 			.createDiv()
 			.parent(this.div)
 			.class('command-bar__filler') as p5.Element;
 
-		this.helpButton = this.createButton('LANG_HELP', () => {});
-		this.createIconDiv(this.helpButton, 'command-bar__icon--help');
+		// help button
+		{
+			this.helpButton = this.createButton('LANG_HELP', () => {
+				this.gui.dialog.alert('LANG_HELPME_MSG');
+			});
+			this.createIconDiv(this.helpButton, 'command-bar__icon--help');
+		}
 
-		this.darkModeButton = this.createButton('LANG_DARK_MODE', () => {});
-		this.createIconDiv(this.darkModeButton, 'command-bar__icon--dark-mode');
+		// theme toggle
+		{
+			this.themeToggle = new ThemeToggle(gui, this);
+			this.themeToggle.button.parent(this.div);
+			this.themeToggle.button.addClass('command-bar__button');
+		}
 
-		this.settingsButton = this.createButton('LANG_SETTINGS', () => {});
-		this.createIconDiv(this.settingsButton, 'command-bar__icon--settings');
+		// settings
+		{
+			this.settingsButton = this.createButton('LANG_SETTINGS', () => {});
+			this.createIconDiv(
+				this.settingsButton,
+				'command-bar__icon--settings'
+			);
 
-		this.centerDiv = gui.p5Instance
-			.createDiv()
-			.parent(this.div)
-			.class('commandbar__center') as p5.Element;
+			this.centerDiv = gui.p5Instance
+				.createDiv()
+				.parent(this.div)
+				.class('commandbar__center') as p5.Element;
+		}
 	}
 
-	createButton(label: string, callback: () => void): p5.Element {
+	createButton(label: string, callback: () => void): GUIButton {
 		label = this.gui.lang.process(label, true);
-		const button: p5.Element = this.gui.p5Instance
-			.createButton('')
+		const button: GUIButton = new GUIButton(this.gui);
+		button.button
 			.parent(this.div)
 			.addClass('command-bar__button')
 			.mousePressed(callback) as p5.Element;
-		button.elt.title = label;
+		button.button.elt.title = label;
 		return button;
 	}
 
-	createIconDiv(button: p5.Element, className: string): p5.Element {
+	createIconDiv(button: GUIButton, className: string): p5.Element {
 		const icon: p5.Element = this.gui.p5Instance.createDiv() as p5.Element;
-		button.elt.prepend(icon.elt);
+		button.button.elt.prepend(icon.elt);
 		icon.addClass('command-bar__icon');
 		icon.addClass(className);
 		return icon;

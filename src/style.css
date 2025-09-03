@@ -127,13 +127,18 @@ body {
 	--focus-outline: var(--line-width) dotted var(--focus-col);
 
 	/* animation */
-	--transition: all 0.25s ease;
 	--transition-properties: 0.25s ease;
 
 	/* body styles */
 	margin: 0;
 	padding: 0;
 	background-color: var(--bg-col);
+}
+
+body,
+body * {
+	transition: color var(--transition-properties),
+		background var(--transition-properties);
 }
 
 /* -------------------------------- DARK MODE ------------------------------- */
@@ -1077,55 +1082,6 @@ input[type='checkbox']:checked::before {
 	right: 1rem;
 } */
 
-/* ---------------------------- DARK MODE BUTTON ---------------------------- */
-
-.dark-mode-button {
-	background-color: transparent;
-	background-repeat: no-repeat;
-	background-size: contain;
-	height: 1.75rem;
-	min-height: 1.75rem;
-	aspect-ratio: 1;
-	padding: 0;
-	border-radius: 100%;
-
-	transition: background var(--transition-properties);
-}
-
-.dark-mode-button:hover {
-	border-radius: 100%;
-	background-color: transparent;
-}
-
-.dark-mode-button:focus {
-	border-radius: 100%;
-	outline: none;
-}
-
-.dark-mode-button:focus:hover {
-	border-radius: 100%;
-	outline: none;
-}
-
-.dark-mode-button--light {
-	background-image: url('assets/dark-mode-button/light-mode-icon.svg');
-}
-.dark-mode-button--dark {
-	background-image: url('assets/dark-mode-button/dark-mode-icon.svg');
-}
-.dark-mode-button--auto {
-	background-image: url('assets/dark-mode-button/auto-mode-icon.svg');
-}
-body:where(.dark-mode) .dark-mode-button--light {
-	background-image: url('assets/dark-mode-button/light-mode-icon.svg');
-}
-body:where(.dark-mode) .dark-mode-button--dark {
-	background-image: url('assets/dark-mode-button/dark-mode-icon.svg');
-}
-body:where(.dark-mode) .dark-mode-button--auto {
-	background-image: url('assets/dark-mode-button/auto-mode-icon.svg');
-}
-
 /* ------------------------------ VIDEO LOADING ----------------------------- */
 #vidLoad {
 	margin: auto;
@@ -1307,6 +1263,7 @@ main:where(.gui-right) .command-bar {
 }
 
 .command-bar__filler {
+	height: inherit;
 	width: 100%;
 }
 
@@ -1325,8 +1282,8 @@ main:where(.gui-right) .command-bar {
 	transition: rotate var(--transition-properties);
 }
 .command-bar__icon--randomizer {
-	height: var(--die-icon-size);
-	background-image: url('assets/dice/die-1.svg');
+	/* height: var(--die-icon-size);
+	background-image: url('assets/dice/die-1.svg'); */
 }
 .command-bar__icon--undo {
 	background-image: url('assets/undo.svg');
@@ -1340,11 +1297,65 @@ main:where(.gui-right) .command-bar {
 .command-bar__icon--settings {
 	background-image: url('assets/settings.svg');
 }
-.command-bar__icon--dark-mode {
-	background-image: url('assets/dark-mode-button/auto-mode-icon.svg');
-}
 .command-bar__icon--help {
 	background-image: url('assets/help.svg');
+}
+
+body:where(.dark-mode) .command-bar__icon--undo {
+	background-image: url('assets/dark-mode/undo.svg');
+}
+body:where(.dark-mode) .command-bar__icon--redo {
+	background-image: url('assets/dark-mode/redo.svg');
+}
+body:where(.dark-mode) .command-bar__icon--reset {
+	background-image: url('assets/dark-mode/reset.svg');
+}
+body:where(.dark-mode) .command-bar__icon--settings {
+	background-image: url('assets/dark-mode/settings.svg');
+}
+body:where(.dark-mode) .command-bar__icon--help {
+	background-image: url('assets/dark-mode/help.svg');
+}
+
+/* ---------------------------- DARK MODE BUTTON ---------------------------- */
+
+.command-bar__icon--dark-mode {
+	/* background-image: url('assets/dark-mode-button/auto-mode-icon.svg'); */
+}
+
+.dark-mode-button {
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-size: contain;
+	height: 1.75rem;
+	min-height: 1.75rem;
+	aspect-ratio: 1;
+	padding: 0;
+	border-radius: 100%;
+}
+
+.dark-mode-button:focus:hover {
+	border-radius: 100%;
+	outline: none;
+}
+
+.dark-mode-button--light {
+	background-image: url('assets/dark-mode-button/light-mode-icon.svg');
+}
+.dark-mode-button--dark {
+	background-image: url('assets/dark-mode-button/dark-mode-icon.svg');
+}
+.dark-mode-button--auto {
+	background-image: url('assets/dark-mode-button/auto-mode-icon.svg');
+}
+body:where(.dark-mode) .dark-mode-button--light {
+	background-image: url('assets/dark-mode/dark-mode-button/light-mode-icon.svg');
+}
+body:where(.dark-mode) .dark-mode-button--dark {
+	background-image: url('assets/dark-mode/dark-mode-button/dark-mode-icon.svg');
+}
+body:where(.dark-mode) .dark-mode-button--auto {
+	background-image: url('assets/dark-mode/dark-mode-button/auto-mode-icon.svg');
 }
 
 /* ----------------------------- CANVAS SECTION ----------------------------- */

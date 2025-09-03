@@ -18,7 +18,7 @@ import { Lang } from '../language/Lang';
 
 import { Tab } from './components/groups/Tab';
 import { Dialog } from './Dialog';
-import { LightModeToggle } from './gui-components/LightModeToggle';
+import { ThemeToggle } from './gui-components/ThemeToggle';
 import { RandomizeButton } from './gui-components/RandomizeButton';
 
 import { CommandBar } from './components/CommandBar';
@@ -46,8 +46,6 @@ export class GUIForP5 {
 	activeTab?: Tab;
 
 	darkMode: 'true' | 'false' | 'auto';
-	lightModeToggle: LightModeToggle;
-	randomizeButton?: RandomizeButton;
 	changeSet: ChangeSet;
 
 	commandBar: CommandBar;
@@ -73,19 +71,17 @@ export class GUIForP5 {
 
 		this.changeSet = new ChangeSet(this, false);
 
-		this.setLeft();
-
-		this.commandBar = new CommandBar(this);
+		this.darkMode = 'false';
 
 		if (config.createRandomizer) {
 			this.randomizer = new Randomizer(this.p5Instance);
-			this.randomizeButton = new RandomizeButton(this);
 		}
 
-		this.darkMode = 'false';
-		this.lightModeToggle = new LightModeToggle(this);
-
 		this.dialog = new Dialog(this);
+
+		this.commandBar = new CommandBar(config, this);
+
+		this.setLeft();
 	}
 
 	/**
