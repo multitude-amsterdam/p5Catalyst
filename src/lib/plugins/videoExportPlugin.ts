@@ -8,10 +8,9 @@ export function videoExportPlugin(): Plugin {
 		setup: (gui: GUIControllerInterface, state: State) => {
 			const exportTab = gui.getTab('export');
 
-			const exportGroup = exportTab?.addGroup('videoExportGroup', COLUMN);
-			exportGroup?.addTitle(3, 'Export Video');
+			const panel = exportTab?.addPanel('Export video');
 
-			const timeGroup = exportGroup?.addGroup('timeField', ROW);
+			const timeGroup = panel?.addGroup('timeField', ROW);
 
 			timeGroup?.addTextbox(
 				'durationInput',
@@ -27,7 +26,7 @@ export function videoExportPlugin(): Plugin {
 
 			timeGroup?.addTextbox(
 				'frameRateInput',
-				'Framerate',
+				'LANG_FRAME_RATE',
 				'60',
 				(controller, value) => {
 					const frameRate = parseInt(value as string);
@@ -37,19 +36,17 @@ export function videoExportPlugin(): Plugin {
 				}
 			);
 
-			exportGroup?.addButton(
-				'startExport',
-				'Start export',
-				controller => {
-					if (state.isRecording) {
-						gui.stopRecording();
-						controller?.setLabel('Start export');
-					} else {
-						gui.startRecording();
-						controller?.setLabel('Stop export');
-					}
+			panel?.addButton('startExport', 'Start export', controller => {
+				if (state.isRecording) {
+					gui.stopRecording();
+					controller?.setLabel('Start export');
+				} else {
+					gui.startRecording();
+					controller?.setLabel('Stop export');
 				}
-			);
+			});
+
+			panel?.open();
 		},
 
 		afterInit: () => {

@@ -8,7 +8,10 @@ export class Panel extends BaseGroup {
 	gui: GUIForP5;
 
 	constructor(gui: GUIForP5, name: string) {
-		super(gui, name, 'panel');
+		name = gui.lang.process(name, true);
+		const id = name.toLowerCase().replace(/\s+/g, '-');
+		super(gui, id, 'panel');
+
 		this.gui = gui;
 		let detailElement = gui.p5Instance.createElement(
 			'details',

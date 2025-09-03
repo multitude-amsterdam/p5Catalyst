@@ -9,13 +9,11 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 		name: 'resolution',
 		setup: (gui: GUIControllerInterface, state: State) => {
 			const exportTab = gui.getTab('export');
-			const resolutionField = exportTab?.addGroup(
-				'resolutionField',
-				COLUMN
-			);
-			resolutionField?.addTitle(3, 'Resolution');
-			resolutionField?.addResolutionSelect(
-				'',
+
+			const panel = exportTab?.addPanel('LANG_RESOLUTION');
+
+			panel?.addResolutionSelect(
+				'Presets',
 				resolutionOptions,
 				0,
 				(controller, value) => {
@@ -26,7 +24,10 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 						resbox.setValueOnlyDisplay(state.width, state.height);
 				}
 			);
-			resolutionField?.addResolutionTextBoxes(state.width, state.height);
+
+			panel?.addResolutionTextBoxes(state.width, state.height);
+
+			panel?.open();
 		},
 	};
 }

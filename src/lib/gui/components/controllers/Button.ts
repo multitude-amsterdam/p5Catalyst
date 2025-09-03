@@ -31,7 +31,7 @@ export class Button extends Controller {
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, '', setupCallback);
-		labelStr = gui.lang.process(labelStr);
+		labelStr = gui.lang.process(labelStr, true);
 		this.controllerElement = gui.p5Instance.createButton(labelStr);
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.elt.onclick = () => {

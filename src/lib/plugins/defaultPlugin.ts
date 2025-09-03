@@ -14,16 +14,53 @@ export const defaultPlugin: Plugin = () => [
 		setup: (gui: GUIControllerInterface, state: State) => {
 			const [appearanceTab, exportTab, settingsTab] = gui.addTabs(
 				'appearance',
-				'export',
-				'settings'
+				'export'
 			);
-			appearanceTab.addTitle(3, 'Appearance');
-			settingsTab.addTitle(3, 'Settings');
 		},
 	},
 	languagePlugin('en'), // empty userDictionary
-	resolutionPlugin(resolutionPresets),
-	imageExportPlugin('jpg'),
-	videoExportPlugin(),
+
+	//appearance
 	backdropPlugin(),
+
+	// export
+	resolutionPlugin(resolutionPresets),
+	imageExportPlugin('png'),
+	videoExportPlugin(),
+	// {
+	// 	name: 'changetSetIO',
+	// 	setup: (gui: GUIControllerInterface, state: State) => {
+	// 		const exportTab = gui.getTab('export');
+	// 		const panel = exportTab?.addPanel('Export settings');
+	// 		panel?.addButton(
+	// 			'buttonSaveSettings',
+	// 			'Save settings',
+	// 			controller => {
+	// 				controller.gui.p5Instance.saveJSON(
+	// 					controller.gui.getState(),
+	// 					'settings.json'
+	// 				);
+	// 			}
+	// 		);
+	// 		panel?.addJSONLoader(
+	// 			'buttonLoadSettings',
+	// 			'Load settings',
+	// 			// TODO: make fileReadyCallback take Controller as first argument
+	// 			file => {
+	// 				const reader = new FileReader();
+	// 				reader.onload = event => {
+	// 					if (event.target?.result) {
+	// 						const loadedState = JSON.parse(
+	// 							event.target.result as string
+	// 						);
+	// 						controller.gui.setState(loadedState);
+	// 					}
+	// 				};
+	// 				reader.readAsText(file);
+	// 			}
+	// 		);
+	// 	},
+	// },
+
+	// settings
 ];

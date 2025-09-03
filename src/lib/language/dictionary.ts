@@ -57,6 +57,10 @@ export const dictionary: Dictionary = {
 		nl: 'titeltekst',
 		en: 'title text',
 	},
+	LANG_FRAME_RATE: {
+		en: 'Frame rate (frames per second)',
+		nl: 'Framerate (frames per seconde)',
+	},
 	LANG_TEXT: {
 		nl: 'tekst',
 		en: 'text',
@@ -175,9 +179,9 @@ export const dictionary: Dictionary = {
 		nl: 'hoogte',
 		en: 'height',
 	},
-	LANG_FORMAT: {
-		nl: 'formaat',
-		en: 'dimensions',
+	LANG_RESOLUTION: {
+		nl: 'resolutie',
+		en: 'resolution',
 	},
 	LANG_FGCOL: {
 		nl: 'voorgrondkleur',

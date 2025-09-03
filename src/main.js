@@ -44,7 +44,7 @@ catalyst.initialize(
 	(gui, state) => {
 		const appearanceTab = gui.getTab('appearance');
 
-		const panel = appearanceTab.addPanel('Panel');
+		const panel = appearanceTab.addPanel('Circle');
 
 		panel.addColorBoxes(
 			'colorBox',

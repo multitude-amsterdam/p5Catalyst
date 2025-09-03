@@ -11,22 +11,21 @@ export function imageExportPlugin(fileType: imageFileType): Plugin {
 				fileType !== 'png' &&
 				fileType !== 'webp'
 			) {
-				console.log('p5Catalyst can only export jpg, png or webp');
+				console.error('p5Catalyst can only export jpg, png or webp');
 			}
 			let fileName = config?.fileName || 'p5Catalyst';
 
 			const exportTab = gui.getTab('export');
 
-			const exportGroup = exportTab?.addGroup('imageExportField', COLUMN);
-			exportGroup?.addTitle(3, 'Export Image');
+			const panel = exportTab?.addPanel('Export image');
 
-			const buttonGroup = exportGroup?.addGroup('buttonGroup', ROW);
+			const buttonGroup = panel?.addGroup('buttonGroup', ROW);
 
 			buttonGroup?.addButton(
 				'buttonCopyPNG',
 				'LANG_COPY_TO_CLIPBOARD',
 				controller => {
-					state.canvasToClipboard();
+					state.sketchHook.canvasToClipboard();
 				}
 			);
 
@@ -34,9 +33,11 @@ export function imageExportPlugin(fileType: imageFileType): Plugin {
 				'buttonDownloadImage',
 				'LANG_DOWNLOAD_IMAGE',
 				controller => {
-					state.exportImage(fileType, fileName);
+					state.sketchHook.exportImage(fileType, fileName);
 				}
 			);
+
+			panel?.open();
 		},
 	};
 }
