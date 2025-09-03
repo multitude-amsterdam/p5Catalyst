@@ -1246,6 +1246,7 @@ body:where(.dark-mode) .die-icon--6 {
 
 /* ------------------------------- COMMAND BAR ------------------------------ */
 .command-bar {
+	position: relative; /* allows absolut mid logo */
 	width: 100%;
 	display: flex;
 	flex-direction: row;
@@ -1259,6 +1260,25 @@ body:where(.dark-mode) .die-icon--6 {
 }
 main:where(.gui-right) .command-bar {
 	flex-direction: row-reverse;
+}
+
+.commandbar__center {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+
+	height: inherit;
+
+	background-image: url('/public/assets/generator-logo.svg');
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-origin: content-box;
+	background-position: center;
+
+	width: 8rem;
 }
 
 .command-bar__button {
@@ -1283,6 +1303,7 @@ main:where(.gui-right) .command-bar {
 
 .command-bar__button > span {
 	width: max-content;
+	font-size: 0.8em;
 }
 
 .command-bar__filler {
