@@ -52,3 +52,7 @@ export function fromB64(s64: string): number {
 export function isMac(): boolean {
 	return navigator.platform.startsWith('Mac');
 }
+
+export function getControlKeyName(): string {
+	return isMac() ? '⌘' : 'CTRL';
+}
