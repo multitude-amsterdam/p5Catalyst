@@ -21,12 +21,27 @@ export class Panel extends BaseGroup {
 		this.div.child(detailElement);
 	}
 
-	//   /**
-	//    * Adds a field (GUI element) to the GUI.
-	//    * @param {Field} field
-	//    * @returns {Field}
-	//    */
 	attachField<T extends Field>(field: T) {
 		this.container.child(field.div);
+	}
+
+	isClosed() {
+		return (this.div.elt.firstChild as HTMLDetailsElement).open === false;
+	}
+
+	close() {
+		(this.div.elt.firstChild as HTMLDetailsElement).open = false;
+	}
+
+	open() {
+		(this.div.elt.firstChild as HTMLDetailsElement).open = true;
+	}
+
+	toggle() {
+		if (this.isClosed()) {
+			this.open();
+		} else {
+			this.close();
+		}
 	}
 }
