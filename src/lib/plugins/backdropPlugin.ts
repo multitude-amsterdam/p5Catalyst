@@ -14,15 +14,15 @@ export function backdropPlugin(): Plugin {
 			const backdropLoader = group?.addMediaLoader(
 				'backdropLoader',
 				'Load Backdrop',
-				(controller, value) => {
-					state.backdrop = value;
+				media => {
+					state.backdrop = media;
 				}
 			);
 			const overlayLoader = group?.addMediaLoader(
 				'overlayLoader',
 				'Load Overlay',
-				(controller, value) => {
-					state.overlay = value;
+				media => {
+					state.overlay = media;
 				}
 			);
 			settingsTab?.addButton('clearMedia', 'Clear Media', controller => {

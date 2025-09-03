@@ -279,52 +279,52 @@ export const createGUI = (
 
 			return gui.addController(multiColourBoxes);
 		},
-		addTextLoader: (name, labelStr, valueCallback, setupCallback) => {
+		addTextLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
 			const textLoader = new components.TextFileLoader(
 				gui,
 				name,
 				labelStr,
-				valueCallback,
+				fileReadyCallback,
 				setupCallback
 			);
 			return gui.addController(textLoader);
 		},
-		addJSONLoader: (name, labelStr, valueCallback, setupCallback) => {
+		addJSONLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
 			const JSONLoader = new components.JSONFileLoader(
 				gui,
 				name,
 				labelStr,
-				valueCallback,
+				fileReadyCallback,
 				setupCallback
 			);
 			return gui.addController(JSONLoader);
 		},
-		addImageLoader: (name, labelStr, valueCallback, setupCallback) => {
+		addImageLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
 			const imageLoader = new components.ImageLoader(
 				gui,
 				name,
 				labelStr,
-				valueCallback,
+				fileReadyCallback,
 				setupCallback
 			);
 			return gui.addController(imageLoader);
 		},
-		addVideoLoader: (name, labelStr, valueCallback, setupCallback) => {
+		addVideoLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
 			const videoLoader = new components.VideoLoader(
 				gui,
 				name,
 				labelStr,
-				valueCallback,
+				fileReadyCallback,
 				setupCallback
 			);
 			return gui.addController(videoLoader);
 		},
-		addMediaLoader: (name, labelStr, valueCallback, setupCallback) => {
+		addMediaLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
 			const mediaLoader = new components.MediaLoader(
 				gui,
 				name,
 				labelStr,
-				valueCallback,
+				fileReadyCallback,
 				setupCallback
 			);
 			return gui.addController(mediaLoader);

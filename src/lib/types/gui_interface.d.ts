@@ -5,6 +5,7 @@ import { Group, Panel, Tab } from '../gui/components/groups';
 
 import type {
 	controllerCallback,
+	fileReadyCallback,
 	setupCallback,
 	valueCallback,
 } from './controller';
@@ -161,31 +162,31 @@ export interface GUIAddableInterface {
 	addTextLoader: (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => TextFileLoader;
 	addJSONLoader: (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => JSONFileLoader;
 	addImageLoader: (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => ImageLoader;
 	addVideoLoader: (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => VideoLoader;
 	addMediaLoader: (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => MediaLoader;
 }
