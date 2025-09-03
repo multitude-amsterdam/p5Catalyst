@@ -202,13 +202,22 @@ export const createContainer = (
 				const wrapperH = canvasWrapper.elt.clientHeight;
 				const wrapperAsp = wrapperW / wrapperH;
 
+				// seems to be necessary for css to work
+				canvas.elt.removeAttribute('width');
+				canvas.elt.removeAttribute('height');
+
 				canvas.elt.style = '';
+				canvas.elt.style.aspectRatio = canvAsp.toString();
 				if (canvAsp > wrapperAsp) {
-					canvas.elt.style.height = '';
 					canvas.elt.style.width = '100%';
+					canvas.elt.style.maxWidth = `calc(${wrapperW}px - 2rem)`;
+					canvas.elt.style.height = '';
+					canvas.elt.style.maxHeight = '';
 				} else {
 					canvas.elt.style.width = '';
-					canvas.elt.style.height = 'calc(100vh - 2rem)';
+					canvas.elt.style.maxWidth = '';
+					canvas.elt.style.height = '100%';
+					canvas.elt.style.maxHeight = `calc(${wrapperH}px - 2rem)`;
 				}
 			}
 
