@@ -5,18 +5,13 @@ import type { Plugin, Config, GUIControllerInterface, State } from '../types';
 export function randomizerPlugin(controllerNames: string[]): Plugin {
 	return {
 		name: 'randomizer',
+
 		beforeInit: (config: Config) => {
 			config.createRandomizer = true;
 		},
-		setup: (gui: GUIControllerInterface, state: State) => {
-			const randomizerButton = gui.addButton(
-				'randomizer',
-				'LANG_RANDOMIZE',
-				controller => {
-					gui.randomize();
-				}
-			);
-		},
+
+		setup: (gui: GUIControllerInterface, state: State) => {},
+
 		afterInit: (gui: GUIForP5) => {
 			const controllers: Controller[] =
 				gui.getControllers(controllerNames);

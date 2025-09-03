@@ -54,12 +54,6 @@ export class Controller extends Field {
 	controllerElement?: p5.Element;
 
 	/**
-	 * The GUIForP5 instance this controller belongs to.
-	 * @type {GUIForP5}
-	 */
-	gui: GUIForP5;
-
-	/**
 	 * The name of the controller.
 	 * @type {string}
 	 */
@@ -103,7 +97,6 @@ export class Controller extends Field {
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, 'gui-controller');
-		this.gui = gui;
 		this.name = name;
 
 		if (labelStr !== undefined && labelStr !== '') {

@@ -5,7 +5,11 @@ import { Controller } from './components/Controller';
 import { ValuedController } from './components/ValuedController';
 
 import type { State, Config, LangCode } from '../types';
-import type { P5Button, Serializable } from '../types/controller';
+import type {
+	ControllerValue,
+	P5Button,
+	Serializable,
+} from '../types/controller';
 import type { Container, sketchHook } from '../types/construction';
 
 import { Randomizer } from './Randomizer';
@@ -16,6 +20,8 @@ import { Tab } from './components/groups/Tab';
 import { Dialog } from './Dialog';
 import { LightModeToggle } from './gui-components/LightModeToggle';
 import { RandomizeButton } from './gui-components/randomizeButton';
+
+import { CommandBar } from './components/CommandBar';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
@@ -31,7 +37,6 @@ export class GUIForP5 {
 	dialog: Dialog;
 	isOnLeftSide: boolean = true;
 	isTypingText: boolean = false;
-	static verbose = !false;
 
 	fields: Field[] = [];
 	controllers: any[] = [];
@@ -45,6 +50,8 @@ export class GUIForP5 {
 	randomizeButton?: RandomizeButton;
 	controlContainer: p5.Element;
 	changeSet: ChangeSet;
+
+	commandBar: CommandBar;
 
 	/**
 	 * Constructs the GUI, creates the main div, and sets up theming and layout.
@@ -83,6 +90,8 @@ export class GUIForP5 {
 		document.querySelector('main')?.prepend(this.div.elt);
 
 		this.setLeft();
+
+		this.commandBar = new CommandBar(this);
 
 		this.dialog = new Dialog(this);
 	}
@@ -383,5 +392,13 @@ export class GUIForP5 {
 			controller?.die?.setActive(isDieActive);
 		}
 		Controller._doUpdateChangeSet = true;
+	}
+
+	resetToDefaults() {
+		for (let controller of this.controllers) {
+			if (!(controller instanceof ValuedController)) continue;
+			if (controller.value === null) continue;
+			controller.setValue(controller.defaultValue as ControllerValue);
+		}
 	}
 }

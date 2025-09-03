@@ -1,7 +1,8 @@
 import p5, { Image } from 'p5';
 import type { Controller } from '../gui/components/Controller';
 
-export type controllerElement = p5.Element | P5SelectElement | null;
+export type ControllerElement = p5.Element | P5SelectElement | null;
+
 export type controllerCallback = (file?: p5.File | p5.Element) => void;
 export type valueCallback = (controller: Controller, value: any) => void;
 export type setupCallback = (controller: Controller) => void;
@@ -21,21 +22,35 @@ export interface P5Button extends p5.Element {
 	click(): void;
 }
 
-export type controllerValue = string | number | boolean | p5.Color | p5.Vector;
+export type ControllerValue =
+	| number
+	| number[]
+	| string
+	| string[]
+	| boolean
+	| p5.Color
+	| p5.Vector;
 
-export interface serializedValue {
+export interface SerializedValue {
 	type: 'Vector' | 'Color' | 'Basic';
-	value: number | string | boolean | serializedVector | serializedColor;
+	value:
+		| number
+		| number[]
+		| string
+		| string[]
+		| boolean
+		| SerializedVector
+		| SerializedColor;
 }
 
-export interface serializedColor {
+export interface SerializedColor {
 	r: number;
 	g: number;
 	b: number;
 	a: number;
 }
 
-export interface serializedVector {
+export interface SerializedVector {
 	x: number;
 	y: number;
 	z: number;
@@ -43,6 +58,6 @@ export interface serializedVector {
 
 export interface Serializable {
 	name: string;
-	value: serializedValue;
+	value: SerializedValue;
 	isDieActive?: boolean;
 }

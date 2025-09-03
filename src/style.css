@@ -115,6 +115,8 @@ body {
 	--spacing-y: calc(var(--base-height) / 2);
 	--spacing-y-label: calc(var(--spacing-y) / 2);
 	--spacing-x: calc(var(--base-height) / 4);
+	--icon-size: calc(var(--target-diameter) * 1.25);
+	--die-icon-size: calc(var(--icon-size) * 1);
 
 	/* mouse targets (eg., range inputs, radios) */
 	--target-col: var(--base-col);
@@ -162,7 +164,8 @@ body:where(.dark-mode) {
 	gap: var(--spacing-y);
 }
 #gui {
-	width: 35rem;
+	min-width: 25rem;
+	width: 25rem;
 	padding: 1.5rem 1rem;
 
 	height: 100vh;
@@ -1184,7 +1187,7 @@ a:hover {
 .die-icon {
 	aspect-ratio: 1;
 	/* correlates with target diameter, but compensates for shape */
-	height: calc(var(--target-diameter) * 1.25);
+	height: var(--icon-size);
 	transform-origin: center;
 
 	background-size: contain;
@@ -1194,7 +1197,7 @@ a:hover {
 
 	opacity: 1;
 	cursor: pointer;
-	transition: rotate 0.25s ease;
+	transition: rotate var(--transition-properties);
 }
 
 .die-icon--disabled {
@@ -1240,11 +1243,18 @@ body:where(.dark-mode) .die-icon--6 {
 
 /* ----------------------------- CANVAS SECTION ----------------------------- */
 #canvas-workarea {
-	background-color: var(--transpSquareCol0);
+	background-color: var(--bg-col);
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	width: 100%;
+}
+
+#canvas-wrapper {
 	padding: 1em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
 }
 
 main {
@@ -1538,4 +1548,70 @@ textarea,
 		outline var(--transition-properties),
 		transform var(--transition-properties),
 		font var(--transition-properties);
+}
+
+/* ------------------------------- COMMAND BAR ------------------------------ */
+.command-bar {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	gap: var(--spacing-x);
+	height: var(--base-height);
+	padding: 1rem;
+
+	/* background-color: var(--bg-col); */
+
+	justify-content: flex-start;
+	align-items: center;
+}
+.command-bar__button {
+	width: auto;
+	background: none;
+	border: none;
+	color: var(--base-col);
+}
+.command-bar__button:hover {
+	background: none;
+	color: var(--hover-col);
+}
+
+.command-bar__filler {
+	width: 100%;
+}
+
+.command-bar__icon {
+	aspect-ratio: 1;
+	/* correlates with target diameter, but compensates for shape */
+	height: var(--icon-size);
+	transform-origin: center;
+
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-origin: content-box;
+	background-position: center;
+
+	cursor: pointer;
+	transition: rotate var(--transition-properties);
+}
+.command-bar__icon--randomizer {
+	height: var(--die-icon-size);
+	background-image: url('/public/assets/dice/die-1.svg');
+}
+.command-bar__icon--undo {
+	background-image: url('/public/assets/undo.svg');
+}
+.command-bar__icon--redo {
+	background-image: url('/public/assets/redo.svg');
+}
+.command-bar__icon--reset {
+	background-image: url('/public/assets/reset.svg');
+}
+.command-bar__icon--settings {
+	background-image: url('/public/assets/settings.svg');
+}
+.command-bar__icon--dark-mode {
+	background-image: url('/public/assets/dark-mode-button/auto-mode-icon.svg');
+}
+.command-bar__icon--help {
+	background-image: url('/public/assets/help.svg');
 }

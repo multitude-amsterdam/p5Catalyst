@@ -26,16 +26,4 @@ export const defaultPlugin: Plugin = () => [
 	imageExportPlugin('jpg'),
 	videoExportPlugin(),
 	backdropPlugin(),
-	{
-		name: 'changeSetButtons',
-		setup: (gui: GUIControllerInterface, state: State) => {
-			const undoRedoGroup = gui.addGroup('undoRedo', ROW);
-			undoRedoGroup.addButton('undo', 'LANG_UNDO', controller => {
-				gui.undo();
-			});
-			undoRedoGroup.addButton('redo', 'LANG_REDO', controller => {
-				gui.redo();
-			});
-		},
-	},
 ];

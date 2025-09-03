@@ -1,13 +1,13 @@
 import type {
-	controllerElement,
+	ControllerElement,
 	controllerCallback,
 	valueCallback,
 	setupCallback,
 	fileReadyCallback,
-	controllerValue,
-	serializedValue,
-	serializedVector,
-	serializedColor,
+	ControllerValue,
+	SerializedValue,
+	SerializedVector,
+	SerializedColor,
 	Serializable,
 } from './controller';
 
@@ -29,12 +29,12 @@ import type {
 } from './ffmpeg';
 
 export type {
-	controllerValue,
-	serializedValue,
+	ControllerValue,
+	SerializedValue,
 	Serializable,
-	serializedVector,
-	serializedColor,
-	controllerElement,
+	SerializedVector,
+	SerializedColor,
+	ControllerElement,
 	controllerCallback,
 	valueCallback,
 	setupCallback,
