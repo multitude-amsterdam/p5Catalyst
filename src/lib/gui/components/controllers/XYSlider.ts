@@ -11,11 +11,9 @@ import { Controller } from '../Controller';
 export class XYSlider extends ValuedController {
 	minValX: number;
 	maxValX: number;
-	defaultValX: number;
 	stepSizeX: number;
 	minValY: number;
 	maxValY: number;
-	defaultValY: number;
 	stepSizeY: number;
 	valueCallback?: valueCallback;
 
@@ -37,16 +35,20 @@ export class XYSlider extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		super(gui, name, labelStr, controller => {
-			this.setDisplay();
-			if (setupCallback !== undefined) setupCallback(controller);
-		});
+		super(
+			gui,
+			name,
+			labelStr,
+			gui.p5Instance.createVector(defaultValX, defaultValY),
+			controller => {
+				this.setDisplay();
+				if (setupCallback !== undefined) setupCallback(controller);
+			}
+		);
 		this.minValX = minValX;
 		this.minValY = minValY;
 		this.maxValX = maxValX;
 		this.maxValY = maxValY;
-		this.defaultValX = defaultValX;
-		this.defaultValY = defaultValY;
 		this.stepSizeX = stepSizeX;
 		this.stepSizeY = stepSizeY;
 		this.valueCallback =
@@ -182,14 +184,14 @@ export class XYSlider extends ValuedController {
 		const handleW = this.handle.elt.offsetWidth;
 		const handleH = this.handle.elt.offsetHeight;
 		const feedbackX = this.gui.p5Instance.map(
-			this.value.x,
+			(this.value as p5.Vector).x,
 			this.minValX,
 			this.maxValX,
 			-handleW / 2,
 			rect.width - handleW / 2
 		);
 		const feedbackY = this.gui.p5Instance.map(
-			this.value.y,
+			(this.value as p5.Vector).y,
 			this.minValY,
 			this.maxValY,
 			-handleH / 2,

@@ -31,11 +31,10 @@ export class Textbox extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		super(gui, name, labelStr, setupCallback);
+		super(gui, name, labelStr, defaultVal, setupCallback);
 		this.controllerElement = gui.p5Instance.createInput();
 		this.controllerElement.parent(this.controllerWrapper);
-		this.value = defaultVal;
-		this.controllerElement.value(this.value);
+		this.controllerElement.value(defaultVal);
 
 		this.controllerElement.elt.oninput = (event: InputEvent) => {
 			const target = event.target as HTMLInputElement;

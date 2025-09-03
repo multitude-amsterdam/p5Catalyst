@@ -30,12 +30,11 @@ export class TextArea extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		super(gui, name, labelStr, setupCallback);
+		super(gui, name, labelStr, defaultVal, setupCallback);
 		this.controllerElement = gui.p5Instance.createElement('textarea');
 		this.controllerElement.parent(this.controllerWrapper);
-		this.value = defaultVal;
 
-		this.controllerElement.html(this.value);
+		this.controllerElement.html(defaultVal);
 
 		this.controllerElement.elt.oninput = (event: InputEvent) => {
 			const target = event.target as HTMLInputElement;

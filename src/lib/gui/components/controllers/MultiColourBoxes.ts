@@ -42,7 +42,8 @@ export class MultiColourBoxes extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		super(gui, name, labelStr, setupCallback);
+		const defaultCols = defaultIndices.map(i => this.colours[i]);
+		super(gui, name, labelStr, defaultCols, setupCallback);
 
 		this.colours = colours;
 		this.valueCallback =
@@ -50,7 +51,6 @@ export class MultiColourBoxes extends ValuedController {
 
 		this.setControllerColours();
 
-		const defaultCols = defaultIndices.map(i => this.colours[i]);
 		this.setValue(defaultCols);
 	}
 

@@ -33,8 +33,8 @@ export class ValuedController extends Controller {
 	 * The value of the controller.
 	 * @type {any}
 	 */
-	value: ControllerValue | null;
-	defaultValue: ControllerValue | null;
+	value: ControllerValue;
+	defaultValue: ControllerValue;
 
 	/**
 	 * Constructor for ValuedController.
@@ -47,17 +47,28 @@ export class ValuedController extends Controller {
 		gui: GUIForP5,
 		name: string,
 		labelStr: string,
+		defaultValue: ControllerValue,
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, labelStr, setupCallback);
 
-		this.value = null;
-		this.defaultValue = null;
+		this.defaultValue = defaultValue;
+		this.value = 'tmp';
+		this.resetToDefault();
+	}
+
+	resetToDefault() {
+		if (this.defaultValue instanceof p5.Color) {
+			this.value = this.gui.p5Instance.color(this.defaultValue);
+		} else if (this.defaultValue instanceof p5.Vector) {
+			this.value = this.defaultValue.copy();
+		} else {
+			this.value = this.defaultValue;
+		}
 	}
 
 	/**
 	 * Sets the value of the controller.
-	 * @param {any} value - The value to set.
 	 */
 	setValue(value: ControllerValue) {
 		this.value = value;
@@ -73,7 +84,6 @@ export class ValuedController extends Controller {
 
 	/**
 	 * Gets serialized form of the value property.
-	 * @returns {*}
 	 * @see serialize
 	 */
 	getSerializedValue(): SerializedValue {
@@ -82,8 +92,6 @@ export class ValuedController extends Controller {
 
 	/**
 	 * Uses setValue with restored value from serialized form.
-	 * @param {number|string|boolean|Object} serializedValue
-	 * @returns {void}
 	 * @see deserialize
 	 */
 	restoreValueFromSerialized(serializedValue: SerializedValue) {
@@ -96,76 +104,86 @@ export class ValuedController extends Controller {
 
 	/**
 	 * Transforms a value into a form for JSON serialization.
-	 * @static
-	 * @param {*} value
-	 * @returns {*}
-	 */
+	 * */
 	serialize(value: ControllerValue): SerializedValue {
-		if (value instanceof p5.Vector) return this.serializeVector(value);
-		if (value instanceof p5.Color) return this.serializeColor(value);
-		return { type: 'Basic', value };
+		if (value instanceof p5.Vector)
+			return {
+				type: 'Vector',
+				value: this.serializeVector(value),
+			};
+		if (value instanceof p5.Color)
+			return {
+				type: 'Color',
+				value: this.serializeColor(value),
+			};
+		if (Array.isArray(value) && value[0] instanceof p5.Color)
+			return {
+				type: 'Color[]',
+				value: value.map(
+					(col): SerializedColor =>
+						this.serializeColor(col as p5.Color)
+				),
+			};
+		return {
+			type: 'Basic',
+			value: value as string | number | boolean,
+		};
 	}
 
 	/**
 	 * Turns a deserialized JSON object into an instance of its original class.
-	 * @static
-	 * @param {serializedValue} serializedValue
-	 * @returns {*}
 	 */
 	deserialize(serializedValue: SerializedValue): ControllerValue {
 		switch (serializedValue.type) {
 			case 'Vector':
-				return this.restoreSerializedVector(serializedValue);
+				return this.restoreSerializedVector(
+					serializedValue.value as SerializedVector
+				);
 			case 'Color':
-				return this.restoreSerializedColor(serializedValue);
+				return this.restoreSerializedColor(
+					serializedValue.value as SerializedColor
+				);
+			case 'Color[]':
+				return (serializedValue.value as SerializedColor[]).map(
+					(serCol: SerializedColor) =>
+						this.restoreSerializedColor(serCol)
+				);
 			case 'Basic':
 				return serializedValue.value as number | string | boolean;
 		}
 	}
 
-	serializeVector(vector: p5.Vector): SerializedValue {
+	serializeVector(vector: p5.Vector): SerializedVector {
 		const { x, y, z } = vector;
-		return { type: 'Vector', value: { x, y, z } };
+		return { x, y, z };
 	}
 
-	restoreSerializedVector(vector: SerializedValue) {
-		if (vector.type !== 'Vector') {
-			throw new Error('Object is not a serialized Vector');
-		}
-		const { x, y, z } = vector.value as SerializedVector;
+	restoreSerializedVector(vector: SerializedVector) {
+		const { x, y, z } = vector;
 		return new p5.Vector(x, y, z);
 	}
 
 	/**
 	 * Preps a p5.Color for serialisation in JSON.
 	 * Strips any unneeded information.
-	 * @static
-	 * @param {p5.Color} color
-	 * @returns {Object}
 	 * @see restoreSerializedColor
 	 */
-	serializeColor(color: p5.Color): SerializedValue {
+	serializeColor(color: p5.Color): SerializedColor {
 		const r = this.gui.p5Instance.red(color);
 		const g = this.gui.p5Instance.green(color);
 		const b = this.gui.p5Instance.blue(color);
 		const a = this.gui.p5Instance.alpha(color);
-		return { type: 'Color', value: { r, g, b, a } };
+		return { r, g, b, a };
 	}
 	/**
-	 * @static
-	 * @param {Object} obj - The serialized object.
-	 * @returns {p5.Color} - The restored p5.Color object or the original object if not a color.
 	 * @see prepColorForSerialization
 	 */
-	restoreSerializedColor(color: SerializedValue): p5.Color {
-		if (color.type !== 'Color')
-			throw new Error('Object is not a serialized p5.Color.');
-		const { r, g, b, a } = color.value as SerializedColor;
+	restoreSerializedColor(color: SerializedColor): p5.Color {
+		const { r, g, b, a } = color;
 		this.gui.p5Instance.push();
 		this.gui.p5Instance.colorMode(this.gui.p5Instance.RGB);
 		const col = this.gui.p5Instance.color(r, g, b, a);
 		this.gui.p5Instance.pop();
-		console.log(col);
 		return col;
 	}
 }

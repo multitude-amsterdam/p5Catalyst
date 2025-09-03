@@ -9,8 +9,6 @@ import { Textbox } from './Textbox';
  * @extends ValuedController
  */
 export class ResolutionTextBoxes extends ValuedController {
-	w: number;
-	h: number;
 	wBox: Textbox;
 	hBox: Textbox;
 
@@ -29,21 +27,27 @@ export class ResolutionTextBoxes extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		super(gui, 'resolutionTextboxes', '', setupCallback);
-		this.w = defaultWidth;
-		this.h = defaultHeight;
+		super(
+			gui,
+			'resolutionTextboxes',
+			'',
+			gui.p5Instance.createVector(defaultWidth, defaultHeight),
+			setupCallback
+		);
+		// this.value = defaultWidth;
+		// this.h = defaultHeight;
 		this.wBox = new Textbox(
 			gui,
 			'resolutionTextBoxes-Width',
 			gui.lang.process('LANG_WIDTH:', true),
 			defaultWidth.toString(),
-			(controller, value) => {
-				const pxDim = parseInt(value);
+			(controller, textBoxValue) => {
+				let value = this.value as p5.Vector;
+				const pxDim = parseInt(textBoxValue);
 				if (isNaN(pxDim)) return;
-				this.w = pxDim;
-				gui.state.resize?.(this.w, this.h);
-				if (valueCallback)
-					valueCallback(this, { w: this.w, h: this.h });
+				value.x = pxDim;
+				gui.state.resize?.(value.x, value.y);
+				if (valueCallback) valueCallback(this, this.value);
 			}
 		);
 		this.hBox = new Textbox(
@@ -51,13 +55,13 @@ export class ResolutionTextBoxes extends ValuedController {
 			'resolutionTextBoxes-Height',
 			gui.lang.process('LANG_HEIGHT:', true),
 			defaultHeight.toString(),
-			(controller, value) => {
-				const pxDim = parseInt(value);
+			(controller, textBoxValue) => {
+				let value = this.value as p5.Vector;
+				const pxDim = parseInt(textBoxValue);
 				if (isNaN(pxDim)) return;
-				this.h = pxDim;
-				gui.state.resize?.(this.w, this.h);
-				if (valueCallback)
-					valueCallback(this, { w: this.w, h: this.h });
+				value.y = pxDim;
+				gui.state.resize?.(value.x, value.y);
+				if (valueCallback) valueCallback(this, this.value);
 			}
 		);
 

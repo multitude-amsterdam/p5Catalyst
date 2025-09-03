@@ -24,23 +24,28 @@ export interface P5Button extends p5.Element {
 
 export type ControllerValue =
 	| number
-	| number[]
 	| string
 	| string[]
 	| boolean
 	| p5.Color
+	| p5.Color[]
 	| p5.Vector;
 
+export interface Serializable {
+	name: string;
+	value: SerializedValue;
+	isDieActive?: boolean;
+}
 export interface SerializedValue {
-	type: 'Vector' | 'Color' | 'Basic';
+	type: 'Vector' | 'Color' | 'Color[]' | 'Basic';
 	value:
 		| number
-		| number[]
 		| string
 		| string[]
 		| boolean
-		| SerializedVector
-		| SerializedColor;
+		| SerializedColor
+		| SerializedColor[]
+		| SerializedVector;
 }
 
 export interface SerializedColor {
@@ -54,10 +59,4 @@ export interface SerializedVector {
 	x: number;
 	y: number;
 	z: number;
-}
-
-export interface Serializable {
-	name: string;
-	value: SerializedValue;
-	isDieActive?: boolean;
 }
