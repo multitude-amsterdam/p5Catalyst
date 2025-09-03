@@ -58,8 +58,8 @@ export const dictionary: Dictionary = {
 		en: 'title text',
 	},
 	LANG_FRAME_RATE: {
-		en: 'Frame rate (frames per second)',
-		nl: 'Framerate (frames per seconde)',
+		en: 'frame rate',
+		nl: 'framerate',
 	},
 	LANG_TEXT: {
 		nl: 'tekst',
