@@ -1,4 +1,5 @@
 import type { Dictionary } from '../types';
+
 /**
  * Holds all translatable "hot strings".
  *
@@ -8,9 +9,8 @@ import type { Dictionary } from '../types';
  * so that the longest keys are replaced first.
  *
  * (Use the VS Code "Sort JS Object keys" extension to sort the keys.)
- *
- * @constant
- * @type {Dictionary}
+ * (Use "JS Sort Object Keys (Reverse)" to sort in reverse order.)
+ * (Only select the outer most braces for this to work correctly.)
  */
 export const dictionary: Dictionary = {
 	LANG_WRONG_FILE_TYPE_MSG: {
@@ -40,6 +40,18 @@ export const dictionary: Dictionary = {
 	LANG_UNDO: {
 		nl: 'ongedaan maken',
 		en: 'undo',
+	},
+	LANG_TOO_SMALL_IMG_ALERT: {
+		nl:
+			'<h1>Afbeelding te klein</h1><p>De afmetingen van de afbeelding ({0} x {1}) zijn te laag voor een mooi optisch effect.\n' +
+			'Kies een afbeelding van ten minste {2} x {3} pixels.</p>',
+		en:
+			'<h1>Image too small</h1><p>The dimensions of the image ({0} x {1}) are too low for a good optical effect.\n' +
+			'Choose an image of at least {2} x {3} pixels.</p>',
+	},
+	LANG_TOO_SMALL_IMG: {
+		nl: 'Kleiner dan minimum afmetingen: {0} x {1} pixels.',
+		en: 'Smaller than minimum dimensions: {0} x {1} pixels.',
 	},
 	LANG_TITLE_TEXT: {
 		nl: 'titeltekst',
@@ -81,6 +93,10 @@ export const dictionary: Dictionary = {
 		nl: 'instellingen opslaan als bestand',
 		en: 'save settings as file',
 	},
+	LANG_RESET: {
+		nl: 'resetten',
+		en: 'reset',
+	},
 	LANG_REDO: {
 		nl: 'opnieuw',
 		en: 'redo',
@@ -101,6 +117,10 @@ export const dictionary: Dictionary = {
 		nl: 'open instellingen',
 		en: 'open settings file',
 	},
+	LANG_LIGHT_MODE: {
+		nl: 'licht thema',
+		en: 'light theme',
+	},
 	LANG_LANDSCAPE: {
 		nl: 'liggend',
 		en: 'landscape',
@@ -116,18 +136,6 @@ export const dictionary: Dictionary = {
 	LANG_HIDE: {
 		nl: 'verberg',
 		en: 'hide',
-	},
-	LANG_TOO_SMALL_IMG_ALERT: {
-		nl:
-			'<h1>Afbeelding te klein</h1><p>De afmetingen van de afbeelding ({0} x {1}) zijn te laag voor een mooi optisch effect.\n' +
-			'Kies een afbeelding van ten minste {2} x {3} pixels.</p>',
-		en:
-			'<h1>Image too small</h1><p>The dimensions of the image ({0} x {1}) are too low for a good optical effect.\n' +
-			'Choose an image of at least {2} x {3} pixels.</p>',
-	},
-	LANG_TOO_SMALL_IMG: {
-		nl: 'Kleiner dan minimum afmetingen: {0} x {1} pixels.',
-		en: 'Smaller than minimum dimensions: {0} x {1} pixels.',
 	},
 	LANG_HELPME_MSG: {
 		nl:
@@ -179,13 +187,17 @@ export const dictionary: Dictionary = {
 		nl: 'exporteren',
 		en: 'export',
 	},
-	LANG_COPY_TO_CLIPBOARD: {
-		nl: 'afbeelding kopiëren',
-		en: 'copy image',
-	},
 	LANG_DOWNLOAD_IMAGE: {
 		nl: 'afbeelding downloaden',
 		en: 'download image',
+	},
+	LANG_DARK_MODE: {
+		nl: 'donker thema',
+		en: 'dark theme',
+	},
+	LANG_COPY_TO_CLIPBOARD: {
+		nl: 'afbeelding kopiëren',
+		en: 'copy image',
 	},
 	LANG_CONTACT_MSG: {
 		nl: 'Contact voor ondersteuning & feedback',
