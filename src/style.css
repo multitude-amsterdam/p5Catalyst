@@ -190,7 +190,7 @@ body:where(.dark-mode) {
 
 .panel details summary {
 	border-bottom: solid var(--divider-col) var(--line-width);
-	padding: 0 0 0.5rem 0;
+	padding: 0.5rem 0;
 	margin: 0 0 0.5rem 0;
 	font-size: larger;
 	transition: color var(--transition-properties),
@@ -1569,7 +1569,7 @@ button.dialog-close:hover {
 .tab-bar {
 	display: flex;
 	gap: 0;
-	margin-bottom: calc(var(--base-height) / 2);
+	/* margin-bottom: calc(var(--base-height) / 2); */
 }
 
 .tab-bar button {
