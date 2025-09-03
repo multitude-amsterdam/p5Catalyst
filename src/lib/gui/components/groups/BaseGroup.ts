@@ -310,47 +310,47 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.attachField(crementer);
 		return crementer;
 	};
-	addColourBoxes: GUIAddableInterface['addColourBoxes'] = (
+	addColorBoxes: GUIAddableInterface['addColorBoxes'] = (
 		name: string,
 		labelStr: string,
-		colours: string[],
+		colors: string[],
 		defaultIndex: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => {
-		const colourBoxes = new components.ColourBoxes(
+		const colorBoxes = new components.ColorBoxes(
 			this.gui,
 			name,
 			labelStr,
-			colours,
+			colors,
 			defaultIndex,
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(colourBoxes);
-		this.attachField(colourBoxes);
-		return colourBoxes;
+		this.gui.addField(colorBoxes);
+		this.attachField(colorBoxes);
+		return colorBoxes;
 	};
-	addMultiColourBoxes: GUIAddableInterface['addMultiColourBoxes'] = (
+	addMultiColorBoxes: GUIAddableInterface['addMultiColorBoxes'] = (
 		name: string,
 		labelStr: string,
-		colours: string[],
+		colors: string[],
 		defaultIndices: number[],
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => {
-		const multiColourBoxes = new components.MultiColourBoxes(
+		const multiColorBoxes = new components.MultiColorBoxes(
 			this.gui,
 			name,
 			labelStr,
-			colours,
+			colors,
 			defaultIndices,
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(multiColourBoxes);
-		this.attachField(multiColourBoxes);
-		return multiColourBoxes;
+		this.gui.addField(multiColorBoxes);
+		this.attachField(multiColorBoxes);
+		return multiColorBoxes;
 	};
 	addTextLoader: GUIAddableInterface['addTextLoader'] = (
 		name: string,

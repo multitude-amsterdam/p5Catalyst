@@ -6,26 +6,26 @@ import type { Controller } from '../Controller';
 import type { P5SelectElement } from '../../../types/controller';
 
 /**
- * Radio buttons displaying coloured options.
+ * Radio buttons displaying colored options.
  * @extends ValuedController
- * @see {MultiColourBoxes}
+ * @see {MultiColorBoxes}
  */
-export class ColourBoxes extends ValuedController {
+export class ColorBoxes extends ValuedController {
 	/**
 	 * The value callback.
 	 * @type {valueCallback}
 	 */
 	valueCallback: valueCallback;
 
-	colours: p5.Color[];
+	colors: p5.Color[];
 
 	/**
-	 * Constructor for ColourBoxes.
+	 * Constructor for ColorBoxes.
 	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
-	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
-	 * @param {number} defaultIndex - Index of the default colour.
+	 * @param {Array<p5.Color>} colors - Array of p5.Color objects.
+	 * @param {number} defaultIndex - Index of the default color.
 	 * @param {function} valueCallback - Callback function to handle value changes.
 	 * @param {function} [setupCallback] - Optional setup callback function.
 	 */
@@ -33,26 +33,26 @@ export class ColourBoxes extends ValuedController {
 		gui: GUIForP5,
 		name: string,
 		labelStr: string,
-		colours: string[],
+		colors: string[],
 		defaultIndex: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		const defaultValue = gui.p5Instance.color(colours[defaultIndex]);
+		const defaultValue = gui.p5Instance.color(colors[defaultIndex]);
 		super(gui, name, labelStr, defaultValue, setupCallback);
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
-		this.createRadioFromColours(colours);
+		this.createRadioFromColors(colors);
 		this.valueCallback(this, this.value);
-		this.colours = colours.map(colour => gui.p5Instance.color(colour));
+		this.colors = colors.map(color => gui.p5Instance.color(color));
 	}
 
 	/**
-	 * Creates a radio button controller from an array of colours.
-	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
+	 * Creates a radio button controller from an array of colors.
+	 * @param {Array<p5.Color>} colors - Array of p5.Color objects.
 	 * @returns {void}
 	 */
-	createRadioFromColours(colours: string[]) {
+	createRadioFromColors(colors: string[]) {
 		const isInit = this.controllerElement === undefined;
 		if (this.controllerElement) {
 			this.controllerElement.elt.remove();
@@ -61,10 +61,10 @@ export class ColourBoxes extends ValuedController {
 		const radio = this.gui.p5Instance.createRadio(
 			this.name
 		) as P5SelectElement;
-		radio.class('colour-boxes');
+		radio.class('color-boxes');
 		this.controllerWrapper.elt.prepend(radio.elt);
 
-		for (let i = 0; i < colours.length; i++) {
+		for (let i = 0; i < colors.length; i++) {
 			radio.option(i.toString());
 		}
 
@@ -73,33 +73,33 @@ export class ColourBoxes extends ValuedController {
 
 		let i = 0;
 		for (const elt of radio.elt.querySelectorAll('input')) {
-			const hexCol = colours[i++];
+			const hexCol = colors[i++];
 			elt.style.backgroundColor = hexCol;
 			elt.title = hexCol;
 			elt.onclick = (event: InputEvent) => {
-				this.setValue(this.colours[parseInt(elt.value)]);
+				this.setValue(this.colors[parseInt(elt.value)]);
 			};
 		}
 
 		this.controllerElement = radio;
 	}
 
-	setValue(colour: p5.Color) {
-		console.log(colour, this.colours);
-		const index = this.colours.findIndex(
-			col => col.toString() === colour.toString()
+	setValue(color: p5.Color) {
+		console.log(color, this.colors);
+		const index = this.colors.findIndex(
+			col => col.toString() === color.toString()
 		);
 		if (index < 0) {
-			throw new Error(colour + ' can not be found in colours.');
+			throw new Error(color + ' can not be found in colors.');
 		}
 
-		this.value = this.gui.p5Instance.color(this.colours[index]);
+		this.value = this.gui.p5Instance.color(this.colors[index]);
 		(this.controllerElement as P5SelectElement).selected('' + index);
 		this.valueCallback(this, this.value);
 		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	randomize() {
-		this.setValue(this.gui.p5Instance.random(this.colours));
+		this.setValue(this.gui.p5Instance.random(this.colors));
 	}
 }

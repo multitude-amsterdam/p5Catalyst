@@ -181,7 +181,7 @@ export const dictionary: Dictionary = {
 	},
 	LANG_FGCOL: {
 		nl: 'voorgrondkleur',
-		en: 'foreground colour',
+		en: 'foreground color',
 	},
 	LANG_EXPORT: {
 		nl: 'exporteren',
@@ -217,7 +217,7 @@ export const dictionary: Dictionary = {
 	},
 	LANG_BGCOL: {
 		nl: 'achtergrondkleur',
-		en: 'background colour',
+		en: 'background color',
 	},
 	LANG_APPEARANCE: {
 		nl: 'verschijning',

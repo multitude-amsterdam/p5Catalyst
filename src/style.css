@@ -63,7 +63,7 @@ html {
 
 /* ---------------------------------- BODY ---------------------------------- */
 body {
-	/* darkest and lightest colours */
+	/* darkest and lightest colors */
 	--blackRGB: 0, 0, 0;
 	--whiteRGB: 255, 255, 255;
 	--white: rgb(var(--whiteRGB));
@@ -81,7 +81,7 @@ body {
 	--transpSquareCol1: rgba(var(--fgRGB), 0.1);
 	--squareSize: 30px;
 
-	/* main colours */
+	/* main colors */
 	--base-col: #7685f7;
 	--text-col-on-base: var(--bg-col);
 	--hover-col: #bffb50;
@@ -91,7 +91,7 @@ body {
 	--divider-col: rgba(var(--fgRGB), 0.1);
 	--inactive-col: transparent;
 
-	/* text colours */
+	/* text colors */
 	--text-col: var(--base-col);
 	--text-col-on-hover: var(--black);
 	--text-align: left;
@@ -99,11 +99,11 @@ body {
 	--link-col: var(--base-col);
 	--link-hover-col: var(--hover-col);
 
-	/* console colours */
+	/* console colors */
 	--console-bgcol: var(--inactive-col);
 	--console-textcol: var(--text-col);
 
-	/* input colours */
+	/* input colors */
 	--input-text-bg-col: var(--bg-col);
 	--input-text-text-col: var(--text-col);
 
@@ -562,8 +562,8 @@ textarea:focus {
 	outline-offset: var(--focus-outline-offset);
 }
 
-/* ----------------------------- COLOURTEXTAREA ----------------------------- */
-.colour-text-area-display {
+/* ----------------------------- COLORTEXTAREA ----------------------------- */
+.color-text-area-display {
 	width: 100%;
 	display: flex;
 	flex-flow: row wrap;
@@ -573,7 +573,7 @@ textarea:focus {
 	gap: calc(var(--target-diameter) * 0.25);
 }
 
-.colour-text-area-block {
+.color-text-area-block {
 	width: var(--target-diameter);
 	height: calc(var(--target-diameter) * 0.5);
 }
@@ -980,8 +980,8 @@ input[type='checkbox']:checked::before {
 	border-radius: 100%;
 }
 
-/* ------------------------------ COLOUR BOXES ------------------------------ */
-.colour-boxes {
+/* ------------------------------ COLOR BOXES ------------------------------ */
+.color-boxes {
 	width: 100%;
 	display: flex;
 	flex-flow: row wrap;
@@ -990,51 +990,51 @@ input[type='checkbox']:checked::before {
 	gap: calc(var(--target-diameter) * 0.25);
 }
 
-.colour-boxes input[type='radio'] {
+.color-boxes input[type='radio'] {
 	margin: 0;
 	border: none;
 }
 
-.colour-boxes input[type='radio']:hover,
-.colour-boxes input[type='radio']:checked:hover {
+.color-boxes input[type='radio']:hover,
+.color-boxes input[type='radio']:checked:hover {
 	border: var(--line-width) solid var(--hover-col);
 }
 
-.colour-boxes input[type='radio']:checked {
+.color-boxes input[type='radio']:checked {
 	border: var(--line-width) solid var(--base-col);
 }
 
-.colour-boxes input[type='radio']::before {
+.color-boxes input[type='radio']::before {
 	display: none;
 }
 
-.colour-boxes input[type='radio']:hover::before {
+.color-boxes input[type='radio']:hover::before {
 	display: none;
 }
 
-.colour-boxes input[type='radio']:checked::before {
+.color-boxes input[type='radio']:checked::before {
 	display: none;
 }
 
-/* --------------------------- MULTI COLOUR BOXES --------------------------- */
-.colour-boxes input[type='checkbox'] {
+/* --------------------------- MULTI COLOR BOXES --------------------------- */
+.color-boxes input[type='checkbox'] {
 	margin: 0;
 	border: none;
 }
-.colour-boxes input[type='checkbox']:hover,
-.colour-boxes input[type='checkbox']:checked:hover {
+.color-boxes input[type='checkbox']:hover,
+.color-boxes input[type='checkbox']:checked:hover {
 	border: var(--line-width) solid var(--hover-col);
 }
-.colour-boxes input[type='checkbox']:checked {
+.color-boxes input[type='checkbox']:checked {
 	border: var(--line-width) solid var(--base-col);
 }
-.colour-boxes input[type='checkbox']::before {
+.color-boxes input[type='checkbox']::before {
 	display: none;
 }
-.colour-boxes input[type='checkbox']:hover::before {
+.color-boxes input[type='checkbox']:hover::before {
 	display: none;
 }
-.colour-boxes input[type='checkbox']:checked::before {
+.color-boxes input[type='checkbox']:checked::before {
 	display: none;
 }
 
@@ -1620,9 +1620,9 @@ input,
 textarea,
 .die-icon,
 .crementer,
-.colour-boxes,
+.color-boxes,
 .xyslider,
-.colour-text-area-display {
+.color-text-area-display {
 	transition: color var(--transition-properties),
 		background var(--transition-properties),
 		border var(--transition-properties),

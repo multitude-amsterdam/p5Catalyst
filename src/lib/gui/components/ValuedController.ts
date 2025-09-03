@@ -16,10 +16,10 @@ import type { GUIForP5 } from '../GUIForP5';
  * @example
  * // ValuedController gives back its value through a callback, that's where you tie it to the system.
  * // I usually link it to generator like so, also using data from generator to construct the controller:
- * const fgColBoxes = new ColourBoxes(
+ * const fgColBoxes = new ColorBoxes(
  * 	gui,
- * 	'colourBoxesFgCol',
- * 	'Foreground colour',
+ * 	'colorBoxesFgCol',
+ * 	'Foreground color',
  * 	generator.palette,
  * 	0,
  * 	(controller, value) => {

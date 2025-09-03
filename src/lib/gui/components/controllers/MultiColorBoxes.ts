@@ -9,27 +9,27 @@ import type {
 } from '../../../types/controller';
 
 /**
- * Multiple selectable colour checkboxes.
+ * Multiple selectable color checkboxes.
  * @extends ValuedController
- * @see {ColourBoxes}
+ * @see {ColorBoxes}
  */
-export class MultiColourBoxes extends ValuedController {
+export class MultiColorBoxes extends ValuedController {
 	/**
 	 * The value callback.
 	 * @type {valueCallback}
 	 */
 	valueCallback: valueCallback;
-	colours: string[];
+	colors: string[];
 	checkboxes?: P5CheckboxElement[];
 	valueIndices?: number[];
 
 	/**
-	 * Constructor for MultiColourBoxes.
+	 * Constructor for MultiColorBoxes.
 	 * @param {GUIForP5} gui
 	 * @param {string} name
 	 * @param {string} labelStr
-	 * @param {Array<p5.Color>} colours - Array of p5.Color objects.
-	 * @param {Array<number>} defaultIndices - Indices of the default colours.
+	 * @param {Array<p5.Color>} colors - Array of p5.Color objects.
+	 * @param {Array<number>} defaultIndices - Indices of the default colors.
 	 * @param {function} valueCallback - Callback function to handle value changes.
 	 * @param {function} [setupCallback] - Optional setup callback function.
 	 */
@@ -37,37 +37,37 @@ export class MultiColourBoxes extends ValuedController {
 		gui: GUIForP5,
 		name: string,
 		labelStr: string,
-		colours: string[],
+		colors: string[],
 		defaultIndices: number[],
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		const defaultCols = defaultIndices.map(i => this.colours[i]);
+		const defaultCols = defaultIndices.map(i => this.colors[i]);
 		super(gui, name, labelStr, defaultCols, setupCallback);
 
-		this.colours = colours;
+		this.colors = colors;
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
 
-		this.setControllerColours();
+		this.setControllerColors();
 
 		this.setValue(defaultCols);
 	}
 
 	/**
-	 * Sets the controller colours and creates checkboxes for each colour.
+	 * Sets the controller colors and creates checkboxes for each color.
 	 * @returns {void}
 	 */
-	setControllerColours() {
+	setControllerColors() {
 		if (this.controllerElement) {
 			this.controllerElement.remove();
 		}
 
 		const div = this.gui.p5Instance.createDiv();
-		div.class('colour-boxes');
+		div.class('color-boxes');
 		this.controllerWrapper.elt.prepend(div.elt);
 		this.checkboxes = [];
-		for (let i = 0; i < this.colours.length; i++) {
+		for (let i = 0; i < this.colors.length; i++) {
 			const cb =
 				this.gui.p5Instance.createCheckbox() as P5CheckboxElement;
 			cb.parent(div);
@@ -88,7 +88,7 @@ export class MultiColourBoxes extends ValuedController {
 		div.elt
 			.querySelectorAll('input')
 			.forEach((elt: HTMLElement, i: number) => {
-				const hexCol = this.colours[i].toUpperCase();
+				const hexCol = this.colors[i].toUpperCase();
 				elt.style.backgroundColor = hexCol;
 				elt.title = hexCol;
 			});
@@ -98,13 +98,13 @@ export class MultiColourBoxes extends ValuedController {
 
 	/**
 	 * Sets the value from an array of indices.
-	 * @param {Array<number>} indices - Array of indices corresponding to selected colours.
+	 * @param {Array<number>} indices - Array of indices corresponding to selected colors.
 	 * @return {void}
 	 */
 	setValueFromIndices(indices: number[]) {
 		this.valueIndices = indices;
 		this.value = indices.map(i =>
-			this.gui.p5Instance.color(this.colours[i])
+			this.gui.p5Instance.color(this.colors[i])
 		);
 		this.checkboxes?.forEach((cb, i) => {
 			cb.checked(indices.includes(i));
@@ -115,20 +115,20 @@ export class MultiColourBoxes extends ValuedController {
 
 	setValue(colArray: string[]) {
 		const indices = colArray.map(colObj => {
-			return this.colours.findIndex(col => col === colObj);
+			return this.colors.findIndex(col => col === colObj);
 		});
 		this.setValueFromIndices(indices);
 	}
 
 	randomize() {
 		const indices = [];
-		for (let i = 0; i < this.colours.length; i++) {
+		for (let i = 0; i < this.colors.length; i++) {
 			if (this.gui.p5Instance.random(1) < 0.5) indices.push(i);
 		}
 		if (indices.length === 0)
 			indices.push(
 				this.gui.p5Instance.floor(
-					this.gui.p5Instance.random(this.colours.length)
+					this.gui.p5Instance.random(this.colors.length)
 				)
 			);
 		this.setValueFromIndices(indices);

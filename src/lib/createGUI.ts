@@ -240,44 +240,44 @@ export const createGUI = (
 			);
 			return gui.addController(crementer);
 		},
-		addColourBoxes: (
+		addColorBoxes: (
 			name,
 			labelStr,
-			colours,
+			colors,
 			defaultIndex,
 			valueCallback,
 			setupCallback
 		) => {
-			const colourBoxes = new components.ColourBoxes(
+			const colorBoxes = new components.ColorBoxes(
 				gui,
 				name,
 				labelStr,
-				colours,
+				colors,
 				defaultIndex,
 				valueCallback,
 				setupCallback
 			);
-			return gui.addController(colourBoxes);
+			return gui.addController(colorBoxes);
 		},
-		addMultiColourBoxes: (
+		addMultiColorBoxes: (
 			name,
 			labelStr,
-			colours,
+			colors,
 			defaultIndices,
 			valueCallback,
 			setupCallback
 		) => {
-			const multiColourBoxes = new components.MultiColourBoxes(
+			const multiColorBoxes = new components.MultiColorBoxes(
 				gui,
 				name,
 				labelStr,
-				colours,
+				colors,
 				defaultIndices,
 				valueCallback,
 				setupCallback
 			);
 
-			return gui.addController(multiColourBoxes);
+			return gui.addController(multiColorBoxes);
 		},
 		addTextLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
 			const textLoader = new components.TextFileLoader(

@@ -12,12 +12,12 @@ import type {
 
 import type {
 	Button,
-	ColourBoxes,
+	ColorBoxes,
 	Crementer,
 	Group,
 	ImageLoader,
 	JSONFileLoader,
-	MultiColourBoxes,
+	MultiColorBoxes,
 	ResolutionSelect,
 	ResolutionTextBoxes,
 	Select,
@@ -143,22 +143,22 @@ export interface GUIAddableInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Crementer;
-	addColourBoxes: (
+	addColorBoxes: (
 		name: string,
 		labelStr: string,
-		colours: string[],
+		colors: string[],
 		defaultIndex: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => ColourBoxes;
-	addMultiColourBoxes: (
+	) => ColorBoxes;
+	addMultiColorBoxes: (
 		name: string,
 		labelStr: string,
-		colours: string[],
+		colors: string[],
 		defaultIndices: number[],
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => MultiColourBoxes;
+	) => MultiColorBoxes;
 	addTextLoader: (
 		name: string,
 		labelStr: string,

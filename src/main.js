@@ -46,7 +46,7 @@ catalyst.initialize(
 
 		const panel = appearanceTab.addPanel('Panel');
 
-		panel.addColourBoxes(
+		panel.addColorBoxes(
 			'colorBox',
 			'Circle color',
 			['#FF6400', '#86D594', '#004D30', '#002835ff', '#8373FF'],
