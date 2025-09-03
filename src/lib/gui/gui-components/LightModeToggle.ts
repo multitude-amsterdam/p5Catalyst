@@ -1,6 +1,5 @@
-import type { P5Button } from 'src/lib/types/controller';
 import type { GUIForP5 } from '../GUIForP5';
-import { GUIButton } from './guiButton';
+import { GUIButton } from './GUIButton';
 
 export class LightModeToggle extends GUIButton {
 	constructor(gui: GUIForP5) {

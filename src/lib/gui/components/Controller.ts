@@ -176,4 +176,13 @@ export class Controller extends Field {
 			this._doUpdateChangeSet && Controller._doUpdateChangeSet
 		);
 	}
+
+	setLabel(labelStr: string) {
+		labelStr = this.gui.lang.process(labelStr, true);
+		if (this.label) {
+			this.label.setText(labelStr);
+			return;
+		}
+		this.label = new Label(this.gui, this, labelStr, this.div);
+	}
 }

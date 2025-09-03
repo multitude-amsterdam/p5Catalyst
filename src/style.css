@@ -175,11 +175,6 @@ body:where(.dark-mode) {
 	color: var(--text-col);
 }
 
-.tab {
-	min-height: 500px;
-	border-bottom: var(--line-width) solid var(--base-col);
-}
-
 .button-group {
 	display: flex;
 	gap: var(--spacing-x);
@@ -193,20 +188,33 @@ body:where(.dark-mode) {
 	flex-direction: column;
 }
 
-.panel-container {
-	display: flex;
-	flex-direction: column;
-	gap: var(--spacing-x);
-}
-
-.panel summary {
-	border-bottom: solid var(--base-col) var(--line-width);
+.panel details summary {
+	border-bottom: solid var(--divider-col) var(--line-width);
 	padding: 0 0 0.5rem 0;
 	margin: 0 0 0.5rem 0;
+	font-size: larger;
+	transition: color var(--transition-properties),
+		border var(--transition-properties),
+		font-weight var(--transition-properties);
 }
 
-summary:hover {
+.panel details[open] summary {
+	border-color: var(--base-col);
+	font-weight: bold;
+}
+
+.panel details summary:hover {
 	cursor: pointer;
+	color: var(--hover-col);
+	border-color: var(--hover-col);
+}
+
+.panel .panel-container {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-y);
+	padding: calc(var(--base-height) * 0.25) 0;
+	/* border-bottom: solid var(--base-col) var(--line-width); */
 }
 
 /* ------------------------------- SCROLLBARS ------------------------------- */
@@ -373,16 +381,13 @@ button:hover {
 	color: var(--text-col-on-hover);
 }
 
-button:focus:hover {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
-	border-radius: var(--corner-radius);
-}
-
 button:focus {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
-	border-radius: var(--corner-radius);
+	border-radius: calc(
+		var(--corner-radius) + sign(var(--corner-radius)) *
+			var(--focus-outline-offset)
+	);
 }
 
 /* --------------------------------- TOGGLE --------------------------------- */
@@ -1053,15 +1058,13 @@ input[type='checkbox']:checked::before {
 .crementer button {
 	text-align: center;
 }
-
 /* ---------------------------- GUI CONTROL ---------------------------- */
-#control-container {
+/* #control-container {
 	position: fixed;
 	top: 1rem;
 	z-index: 1;
 
 	display: flex;
-	/* flex-direction: column; */
 	gap: var(--spacing-x);
 	padding: var(--spacing-x);
 }
@@ -1072,7 +1075,7 @@ input[type='checkbox']:checked::before {
 
 .controlLeft {
 	right: 1rem;
-}
+} */
 
 /* ---------------------------- DARK MODE BUTTON ---------------------------- */
 
@@ -1241,16 +1244,98 @@ body:where(.dark-mode) .die-icon--6 {
 	background-image: url('assets/dark-mode/dice/die-6.svg');
 }
 
+/* ------------------------------- COMMAND BAR ------------------------------ */
+.command-bar {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	gap: calc(var(--spacing-x) * 2);
+	height: var(--base-height);
+	padding: 0 1rem;
+	margin-top: 1rem;
+
+	justify-content: flex-start;
+	align-items: center;
+}
+main:where(.gui-right) .command-bar {
+	flex-direction: row-reverse;
+}
+
+.command-bar__button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem;
+	gap: var(--spacing-x);
+
+	width: auto;
+	background: none;
+	border: none;
+	color: var(--base-col);
+}
+.command-bar__button:hover {
+	background: none;
+	color: var(--hover-col);
+}
+.command-bar__button:focus {
+	outline-offset: 0;
+}
+
+.command-bar__button > span {
+	width: max-content;
+}
+
+.command-bar__filler {
+	width: 100%;
+}
+
+.command-bar__icon {
+	aspect-ratio: 1;
+	/* correlates with target diameter, but compensates for shape */
+	height: var(--icon-size);
+	transform-origin: center;
+
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-origin: content-box;
+	background-position: center;
+
+	cursor: pointer;
+	transition: rotate var(--transition-properties);
+}
+.command-bar__icon--randomizer {
+	height: var(--die-icon-size);
+	background-image: url('assets/dice/die-1.svg');
+}
+.command-bar__icon--undo {
+	background-image: url('assets/undo.svg');
+}
+.command-bar__icon--redo {
+	background-image: url('assets/redo.svg');
+}
+.command-bar__icon--reset {
+	background-image: url('assets/reset.svg');
+}
+.command-bar__icon--settings {
+	background-image: url('assets/settings.svg');
+}
+.command-bar__icon--dark-mode {
+	background-image: url('assets/dark-mode-button/auto-mode-icon.svg');
+}
+.command-bar__icon--help {
+	background-image: url('assets/help.svg');
+}
+
 /* ----------------------------- CANVAS SECTION ----------------------------- */
 #canvas-workarea {
 	background-color: var(--bg-col);
 	display: flex;
 	flex-direction: column;
 	width: 100%;
+	max-height: 100vh;
 }
 
 #canvas-wrapper {
-	padding: 1em;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -1267,11 +1352,11 @@ main {
 	padding: 0;
 }
 
-.guiLeft {
+.gui-left {
 	flex-direction: row;
 }
 
-.guiRight {
+.gui-right {
 	flex-direction: row-reverse;
 }
 
@@ -1527,10 +1612,6 @@ ol li {
 	line-height: 1.5em;
 }
 
-.gui-filler {
-	height: 100%;
-}
-
 /* ------------------------------- TRANSITIONS ------------------------------ */
 button,
 button span,
@@ -1548,70 +1629,4 @@ textarea,
 		outline var(--transition-properties),
 		transform var(--transition-properties),
 		font var(--transition-properties);
-}
-
-/* ------------------------------- COMMAND BAR ------------------------------ */
-.command-bar {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	gap: var(--spacing-x);
-	height: var(--base-height);
-	padding: 1rem;
-
-	/* background-color: var(--bg-col); */
-
-	justify-content: flex-start;
-	align-items: center;
-}
-.command-bar__button {
-	width: auto;
-	background: none;
-	border: none;
-	color: var(--base-col);
-}
-.command-bar__button:hover {
-	background: none;
-	color: var(--hover-col);
-}
-
-.command-bar__filler {
-	width: 100%;
-}
-
-.command-bar__icon {
-	aspect-ratio: 1;
-	/* correlates with target diameter, but compensates for shape */
-	height: var(--icon-size);
-	transform-origin: center;
-
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-origin: content-box;
-	background-position: center;
-
-	cursor: pointer;
-	transition: rotate var(--transition-properties);
-}
-.command-bar__icon--randomizer {
-	height: var(--die-icon-size);
-	background-image: url('/public/assets/dice/die-1.svg');
-}
-.command-bar__icon--undo {
-	background-image: url('/public/assets/undo.svg');
-}
-.command-bar__icon--redo {
-	background-image: url('/public/assets/redo.svg');
-}
-.command-bar__icon--reset {
-	background-image: url('/public/assets/reset.svg');
-}
-.command-bar__icon--settings {
-	background-image: url('/public/assets/settings.svg');
-}
-.command-bar__icon--dark-mode {
-	background-image: url('/public/assets/dark-mode-button/auto-mode-icon.svg');
-}
-.command-bar__icon--help {
-	background-image: url('/public/assets/help.svg');
 }

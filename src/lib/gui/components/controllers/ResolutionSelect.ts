@@ -26,8 +26,8 @@ export class ResolutionSelect extends Select {
 			resOptions.map(s => gui.lang.process(s, true)),
 			defaultIndex,
 			(controller, value) => {
-				if (value.indexOf(' x ') >= 0) {
-					const resolutionStr = value.split(': ')[1];
+				if ((value as string).indexOf(' x ') >= 0) {
+					const resolutionStr = (value as string).split(': ')[1];
 					const wh = resolutionStr.split(' x ');
 					const w = parseInt(wh[0]);
 					const h = parseInt(wh[1]);

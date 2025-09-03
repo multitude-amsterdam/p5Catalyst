@@ -5,6 +5,7 @@ import type { Orientation } from './Group';
 import type {
 	controllerCallback,
 	valueCallback,
+	fileReadyCallback,
 	setupCallback,
 	GUIAddableInterface,
 } from 'src/lib/types';
@@ -354,14 +355,14 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 	addTextLoader: GUIAddableInterface['addTextLoader'] = (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback?: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => {
 		const textLoader = new components.TextFileLoader(
 			this.gui,
 			name,
 			labelStr,
-			valueCallback,
+			fileReadyCallback,
 			setupCallback
 		);
 		this.gui.addField(textLoader);
@@ -371,14 +372,14 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 	addJSONLoader: GUIAddableInterface['addJSONLoader'] = (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => {
 		const JSONLoader = new components.JSONFileLoader(
 			this.gui,
 			name,
 			labelStr,
-			valueCallback,
+			fileReadyCallback,
 			setupCallback
 		);
 		this.gui.addField(JSONLoader);
@@ -388,14 +389,14 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 	addImageLoader: GUIAddableInterface['addImageLoader'] = (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => {
 		const imageLoader = new components.ImageLoader(
 			this.gui,
 			name,
 			labelStr,
-			valueCallback,
+			fileReadyCallback,
 			setupCallback
 		);
 		this.gui.addField(imageLoader);
@@ -405,14 +406,14 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 	addVideoLoader: GUIAddableInterface['addVideoLoader'] = (
 		name,
 		labelStr,
-		valueCallback,
+		fileReadyCallback,
 		setupCallback
 	) => {
 		const videoLoader = new components.VideoLoader(
 			this.gui,
 			name,
 			labelStr,
-			valueCallback,
+			fileReadyCallback,
 			setupCallback
 		);
 		this.gui.addField(videoLoader);
@@ -422,14 +423,14 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 	addMediaLoader: GUIAddableInterface['addMediaLoader'] = (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => {
 		const mediaLoader = new components.MediaLoader(
 			this.gui,
 			name,
 			labelStr,
-			valueCallback,
+			fileReadyCallback,
 			setupCallback
 		);
 		this.gui.addField(mediaLoader);

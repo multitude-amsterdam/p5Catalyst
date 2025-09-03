@@ -19,7 +19,7 @@ import { Lang } from '../language/Lang';
 import { Tab } from './components/groups/Tab';
 import { Dialog } from './Dialog';
 import { LightModeToggle } from './gui-components/LightModeToggle';
-import { RandomizeButton } from './gui-components/randomizeButton';
+import { RandomizeButton } from './gui-components/RandomizeButton';
 
 import { CommandBar } from './components/CommandBar';
 
@@ -48,7 +48,6 @@ export class GUIForP5 {
 	darkMode: 'true' | 'false' | 'auto';
 	lightModeToggle: LightModeToggle;
 	randomizeButton?: RandomizeButton;
-	controlContainer: p5.Element;
 	changeSet: ChangeSet;
 
 	commandBar: CommandBar;
@@ -63,6 +62,8 @@ export class GUIForP5 {
 
 		this.div = this.p5Instance.createDiv();
 		this.div.id('gui');
+		(document.querySelector('main') as HTMLElement).prepend(this.div.elt);
+
 		window.addEventListener('keyup', (e: KeyboardEvent) => {
 			this.handleKeyboardEvent(e);
 		});
@@ -72,6 +73,10 @@ export class GUIForP5 {
 
 		this.changeSet = new ChangeSet(this, false);
 
+		this.setLeft();
+
+		this.commandBar = new CommandBar(this);
+
 		if (config.createRandomizer) {
 			this.randomizer = new Randomizer(this.p5Instance);
 			this.randomizeButton = new RandomizeButton(this);
@@ -79,19 +84,6 @@ export class GUIForP5 {
 
 		this.darkMode = 'false';
 		this.lightModeToggle = new LightModeToggle(this);
-
-		this.controlContainer = this.p5Instance
-			.createDiv()
-			.id('control-container');
-		this.controlContainer.child(this.lightModeToggle.button);
-		this.controlContainer.child(this.randomizeButton?.button);
-
-		document.querySelector('main')?.append(this.controlContainer.elt);
-		document.querySelector('main')?.prepend(this.div.elt);
-
-		this.setLeft();
-
-		this.commandBar = new CommandBar(this);
 
 		this.dialog = new Dialog(this);
 	}
@@ -128,9 +120,8 @@ export class GUIForP5 {
 	setLeft() {
 		const main = document.querySelector('main');
 		if (main) {
-			main.className = 'guiLeft';
+			main.className = 'gui-left';
 		}
-		this.controlContainer.class('controlLeft');
 		this.isOnLeftSide = true;
 	}
 
@@ -140,9 +131,8 @@ export class GUIForP5 {
 	setRight() {
 		const main = document.querySelector('main');
 		if (main) {
-			main.className = 'guiRight';
+			main.className = 'gui-right';
 		}
-		this.controlContainer.class('controlRight');
 		this.isOnLeftSide = false;
 	}
 

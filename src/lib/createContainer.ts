@@ -13,6 +13,7 @@ export const createContainer = (
 		time: 0,
 		progress: 0,
 		isPlaying: true,
+		isRecording: false,
 	};
 
 	return new Promise(resolve => {
@@ -27,8 +28,9 @@ export const createContainer = (
 			const userMouseWheel = sketch.mouseWheel || (() => {});
 			const userMouseDragged = sketch.mouseDragged || (() => {});
 			const userDoubleClicked = sketch.doubleClicked || (() => {});
-			const userKeyPressed =
-				sketch.keyPressed || ((event: KeyboardEvent) => {});
+			const userKeyPressed = sketch.keyPressed || (() => {});
+			const userWindowResized = sketch.windowResized || (() => {});
+
 			// TODO: add all possible p5 event functions
 
 			let canvas: p5.Renderer,
@@ -36,7 +38,6 @@ export const createContainer = (
 				canvasWrapper: p5.Element;
 
 			let isGuiTyping = false;
-			let isRecording = false;
 
 			let duration = 20; //seconds
 			let fps = 60;
@@ -66,7 +67,7 @@ export const createContainer = (
 						setTyping(currentlyTyping);
 					},
 					startRecording: () => {
-						isRecording = true;
+						state.isRecording = true;
 						nFramesToRender = Math.floor(
 							duration * sketch.getTargetFrameRate()
 						);
@@ -76,7 +77,7 @@ export const createContainer = (
 						console.log(duration, nFramesToRender, state.progress);
 					},
 					stopRecording: () => {
-						isRecording = false;
+						state.isRecording = false;
 						ffmpegCreateMP4(
 							state.width,
 							state.height,
@@ -136,10 +137,10 @@ export const createContainer = (
 					);
 				}
 
-				if (isRecording) {
+				if (state.isRecording) {
 					saveToLocalFFMPEG(canvas);
 					if (state.progress >= 1) {
-						isRecording = false;
+						state.isRecording = false;
 						ffmpegCreateMP4(
 							state.width,
 							state.height,
@@ -166,6 +167,11 @@ export const createContainer = (
 			};
 			sketch.doubleClicked = () => {
 				userDoubleClicked();
+			};
+
+			sketch.windowResized = (event: UIEvent) => {
+				userWindowResized();
+				containCanvasInWrapper();
 			};
 
 			sketch.keyPressed = (event: KeyboardEvent) => {
@@ -203,10 +209,14 @@ export const createContainer = (
 				const wrapperAsp = wrapperW / wrapperH;
 
 				// seems to be necessary for css to work
-				canvas.elt.removeAttribute('width');
-				canvas.elt.removeAttribute('height');
+				// canvas.elt.removeAttribute('width');
+				// canvas.elt.removeAttribute('height');
 
 				canvas.elt.style = '';
+
+				canvas.elt.style.maxWidth = `1px`;
+				canvas.elt.style.maxHeight = `1px`;
+
 				canvas.elt.style.aspectRatio = canvAsp.toString();
 				if (canvAsp > wrapperAsp) {
 					canvas.elt.style.width = '100%';
@@ -219,6 +229,8 @@ export const createContainer = (
 					canvas.elt.style.height = '100%';
 					canvas.elt.style.maxHeight = `calc(${wrapperH}px - 2rem)`;
 				}
+
+				console.log(canvAsp, wrapperAsp, wrapperW, wrapperH);
 			}
 
 			function resizeCatalyst(width: number, height: number) {

@@ -43,7 +43,7 @@ export class ResolutionTextBoxes extends ValuedController {
 			defaultWidth.toString(),
 			(controller, textBoxValue) => {
 				let value = this.value as p5.Vector;
-				const pxDim = parseInt(textBoxValue);
+				const pxDim = parseInt(textBoxValue as string);
 				if (isNaN(pxDim)) return;
 				value.x = pxDim;
 				gui.state.resize?.(value.x, value.y);
@@ -57,7 +57,7 @@ export class ResolutionTextBoxes extends ValuedController {
 			defaultHeight.toString(),
 			(controller, textBoxValue) => {
 				let value = this.value as p5.Vector;
-				const pxDim = parseInt(textBoxValue);
+				const pxDim = parseInt(textBoxValue as string);
 				if (isNaN(pxDim)) return;
 				value.y = pxDim;
 				gui.state.resize?.(value.x, value.y);

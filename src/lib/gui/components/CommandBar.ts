@@ -75,7 +75,7 @@ export class CommandBar extends Field {
 
 	createButton(label: string, callback: () => void): p5.Element {
 		const button: p5.Element = this.gui.p5Instance
-			.createButton(this.gui.lang.process(label, true))
+			.createButton(`<span>${this.gui.lang.process(label, true)}</span>`)
 			.parent(this.div)
 			.addClass('command-bar__button')
 			.mousePressed(callback) as p5.Element;

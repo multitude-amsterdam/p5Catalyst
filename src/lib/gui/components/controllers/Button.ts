@@ -35,7 +35,7 @@ export class Button extends Controller {
 		this.controllerElement = gui.p5Instance.createButton(labelStr);
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.elt.onclick = () => {
-			if (callback) callback();
+			if (callback) callback(this);
 			if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 		};
 	}

@@ -12,6 +12,15 @@ const sketchFunction = async (sketch, state) => {
 	};
 
 	sketch.draw = () => {
+		sketch.fill(0, 0, 255);
+		let sx = state.width / 5;
+		let sy = state.height / 5;
+		for (let x = 0; x < 5; x++) {
+			for (let y = 0; y < 5; y++) {
+				sketch.ellipse((x + 0.5) * sx, (y + 0.5) * sy, sx, sy);
+			}
+		}
+
 		sketch.fill(state.color);
 		sketch.circle(
 			state.width / 2,
@@ -39,8 +48,8 @@ catalyst.initialize(
 
 		panel.addColourBoxes(
 			'colorBox',
-			'Circle Color',
-			['red', 'green', 'yellow'],
+			'Circle color',
+			['#FF6400', '#86D594', '#004D30', '#002835ff', '#8373FF'],
 			0,
 			(controller, value) => {
 				state.color = value;
@@ -49,7 +58,7 @@ catalyst.initialize(
 
 		panel.addSlider(
 			'slider',
-			'Slider',
+			'Circle size',
 			1,
 			500,
 			100,
@@ -58,6 +67,8 @@ catalyst.initialize(
 				state.size = value;
 			}
 		);
+
+		panel.open();
 	},
 	plugins
 );

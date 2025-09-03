@@ -11,14 +11,6 @@ export function videoExportPlugin(): Plugin {
 			const exportGroup = exportTab?.addGroup('videoExportGroup', COLUMN);
 			exportGroup?.addTitle(3, 'Export Video');
 
-			exportGroup?.addButton(
-				'startExport',
-				'Start Export!',
-				controller => {
-					gui.startRecording();
-				}
-			);
-
 			const timeGroup = exportGroup?.addGroup('timeField', ROW);
 
 			timeGroup?.addTextbox(
@@ -26,7 +18,7 @@ export function videoExportPlugin(): Plugin {
 				'Duration',
 				'10',
 				(controller, value) => {
-					const duration = parseFloat(value);
+					const duration = parseFloat(value as string);
 					if (!isNaN(duration)) {
 						gui.setDuration(duration);
 					}
@@ -38,9 +30,23 @@ export function videoExportPlugin(): Plugin {
 				'Framerate',
 				'60',
 				(controller, value) => {
-					const frameRate = parseInt(value);
+					const frameRate = parseInt(value as string);
 					if (!isNaN(frameRate)) {
 						gui.setFrameRate(frameRate);
+					}
+				}
+			);
+
+			exportGroup?.addButton(
+				'startExport',
+				'Start export',
+				controller => {
+					if (state.isRecording) {
+						gui.stopRecording();
+						controller?.setLabel('Start export');
+					} else {
+						gui.startRecording();
+						controller?.setLabel('Stop export');
 					}
 				}
 			);

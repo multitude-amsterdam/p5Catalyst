@@ -4,31 +4,41 @@ import type { Plugin } from '../types';
 export function backdropPlugin(): Plugin {
 	return {
 		name: 'backdrop',
+
 		beforeInit(config) {
 			config.clearBackground = true;
 			console.log(config);
 		},
-		setup: (gui, state) => {
-			const settingsTab = gui.getTab('settings');
-			const group = settingsTab?.addGroup('mediaLoad', ROW);
+
+		setup: (gui, state) => {},
+
+		afterInit: gui => {
+			const appearanceTab = gui.getTab('appearance');
+
+			const panel = appearanceTab?.addPanel('Backdrop & overlay');
+
+			const group = panel?.addGroup('mediaLoad', ROW);
 			const backdropLoader = group?.addMediaLoader(
 				'backdropLoader',
-				'Load Backdrop',
+				'Load backdrop',
 				media => {
-					state.backdrop = media;
+					gui.state.backdrop = media;
 				}
 			);
 			const overlayLoader = group?.addMediaLoader(
 				'overlayLoader',
-				'Load Overlay',
+				'Load overlay',
 				media => {
-					state.overlay = media;
+					gui.state.overlay = media;
 				}
 			);
-			settingsTab?.addButton('clearMedia', 'Clear Media', controller => {
-				delete state.backdrop;
-				delete state.overlay;
+
+			panel?.addButton('clearMedia', 'Clear media', controller => {
+				delete gui.state.backdrop;
+				delete gui.state.overlay;
 			});
+
+			panel?.close();
 		},
 	};
 }
