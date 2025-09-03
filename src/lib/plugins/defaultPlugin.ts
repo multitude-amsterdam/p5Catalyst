@@ -21,46 +21,13 @@ export const defaultPlugin: Plugin = () => [
 	languagePlugin('en'), // empty userDictionary
 
 	//appearance
+	resolutionPlugin(resolutionPresets),
+	// gui creation for appearance in main.js goes inbetween here
 	backdropPlugin(),
 
 	// export
-	resolutionPlugin(resolutionPresets),
 	imageExportPlugin('png'),
 	videoExportPlugin(),
-	// {
-	// 	name: 'changetSetIO',
-	// 	setup: (gui: GUIControllerInterface, state: State) => {
-	// 		const exportTab = gui.getTab('export');
-	// 		const panel = exportTab?.addPanel('Export settings');
-	// 		panel?.addButton(
-	// 			'buttonSaveSettings',
-	// 			'Save settings',
-	// 			controller => {
-	// 				controller.gui.p5Instance.saveJSON(
-	// 					controller.gui.getState(),
-	// 					'settings.json'
-	// 				);
-	// 			}
-	// 		);
-	// 		panel?.addJSONLoader(
-	// 			'buttonLoadSettings',
-	// 			'Load settings',
-	// 			// TODO: make fileReadyCallback take Controller as first argument
-	// 			file => {
-	// 				const reader = new FileReader();
-	// 				reader.onload = event => {
-	// 					if (event.target?.result) {
-	// 						const loadedState = JSON.parse(
-	// 							event.target.result as string
-	// 						);
-	// 						controller.gui.setState(loadedState);
-	// 					}
-	// 				};
-	// 				reader.readAsText(file);
-	// 			}
-	// 		);
-	// 	},
-	// },
 
 	// settings
 ];
