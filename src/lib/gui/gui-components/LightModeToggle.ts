@@ -16,15 +16,19 @@ export class LightModeToggle extends GUIButton {
 	toggleLightDarkMode() {
 		// cycle modes
 		switch (this.gui.darkMode) {
-			case 'false':
-				this.setDarkMode();
-				break;
+			// case 'false':
+			// 	this.setDarkMode();
+			// 	break;
+			// case 'true':
+			// 	this.setAutoLightDarkMode();
+			// 	break;
+			// default:
+			// 	this.setLightMode();
 			case 'true':
-				this.setAutoLightDarkMode();
-
+				this.setLightMode();
 				break;
 			default:
-				this.setLightMode();
+				this.setDarkMode();
 		}
 	}
 
@@ -78,13 +82,15 @@ export class LightModeToggle extends GUIButton {
 			window.matchMedia('(prefers-color-scheme: dark)').matches;
 		if (isSystemDarkMode()) {
 			this.setDarkMode();
+			return;
 		} else {
 			this.setLightMode();
+			return;
 		}
-		window.localStorage['isDarkMode'] = 'auto';
-		this.gui.darkMode = 'auto';
-		this.button.class('dark-mode-button');
-		this.button.addClass('dark-mode-button' + '--auto');
-		this.button.elt.title = 'Auto light/dark mode';
+		// window.localStorage['isDarkMode'] = 'auto';
+		// this.gui.darkMode = 'auto';
+		// this.button.class('dark-mode-button');
+		// this.button.addClass('dark-mode-button' + '--auto');
+		// this.button.elt.title = 'Auto light/dark mode';
 	}
 }
