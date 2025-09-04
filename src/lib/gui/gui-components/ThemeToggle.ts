@@ -52,9 +52,9 @@ export class ThemeToggle extends GUIButton {
 	setLightMode() {
 		document.body.classList.remove('dark-mode');
 		window.localStorage['isDarkMode'] = this.gui.darkMode = 'false';
-		this.button.removeClass('dark-mode-button--dark');
-		this.button.addClass('dark-mode-button--light');
 		this.button.elt.title = 'Light mode';
+		this.icon.removeClass('dark-mode-button--dark');
+		this.icon.addClass('dark-mode-button--light');
 	}
 
 	/**
@@ -63,9 +63,9 @@ export class ThemeToggle extends GUIButton {
 	setDarkMode() {
 		document.body.classList.add('dark-mode');
 		window.localStorage['isDarkMode'] = this.gui.darkMode = 'true';
-		this.button.removeClass('dark-mode-button--light');
-		this.button.addClass('dark-mode-button--dark');
 		this.button.elt.title = 'Dark mode';
+		this.icon.removeClass('dark-mode-button--light');
+		this.icon.addClass('dark-mode-button--dark');
 	}
 
 	/**
