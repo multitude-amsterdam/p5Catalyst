@@ -118,7 +118,7 @@ export const createContainer = (
 						0,
 						state.backdrop.width,
 						state.backdrop.height,
-						sketch.CONTAIN
+						sketch.COVER
 					);
 				}
 
@@ -135,7 +135,7 @@ export const createContainer = (
 						0,
 						state.overlay.width,
 						state.overlay.height,
-						sketch.CONTAIN
+						sketch.COVER
 					);
 				}
 
