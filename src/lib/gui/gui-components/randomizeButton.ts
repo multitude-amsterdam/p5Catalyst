@@ -8,7 +8,6 @@ export class RandomizeButton extends GUIButton {
 
 		if (!gui.randomizer) return;
 
-		this.button.class('dark-mode-button');
 		this.button.mousePressed(() => {
 			gui.randomizer?.randomize();
 		});
