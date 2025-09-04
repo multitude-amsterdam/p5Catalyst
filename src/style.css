@@ -115,7 +115,7 @@ body {
 	--spacing-y: calc(var(--base-height) / 2);
 	--spacing-y-label: calc(var(--spacing-y) / 2);
 	--spacing-x: calc(var(--base-height) / 4);
-	--icon-size: calc(var(--target-diameter) * 1.25);
+	--icon-size: 32px; /* from ilustrator file */
 	--die-icon-size: calc(var(--icon-size) * 1);
 
 	/* mouse targets (eg., range inputs, radios) */
