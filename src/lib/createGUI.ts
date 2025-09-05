@@ -243,88 +243,88 @@ export const createGUI = (
 		addColorBoxes: (
 			name,
 			labelStr,
-			colors,
+			colours,
 			defaultIndex,
 			valueCallback,
 			setupCallback
 		) => {
-			const colorBoxes = new components.ColorBoxes(
+			const colourBoxes = new components.ColorBoxes(
 				gui,
 				name,
 				labelStr,
-				colors,
+				colours,
 				defaultIndex,
 				valueCallback,
 				setupCallback
 			);
-			return gui.addController(colorBoxes);
+			return gui.addController(colourBoxes);
 		},
 		addMultiColorBoxes: (
 			name,
 			labelStr,
-			colors,
+			colours,
 			defaultIndices,
 			valueCallback,
 			setupCallback
 		) => {
-			const multiColorBoxes = new components.MultiColorBoxes(
+			const multiColourBoxes = new components.MultiColorBoxes(
 				gui,
 				name,
 				labelStr,
-				colors,
+				colours,
 				defaultIndices,
 				valueCallback,
 				setupCallback
 			);
 
-			return gui.addController(multiColorBoxes);
+			return gui.addController(multiColourBoxes);
 		},
-		addTextLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
+		addTextLoader: (name, labelStr, valueCallback, setupCallback) => {
 			const textLoader = new components.TextFileLoader(
 				gui,
 				name,
 				labelStr,
-				fileReadyCallback,
+				valueCallback,
 				setupCallback
 			);
 			return gui.addController(textLoader);
 		},
-		addJSONLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
+		addJSONLoader: (name, labelStr, valueCallback, setupCallback) => {
 			const JSONLoader = new components.JSONFileLoader(
 				gui,
 				name,
 				labelStr,
-				fileReadyCallback,
+				valueCallback,
 				setupCallback
 			);
 			return gui.addController(JSONLoader);
 		},
-		addImageLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
+		addImageLoader: (name, labelStr, valueCallback, setupCallback) => {
 			const imageLoader = new components.ImageLoader(
 				gui,
 				name,
 				labelStr,
-				fileReadyCallback,
+				valueCallback,
 				setupCallback
 			);
 			return gui.addController(imageLoader);
 		},
-		addVideoLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
+		addVideoLoader: (name, labelStr, valueCallback, setupCallback) => {
 			const videoLoader = new components.VideoLoader(
 				gui,
 				name,
 				labelStr,
-				fileReadyCallback,
+				valueCallback,
 				setupCallback
 			);
 			return gui.addController(videoLoader);
 		},
-		addMediaLoader: (name, labelStr, fileReadyCallback, setupCallback?) => {
+		addMediaLoader: (name, labelStr, valueCallback, setupCallback) => {
 			const mediaLoader = new components.MediaLoader(
 				gui,
 				name,
 				labelStr,
-				fileReadyCallback,
+				valueCallback,
 				setupCallback
 			);
 			return gui.addController(mediaLoader);
