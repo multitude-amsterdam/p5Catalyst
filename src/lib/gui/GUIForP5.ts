@@ -1,384 +1,390 @@
-import type p5 from "p5";
+import type p5 from 'p5';
 
-import { Field } from "./components/Field";
-import { Controller } from "./components/Controller";
-import { ValuedController } from "./components/ValuedController";
+import { Field } from './components/Field';
+import { Controller } from './components/Controller';
+import { ValuedController } from './components/ValuedController';
 
-import type { State, Config, LangCode } from "../types";
-import type { P5Button, Serializable } from "../types/controller";
-import type { Container, sketchHook } from "../types/construction";
+import type { State, Config, LangCode } from '../types';
+import type {
+	ControllerValue,
+	P5Button,
+	Serializable,
+} from '../types/controller';
+import type { Container, sketchHook } from '../types/construction';
 
-import { Randomizer } from "./Randomizer";
-import { ChangeSet } from "./ChangeSet";
-import { Lang } from "../language/Lang";
+import { Randomizer } from './Randomizer';
+import { ChangeSet } from './ChangeSet';
+import { Lang } from '../language/Lang';
 
-import { Tab } from "./components/groups/Tab";
-import { Dialog } from "./Dialog";
-import { LightModeToggle } from "./gui-components/LightModeToggle";
-import { RandomizeButton } from "./gui-components/randomizeButton";
+import { Tab } from './components/groups/Tab';
+import { Dialog } from './Dialog';
+import { ThemeToggle } from './gui-components/ThemeToggle';
+import { RandomizeButton } from './gui-components/RandomizeButton';
+
+import { CommandBar } from './components/CommandBar';
 
 /**
  * Main GUI wrapper that manages fields and controllers for p5Catalyst.
  * Handles layout, theming, controller management, and state persistence.
  */
 export class GUIForP5 {
-  div: p5.Element;
-  randomizer?: Randomizer;
-  p5Instance: p5;
-  state: State;
-  sketch: sketchHook;
-  lang: Lang;
-  dialog: Dialog;
-  isOnLeftSide: boolean = true;
-  isTypingText: boolean = false;
-  static verbose = !false;
+	div: p5.Element;
+	randomizer?: Randomizer;
+	p5Instance: p5;
+	state: State;
+	sketch: sketchHook;
+	lang: Lang;
+	dialog: Dialog;
+	isOnLeftSide: boolean = true;
+	isTypingText: boolean = false;
 
-  fields: Field[] = [];
-  controllers: any[] = [];
+	fields: Field[] = [];
+	controllers: any[] = [];
 
-  tabs: Tab[] = [];
-  tabBar?: p5.Element;
-  activeTab?: Tab;
+	tabs: Tab[] = [];
+	tabBar?: p5.Element;
+	activeTab?: Tab;
 
-  darkMode: "true" | "false" | "auto";
-  lightModeToggle: LightModeToggle;
-  randomizeButton?: RandomizeButton;
-  controlContainer: p5.Element;
-  changeSet: ChangeSet;
+	darkMode: 'true' | 'false' | 'auto';
+	changeSet: ChangeSet;
 
-  /**
-   * Constructs the GUI, creates the main div, and sets up theming and layout.
-   */
-  constructor(container: Container, config: Config) {
-    this.p5Instance = container.p5Instance;
-    this.state = container.state;
-    this.sketch = container.sketchHook;
+	commandBar: CommandBar;
 
-    this.div = this.p5Instance.createDiv();
-    this.div.id("gui");
-    window.addEventListener("keyup", (e: KeyboardEvent) => {
-      this.handleKeyboardEvent(e);
-    });
+	/**
+	 * Constructs the GUI, creates the main div, and sets up theming and layout.
+	 */
+	constructor(container: Container, config: Config) {
+		this.p5Instance = container.p5Instance;
+		this.state = container.state;
+		this.sketch = container.sketchHook;
 
-    this.lang = new Lang(config.userDictionary);
-    this.lang.setup(config.defaultLanguage as LangCode);
+		this.div = this.p5Instance.createDiv();
+		this.div.id('gui');
+		(document.querySelector('main') as HTMLElement).prepend(this.div.elt);
 
-    this.changeSet = new ChangeSet(this, false);
+		window.addEventListener('keyup', (e: KeyboardEvent) => {
+			this.handleKeyboardEvent(e);
+		});
 
-    if (config.createRandomizer) {
-      this.randomizer = new Randomizer(this.p5Instance);
-      this.randomizeButton = new RandomizeButton(this);
-    }
+		this.lang = new Lang(config.userDictionary);
+		this.lang.setup(config.defaultLanguage as LangCode);
 
-    this.darkMode = "false";
-    this.lightModeToggle = new LightModeToggle(this);
+		this.changeSet = new ChangeSet(this, false);
 
-    this.controlContainer = this.p5Instance.createDiv().id("control-container");
-    this.controlContainer.child(this.lightModeToggle.button);
-    this.controlContainer.child(this.randomizeButton?.button);
+		this.darkMode = 'false';
 
-    document.querySelector("main")?.append(this.controlContainer.elt);
-    document.querySelector("main")?.prepend(this.div.elt);
+		if (config.createRandomizer) {
+			this.randomizer = new Randomizer(this.p5Instance);
+		}
 
-    this.setLeft();
+		this.dialog = new Dialog(this);
 
-    this.dialog = new Dialog(this);
-  }
+		this.commandBar = new CommandBar(config, this);
 
-  /**
-   * Calls setup on all controllers.
-   */
-  setup() {
-    for (let controller of this.controllers) {
-      controller.setup();
-    }
+		this.setLeft();
+	}
 
-    this.changeSet.save();
+	/**
+	 * Calls setup on all controllers.
+	 */
+	setup() {
+		for (let controller of this.controllers) {
+			controller.setup();
+		}
 
-    if (localStorage.doShowHelpOnLoad === "true" || undefined) {
-      this.showHelp();
-      localStorage.doShowHelpOnLoad = "false";
-    }
-  }
+		this.changeSet.save();
 
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key === "h") {
-      this.dialog.show();
-    }
-  }
+		if (localStorage.doShowHelpOnLoad === 'true' || undefined) {
+			this.showHelp();
+			localStorage.doShowHelpOnLoad = 'false';
+		}
+	}
 
-  showHelp() {
-    this.dialog.alert("HELP");
-  }
+	handleKeyboardEvent(event: KeyboardEvent) {
+		if (event.key === 'h') {
+			this.dialog.show();
+		}
+	}
 
-  /**
-   * Moves the GUI to the left side of the main container.
-   */
-  setLeft() {
-    const main = document.querySelector("main");
-    if (main) {
-      main.className = "guiLeft";
-    }
-    this.controlContainer.class("controlLeft");
-    this.isOnLeftSide = true;
-  }
+	showHelp() {
+		this.dialog.alert('HELP');
+	}
 
-  /**
-   * Moves the GUI to the right side of the main container.
-   */
-  setRight() {
-    const main = document.querySelector("main");
-    if (main) {
-      main.className = "guiRight";
-    }
-    this.controlContainer.class("controlRight");
-    this.isOnLeftSide = false;
-  }
+	/**
+	 * Moves the GUI to the left side of the main container.
+	 */
+	setLeft() {
+		const main = document.querySelector('main');
+		if (main) {
+			main.className = 'gui-left';
+		}
+		this.isOnLeftSide = true;
+	}
 
-  //   /**
-  //    * Toggles the GUI between left and right sides.
-  //    */
-  //   toggleSide() {
-  //     this.isOnLeftSide ? this.setRight() : this.setLeft();
-  //   }
+	/**
+	 * Moves the GUI to the right side of the main container.
+	 */
+	setRight() {
+		const main = document.querySelector('main');
+		if (main) {
+			main.className = 'gui-right';
+		}
+		this.isOnLeftSide = false;
+	}
 
-  //   /**
-  //    * Adds a field (GUI element) to the GUI.
-  //    * @param {Field} field
-  //    * @returns {Field}
-  //    */
-  addField<T extends Field>(field: T) {
-    this.fields.push(field);
-    return field;
-  }
+	//   /**
+	//    * Toggles the GUI between left and right sides.
+	//    */
+	//   toggleSide() {
+	//     this.isOnLeftSide ? this.setRight() : this.setLeft();
+	//   }
 
-  //   /**
-  //    * Adds an HTML string as a new field.
-  //    * @param {string} html
-  //    * @param {string} [className='']
-  //    * @returns {Field}
-  //    */
-  //   addHTMLToNewField(html, className = "") {
-  //     let field = this.addField(new Field(this.div, "", className));
-  //     field.div.html(html);
-  //     return field;
-  //   }
+	//   /**
+	//    * Adds a field (GUI element) to the GUI.
+	//    * @param {Field} field
+	//    * @returns {Field}
+	//    */
+	addField<T extends Field>(field: T) {
+		this.fields.push(field);
+		return field;
+	}
 
-  //   /**
-  //    * Adds the p5Catalyst logo as a field.
-  //    * @returns {Field}
-  //    */
-  //   addP5CatalystLogo() {
-  //     let logo = this.addHTMLToNewField(
-  //       `<a href="https://github.com/multitude-amsterdam/p5Catalyst" target="_blank">` +
-  //         `<div class="p5catalyst-logo"></div>` +
-  //         `</a>`,
-  //       "footer-logo"
-  //     );
-  //     return logo;
-  //   }
+	//   /**
+	//    * Adds an HTML string as a new field.
+	//    * @param {string} html
+	//    * @param {string} [className='']
+	//    * @returns {Field}
+	//    */
+	//   addHTMLToNewField(html, className = "") {
+	//     let field = this.addField(new Field(this.div, "", className));
+	//     field.div.html(html);
+	//     return field;
+	//   }
 
-  //   /**
-  //    * Adds a divider (horizontal rule) to the GUI.
-  //    * @returns {Divider}
-  //    */
-  //   addDivider() {
-  //     let divider = new Divider(this.div);
-  //     this.addField(divider);
-  //     return divider;
-  //   }
+	//   /**
+	//    * Adds the p5Catalyst logo as a field.
+	//    * @returns {Field}
+	//    */
+	//   addP5CatalystLogo() {
+	//     let logo = this.addHTMLToNewField(
+	//       `<a href="https://github.com/multitude-amsterdam/p5Catalyst" target="_blank">` +
+	//         `<div class="p5catalyst-logo"></div>` +
+	//         `</a>`,
+	//       "footer-logo"
+	//     );
+	//     return logo;
+	//   }
 
-  //   /**
-  //    * Adds a controller to the GUI and optionally to the randomizer.
-  //    * @param {Controller} controller
-  //    * @param {boolean} [doAddToRandomizerAs]
-  //    * @returns {Controller}
-  //    */
-  addController<T extends Controller>(controller: T) {
-    this.addField(controller);
-    this.controllers.push(controller);
-    return controller;
-  }
+	//   /**
+	//    * Adds a divider (horizontal rule) to the GUI.
+	//    * @returns {Divider}
+	//    */
+	//   addDivider() {
+	//     let divider = new Divider(this.div);
+	//     this.addField(divider);
+	//     return divider;
+	//   }
 
-  /**
-   * @param  {...Tab} tabs
-   */
-  addTabs(...names: string[]): Tab[] {
-    if (this.tabs.length === 0) {
-      this.tabs = [];
-      // this.activeTab = null;
-      this.tabBar = this.p5Instance.createDiv();
-      this.tabBar.addClass("tab-bar");
-      this.div.child(this.tabBar);
-    }
+	//   /**
+	//    * Adds a controller to the GUI and optionally to the randomizer.
+	//    * @param {Controller} controller
+	//    * @param {boolean} [doAddToRandomizerAs]
+	//    * @returns {Controller}
+	//    */
+	addController<T extends Controller>(controller: T) {
+		this.addField(controller);
+		this.controllers.push(controller);
+		return controller;
+	}
 
-    let newTabs: Tab[] = [];
+	/**
+	 * @param  {...Tab} tabs
+	 */
+	addTabs(...names: string[]): Tab[] {
+		if (this.tabs.length === 0) {
+			this.tabs = [];
+			// this.activeTab = null;
+			this.tabBar = this.p5Instance.createDiv();
+			this.tabBar.addClass('tab-bar');
+			this.div.child(this.tabBar);
+		}
 
-    for (const name of names) {
-      const tab = new Tab(this, name);
-      newTabs.push(tab);
-      this.tabs.push(tab);
+		let newTabs: Tab[] = [];
 
-      this.div.child(tab.div);
-      tab.hide();
+		console.log(names);
+		for (const name of names) {
+			const tab = new Tab(this, name);
+			newTabs.push(tab);
+			this.tabs.push(tab);
 
-      const tabBtn = this.p5Instance.createButton(
-        tab.name.charAt(0).toUpperCase() + tab.name.slice(1)
-      );
-      // tabBtn.attribute('data-tabname', tab.name);
-      tabBtn.mousePressed(() => this.activateTab(tab.name));
-      this.tabBar?.child(tabBtn);
-    }
+			this.div.child(tab.div);
+			tab.hide();
 
-    if (this.tabs.length > 0) {
-      this.activateTab(this.tabs[0].name);
-    }
+			const tabBtn = this.p5Instance.createButton(
+				tab.name.charAt(0).toUpperCase() + tab.name.slice(1)
+			);
+			// tabBtn.attribute('data-tabname', tab.name);
+			tabBtn.mousePressed(() => this.activateTab(tab.name));
+			this.tabBar?.child(tabBtn);
+		}
 
-    return newTabs;
-  }
+		if (this.tabs.length > 0) {
+			this.activateTab(this.tabs[0].name);
+		}
 
-  activateTab(tabName: string) {
-    const tabToShow = this.getTab(tabName);
-    if (!tabToShow) return;
+		return newTabs;
+	}
 
-    for (let tab of this.tabs) {
-      tab.hide();
-    }
+	activateTab(tabName: string) {
+		const tabToShow = this.getTab(tabName);
+		if (!tabToShow) return;
 
-    tabToShow.show();
-    this.activeTab = tabToShow;
+		for (let tab of this.tabs) {
+			tab.hide();
+		}
 
-    const buttons = this.tabBar?.elt.querySelectorAll("button");
-    for (let [i, button] of buttons.entries()) {
-      button.classList.toggle("active", tabName === this.tabs[i].name);
-    }
-  }
+		tabToShow.show();
+		this.activeTab = tabToShow;
 
-  getTab(name: string): Tab | undefined {
-    const tab = this.tabs.find((tab) => tab.name === name);
-    return tab;
-  }
+		const buttons = this.tabBar?.elt.querySelectorAll('button');
+		for (let [i, button] of buttons.entries()) {
+			button.classList.toggle('active', tabName === this.tabs[i].name);
+		}
+	}
 
-  //   /**
-  //    * Adds a label to the GUI.
-  //    * @param {string} labelText
-  //    * @returns {Label}
-  //    */
-  //   addLabel(labelText) {
-  //     let label = new Label(this.div, labelText);
-  //     this.addField(label);
-  //     return label;
-  //   }
+	getTab(name: string): Tab | undefined {
+		const tab = this.tabs.find(tab => tab.name === name);
+		return tab;
+	}
 
-  //   /**
-  //    * Adds a title (heading) to the GUI.
-  //    * @param {number} hSize - Heading size (e.g., 1 for h1, 2 for h2).
-  //    * @param {string} titleText
-  //    * @param {boolean} [doAlignCenter=false]
-  //    * @returns {Title}
-  //    */
-  //   addTitle(hSize, titleText, doAlignCenter = false) {
-  //     let title = new Title(
-  //       this.div,
-  //       hSize,
-  //       titleText,
-  //       (doAlignCenter = doAlignCenter)
-  //     );
-  //     this.addField(title);
-  //     return title;
-  //   }
+	//   /**
+	//    * Adds a label to the GUI.
+	//    * @param {string} labelText
+	//    * @returns {Label}
+	//    */
+	//   addLabel(labelText) {
+	//     let label = new Label(this.div, labelText);
+	//     this.addField(label);
+	//     return label;
+	//   }
 
-  //   /**
-  //    * Adds an image to the GUI.
-  //    * @param {string} url
-  //    * @param {string} altText
-  //    * @param {boolean} [doAlignCenter=true]
-  //    * @returns {GUIImage}
-  //    */
-  //   addImage(url, altText, doAlignCenter = true) {
-  //     let img = new GUIImage(
-  //       this.div,
-  //       url,
-  //       altText,
-  //       (doAlignCenter = doAlignCenter)
-  //     );
-  //     this.addField(img);
-  //     return img;
-  //   }
+	//   /**
+	//    * Adds a title (heading) to the GUI.
+	//    * @param {number} hSize - Heading size (e.g., 1 for h1, 2 for h2).
+	//    * @param {string} titleText
+	//    * @param {boolean} [doAlignCenter=false]
+	//    * @returns {Title}
+	//    */
+	//   addTitle(hSize, titleText, doAlignCenter = false) {
+	//     let title = new Title(
+	//       this.div,
+	//       hSize,
+	//       titleText,
+	//       (doAlignCenter = doAlignCenter)
+	//     );
+	//     this.addField(title);
+	//     return title;
+	//   }
 
-  /**
-   * Checks if a controller with the given name exists.
-   * @param {string} name
-   * @returns {boolean}
-   */
-  hasName(name: string): boolean {
-    return this.controllers.some((controller) => controller.name === name);
-  }
+	//   /**
+	//    * Adds an image to the GUI.
+	//    * @param {string} url
+	//    * @param {string} altText
+	//    * @param {boolean} [doAlignCenter=true]
+	//    * @returns {GUIImage}
+	//    */
+	//   addImage(url, altText, doAlignCenter = true) {
+	//     let img = new GUIImage(
+	//       this.div,
+	//       url,
+	//       altText,
+	//       (doAlignCenter = doAlignCenter)
+	//     );
+	//     this.addField(img);
+	//     return img;
+	//   }
 
-  /**
-   * Gets a controller by name.
-   * @param {string} name
-   * @returns {Controller|undefined}
-   */
-  getController<T extends Controller>(name: string): T | undefined {
-    if (!this.hasName(name)) {
-      return undefined;
-    }
-    return this.controllers[
-      this.controllers.map((controller) => controller.name).indexOf(name)
-    ] as T;
-  }
+	/**
+	 * Checks if a controller with the given name exists.
+	 * @param {string} name
+	 * @returns {boolean}
+	 */
+	hasName(name: string): boolean {
+		return this.controllers.some(controller => controller.name === name);
+	}
 
-  /**
-   * Gets multiple controllers by an array of names.
-   * @param {string[]} names
-   * @returns {Controller[]}
-   */
-  getControllers(names: string[]) {
-    return this.controllers.filter((controller) =>
-      names.some((name) => {
-        if (!this.hasName(name)) {
-          return false;
-        }
-        return controller.name === name;
-      })
-    );
-  }
+	/**
+	 * Gets a controller by name.
+	 * @param {string} name
+	 * @returns {Controller|undefined}
+	 */
+	getController<T extends Controller>(name: string): T | undefined {
+		if (!this.hasName(name)) {
+			return undefined;
+		}
+		return this.controllers[
+			this.controllers.map(controller => controller.name).indexOf(name)
+		] as T;
+	}
 
-  /**
-   * Gets the current state of all controllers with values.
-   * @returns {Array<{name: string, value: any, isDieActive?: boolean}>}
-   */
-  getState() {
-    return this.controllers
-      .filter((controller) => controller.value !== undefined)
-      .map((controller) => {
-        const serializable: Serializable = {
-          name: controller.name,
-          value: controller.getSerializedValue(),
-        };
-        if (controller.die !== undefined)
-          serializable.isDieActive = controller.die.isActive;
-        return serializable;
-      });
-  }
+	/**
+	 * Gets multiple controllers by an array of names.
+	 * @param {string[]} names
+	 * @returns {Controller[]}
+	 */
+	getControllers(names: string[]) {
+		return this.controllers.filter(controller =>
+			names.some(name => {
+				if (!this.hasName(name)) {
+					return false;
+				}
+				return controller.name === name;
+			})
+		);
+	}
 
-  /**
-   * Restores the state of controllers from a saved state.
-   * @param {Array<{name: string, value: any, isDieActive?: boolean}>} state
-   */
-  restoreState(state: Serializable[]) {
-    Controller._doUpdateChangeSet = false;
-    for (let { name, value: serializedValue, isDieActive } of state) {
-      if (serializedValue === undefined) continue;
+	/**
+	 * Gets the current state of all controllers with values.
+	 * @returns {Array<{name: string, value: any, isDieActive?: boolean}>}
+	 */
+	getState() {
+		return this.controllers
+			.filter(controller => controller.value !== undefined)
+			.map(controller => {
+				const serializable: Serializable = {
+					name: controller.name,
+					value: controller.getSerializedValue(),
+				};
+				if (controller.die !== undefined)
+					serializable.isDieActive = controller.die.isActive;
+				return serializable;
+			});
+	}
 
-      const controller = this.getController(name);
-      if (controller instanceof ValuedController) {
-        controller.restoreValueFromSerialized(serializedValue);
-      }
-      if (isDieActive === undefined) continue;
-      controller?.die?.setActive(isDieActive);
-    }
-    Controller._doUpdateChangeSet = true;
-  }
+	/**
+	 * Restores the state of controllers from a saved state.
+	 * @param {Array<{name: string, value: any, isDieActive?: boolean}>} state
+	 */
+	restoreState(state: Serializable[]) {
+		Controller._doUpdateChangeSet = false;
+		for (let { name, value: serializedValue, isDieActive } of state) {
+			if (serializedValue === undefined) continue;
+
+			const controller = this.getController(name);
+			if (controller instanceof ValuedController) {
+				controller.restoreValueFromSerialized(serializedValue);
+			}
+			if (isDieActive === undefined) continue;
+			controller?.die?.setActive(isDieActive);
+		}
+		Controller._doUpdateChangeSet = true;
+	}
+
+	resetToDefaults() {
+		for (let controller of this.controllers) {
+			if (!(controller instanceof ValuedController)) continue;
+			if (controller.value === null) continue;
+			controller.setValue(controller.defaultValue as ControllerValue);
+		}
+	}
 }
