@@ -37,7 +37,6 @@ export class ChangeSet {
 	save() {
 		const json = JSON.stringify(this.getState());
 		this.addState(json);
-
 		if (this.doInitFromLocalStorage) this.saveToLocalStorage(json);
 	}
 

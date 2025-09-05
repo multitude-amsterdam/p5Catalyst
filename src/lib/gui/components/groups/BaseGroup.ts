@@ -128,7 +128,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(select);
+		this.gui.addController(select);
 		this.attachField(select);
 		return select;
 	};
@@ -147,7 +147,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(resolutionSelect);
+		this.gui.addController(resolutionSelect);
 		this.attachField(resolutionSelect);
 		return resolutionSelect;
 	};
@@ -168,7 +168,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(toggle);
+		this.gui.addController(toggle);
 		this.attachField(toggle);
 		return toggle;
 	};
@@ -193,7 +193,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(slider);
+		this.gui.addController(slider);
 		this.attachField(slider);
 		return slider;
 	};
@@ -226,7 +226,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(xySlider);
+		this.gui.addController(xySlider);
 		this.attachField(xySlider);
 		return xySlider;
 	};
@@ -245,7 +245,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(textbox);
+		this.gui.addController(textbox);
 		this.attachField(textbox);
 		return textbox;
 	};
@@ -262,7 +262,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(resolutionTextBoxes);
+		this.gui.addController(resolutionTextBoxes);
 		this.attachField(resolutionTextBoxes);
 		return resolutionTextBoxes;
 	};
@@ -281,7 +281,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(textArea);
+		this.gui.addController(textArea);
 		this.attachField(textArea);
 		return textArea;
 	};
@@ -306,7 +306,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(crementer);
+		this.gui.addController(crementer);
 		this.attachField(crementer);
 		return crementer;
 	};
@@ -327,7 +327,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(colorBoxes);
+		this.gui.addController(colorBoxes);
 		this.attachField(colorBoxes);
 		return colorBoxes;
 	};
@@ -348,7 +348,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			valueCallback,
 			setupCallback
 		);
-		this.gui.addField(multiColorBoxes);
+		this.gui.addController(multiColorBoxes);
 		this.attachField(multiColorBoxes);
 		return multiColorBoxes;
 	};
@@ -365,7 +365,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			fileReadyCallback,
 			setupCallback
 		);
-		this.gui.addField(textLoader);
+		this.gui.addController(textLoader);
 		this.attachField(textLoader);
 		return textLoader;
 	};
@@ -382,7 +382,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			fileReadyCallback,
 			setupCallback
 		);
-		this.gui.addField(JSONLoader);
+		this.gui.addController(JSONLoader);
 		this.attachField(JSONLoader);
 		return JSONLoader;
 	};
@@ -399,7 +399,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			fileReadyCallback,
 			setupCallback
 		);
-		this.gui.addField(imageLoader);
+		this.gui.addController(imageLoader);
 		this.attachField(imageLoader);
 		return imageLoader;
 	};
@@ -416,7 +416,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			fileReadyCallback,
 			setupCallback
 		);
-		this.gui.addField(videoLoader);
+		this.gui.addController(videoLoader);
 		this.attachField(videoLoader);
 		return videoLoader;
 	};
@@ -433,7 +433,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			fileReadyCallback,
 			setupCallback
 		);
-		this.gui.addField(mediaLoader);
+		this.gui.addController(mediaLoader);
 		this.attachField(mediaLoader);
 		return mediaLoader;
 	};
