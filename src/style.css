@@ -1282,8 +1282,7 @@ main:where(.gui-right) .command-bar {
 	transition: rotate var(--transition-properties);
 }
 .command-bar__icon--randomizer {
-	/* height: var(--die-icon-size);
-	background-image: url('assets/dice/die-1.svg'); */
+	width: 12px;
 }
 .command-bar__icon--undo {
 	background-image: url('assets/undo.svg');
@@ -1319,7 +1318,7 @@ body:where(.dark-mode) .command-bar__icon--help {
 
 /* ---------------------------- DARK MODE BUTTON ---------------------------- */
 
-.command-bar__icon--dark-mode {
+.command-bar__icon--theme-toggle {
 	/* background-image: url('assets/dark-mode-button/auto-mode-icon.svg'); */
 }
 

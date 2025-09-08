@@ -35,6 +35,9 @@ export class CommandBar extends Field {
 			this.randomizeButton = new RandomizeButton(gui);
 			this.randomizeButton.button.parent(this.div);
 			this.randomizeButton.button.addClass('command-bar__button');
+			this.randomizeButton.button.addClass(
+				'command-bar__button--randomizer'
+			);
 			this.randomizeButton.button.elt.title = gui.lang.process(
 				'LANG_RANDOMIZE',
 				true
@@ -82,6 +85,9 @@ export class CommandBar extends Field {
 			this.themeToggle = new ThemeToggle(gui, this);
 			this.themeToggle.button.parent(this.div);
 			this.themeToggle.button.addClass('command-bar__button');
+			this.themeToggle.button.addClass(
+				'command-bar__button--theme-toggle'
+			);
 		}
 
 		// settings
