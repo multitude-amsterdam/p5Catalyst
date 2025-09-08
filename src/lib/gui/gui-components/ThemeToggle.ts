@@ -1,6 +1,6 @@
 import type { CommandBar } from '../components/CommandBar';
 import type { GUIForP5 } from '../GUIForP5';
-import { GUIButton } from './GUIButton';
+import { GUIButton } from './_GUIButton';
 import p5 from 'p5';
 
 export class ThemeToggle extends GUIButton {
