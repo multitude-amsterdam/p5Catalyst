@@ -91,9 +91,7 @@ export function createContainer(
 			};
 
 			sketch.draw = () => {
-				if (!state.isPlaying) {
-					sketch.frameCount--;
-				}
+				if (!state.isPlaying) sketch.frameCount--;
 
 				state.progress = sketch.frameCount / state.getNFramesToRender();
 				state.time = sketch.frameCount / sketch.getTargetFrameRate();
@@ -133,8 +131,9 @@ export function createContainer(
 				}
 
 				if (state.isRecording) {
-					saveToLocalFFMPEG(canvas);
-					if (state.progress >= 1) {
+					if (sketch.frameCount < state.getNFramesToRender())
+						saveToLocalFFMPEG(canvas);
+					else {
 						state.isRecording = false;
 						ffmpegCreateMP4(
 							state.width,

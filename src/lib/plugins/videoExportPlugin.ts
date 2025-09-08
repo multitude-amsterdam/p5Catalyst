@@ -14,7 +14,7 @@ export function videoExportPlugin(): Plugin {
 
 			timeGroup?.addTextbox(
 				'durationInput',
-				'Duration',
+				'Duration (s)',
 				state.duration.toString(),
 				(controller, value) => {
 					const duration = parseFloat(value as string);
@@ -26,7 +26,7 @@ export function videoExportPlugin(): Plugin {
 
 			timeGroup?.addTextbox(
 				'frameRateInput',
-				'LANG_FRAME_RATE',
+				'LANG_FRAME_RATE (fps)',
 				state.sketchHook?.getTargetFrameRate().toString() || '30',
 				(controller, value) => {
 					const frameRate = parseInt(value as string);
