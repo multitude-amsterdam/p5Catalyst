@@ -17,9 +17,7 @@ export function randomizerPlugin(controllerNames: string[]): Plugin {
 			const controllers: Controller[] =
 				gui.getControllers(controllerNames);
 			controllers.forEach(controller => {
-				if (controller instanceof ValuedController) {
-					gui.randomizer?.addController(controller);
-				}
+				gui.randomizer?.addController(controller);
 			});
 		},
 	};
