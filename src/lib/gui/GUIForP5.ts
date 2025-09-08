@@ -19,7 +19,7 @@ import { Lang } from '../language/Lang';
 import { Tab } from './components/groups/Tab';
 import { Dialog } from './Dialog';
 import { ThemeToggle } from './gui-components/ThemeToggle';
-import { RandomizeButton } from './gui-components/RandomizeButton';
+import { RandomizeButton } from './gui-components/randomizeButton';
 
 import { CommandBar } from './components/CommandBar';
 

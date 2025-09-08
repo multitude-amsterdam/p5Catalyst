@@ -3,7 +3,7 @@ import { GUIForP5 } from '../GUIForP5';
 import { Field } from './Field';
 import type { Config } from 'src/lib/types';
 import { ThemeToggle } from '../gui-components/ThemeToggle';
-import { RandomizeButton } from '../gui-components/RandomizeButton';
+import { RandomizeButton } from '../gui-components/randomizeButton';
 import { GUIButton } from '../gui-components/GUIButton';
 
 export class CommandBar extends Field {
@@ -107,7 +107,7 @@ export class CommandBar extends Field {
 
 	createButton(label: string, callback: () => void): GUIButton {
 		label = this.gui.lang.process(label, true);
-		const button: GUIButton = new GUIButton(this.gui);
+		const button: GUIButton = new GUIButton(this.gui, callback);
 		button.button
 			.parent(this.div)
 			.addClass('command-bar__button')
