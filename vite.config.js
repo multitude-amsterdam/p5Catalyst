@@ -5,6 +5,7 @@ export default defineConfig({
 		headers: {
 			'Cross-Origin-Embedder-Policy': 'require-corp',
 			'Cross-Origin-Opener-Policy': 'same-origin',
+			'test': 'test',
 		},
 	},
 	optimizeDeps: {
