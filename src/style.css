@@ -1319,10 +1319,6 @@ body:where(.dark-mode) .command-bar__icon--help {
 /* ---------------------------- DARK MODE BUTTON ---------------------------- */
 
 .command-bar__icon--theme-toggle {
-	/* background-image: url('assets/dark-mode-button/auto-mode-icon.svg'); */
-}
-
-.dark-mode-button {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-size: contain;
@@ -1333,28 +1329,23 @@ body:where(.dark-mode) .command-bar__icon--help {
 	border-radius: 100%;
 }
 
-.dark-mode-button:focus:hover {
-	border-radius: 100%;
-	outline: none;
+.theme-toggle--light {
+	background-image: url('assets/theme-toggle/light-mode-icon.svg');
 }
-
-.dark-mode-button--light {
-	background-image: url('assets/dark-mode-button/light-mode-icon.svg');
+.theme-toggle--dark {
+	background-image: url('assets/theme-toggle/dark-mode-icon.svg');
 }
-.dark-mode-button--dark {
-	background-image: url('assets/dark-mode-button/dark-mode-icon.svg');
+.theme-toggle--auto {
+	background-image: url('assets/theme-toggle/auto-mode-icon.svg');
 }
-.dark-mode-button--auto {
-	background-image: url('assets/dark-mode-button/auto-mode-icon.svg');
+body:where(.dark-mode) .theme-toggle--light {
+	background-image: url('assets/dark-mode/theme-toggle/light-mode-icon.svg');
 }
-body:where(.dark-mode) .dark-mode-button--light {
-	background-image: url('assets/dark-mode/dark-mode-button/light-mode-icon.svg');
+body:where(.dark-mode) .theme-toggle--dark {
+	background-image: url('assets/dark-mode/theme-toggle/dark-mode-icon.svg');
 }
-body:where(.dark-mode) .dark-mode-button--dark {
-	background-image: url('assets/dark-mode/dark-mode-button/dark-mode-icon.svg');
-}
-body:where(.dark-mode) .dark-mode-button--auto {
-	background-image: url('assets/dark-mode/dark-mode-button/auto-mode-icon.svg');
+body:where(.dark-mode) .theme-toggle--auto {
+	background-image: url('assets/dark-mode/theme-toggle/auto-mode-icon.svg');
 }
 
 /* ----------------------------- CANVAS SECTION ----------------------------- */
