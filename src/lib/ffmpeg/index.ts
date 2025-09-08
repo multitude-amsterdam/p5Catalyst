@@ -51,6 +51,7 @@ export async function ffmpegInit() {
 			'text/javascript'
 		),
 	});
+	console.log('ffmpeg.wasm initialized.');
 }
 
 export function logFFMPEG() {
