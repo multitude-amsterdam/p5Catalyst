@@ -22,15 +22,11 @@ import { CommandBar } from './components/CommandBar';
  * Handles layout, theming, controller management, and state persistence.
  */
 export class GUIForP5 {
-	div: p5.Element;
-	randomizer?: Randomizer;
 	p5Instance: p5;
 	state: State;
-	sketch: sketchHook;
-	lang: Lang;
-	dialog: Dialog;
-	isOnLeftSide: boolean = true;
-	isTypingText: boolean = false;
+	sketchHook: sketchHook;
+
+	div: p5.Element;
 
 	fields: Field[] = [];
 	controllers: any[] = [];
@@ -38,6 +34,12 @@ export class GUIForP5 {
 	tabs: Tab[] = [];
 	tabBar?: p5.Element;
 	activeTab?: Tab;
+
+	randomizer?: Randomizer;
+	lang: Lang;
+	dialog: Dialog;
+	isOnLeftSide: boolean = true;
+	isTypingText: boolean = false;
 
 	darkMode: 'true' | 'false' | 'auto';
 	changeSet: ChangeSet;
@@ -50,7 +52,7 @@ export class GUIForP5 {
 	constructor(container: Container, config: Config) {
 		this.p5Instance = container.p5Instance;
 		this.state = container.state;
-		this.sketch = container.sketchHook;
+		this.sketchHook = container.sketchHook;
 
 		this.div = this.p5Instance.createDiv();
 		this.div.id('gui');
@@ -126,74 +128,17 @@ export class GUIForP5 {
 		this.isOnLeftSide = false;
 	}
 
-	//   /**
-	//    * Toggles the GUI between left and right sides.
-	//    */
-	//   toggleSide() {
-	//     this.isOnLeftSide ? this.setRight() : this.setLeft();
-	//   }
-
-	//   /**
-	//    * Adds a field (GUI element) to the GUI.
-	//    * @param {Field} field
-	//    * @returns {Field}
-	//    */
 	addField<T extends Field>(field: T) {
 		this.fields.push(field);
 		return field;
 	}
 
-	//   /**
-	//    * Adds an HTML string as a new field.
-	//    * @param {string} html
-	//    * @param {string} [className='']
-	//    * @returns {Field}
-	//    */
-	//   addHTMLToNewField(html, className = "") {
-	//     let field = this.addField(new Field(this.div, "", className));
-	//     field.div.html(html);
-	//     return field;
-	//   }
-
-	//   /**
-	//    * Adds the p5Catalyst logo as a field.
-	//    * @returns {Field}
-	//    */
-	//   addP5CatalystLogo() {
-	//     let logo = this.addHTMLToNewField(
-	//       `<a href="https://github.com/multitude-amsterdam/p5Catalyst" target="_blank">` +
-	//         `<div class="p5catalyst-logo"></div>` +
-	//         `</a>`,
-	//       "footer-logo"
-	//     );
-	//     return logo;
-	//   }
-
-	//   /**
-	//    * Adds a divider (horizontal rule) to the GUI.
-	//    * @returns {Divider}
-	//    */
-	//   addDivider() {
-	//     let divider = new Divider(this.div);
-	//     this.addField(divider);
-	//     return divider;
-	//   }
-
-	//   /**
-	//    * Adds a controller to the GUI and optionally to the randomizer.
-	//    * @param {Controller} controller
-	//    * @param {boolean} [doAddToRandomizerAs]
-	//    * @returns {Controller}
-	//    */
 	addController<T extends Controller>(controller: T) {
 		this.addField(controller);
 		this.controllers.push(controller);
 		return controller;
 	}
 
-	/**
-	 * @param  {...Tab} tabs
-	 */
 	addTabs(...names: string[]): Tab[] {
 		if (this.tabs.length === 0) {
 			this.tabs = [];
@@ -250,53 +195,6 @@ export class GUIForP5 {
 		return tab;
 	}
 
-	//   /**
-	//    * Adds a label to the GUI.
-	//    * @param {string} labelText
-	//    * @returns {Label}
-	//    */
-	//   addLabel(labelText) {
-	//     let label = new Label(this.div, labelText);
-	//     this.addField(label);
-	//     return label;
-	//   }
-
-	//   /**
-	//    * Adds a title (heading) to the GUI.
-	//    * @param {number} hSize - Heading size (e.g., 1 for h1, 2 for h2).
-	//    * @param {string} titleText
-	//    * @param {boolean} [doAlignCenter=false]
-	//    * @returns {Title}
-	//    */
-	//   addTitle(hSize, titleText, doAlignCenter = false) {
-	//     let title = new Title(
-	//       this.div,
-	//       hSize,
-	//       titleText,
-	//       (doAlignCenter = doAlignCenter)
-	//     );
-	//     this.addField(title);
-	//     return title;
-	//   }
-
-	//   /**
-	//    * Adds an image to the GUI.
-	//    * @param {string} url
-	//    * @param {string} altText
-	//    * @param {boolean} [doAlignCenter=true]
-	//    * @returns {GUIImage}
-	//    */
-	//   addImage(url, altText, doAlignCenter = true) {
-	//     let img = new GUIImage(
-	//       this.div,
-	//       url,
-	//       altText,
-	//       (doAlignCenter = doAlignCenter)
-	//     );
-	//     this.addField(img);
-	//     return img;
-	//   }
-
 	/**
 	 * Checks if a controller with the given name exists.
 	 * @param {string} name
@@ -322,10 +220,8 @@ export class GUIForP5 {
 
 	/**
 	 * Gets multiple controllers by an array of names.
-	 * @param {string[]} names
-	 * @returns {Controller[]}
 	 */
-	getControllers(names: string[]) {
+	getControllers(names: string[]): Controller[] {
 		return this.controllers.filter(controller =>
 			names.some(name => {
 				if (!this.hasName(name)) {
@@ -338,9 +234,8 @@ export class GUIForP5 {
 
 	/**
 	 * Gets the current state of all controllers with values.
-	 * @returns {Array<{name: string, value: any, isDieActive?: boolean}>}
 	 */
-	getState() {
+	getState(): Serializable[] {
 		return this.controllers
 			.filter(controller => controller.value !== undefined)
 			.map(controller => {
@@ -356,11 +251,14 @@ export class GUIForP5 {
 
 	/**
 	 * Restores the state of controllers from a saved state.
-	 * @param {Array<{name: string, value: any, isDieActive?: boolean}>} state
 	 */
-	restoreState(state: Serializable[]) {
+	restoreState(serializedState: Serializable[]) {
 		Controller._doUpdateChangeSet = false;
-		for (let { name, value: serializedValue, isDieActive } of state) {
+		for (let {
+			name,
+			value: serializedValue,
+			isDieActive,
+		} of serializedState) {
 			if (serializedValue === undefined) continue;
 
 			const controller = this.getController(name);

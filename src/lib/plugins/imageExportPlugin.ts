@@ -25,7 +25,7 @@ export function imageExportPlugin(fileType: imageFileType): Plugin {
 				'buttonCopyPNG',
 				'LANG_COPY_TO_CLIPBOARD',
 				controller => {
-					state.sketchHook.canvasToClipboard();
+					state.sketchHook?.canvasToClipboard();
 				}
 			);
 
@@ -33,7 +33,7 @@ export function imageExportPlugin(fileType: imageFileType): Plugin {
 				'buttonDownloadImage',
 				'LANG_DOWNLOAD_IMAGE',
 				controller => {
-					state.sketchHook.exportImage(fileType, fileName);
+					state.sketchHook?.exportImage(fileType, fileName);
 				}
 			);
 
