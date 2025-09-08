@@ -11,7 +11,6 @@ import { ValuedController } from '../ValuedController';
 export class Crementer extends ValuedController {
 	minVal: number;
 	maxVal: number;
-	defaultVal: number;
 	stepSize: number;
 	valueDisplay: p5.Element;
 	/**
@@ -43,10 +42,9 @@ export class Crementer extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		super(gui, name, labelStr, setupCallback);
+		super(gui, name, labelStr, defaultVal, setupCallback);
 		this.minVal = minVal;
 		this.maxVal = maxVal;
-		this.defaultVal = defaultVal;
 		this.stepSize = stepSize;
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
@@ -66,7 +64,6 @@ export class Crementer extends ValuedController {
 		plusButton.parent(this.controllerElement);
 		plusButton.elt.onclick = () => this.increment();
 
-		this.value = defaultVal;
 		this.valueCallback(this, this.value);
 	}
 
@@ -76,11 +73,11 @@ export class Crementer extends ValuedController {
 	}
 
 	increment() {
-		this.setValue(this.mod(this.value + this.stepSize));
+		this.setValue(this.mod((this.value as number) + this.stepSize));
 	}
 
 	decrement() {
-		this.setValue(this.mod(this.value - this.stepSize));
+		this.setValue(this.mod((this.value as number) - this.stepSize));
 	}
 
 	setValue(value: number) {
@@ -89,7 +86,7 @@ export class Crementer extends ValuedController {
 			this.minVal,
 			this.maxVal
 		);
-		this.valueDisplay.html(this.value);
+		this.valueDisplay.html(this.value.toString());
 		this.valueCallback(this, this.value);
 		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}

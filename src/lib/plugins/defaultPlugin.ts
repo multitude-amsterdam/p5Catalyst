@@ -14,28 +14,20 @@ export const defaultPlugin: Plugin = () => [
 		setup: (gui: GUIControllerInterface, state: State) => {
 			const [appearanceTab, exportTab, settingsTab] = gui.addTabs(
 				'appearance',
-				'export',
-				'settings'
+				'export'
 			);
-			appearanceTab.addTitle(3, 'Appearance');
-			settingsTab.addTitle(3, 'Settings');
 		},
 	},
 	languagePlugin('en'), // empty userDictionary
+
+	//appearance
 	resolutionPlugin(resolutionPresets),
-	imageExportPlugin('jpg'),
-	videoExportPlugin(),
+	// gui creation for appearance in main.js goes inbetween here
 	backdropPlugin(),
-	{
-		name: 'changeSetButtons',
-		setup: (gui: GUIControllerInterface, state: State) => {
-			const undoRedoGroup = gui.addGroup('undoRedo', ROW);
-			undoRedoGroup.addButton('undo', 'LANG_UNDO', controller => {
-				gui.undo();
-			});
-			undoRedoGroup.addButton('redo', 'LANG_REDO', controller => {
-				gui.redo();
-			});
-		},
-	},
+
+	// export
+	imageExportPlugin('png'),
+	videoExportPlugin(),
+
+	// settings
 ];

@@ -5,18 +5,19 @@ import { Group, Panel, Tab } from '../gui/components/groups';
 
 import type {
 	controllerCallback,
+	fileReadyCallback,
 	setupCallback,
 	valueCallback,
 } from './controller';
 
 import type {
 	Button,
-	ColourBoxes,
+	ColorBoxes,
 	Crementer,
 	Group,
 	ImageLoader,
 	JSONFileLoader,
-	MultiColourBoxes,
+	MultiColorBoxes,
 	ResolutionSelect,
 	ResolutionTextBoxes,
 	Select,
@@ -142,50 +143,50 @@ export interface GUIAddableInterface {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) => Crementer;
-	addColourBoxes: (
+	addColorBoxes: (
 		name: string,
 		labelStr: string,
-		colours: string[],
+		colors: string[],
 		defaultIndex: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => ColourBoxes;
-	addMultiColourBoxes: (
+	) => ColorBoxes;
+	addMultiColorBoxes: (
 		name: string,
 		labelStr: string,
-		colours: string[],
+		colors: string[],
 		defaultIndices: number[],
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => MultiColourBoxes;
+	) => MultiColorBoxes;
 	addTextLoader: (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => TextFileLoader;
 	addJSONLoader: (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => JSONFileLoader;
 	addImageLoader: (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => ImageLoader;
 	addVideoLoader: (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => VideoLoader;
 	addMediaLoader: (
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) => MediaLoader;
 }

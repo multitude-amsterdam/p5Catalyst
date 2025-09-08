@@ -33,7 +33,7 @@ export class Toggle extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		super(gui, name, '', setupCallback);
+		super(gui, name, '', isToggled, setupCallback);
 		this.controllerElement = gui.p5Instance.createButton('');
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.class('toggle');
@@ -53,7 +53,6 @@ export class Toggle extends ValuedController {
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
 
-		this.value = isToggled ? true : false;
 		this.valueCallback(this, this.value);
 	}
 

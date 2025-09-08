@@ -45,7 +45,7 @@ export class Select extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		super(gui, name, labelStr, setupCallback);
+		super(gui, name, labelStr, options[defaultIndex], setupCallback);
 
 		this.controllerElement = gui.p5Instance.createSelect();
 		this.options = options;
@@ -62,7 +62,6 @@ export class Select extends ValuedController {
 		this.controllerElement.elt.onchange = callback;
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
-		this.value = options[defaultIndex];
 		this.valueCallback(this, this.value);
 	}
 

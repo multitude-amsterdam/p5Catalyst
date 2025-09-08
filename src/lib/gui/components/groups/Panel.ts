@@ -8,7 +8,10 @@ export class Panel extends BaseGroup {
 	gui: GUIForP5;
 
 	constructor(gui: GUIForP5, name: string) {
-		super(gui, name, 'panel');
+		name = gui.lang.process(name, true);
+		const id = name.toLowerCase().replace(/\s+/g, '-');
+		super(gui, id, 'panel');
+
 		this.gui = gui;
 		let detailElement = gui.p5Instance.createElement(
 			'details',
@@ -21,12 +24,27 @@ export class Panel extends BaseGroup {
 		this.div.child(detailElement);
 	}
 
-	//   /**
-	//    * Adds a field (GUI element) to the GUI.
-	//    * @param {Field} field
-	//    * @returns {Field}
-	//    */
 	attachField<T extends Field>(field: T) {
 		this.container.child(field.div);
+	}
+
+	isClosed() {
+		return (this.div.elt.firstChild as HTMLDetailsElement).open === false;
+	}
+
+	close() {
+		(this.div.elt.firstChild as HTMLDetailsElement).open = false;
+	}
+
+	open() {
+		(this.div.elt.firstChild as HTMLDetailsElement).open = true;
+	}
+
+	toggle() {
+		if (this.isClosed()) {
+			this.open();
+		} else {
+			this.close();
+		}
 	}
 }

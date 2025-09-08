@@ -15,14 +15,14 @@ import {
 
 import type {
 	Plugin,
-	SketchFunction,
+	sketchFunction,
 	Config,
 	GUIControllerInterface,
 	State,
 } from './types';
 
 const initialize = async (
-	sketchFunction: SketchFunction,
+	sketchFunction: sketchFunction,
 	guiSetup?: (gui: GUIControllerInterface, state: State) => void,
 	userPlugins?: Plugin[]
 ) => {

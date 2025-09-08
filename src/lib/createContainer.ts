@@ -1,12 +1,13 @@
 import p5 from 'p5';
-import type { Container, SketchFunction, State } from './types';
+import type { Container, sketchFunction, State } from './types';
 import type { Config, imageFileType } from './types/plugin';
 import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg';
+import type { SketchHook } from './types/construction';
 
-export const createContainer = (
-	userSketch: SketchFunction,
+export function createContainer(
+	userSketch: sketchFunction,
 	config?: Config
-): Promise<Container> => {
+): Promise<Container> {
 	const state: State = {
 		width: 1080,
 		height: 1080,
@@ -23,33 +24,32 @@ export const createContainer = (
 
 			const userSetup = sketch.setup || (() => {});
 			const userDraw = sketch.draw || (() => {});
-			const userMouseMoved = sketch.mouseMoved || (() => {});
-			const userKeyPressed =
-				sketch.keyPressed || ((event: KeyboardEvent) => {});
+
 			// TODO: add all possible p5 event functions
 
 			let canvas: p5.Renderer,
-				canvasWrapper: p5.Element,
-				canvasScale: number;
+				canvasWorkArea: p5.Element,
+				canvasWrapper: p5.Element;
 
-			let GuiTyping = false;
-			let isRecording = false;
+			let isGuiTyping = false;
 
-			let fps = 30;
-			state.getNFramesToRender = () => Math.floor(state.duration * fps);
+			const defaultFrameRate = 30;
+			state.getNFramesToRender = () =>
+				Math.floor(state.duration * defaultFrameRate);
 
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
 				createCanvasWrapper();
 				containCanvasInWrapper();
 
-				sketch.frameRate(fps);
+				sketch.frameRate(defaultFrameRate);
 				await Promise.resolve(userSetup());
-				const sketchHook = {
-					resize: (width: number, height: number) => {
-						resizeCatalyst(width, height);
+
+				const sketchHook: SketchHook = {
+					resizeCanvas: (width: number, height: number) => {
+						resizeCanvas(width, height);
 					},
-					canvasToClipboard: () => {
+					copyCanvasToClipboard: () => {
 						copyCanvasToClipboard();
 					},
 					exportImage: (
@@ -78,23 +78,26 @@ export const createContainer = (
 					setDuration: (newDuration: number) => {
 						state.duration = newDuration;
 					},
-					setFrameRate: (frameRate: number) => {
-						sketch.frameRate(frameRate);
-						fps = frameRate;
+					getTargetFrameRate: () => {
+						return sketch.getTargetFrameRate();
+					},
+					setFrameRate: (fps: number) => {
+						sketch.frameRate(fps);
 					},
 				};
+				state.sketchHook = sketchHook;
 
 				resolve({ p5Instance, state, sketchHook });
 			};
 
 			sketch.draw = () => {
-				if (!state.isPlaying) {
-					sketch.frameCount--;
-				}
+				if (!state.isPlaying) sketch.frameCount--;
 
 				state.progress = sketch.frameCount / state.getNFramesToRender();
 				state.time = sketch.frameCount / sketch.getTargetFrameRate();
+
 				if (config?.clearBackground) sketch.clear();
+
 				if (state.backdrop) {
 					sketch.image(
 						state.backdrop,
@@ -106,10 +109,12 @@ export const createContainer = (
 						0,
 						state.backdrop.width,
 						state.backdrop.height,
-						sketch.CONTAIN
+						sketch.COVER
 					);
 				}
+
 				userDraw();
+
 				if (state.overlay) {
 					sketch.image(
 						state.overlay,
@@ -121,13 +126,15 @@ export const createContainer = (
 						0,
 						state.overlay.width,
 						state.overlay.height,
-						sketch.CONTAIN
+						sketch.COVER
 					);
 				}
-				if (isRecording) {
-					saveToLocalFFMPEG(canvas);
-					if (state.progress === 1) {
-						isRecording = false;
+
+				if (state.isRecording) {
+					if (sketch.frameCount < state.getNFramesToRender())
+						saveToLocalFFMPEG(canvas);
+					else {
+						state.isRecording = false;
 						ffmpegCreateMP4(
 							state.width,
 							state.height,
@@ -137,33 +144,64 @@ export const createContainer = (
 				}
 			};
 
-			sketch.mouseMoved = () => {
-				userMouseMoved();
+			const userMousePressed = sketch.mousePressed || (() => {});
+			const userMouseReleased = sketch.mouseReleased || (() => {});
+			const userMouseClicked = sketch.mouseClicked || (() => {});
+			const userMouseWheel = sketch.mouseWheel || (() => {});
+			const userMouseDragged = sketch.mouseDragged || (() => {});
+			const userDoubleClicked = sketch.doubleClicked || (() => {});
+			const userKeyPressed = sketch.keyPressed || (() => {});
+			const userWindowResized = sketch.windowResized || (() => {});
+
+			sketch.mousePressed = () => {
+				userMousePressed();
+			};
+			sketch.mouseReleased = () => {
+				userMouseReleased();
+			};
+			sketch.mouseClicked = () => {
+				userMouseClicked();
+			};
+			sketch.mouseWheel = () => {
+				userMouseWheel();
+			};
+			sketch.mouseDragged = () => {
+				userMouseDragged();
+			};
+			sketch.doubleClicked = () => {
+				userDoubleClicked();
+			};
+
+			sketch.windowResized = (event: UIEvent) => {
+				userWindowResized();
+				containCanvasInWrapper();
 			};
 
 			sketch.keyPressed = (event: KeyboardEvent) => {
-				if (GuiTyping) return;
+				if (isGuiTyping) return;
 
 				switch (event.key) {
 					case ' ':
-						sketch.frameCount = 0;
-						return;
-					case 'h':
+						state.isPlaying = !state.isPlaying;
 						return;
 					default:
 						userKeyPressed(event);
 				}
 			};
 
-			function setTyping(currentlyTyping: boolean) {
-				GuiTyping = currentlyTyping;
+			function setTyping(isCurrentlyTyping: boolean) {
+				isGuiTyping = isCurrentlyTyping;
 			}
 
 			function createCanvasWrapper() {
+				canvasWorkArea = sketch.createDiv();
 				canvasWrapper = sketch.createDiv();
-				canvasWrapper.id('canvas-workarea');
+				canvasWorkArea.id('canvas-workarea');
+				canvasWrapper.id('canvas-wrapper');
+
 				canvas.parent(canvasWrapper);
-				document.querySelector('main')?.append(canvasWrapper.elt);
+				canvasWrapper.parent(canvasWorkArea);
+				canvasWorkArea.parent(sketch.select('main') as p5.Element);
 			}
 
 			function containCanvasInWrapper() {
@@ -173,21 +211,32 @@ export const createContainer = (
 				const wrapperH = canvasWrapper.elt.clientHeight;
 				const wrapperAsp = wrapperW / wrapperH;
 
+				// seems to be necessary for css to work
+				// canvas.elt.removeAttribute('width');
+				// canvas.elt.removeAttribute('height');
+
 				canvas.elt.style = '';
+
+				canvas.elt.style.maxWidth = `1px`;
+				canvas.elt.style.maxHeight = `1px`;
+
+				canvas.elt.style.aspectRatio = canvAsp.toString();
 				if (canvAsp > wrapperAsp) {
-					canvas.elt.style.height = '';
 					canvas.elt.style.width = '100%';
+					canvas.elt.style.maxWidth = `calc(${wrapperW}px - 2rem)`;
+					canvas.elt.style.height = '';
+					canvas.elt.style.maxHeight = '';
 				} else {
 					canvas.elt.style.width = '';
-					canvas.elt.style.height = 'calc(100vh - 2rem)';
+					canvas.elt.style.maxWidth = '';
+					canvas.elt.style.height = '100%';
+					canvas.elt.style.maxHeight = `calc(${wrapperH}px - 2rem)`;
 				}
 
-				canvasScale = sketch.sqrt(
-					(state.width * state.height) / (1920 * 1080)
-				);
+				console.log(canvAsp, wrapperAsp, wrapperW, wrapperH);
 			}
 
-			function resizeCatalyst(width: number, height: number) {
+			function resizeCanvas(width: number, height: number) {
 				if (width < 1 || height < 1) return;
 				state.width = width;
 				state.height = height;
@@ -218,4 +267,4 @@ export const createContainer = (
 
 		const p5Instance = new p5(containerSketch);
 	});
-};
+}

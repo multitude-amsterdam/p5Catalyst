@@ -1,5 +1,5 @@
 import p5 from 'p5';
-import type { setupCallback, valueCallback } from '../../../types';
+import type { setupCallback, fileReadyCallback } from '../../../types';
 import type { GUIForP5 } from '../../GUIForP5';
 import { FileLoader } from './FileLoader';
 
@@ -8,25 +8,13 @@ import { FileLoader } from './FileLoader';
  * @extends FileLoader
  */
 export class MediaLoader extends FileLoader {
-	/**
-	 * The loaded image.
-	 * @type {p5.Element}
-	 */
 	media?: p5.MediaElement | p5.Element;
 
-	/**
-	 * Constructor for ImageLoader.
-	 * @param {GUIForP5} gui
-	 * @param {string} name
-	 * @param {string} labelStr
-	 * @param {ValueCallback} valueCallback
-	 * @param {SetupCallback} [setupCallback]
-	 */
 	constructor(
 		gui: GUIForP5,
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) {
 		super(
@@ -35,6 +23,7 @@ export class MediaLoader extends FileLoader {
 			labelStr,
 			'image',
 			file => {
+				file = file as p5.File;
 				if (file.type === 'video') {
 					this.media = gui.p5Instance.createVideo(file.data);
 					(this.media as p5.MediaElement).volume(0);
@@ -44,8 +33,9 @@ export class MediaLoader extends FileLoader {
 				}
 				this.media?.hide();
 				this.file = this.media;
+
+				fileReadyCallback(this.media as p5.Element);
 			},
-			valueCallback,
 			setupCallback
 		);
 		if (this.controllerElement)

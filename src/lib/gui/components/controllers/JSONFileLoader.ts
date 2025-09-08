@@ -1,36 +1,16 @@
-import type { setupCallback, valueCallback } from '../../../types';
+import type { fileReadyCallback, setupCallback } from '../../../types';
 import type { GUIForP5 } from '../../GUIForP5';
 import { FileLoader } from './FileLoader';
 
-/**
- * Loader for JSON files.
- * @extends FileLoader
- */
 export class JSONFileLoader extends FileLoader {
-	/**
-	 * Constructor for JSONFileLoader.
-	 * @param {GUIForP5} gui
-	 * @param {string} name
-	 * @param {string} labelStr
-	 * @param {ValueCallback} valueCallback
-	 * @param {SetupCallback} [setupCallback]
-	 */
 	constructor(
 		gui: GUIForP5,
 		name: string,
 		labelStr: string,
-		valueCallback?: valueCallback,
+		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) {
-		super(
-			gui,
-			name,
-			labelStr,
-			'json',
-			file => {},
-			valueCallback,
-			setupCallback
-		);
+		super(gui, name, labelStr, 'json', fileReadyCallback, setupCallback);
 		if (this.controllerElement) this.controllerElement.elt.accept = '.json';
 	}
 }

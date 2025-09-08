@@ -1,4 +1,6 @@
 import type { Dictionary } from '../types';
+import { getControlKeyName } from '../utils/data';
+
 /**
  * Holds all translatable "hot strings".
  *
@@ -8,9 +10,8 @@ import type { Dictionary } from '../types';
  * so that the longest keys are replaced first.
  *
  * (Use the VS Code "Sort JS Object keys" extension to sort the keys.)
- *
- * @constant
- * @type {Dictionary}
+ * (Use "JS Sort Object Keys (Reverse)" to sort in reverse order.)
+ * (Only select the outer most braces for this to work correctly.)
  */
 export const dictionary: Dictionary = {
 	LANG_WRONG_FILE_TYPE_MSG: {
@@ -41,9 +42,25 @@ export const dictionary: Dictionary = {
 		nl: 'ongedaan maken',
 		en: 'undo',
 	},
+	LANG_TOO_SMALL_IMG_ALERT: {
+		nl:
+			'<h1>Afbeelding te klein</h1><p>De afmetingen van de afbeelding ({0} x {1}) zijn te laag voor een mooi optisch effect.\n' +
+			'Kies een afbeelding van ten minste {2} x {3} pixels.</p>',
+		en:
+			'<h1>Image too small</h1><p>The dimensions of the image ({0} x {1}) are too low for a good optical effect.\n' +
+			'Choose an image of at least {2} x {3} pixels.</p>',
+	},
+	LANG_TOO_SMALL_IMG: {
+		nl: 'Kleiner dan minimum afmetingen: {0} x {1} pixels.',
+		en: 'Smaller than minimum dimensions: {0} x {1} pixels.',
+	},
 	LANG_TITLE_TEXT: {
 		nl: 'titeltekst',
 		en: 'title text',
+	},
+	LANG_FRAME_RATE: {
+		en: 'frame rate',
+		nl: 'framerate',
 	},
 	LANG_TEXT: {
 		nl: 'tekst',
@@ -81,6 +98,10 @@ export const dictionary: Dictionary = {
 		nl: 'instellingen opslaan als bestand',
 		en: 'save settings as file',
 	},
+	LANG_RESET: {
+		nl: 'resetten',
+		en: 'reset',
+	},
 	LANG_REDO: {
 		nl: 'opnieuw',
 		en: 'redo',
@@ -101,6 +122,10 @@ export const dictionary: Dictionary = {
 		nl: 'open instellingen',
 		en: 'open settings file',
 	},
+	LANG_LIGHT_MODE: {
+		nl: 'licht thema',
+		en: 'light theme',
+	},
 	LANG_LANDSCAPE: {
 		nl: 'liggend',
 		en: 'landscape',
@@ -117,18 +142,6 @@ export const dictionary: Dictionary = {
 		nl: 'verberg',
 		en: 'hide',
 	},
-	LANG_TOO_SMALL_IMG_ALERT: {
-		nl:
-			'<h1>Afbeelding te klein</h1><p>De afmetingen van de afbeelding ({0} x {1}) zijn te laag voor een mooi optisch effect.\n' +
-			'Kies een afbeelding van ten minste {2} x {3} pixels.</p>',
-		en:
-			'<h1>Image too small</h1><p>The dimensions of the image ({0} x {1}) are too low for a good optical effect.\n' +
-			'Choose an image of at least {2} x {3} pixels.</p>',
-	},
-	LANG_TOO_SMALL_IMG: {
-		nl: 'Kleiner dan minimum afmetingen: {0} x {1} pixels.',
-		en: 'Smaller than minimum dimensions: {0} x {1} pixels.',
-	},
 	LANG_HELPME_MSG: {
 		nl:
 			`<h1>Help</h1>` +
@@ -136,8 +149,8 @@ export const dictionary: Dictionary = {
 			`<ul>` +
 			`<li><span>Geselcteerde controls randomizen</span> <span><code>R</code></span></li>` +
 			`<li><span>Pauzeren / afspelen animatie</span> <span><code>spatiebalk</code></span></li>` +
-			`<li><span>Ongedaan maken</span> <span><code>CTRL / CMD</code> + <code>Z</code></span></li>` +
-			`<li><span>Opnieuw</span> <span><code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></span></li>` +
+			`<li><span>Ongedaan maken</span> <span><code>${getControlKeyName()}</code> + <code>Z</code></span></li>` +
+			`<li><span>Opnieuw</span> <span><code>${getControlKeyName()}</code> + <code>SHIFT</code> + <code>Z</code></span></li>` +
 			`<li><span>Volledig scherm</span> <span><code>F</code></span></li>` +
 			`<li><span>Zijbalk verspringen</span> <span><code>B</code></span></li>` +
 			`<li><span>Wissel tussen licht/donker thema</span> <span><code>M</code></span></li>` +
@@ -150,8 +163,8 @@ export const dictionary: Dictionary = {
 			`<ul>` +
 			`<li><span>Randomize selected controls</span> <span><code>R</code></span></li>` +
 			`<li><span>Pause / play animation</span> <span><code>spacebar</code></span></li>` +
-			`<li><span>Undo</span> <span><code>CTRL / CMD</code> + <code>Z</code></span></li>` +
-			`<li><span>Redo</span> <span><code>CTRL / CMD</code> + <code>SHIFT</code> + <code>Z</code></span></li>` +
+			`<li><span>Undo</span> <span><code>${getControlKeyName()}</code> + <code>Z</code></span></li>` +
+			`<li><span>Redo</span> <span><code>${getControlKeyName()}</code> + <code>SHIFT</code> + <code>Z</code></span></li>` +
 			`<li><span>Toggle fullscreen</span> <span><code>F</code></span></li>` +
 			`<li><span>Flip sidebar</span> <span><code>B</code></span></li>` +
 			`<li><span>Toggle light/dark mode</span> <span><code>M</code></span></li>` +
@@ -167,25 +180,29 @@ export const dictionary: Dictionary = {
 		nl: 'hoogte',
 		en: 'height',
 	},
-	LANG_FORMAT: {
-		nl: 'formaat',
-		en: 'dimensions',
+	LANG_RESOLUTION: {
+		nl: 'resolutie',
+		en: 'resolution',
 	},
 	LANG_FGCOL: {
 		nl: 'voorgrondkleur',
-		en: 'foreground colour',
+		en: 'foreground color',
 	},
 	LANG_EXPORT: {
 		nl: 'exporteren',
 		en: 'export',
 	},
-	LANG_COPY_TO_CLIPBOARD: {
-		nl: 'afbeelding kopiëren',
-		en: 'copy image',
-	},
 	LANG_DOWNLOAD_IMAGE: {
 		nl: 'afbeelding downloaden',
 		en: 'download image',
+	},
+	LANG_DARK_MODE: {
+		nl: 'donker thema',
+		en: 'dark theme',
+	},
+	LANG_COPY_TO_CLIPBOARD: {
+		nl: 'afbeelding kopiëren',
+		en: 'copy image',
 	},
 	LANG_CONTACT_MSG: {
 		nl: 'Contact voor ondersteuning & feedback',
@@ -205,7 +222,7 @@ export const dictionary: Dictionary = {
 	},
 	LANG_BGCOL: {
 		nl: 'achtergrondkleur',
-		en: 'background colour',
+		en: 'background color',
 	},
 	LANG_APPEARANCE: {
 		nl: 'verschijning',

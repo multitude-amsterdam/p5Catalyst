@@ -1,5 +1,5 @@
 import type { GUIForP5 } from '../GUIForP5';
-import type { controllerElement, setupCallback } from '../../types';
+import type { setupCallback } from '../../types';
 import { Field } from './Field';
 import p5 from 'p5';
 import type { DieIcon } from '../gui-components/DieIcon';
@@ -54,12 +54,6 @@ export class Controller extends Field {
 	controllerElement?: p5.Element;
 
 	/**
-	 * The GUIForP5 instance this controller belongs to.
-	 * @type {GUIForP5}
-	 */
-	gui: GUIForP5;
-
-	/**
 	 * The name of the controller.
 	 * @type {string}
 	 */
@@ -103,7 +97,6 @@ export class Controller extends Field {
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, 'gui-controller');
-		this.gui = gui;
 		this.name = name;
 
 		if (labelStr !== undefined && labelStr !== '') {
@@ -182,5 +175,14 @@ export class Controller extends Field {
 			// changeSet !== undefined &&
 			this._doUpdateChangeSet && Controller._doUpdateChangeSet
 		);
+	}
+
+	setLabel(labelStr: string) {
+		labelStr = this.gui.lang.process(labelStr, true);
+		if (this.label) {
+			this.label.setText(labelStr);
+			return;
+		}
+		this.label = new Label(this.gui, this, labelStr, this.div);
 	}
 }

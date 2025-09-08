@@ -48,3 +48,11 @@ export function toB64(n: number): string {
 export function fromB64(s64: string): number {
 	return s64.split('').reduce((s, v) => s * 64 + b64Digits.indexOf(v), 0);
 }
+
+export function isMac(): boolean {
+	return navigator.platform.startsWith('Mac');
+}
+
+export function getControlKeyName(): string {
+	return isMac() ? '⌘' : 'CTRL';
+}

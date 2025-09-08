@@ -1,13 +1,13 @@
 import type {
-	controllerElement,
+	ControllerElement,
 	controllerCallback,
 	valueCallback,
 	setupCallback,
 	fileReadyCallback,
-	controllerValue,
-	serializedValue,
-	serializedVector,
-	serializedColor,
+	ControllerValue,
+	SerializedValue,
+	SerializedVector,
+	SerializedColor,
 	Serializable,
 } from './controller';
 
@@ -20,7 +20,7 @@ import type {
 	GUIAddableInterface,
 } from './gui_interface';
 
-import type { State, SketchFunction, Container } from './construction';
+import type { State, sketchFunction, Container } from './construction';
 
 import type {
 	VideoFormatSettings,
@@ -29,12 +29,12 @@ import type {
 } from './ffmpeg';
 
 export type {
-	controllerValue,
-	serializedValue,
+	ControllerValue,
+	SerializedValue,
 	Serializable,
-	serializedVector,
-	serializedColor,
-	controllerElement,
+	SerializedVector,
+	SerializedColor,
+	ControllerElement,
 	controllerCallback,
 	valueCallback,
 	setupCallback,
@@ -49,7 +49,7 @@ export type {
 	GUIAddableInterface,
 	State,
 	Container,
-	SketchFunction,
+	sketchFunction,
 	VideoFormatSettings,
 	FFmpegLogEvent,
 	FFmpegProgressEvent,

@@ -28,7 +28,7 @@ export class Slider extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		super(gui, name, labelStr, setupCallback);
+		super(gui, name, labelStr, defaultVal, setupCallback);
 		this.controllerElement = gui.p5Instance.createSlider(
 			minVal,
 			maxVal,
