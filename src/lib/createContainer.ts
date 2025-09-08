@@ -232,8 +232,6 @@ export function createContainer(
 					canvas.elt.style.height = '100%';
 					canvas.elt.style.maxHeight = `calc(${wrapperH}px - 2rem)`;
 				}
-
-				console.log(canvAsp, wrapperAsp, wrapperW, wrapperH);
 			}
 
 			function resizeCanvas(width: number, height: number) {
@@ -241,7 +239,6 @@ export function createContainer(
 				state.width = width;
 				state.height = height;
 
-				console.log(`Resizing to: ${width} x ${height}...`);
 				sketch.pixelDensity(1);
 				sketch.resizeCanvas(width, height);
 
