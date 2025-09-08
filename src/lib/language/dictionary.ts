@@ -14,6 +14,10 @@ import { getControlKeyName } from '../utils/data';
  * (Only select the outer most braces for this to work correctly.)
  */
 export const dictionary: Dictionary = {
+	LANG_SETTINGS_DIALOG: {
+		en: `<h1>Settings</h1>` + `<p></p>`,
+		nl: '',
+	},
 	LANG_WRONG_FILE_TYPE_MSG: {
 		nl: '<h1>Verkeerd bestandstype</h1><p>Het verkeerde bestandtype was geselecteerd.</p>',
 		en: '<h1>Wrong file type</h1><p>The wrong file type was selected.</p>',

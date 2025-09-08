@@ -5,16 +5,17 @@ import type { Config } from 'src/lib/types';
 import { ThemeToggle } from '../gui-components/ThemeToggle';
 import { RandomizeButton } from '../gui-components/RandomizeButton';
 import { GUIButton } from '../gui-components/GUIButton';
+import { SettingsButton } from '../gui-components/SettingsButton';
 
 export class CommandBar extends Field {
 	undoButton: GUIButton;
 	redoButton: GUIButton;
 	resetButton: GUIButton;
-	settingsButton: GUIButton;
 	helpButton: GUIButton;
 
 	themeToggle: ThemeToggle;
 	randomizeButton?: RandomizeButton;
+	settingsButton: SettingsButton;
 
 	filler: p5.Element;
 	centerDiv: p5.Element;
@@ -85,26 +86,20 @@ export class CommandBar extends Field {
 			this.themeToggle = new ThemeToggle(gui, this);
 			this.themeToggle.button.parent(this.div);
 			this.themeToggle.button.addClass('command-bar__button');
-			this.themeToggle.button.addClass(
-				'command-bar__button--theme-toggle'
-			);
 		}
 
 		// settings
 		{
-			this.settingsButton = this.createButton('LANG_SETTINGS', () => {
-				gui.dialog.alert('test');
-			});
-			this.createIconDiv(
-				this.settingsButton,
-				'command-bar__icon--settings'
-			);
-
-			this.centerDiv = gui.p5Instance
-				.createDiv()
-				.parent(this.div)
-				.class('commandbar__center') as p5.Element;
+			this.settingsButton = new SettingsButton(gui, this);
+			this.settingsButton.button.parent(this.div);
+			this.settingsButton.button.addClass('command-bar__button');
 		}
+
+		// centered div on bar that hold logo or image
+		this.centerDiv = gui.p5Instance
+			.createDiv()
+			.parent(this.div)
+			.class('commandbar__center') as p5.Element;
 	}
 
 	createButton(label: string, callback: () => void): GUIButton {
