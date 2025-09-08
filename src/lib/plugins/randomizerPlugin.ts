@@ -1,4 +1,5 @@
 import { Controller } from '../gui/components/Controller';
+import { ValuedController } from '../gui/components/ValuedController';
 import type { GUIForP5 } from '../gui/GUIForP5';
 import type { Plugin, Config, GUIControllerInterface, State } from '../types';
 
@@ -16,7 +17,9 @@ export function randomizerPlugin(controllerNames: string[]): Plugin {
 			const controllers: Controller[] =
 				gui.getControllers(controllerNames);
 			controllers.forEach(controller => {
-				gui.randomizer?.addController(controller);
+				if (controller instanceof ValuedController) {
+					gui.randomizer?.addController(controller);
+				}
 			});
 		},
 	};

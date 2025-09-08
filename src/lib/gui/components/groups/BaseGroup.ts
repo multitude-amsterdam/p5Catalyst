@@ -107,7 +107,7 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 			callback,
 			setupCallback
 		);
-		this.gui.addField(button);
+		this.gui.addController(button);
 		this.attachField(button);
 		return button;
 	};

@@ -12,6 +12,7 @@ export const createContainer = (
 		height: 1080,
 		time: 0,
 		progress: 0,
+		duration: 15,
 		isPlaying: true,
 		isRecording: false,
 	};
@@ -39,15 +40,15 @@ export const createContainer = (
 
 			let isGuiTyping = false;
 
-			let duration = 20; //seconds
-			let fps = 60;
-			let nFramesToRender = Math.floor(duration * fps);
+			let fps = 30;
+			state.getNFramesToRender = () => Math.floor(state.duration * fps);
 
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
 				createCanvasWrapper();
 				containCanvasInWrapper();
 
+				sketch.frameRate(fps);
 				await Promise.resolve(userSetup());
 
 				const sketchHook = {
@@ -68,16 +69,12 @@ export const createContainer = (
 					},
 					startRecording: () => {
 						state.isRecording = true;
-						nFramesToRender = Math.floor(
-							duration * sketch.getTargetFrameRate()
-						);
 						sketch.frameCount = 0;
-						state.progress = 0;
-						console.log('recording started here!');
-						console.log(duration, nFramesToRender, state.progress);
+						console.log('Recording started.');
 					},
 					stopRecording: () => {
 						state.isRecording = false;
+						console.log('Recording ended.');
 						ffmpegCreateMP4(
 							state.width,
 							state.height,
@@ -85,10 +82,11 @@ export const createContainer = (
 						);
 					},
 					setDuration: (newDuration: number) => {
-						duration = newDuration;
+						state.duration = newDuration;
 					},
 					setFrameRate: (frameRate: number) => {
 						sketch.frameRate(frameRate);
+						fps = frameRate;
 					},
 				};
 
@@ -102,7 +100,7 @@ export const createContainer = (
 					sketch.frameCount--;
 				}
 
-				state.progress = sketch.frameCount / nFramesToRender;
+				state.progress = sketch.frameCount / state.getNFramesToRender();
 				state.time = sketch.frameCount / sketch.getTargetFrameRate();
 
 				if (config?.clearBackground) sketch.clear();

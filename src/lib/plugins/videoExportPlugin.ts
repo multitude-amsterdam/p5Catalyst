@@ -15,7 +15,7 @@ export function videoExportPlugin(): Plugin {
 			timeGroup?.addTextbox(
 				'durationInput',
 				'Duration',
-				'10',
+				state.duration.toString(),
 				(controller, value) => {
 					const duration = parseFloat(value as string);
 					if (!isNaN(duration)) {
@@ -27,7 +27,7 @@ export function videoExportPlugin(): Plugin {
 			timeGroup?.addTextbox(
 				'frameRateInput',
 				'LANG_FRAME_RATE',
-				'60',
+				state.fps.toString(),
 				(controller, value) => {
 					const frameRate = parseInt(value as string);
 					if (!isNaN(frameRate)) {

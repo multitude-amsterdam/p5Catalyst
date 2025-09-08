@@ -5,11 +5,7 @@ import { Controller } from './components/Controller';
 import { ValuedController } from './components/ValuedController';
 
 import type { State, Config, LangCode } from '../types';
-import type {
-	ControllerValue,
-	P5Button,
-	Serializable,
-} from '../types/controller';
+import type { ControllerValue, Serializable } from '../types/controller';
 import type { Container, sketchHook } from '../types/construction';
 
 import { Randomizer } from './Randomizer';
@@ -18,8 +14,6 @@ import { Lang } from '../language/Lang';
 
 import { Tab } from './components/groups/Tab';
 import { Dialog } from './Dialog';
-import { ThemeToggle } from './gui-components/ThemeToggle';
-import { RandomizeButton } from './gui-components/RandomizeButton';
 
 import { CommandBar } from './components/CommandBar';
 
@@ -211,7 +205,6 @@ export class GUIForP5 {
 
 		let newTabs: Tab[] = [];
 
-		console.log(names);
 		for (const name of names) {
 			const tab = new Tab(this, name);
 			newTabs.push(tab);
