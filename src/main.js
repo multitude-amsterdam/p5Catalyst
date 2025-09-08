@@ -1,55 +1,63 @@
-import { catalyst } from "./lib";
+import { catalyst } from './lib';
 
 const sketchFunction = async (sketch, state) => {
-  state.size = 50;
+	state.size = 50;
 
-  sketch.setup = async () => {
-    state.color = sketch.color(0);
+	sketch.setup = async () => {
+		state.color = sketch.color(0);
 
-    sketch.angleMode(sketch.DEGREES);
-    sketch.noStroke();
-    sketch.frameRate(60);
-  };
+		sketch.angleMode(sketch.DEGREES);
+		sketch.noStroke();
+		sketch.frameRate(60);
+	};
 
-  sketch.draw = () => {
-    sketch.fill(state.color);
-    sketch.circle(
-      state.width / 2,
-      state.height / 2 + sketch.sin(state.time * 100) * 700,
-      state.size
-    );
-  };
+	sketch.draw = () => {
+		sketch.fill(state.color);
+		sketch.circle(
+			state.width / 2,
+			state.height / 2 + sketch.sin(state.time * 100) * 700,
+			state.size
+		);
+	};
 };
 
 const plugins = [
-  catalyst.defaultPlugin(),
-  catalyst.languagePlugin("en", {
-    LANG_SLEEP: { nl: "slapen", en: "sleep" },
-  }),
-  catalyst.randomizerPlugin(["slider", "colorBox"]),
-  catalyst.debugPlugin(),
+	catalyst.defaultPlugin(),
+	catalyst.languagePlugin('en', {
+		LANG_SLEEP: { nl: 'slapen', en: 'sleep' },
+	}),
+	catalyst.randomizerPlugin(['slider', 'colorBox']),
+	catalyst.debugPlugin(),
 ];
 
 catalyst.initialize(
-  sketchFunction,
-  (gui, state) => {
-    const appearanceTab = gui.getTab("appearance");
+	sketchFunction,
+	(gui, state) => {
+		const appearanceTab = gui.getTab('appearance');
 
-    const panel = appearanceTab.addPanel("Panel");
+		const panel = appearanceTab.addPanel('Panel');
 
-    panel.addColourBoxes(
-      "colorBox",
-      "Circle Color",
-      ["red", "green", "yellow"],
-      0,
-      (controller, value) => {
-        state.color = value;
-      }
-    );
+		panel.addColourBoxes(
+			'colorBox',
+			'Circle Color',
+			['red', 'green', 'yellow'],
+			0,
+			(controller, value) => {
+				state.color = value;
+			}
+		);
 
-    panel.addSlider("slider", "Slider", 1, 500, 100, 1, (controller, value) => {
-      state.size = value;
-    });
-  },
-  plugins
+		panel.addSlider(
+			'slider',
+			'Slider',
+			1,
+			500,
+			100,
+			1,
+			(controller, value) => {
+				state.size = value;
+			}
+		);
+	},
+	plugins
 );
