@@ -6,7 +6,7 @@ import { ValuedController } from './components/ValuedController';
 
 import type { State, Config, LangCode } from '../types';
 import type { ControllerValue, Serializable } from '../types/controller';
-import type { Container, sketchHook } from '../types/construction';
+import type { Container, SketchHook } from '../types/construction';
 
 import { Randomizer } from './Randomizer';
 import { ChangeSet } from './ChangeSet';
@@ -24,7 +24,7 @@ import { CommandBar } from './components/CommandBar';
 export class GUIForP5 {
 	p5Instance: p5;
 	state: State;
-	sketchHook: sketchHook;
+	sketchHook: SketchHook;
 
 	div: p5.Element;
 

@@ -1,12 +1,13 @@
 import p5 from 'p5';
-import type { Container, SketchFunction, State } from './types';
+import type { Container, sketchFunction, State } from './types';
 import type { Config, imageFileType } from './types/plugin';
 import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg';
+import type { SketchHook } from './types/construction';
 
-export const createContainer = (
-	userSketch: SketchFunction,
+export function createContainer(
+	userSketch: sketchFunction,
 	config?: Config
-): Promise<Container> => {
+): Promise<Container> {
 	const state: State = {
 		width: 1080,
 		height: 1080,
@@ -23,14 +24,6 @@ export const createContainer = (
 
 			const userSetup = sketch.setup || (() => {});
 			const userDraw = sketch.draw || (() => {});
-			const userMousePressed = sketch.mousePressed || (() => {});
-			const userMouseReleased = sketch.mouseReleased || (() => {});
-			const userMouseClicked = sketch.mouseClicked || (() => {});
-			const userMouseWheel = sketch.mouseWheel || (() => {});
-			const userMouseDragged = sketch.mouseDragged || (() => {});
-			const userDoubleClicked = sketch.doubleClicked || (() => {});
-			const userKeyPressed = sketch.keyPressed || (() => {});
-			const userWindowResized = sketch.windowResized || (() => {});
 
 			// TODO: add all possible p5 event functions
 
@@ -40,22 +33,23 @@ export const createContainer = (
 
 			let isGuiTyping = false;
 
-			let fps = 30;
-			state.getNFramesToRender = () => Math.floor(state.duration * fps);
+			const defaultFrameRate = 30;
+			state.getNFramesToRender = () =>
+				Math.floor(state.duration * defaultFrameRate);
 
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
 				createCanvasWrapper();
 				containCanvasInWrapper();
 
-				sketch.frameRate(fps);
+				sketch.frameRate(defaultFrameRate);
 				await Promise.resolve(userSetup());
 
-				const sketchHook = {
-					resize: (width: number, height: number) => {
-						resizeCatalyst(width, height);
+				const sketchHook: SketchHook = {
+					resizeCanvas: (width: number, height: number) => {
+						resizeCanvas(width, height);
 					},
-					canvasToClipboard: () => {
+					copyCanvasToClipboard: () => {
 						copyCanvasToClipboard();
 					},
 					exportImage: (
@@ -84,12 +78,13 @@ export const createContainer = (
 					setDuration: (newDuration: number) => {
 						state.duration = newDuration;
 					},
-					setFrameRate: (frameRate: number) => {
-						sketch.frameRate(frameRate);
-						fps = frameRate;
+					getTargetFrameRate: () => {
+						return sketch.getTargetFrameRate();
+					},
+					setFrameRate: (fps: number) => {
+						sketch.frameRate(fps);
 					},
 				};
-
 				state.sketchHook = sketchHook;
 
 				resolve({ p5Instance, state, sketchHook });
@@ -149,6 +144,15 @@ export const createContainer = (
 					}
 				}
 			};
+
+			const userMousePressed = sketch.mousePressed || (() => {});
+			const userMouseReleased = sketch.mouseReleased || (() => {});
+			const userMouseClicked = sketch.mouseClicked || (() => {});
+			const userMouseWheel = sketch.mouseWheel || (() => {});
+			const userMouseDragged = sketch.mouseDragged || (() => {});
+			const userDoubleClicked = sketch.doubleClicked || (() => {});
+			const userKeyPressed = sketch.keyPressed || (() => {});
+			const userWindowResized = sketch.windowResized || (() => {});
 
 			sketch.mousePressed = () => {
 				userMousePressed();
@@ -233,7 +237,7 @@ export const createContainer = (
 				console.log(canvAsp, wrapperAsp, wrapperW, wrapperH);
 			}
 
-			function resizeCatalyst(width: number, height: number) {
+			function resizeCanvas(width: number, height: number) {
 				if (width < 1 || height < 1) return;
 				state.width = width;
 				state.height = height;
@@ -264,4 +268,4 @@ export const createContainer = (
 
 		const p5Instance = new p5(containerSketch);
 	});
-};
+}

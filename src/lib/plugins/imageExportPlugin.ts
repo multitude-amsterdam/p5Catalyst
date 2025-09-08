@@ -25,7 +25,7 @@ export function imageExportPlugin(fileType: imageFileType): Plugin {
 				'buttonCopyPNG',
 				'LANG_COPY_TO_CLIPBOARD',
 				controller => {
-					state.sketchHook?.canvasToClipboard();
+					state.sketchHook?.copyCanvasToClipboard();
 				}
 			);
 

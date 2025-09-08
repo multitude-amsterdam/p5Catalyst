@@ -20,7 +20,7 @@ import type {
 	GUIAddableInterface,
 } from './gui_interface';
 
-import type { State, SketchFunction, Container } from './construction';
+import type { State, sketchFunction, Container } from './construction';
 
 import type {
 	VideoFormatSettings,
@@ -49,7 +49,7 @@ export type {
 	GUIAddableInterface,
 	State,
 	Container,
-	SketchFunction,
+	sketchFunction,
 	VideoFormatSettings,
 	FFmpegLogEvent,
 	FFmpegProgressEvent,

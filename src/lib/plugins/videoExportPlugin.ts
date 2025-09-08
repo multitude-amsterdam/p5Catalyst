@@ -27,7 +27,7 @@ export function videoExportPlugin(): Plugin {
 			timeGroup?.addTextbox(
 				'frameRateInput',
 				'LANG_FRAME_RATE',
-				state.fps.toString(),
+				state.sketchHook?.getTargetFrameRate().toString() || '30',
 				(controller, value) => {
 					const frameRate = parseInt(value as string);
 					if (!isNaN(frameRate)) {
