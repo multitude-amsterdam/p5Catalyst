@@ -92,7 +92,9 @@ export class CommandBar extends Field {
 
 		// settings
 		{
-			this.settingsButton = this.createButton('LANG_SETTINGS', () => {});
+			this.settingsButton = this.createButton('LANG_SETTINGS', () => {
+				gui.dialog.alert('test');
+			});
 			this.createIconDiv(
 				this.settingsButton,
 				'command-bar__icon--settings'
