@@ -3,7 +3,7 @@ import { GUIForP5 } from '../GUIForP5';
 import { Field } from './Field';
 import type { Config } from 'src/lib/types';
 import { ThemeToggle } from '../gui-components/ThemeToggle';
-import { RandomizeButton } from '../gui-components/randomizeButton';
+import { RandomizeButton } from '../gui-components/RandomizeButton';
 import { GUIButton } from '../gui-components/GUIButton';
 
 export class CommandBar extends Field {
