@@ -3,6 +3,7 @@ import type { Container, sketchFunction, State } from './types';
 import type { Config, imageFileType } from './types/plugin';
 import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg';
 import type { SketchHook } from './types/construction';
+import { getTimestamp } from './utils';
 
 export function createContainer(
 	userSketch: sketchFunction,
@@ -261,7 +262,12 @@ export function createContainer(
 			}
 
 			function exportImage(fileType: imageFileType, fileName?: string) {
-				sketch.save(canvas, (fileName || 'canvas') + '.' + fileType);
+				fileName = fileName || 'canvas';
+				fileName =
+					`${fileName.replaceAll(' ', '-')}` +
+					`_${state.width}x${state.height}` +
+					`_${getTimestamp().base64}`;
+				sketch.save(canvas, fileName + '.' + fileType.toLowerCase());
 			}
 		};
 
