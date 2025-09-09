@@ -1518,14 +1518,16 @@ button.dialog-close:hover {
 
 .dialog-content {
 	border-radius: var(--corner-radius);
-	height: 90%;
+	border: var(--line-width) solid var(--base-col);
+	/* height: 90%; */
 	max-height: 42rem;
 	max-width: 38rem;
 	/* overflow: hidden; */
 	position: relative;
 	width: 100%;
 	opacity: 0;
-
+	background-color: white;
+	padding: var(--spacing-x);
 	color: var(--base-col);
 }
 
