@@ -1471,7 +1471,7 @@ dialog::backdrop {
 button.dialog-backdrop-close {
 	inset: 0;
 	position: absolute;
-	background-color: rgba(var(--bgRGB), 0.5);
+	background-color: rgba(var(--bgRGB), 0.8);
 	opacity: 0;
 }
 
@@ -1518,16 +1518,11 @@ button.dialog-close:hover {
 
 .dialog-content {
 	border-radius: var(--corner-radius);
-	border: var(--line-width) solid var(--base-col);
-	/* height: 90%; */
 	max-height: 42rem;
 	max-width: 38rem;
-	/* overflow: hidden; */
 	position: relative;
 	width: 100%;
 	opacity: 0;
-	background-color: white;
-	padding: var(--spacing-x);
 	color: var(--base-col);
 }
 
