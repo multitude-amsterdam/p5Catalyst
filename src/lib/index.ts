@@ -19,12 +19,12 @@ import type {
 	sketchFunction,
 	Config,
 	GUIControllerInterface,
-	State,
+	Container,
 } from './types';
 
 const initialize = async (
 	sketchFunction: sketchFunction,
-	guiSetup?: (gui: GUIControllerInterface, state: State) => void,
+	guiSetup?: (gui: GUIControllerInterface, container: Container) => void,
 	userPlugins?: Plugin[]
 ) => {
 	const config: Config = {};
@@ -32,11 +32,17 @@ const initialize = async (
 	userPlugins?.forEach(plugin => plugin.beforeInit?.(config));
 
 	const container = await createContainer(sketchFunction, config);
-	const gui = createGUI(container, config, (gui, state) => {
-		userPlugins?.forEach(plugin => plugin.setup?.(gui, container, config));
+	const gui = createGUI(
+		container,
+		config,
+		(guiControllerInterface, container) => {
+			userPlugins?.forEach(plugin =>
+				plugin.setup?.(guiControllerInterface, container, config)
+			);
 
-		guiSetup?.(gui, state);
-	});
+			if (guiSetup) guiSetup(guiControllerInterface, container);
+		}
+	);
 
 	userPlugins?.forEach(plugin => plugin.afterInit?.(gui));
 	gui.setup();

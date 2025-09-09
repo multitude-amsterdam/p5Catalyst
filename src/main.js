@@ -46,7 +46,7 @@ const plugins = [
 
 catalyst.initialize(
 	sketchFunction,
-	(gui, state) => {
+	(gui, { state }) => {
 		const appearanceTab = gui.getTab('appearance');
 
 		const circlePanel = appearanceTab.addPanel('Circle');

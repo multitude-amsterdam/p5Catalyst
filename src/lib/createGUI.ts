@@ -2,12 +2,12 @@ import p5 from 'p5';
 import { GUIForP5 } from './gui/GUIForP5';
 import * as components from './gui/components';
 
-import type { GUIControllerInterface, State, Config, Container } from './types';
+import type { GUIControllerInterface, Config, Container } from './types';
 
 export const createGUI = (
 	container: Container,
 	config: Config,
-	userGUI?: (gui: GUIControllerInterface, state: State) => void
+	userGUI?: (gui: GUIControllerInterface, container: Container) => void
 ): GUIForP5 => {
 	const gui = new GUIForP5(container, config);
 
@@ -355,6 +355,6 @@ export const createGUI = (
 		},
 	};
 
-	userGUI?.(guiInterface, container.state);
+	userGUI?.(guiInterface, container);
 	return gui;
 };
