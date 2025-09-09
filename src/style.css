@@ -200,7 +200,7 @@ details > summary::-webkit-details-marker {
 	display: none;
 }
 details > summary::before {
-	content: '->'; /* rightArrow.case (U+E1D7), use rightArrow '→' (U+2192) if glyph isn't in your font */
+	content: '->'; /* switch between rightArrow.case (U+E1D7), rightArrow '→' (U+2192) if glyph isn't in your font or try if your font has a ligature for '->' */
 	display: inline-block;
 	transition: rotate var(--transition-properties);
 	margin-right: 0.25em;
