@@ -222,7 +222,7 @@ details[open] > summary::before {
 
 .panel details[open] summary {
 	border-color: var(--base-col);
-	font-weight: 800;
+	font-weight: 700;
 }
 
 .panel details summary:hover {
