@@ -1274,6 +1274,7 @@ main:where(.gui-right) .command-bar {
 }
 .command-bar__button:focus {
 	outline-offset: 0;
+	border-radius: 100%;
 }
 
 .command-bar__button > span {
