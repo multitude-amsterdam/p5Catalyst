@@ -39,7 +39,12 @@ const plugins = [
 	catalyst.languagePlugin('en', {
 		LANG_SLEEP: { nl: 'slapen', en: 'sleep' },
 	}),
-	catalyst.randomizerPlugin(['colorBoxesCircle', 'sliderCircleSize']),
+	catalyst.randomizerPlugin([
+		'colorBoxesCircle',
+		'sliderCircleSize',
+		'colorBoxesBg',
+		'sliderNBg',
+	]),
 	catalyst.debugPlugin(),
 ];
 
