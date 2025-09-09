@@ -388,8 +388,7 @@ h6 {
 /* --------------------------------- BUTTON --------------------------------- */
 button {
 	cursor: pointer;
-	/* background-color: var(--base-col); */
-	background-color: red;
+	background-color: var(--base-col);
 	color: var(--text-col-on-base);
 	border: none;
 	border-radius: var(--corner-radius);
