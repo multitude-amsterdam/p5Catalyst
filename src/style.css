@@ -1520,6 +1520,8 @@ button.dialog-close:hover {
 	border-radius: var(--corner-radius);
 	max-height: 42rem;
 	max-width: 38rem;
+	margin-bottom: 35vh;
+	
 	position: relative;
 	width: 100%;
 	opacity: 0;
