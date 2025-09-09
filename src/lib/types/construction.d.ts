@@ -1,7 +1,7 @@
 export type sketchFunction = (
 	sketch: p5,
-	state: any
-) => Promise<{ state?: any }> | { state?: any } | void;
+	state: State
+) => Promise<{ state?: State }> | { state?: State } | void;
 
 export interface State {
 	width: number;
@@ -16,7 +16,7 @@ export interface State {
 
 export type GUISetupFunction = (
 	gui: GUIControllerInterface,
-	state: any
+	state: State
 ) => void;
 
 export interface SketchHook {
