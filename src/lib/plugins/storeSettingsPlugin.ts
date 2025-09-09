@@ -12,17 +12,22 @@ export function storeSettingsPlugin(): Plugin {
 		name: 'storeSettings',
 		afterInit: (gui: GUIForP5) => {
 			const exportTab = gui.getTab('export');
-			const panel = exportTab?.addPanel('Export settings');
-			const buttonGroup = panel?.addGroup('settingsGroup', ROW);
+			const panel = exportTab?.addPanel('Save & open settings');
+			const buttonGroup = panel?.addGroup('saveOpenGroup', ROW);
 			buttonGroup?.addButton(
 				'buttonSaveSettings',
-				'Save settings',
+				'Save as...',
 				async controller => {
-					const name = await gui.dialog.prompt(
-						'Filename:',
-						'settings',
-						'save'
+					let name = await gui.dialog.prompt(
+						'<h1>Save app settings</h1>' +
+							'<p>Save all of your settings as a file. You can use these files to open your current settings later or share them with others.</p>' +
+							'<p><strong>Filename</strong></p>',
+						'',
+						'Save as JSON'
 					);
+					// now make it a valid file name
+					// regex from: https://stackoverflow.com/questions/35511331/how-to-make-a-valid-filename-from-an-arbitrary-string-in-javascript
+					name = name.replace(/[ &\/\\#,+()$~%.'":*?<>{}]/g, '');
 					controller.gui.p5Instance.saveJSON(
 						controller.gui.getState(),
 						name + '.json'
@@ -30,12 +35,15 @@ export function storeSettingsPlugin(): Plugin {
 				}
 			);
 			buttonGroup?.addJSONLoader(
-				'buttonLoadSettings',
-				'Load settings',
+				'buttonOpenSettings',
+				'Open...',
 				(file, controller) => {
-					controller?.gui.restoreState(file.data as Serializable[]);
+					const serializedState = file.data as Serializable[];
+					controller?.gui.restoreState(serializedState);
+					controller?.gui.changeSet.save();
 				}
 			);
+			panel?.open();
 		},
 	};
 }
