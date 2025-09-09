@@ -110,8 +110,7 @@ export class CommandBar extends Field {
 		const button: GUIButton = new GUIButton(this.gui, callback);
 		button.button
 			.parent(this.div)
-			.addClass('command-bar__button')
-			.mousePressed(callback) as p5.Element;
+			.addClass('command-bar__button') as p5.Element;
 		button.button.elt.title = label;
 		return button;
 	}
