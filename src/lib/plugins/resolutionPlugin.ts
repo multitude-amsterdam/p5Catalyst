@@ -17,7 +17,9 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 
 			const panel = appearanceTab?.addPanel('LANG_RESOLUTION');
 
-			panel?.addResolutionSelect(
+			const group = panel?.addGroup('resolutionGroup', COLUMN);
+
+			group?.addResolutionSelect(
 				'Presets',
 				resolutionOptions,
 				0,
@@ -32,7 +34,7 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 				}
 			);
 
-			panel?.addResolutionTextBoxes(
+			group?.addResolutionTextBoxes(
 				container.state.width,
 				container.state.height
 			);

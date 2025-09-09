@@ -1,4 +1,4 @@
-import { ROW } from '../gui/components/groups/Group';
+import { COLUMN, ROW } from '../gui/components/groups/Group';
 import type { Plugin } from '../types';
 
 export function backdropPlugin(): Plugin {
@@ -14,15 +14,17 @@ export function backdropPlugin(): Plugin {
 
 			const panel = appearanceTab?.addPanel('Backdrop & overlay');
 
-			const group = panel?.addGroup('mediaLoad', ROW);
-			const backdropLoader = group?.addMediaLoader(
+			const columnGroup = panel?.addGroup('backdropGroup', COLUMN);
+			const loadGroup = columnGroup?.addGroup('mediaLoad', ROW);
+
+			loadGroup?.addMediaLoader(
 				'backdropLoader',
 				'Load backdrop',
 				media => {
 					gui.state.backdrop = media;
 				}
 			);
-			const overlayLoader = group?.addMediaLoader(
+			loadGroup?.addMediaLoader(
 				'overlayLoader',
 				'Load overlay',
 				media => {
@@ -30,7 +32,7 @@ export function backdropPlugin(): Plugin {
 				}
 			);
 
-			panel?.addButton('clearMedia', 'Clear media', controller => {
+			columnGroup?.addButton('clearMedia', 'Clear media', controller => {
 				delete gui.state.backdrop;
 				delete gui.state.overlay;
 			});

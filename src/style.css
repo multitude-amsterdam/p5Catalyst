@@ -27,7 +27,7 @@ button {
 }
 h1 {
 	font-size: 3rem;
-	font-weight: 900;
+	font-weight: 700;
 }
 h2 {
 	font-size: 2rem;
@@ -86,7 +86,7 @@ body {
 	--focus-col: var(--hover-col);
 	--info-col: #a830f6;
 	--error-col: #e95e2a;
-	--divider-col: rgba(var(--fgRGB), 0.1);
+	--divider-col: rgba(var(--fgRGB), 0.2);
 	--inactive-col: transparent;
 
 	/* text colors */
@@ -145,6 +145,7 @@ body:where(.dark-mode) {
 	to style the dark mode of any element */
 	--bgRGB: var(--blackRGB);
 	--fgRGB: var(--whiteRGB);
+	--divider-col: rgba(var(--fgRGB), 0.3);
 }
 
 /* ------------------------------- SELECTIONS ------------------------------- */
@@ -212,12 +213,10 @@ details[open] > summary::before {
 .panel details summary {
 	border-bottom: solid var(--divider-col) var(--line-width);
 	padding: 0.5rem 0;
-	margin: 0 0 0.5rem 0;
-	/* font-size: 1.5rem;
-	font-size: 2rem; */
 	transition: color var(--transition-properties),
 		border var(--transition-properties),
 		font-weight var(--transition-properties);
+	font-size: 1.3rem;
 }
 
 .panel details[open] summary {
@@ -1606,7 +1605,7 @@ button.dialog-close:hover {
 .tab-bar {
 	display: flex;
 	gap: 0;
-	/* margin-bottom: calc(var(--base-height) / 2); */
+	margin-bottom: calc(var(--spacing-y-label) * 0.5);
 }
 
 .tab-bar button {

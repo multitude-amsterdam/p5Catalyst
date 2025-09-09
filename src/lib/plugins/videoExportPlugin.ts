@@ -10,7 +10,9 @@ export function videoExportPlugin(): Plugin {
 
 			const panel = exportTab?.addPanel('Export video');
 
-			const timeGroup = panel?.addGroup('timeField', ROW);
+			const columnGroup = panel?.addGroup('videoExport', COLUMN);
+
+			const timeGroup = columnGroup?.addGroup('timeField', ROW);
 
 			timeGroup?.addTextbox(
 				'durationInput',
@@ -36,15 +38,19 @@ export function videoExportPlugin(): Plugin {
 				}
 			);
 
-			panel?.addButton('startExport', 'Start export', controller => {
-				if (container.state.isRecording) {
-					gui.stopRecording();
-					controller?.controllerElement?.html('Start export');
-				} else {
-					gui.startRecording();
-					controller?.controllerElement?.html('Stop export');
+			columnGroup?.addButton(
+				'startExport',
+				'Start export',
+				controller => {
+					if (container.state.isRecording) {
+						gui.stopRecording();
+						controller?.controllerElement?.html('Start export');
+					} else {
+						gui.startRecording();
+						controller?.controllerElement?.html('Stop export');
+					}
 				}
-			});
+			);
 
 			panel?.open();
 		},
