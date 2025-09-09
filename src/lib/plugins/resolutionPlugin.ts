@@ -1,13 +1,18 @@
 import type { ResolutionTextBoxes } from '../gui/components';
 import { COLUMN } from '../gui/components/groups/Group';
 
-import type { State, Plugin, GUIControllerInterface } from '../types';
+import type {
+	State,
+	Plugin,
+	GUIControllerInterface,
+	Container,
+} from '../types';
 
 // Language plugin
 export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 	return {
 		name: 'resolution',
-		setup: (gui: GUIControllerInterface, state: State) => {
+		setup: (gui: GUIControllerInterface, container: Container) => {
 			const appearanceTab = gui.getTab('appearance');
 
 			const panel = appearanceTab?.addPanel('LANG_RESOLUTION');
@@ -20,11 +25,17 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 					const resbox = gui.getController<ResolutionTextBoxes>(
 						'resolutionTextboxes'
 					);
-					resbox?.setValueOnlyDisplay(state.width, state.height);
+					resbox?.setValueOnlyDisplay(
+						container.state.width,
+						container.state.height
+					);
 				}
 			);
 
-			panel?.addResolutionTextBoxes(state.width, state.height);
+			panel?.addResolutionTextBoxes(
+				container.state.width,
+				container.state.height
+			);
 
 			panel?.open();
 		},

@@ -1,11 +1,11 @@
 import { ffmpegInit } from '../ffmpeg';
 import { COLUMN, ROW } from '../gui/components/groups/Group';
-import type { GUIControllerInterface, Plugin, State } from '../types';
+import type { Container, GUIControllerInterface, Plugin } from '../types';
 // Language plugin
 export function videoExportPlugin(): Plugin {
 	return {
 		name: 'videoExport',
-		setup: (gui: GUIControllerInterface, state: State) => {
+		setup: (gui: GUIControllerInterface, container: Container) => {
 			const exportTab = gui.getTab('export');
 
 			const panel = exportTab?.addPanel('Export video');
@@ -15,7 +15,7 @@ export function videoExportPlugin(): Plugin {
 			timeGroup?.addTextbox(
 				'durationInput',
 				'Duration (s)',
-				state.duration.toString(),
+				container.state.duration.toString(),
 				(controller, value) => {
 					const duration = parseFloat(value as string);
 					if (!isNaN(duration)) {
@@ -27,7 +27,7 @@ export function videoExportPlugin(): Plugin {
 			timeGroup?.addTextbox(
 				'frameRateInput',
 				'LANG_FRAME_RATE (fps)',
-				state.sketchHook?.getTargetFrameRate().toString() || '30',
+				container.sketchHook?.getTargetFrameRate().toString() || '30',
 				(controller, value) => {
 					const frameRate = parseInt(value as string);
 					if (!isNaN(frameRate)) {
@@ -37,7 +37,7 @@ export function videoExportPlugin(): Plugin {
 			);
 
 			panel?.addButton('startExport', 'Start export', controller => {
-				if (state.isRecording) {
+				if (container.state.isRecording) {
 					gui.stopRecording();
 					controller?.controllerElement?.html('Start export');
 				} else {

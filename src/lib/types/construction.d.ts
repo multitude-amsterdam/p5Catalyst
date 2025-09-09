@@ -11,7 +11,6 @@ export interface State {
 	duration: number;
 	isPlaying: boolean;
 	isRecording: boolean;
-	sketchHook?: SketchHook;
 	[key: string]: any; // Allow other properties
 }
 

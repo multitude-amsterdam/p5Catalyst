@@ -1,11 +1,20 @@
 import { COLUMN, ROW } from '../gui/components/groups/Group';
-import type { Config, GUIControllerInterface, Plugin, State } from '../types';
+import type {
+	Config,
+	GUIControllerInterface,
+	Plugin,
+	Container,
+} from '../types';
 import type { imageFileType } from '../types/plugin';
 
 export function imageExportPlugin(fileType: imageFileType): Plugin {
 	return {
 		name: 'image_export',
-		setup: (gui: GUIControllerInterface, state: State, config?: Config) => {
+		setup: (
+			gui: GUIControllerInterface,
+			container: Container,
+			config?: Config
+		) => {
 			if (
 				fileType !== 'jpg' &&
 				fileType !== 'png' &&
@@ -25,7 +34,7 @@ export function imageExportPlugin(fileType: imageFileType): Plugin {
 				'buttonCopyPNG',
 				'LANG_COPY_TO_CLIPBOARD',
 				controller => {
-					state.sketchHook?.copyCanvasToClipboard();
+					container.sketchHook?.copyCanvasToClipboard();
 				}
 			);
 
@@ -33,7 +42,7 @@ export function imageExportPlugin(fileType: imageFileType): Plugin {
 				'buttonDownloadImage',
 				'LANG_DOWNLOAD_IMAGE',
 				controller => {
-					state.sketchHook?.exportImage(fileType, fileName);
+					container.sketchHook?.exportImage(fileType, fileName);
 				}
 			);
 

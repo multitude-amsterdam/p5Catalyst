@@ -86,7 +86,6 @@ export function createContainer(
 						sketch.frameRate(fps);
 					},
 				};
-				state.sketchHook = sketchHook;
 
 				resolve({ p5Instance, state, sketchHook });
 			};

@@ -8,7 +8,7 @@ export interface Plugin {
 	beforeInit?: (config: Config) => void;
 	setup?: (
 		gui: GUIControllerInterface,
-		state: State,
+		container: Container,
 		config?: Config
 	) => void;
 	afterInit?: (gui: GUIForP5) => void;
