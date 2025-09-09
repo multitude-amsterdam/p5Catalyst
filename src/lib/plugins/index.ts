@@ -8,6 +8,7 @@ import { defaultPlugin } from './defaultPlugin';
 import { videoExportPlugin } from './videoExportPlugin';
 import { debugPlugin } from './debugPlugin';
 import { backdropPlugin } from './backdropPlugin';
+import { storeSettingsPlugin } from './storeSettingsPlugin';
 
 export {
 	defaultPlugin,
@@ -20,4 +21,5 @@ export {
 	randomizerPlugin,
 	debugPlugin,
 	backdropPlugin,
+	storeSettingsPlugin,
 };

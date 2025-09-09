@@ -7,6 +7,6 @@ export class GUIButton {
 	constructor(gui: GUIForP5, callback?: () => void) {
 		this.gui = gui;
 		this.button = gui.p5Instance.createButton('') as P5Button;
-		if (callback) this.button.elt.onclick = callback;
+		if (callback) this.button.mousePressed(callback);
 	}
 }

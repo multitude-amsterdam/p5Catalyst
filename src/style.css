@@ -1471,7 +1471,7 @@ dialog::backdrop {
 button.dialog-backdrop-close {
 	inset: 0;
 	position: absolute;
-	background-color: rgba(var(--bgRGB), 0.5);
+	background-color: rgba(var(--bgRGB), 0.8);
 	opacity: 0;
 }
 
@@ -1518,14 +1518,13 @@ button.dialog-close:hover {
 
 .dialog-content {
 	border-radius: var(--corner-radius);
-	height: 90%;
 	max-height: 42rem;
 	max-width: 38rem;
-	/* overflow: hidden; */
+	margin-bottom: 35vh;
+	
 	position: relative;
 	width: 100%;
 	opacity: 0;
-
 	color: var(--base-col);
 }
 
@@ -1533,6 +1532,9 @@ button.dialog-close:hover {
 	animation: dialog-content-scale-in 0.25s ease-out forwards;
 }
 
+.dialog-content-wrapper {
+	margin-bottom: var(--spacing-y-label);
+}
 .dialog-content-wrapper > *:first-child {
 	margin-top: 0;
 }
@@ -1544,7 +1546,7 @@ button.dialog-close:hover {
 	gap: calc(var(--target-diameter) / 2);
 }
 .dialog-prompt-form button {
-	width: fit-content;
+	max-width: fit-content;
 }
 
 .dialog-prompt-input {
@@ -1619,6 +1621,10 @@ button.dialog-close:hover {
 }
 
 /* -------------------------------- AUXILIARY ------------------------------- */
+p {
+	line-height: 1.5em;
+}
+
 code {
 	/* used for displaying buttons keys */
 	font-family: monospace;

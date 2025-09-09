@@ -9,7 +9,7 @@ export type valueCallback = (
 	value: ControllerValue
 ) => void;
 export type setupCallback = (controller: Controller) => void;
-export type fileReadyCallback = (file: p5.File | p5.Element) => void;
+export type fileReadyCallback = (file: any, controller?: Controller) => void;
 
 export interface P5SelectElement extends p5.Element {
 	option(name: string, value?: string): p5.Element;
@@ -39,6 +39,7 @@ export interface Serializable {
 	value: SerializedValue;
 	isDieActive?: boolean;
 }
+
 export interface SerializedValue {
 	type: 'Vector' | 'Color' | 'Color[]' | 'Basic';
 	value:

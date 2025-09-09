@@ -5,7 +5,7 @@ import { Button } from './Button';
 
 export class FileLoader extends Button {
 	fileType: string;
-	file?: p5.File | p5.Element;
+	file?: any;
 	fileName?: string;
 
 	constructor(
@@ -31,7 +31,7 @@ export class FileLoader extends Button {
 		this.controllerElement = gui.p5Instance.createFileInput(file => {
 			this.file = file;
 			this.fileName = file.name;
-			if (fileReadyCallback) fileReadyCallback(file);
+			if (fileReadyCallback) fileReadyCallback(file, this);
 		});
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.hide();

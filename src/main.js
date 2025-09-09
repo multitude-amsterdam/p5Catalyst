@@ -41,6 +41,7 @@ const plugins = [
 	}),
 	catalyst.randomizerPlugin(['colorBoxesCircle', 'sliderCircleSize']),
 	catalyst.debugPlugin(),
+	catalyst.storeSettingsPlugin(),
 ];
 
 catalyst.initialize(
