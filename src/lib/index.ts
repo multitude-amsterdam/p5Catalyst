@@ -1,5 +1,6 @@
 import { createContainer } from './createContainer';
 import { createGUI } from './createGUI';
+import '@fontsource-variable/inter';
 import '../style.css';
 import {
 	defaultPlugin,
