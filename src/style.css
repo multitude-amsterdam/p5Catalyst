@@ -1533,6 +1533,9 @@ button.dialog-close:hover {
 	animation: dialog-content-scale-in 0.25s ease-out forwards;
 }
 
+.dialog-content-wrapper {
+	margin-bottom: var(--spacing-y-label);
+}
 .dialog-content-wrapper > *:first-child {
 	margin-top: 0;
 }
@@ -1544,7 +1547,7 @@ button.dialog-close:hover {
 	gap: calc(var(--target-diameter) / 2);
 }
 .dialog-prompt-form button {
-	width: fit-content;
+	max-width: fit-content;
 }
 
 .dialog-prompt-input {
@@ -1619,6 +1622,10 @@ button.dialog-close:hover {
 }
 
 /* -------------------------------- AUXILIARY ------------------------------- */
+p {
+	line-height: 1.5em;
+}
+
 code {
 	/* used for displaying buttons keys */
 	font-family: monospace;
