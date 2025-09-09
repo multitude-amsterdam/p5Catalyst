@@ -1,19 +1,19 @@
-import { Vector } from 'p5';
+import p5 from 'p5';
 
 export class Line {
-	a: Vector;
-	b: Vector;
+	a: p5.Vector;
+	b: p5.Vector;
 
-	constructor(a: Vector, b: Vector) {
+	constructor(a: p5.Vector, b: p5.Vector) {
 		this.a = a;
 		this.b = b;
 	}
 
-	getHeading(): Vector {
-		return Vector.sub(this.b, this.a);
+	getHeading(): p5.Vector {
+		return p5.Vector.sub(this.b, this.a);
 	}
 
-	getDir(): Vector {
+	getDir(): p5.Vector {
 		return this.getHeading().normalize();
 	}
 
@@ -22,15 +22,15 @@ export class Line {
 	}
 }
 
-export class Circle extends Vector {
+export class Circle extends p5.Vector {
 	r: number;
 
-	constructor(center: Vector, r: number) {
+	constructor(center: p5.Vector, r: number) {
 		super(center.x, center.y);
 		this.r = r;
 	}
 
-	distanceToPoint(pt: Vector): number {
-		return Vector.dist(this, pt) - this.r;
+	distanceToPoint(pt: p5.Vector): number {
+		return p5.Vector.dist(this, pt) - this.r;
 	}
 }

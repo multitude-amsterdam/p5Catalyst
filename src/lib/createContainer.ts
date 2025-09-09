@@ -3,7 +3,7 @@ import type { Container, sketchFunction, State } from './types';
 import type { Config, imageFileType } from './types/plugin';
 import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg';
 import type { SketchHook } from './types/construction';
-import { getTimestamp } from './utils';
+import { getTimestamp } from './utils/time';
 
 export function createContainer(
 	userSketch: sketchFunction,
