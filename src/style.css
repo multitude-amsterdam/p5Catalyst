@@ -388,7 +388,8 @@ h6 {
 /* --------------------------------- BUTTON --------------------------------- */
 button {
 	cursor: pointer;
-	background-color: var(--base-col);
+	/* background-color: var(--base-col); */
+	background-color: red;
 	color: var(--text-col-on-base);
 	border: none;
 	border-radius: var(--corner-radius);
@@ -399,12 +400,10 @@ button {
 }
 
 button:hover {
-	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
 }
 
 button:focus {
-	background-color: var(--focus-col);
 	color: var(--text-col-on-hover);
 	border-radius: calc(
 		var(--corner-radius) + sign(var(--corner-radius)) *
@@ -1261,16 +1260,16 @@ main:where(.gui-right) .command-bar {
 	width: auto;
 	background: none;
 	border: none;
-	color: var(--base-col);
+	/* color: var(--base-col); */
 }
 .command-bar__button:hover {
-	background: none;
-	color: var(--hover-col);
+	/* background: none;
+	color: var(--hover-col); */
 }
 .command-bar__button:focus {
-	outline-offset: 0;
+	/* outline-offset: 0;
 	border-radius: 100%;
-	border-color: var(--focus-col);
+	border-color: var(--focus-col); */
 }
 
 .command-bar__button > span {
@@ -1672,5 +1671,5 @@ textarea,
 		border var(--transition-properties),
 		outline var(--transition-properties),
 		transform var(--transition-properties),
-		font var(--transition-properties);
+		rotate var(--transition-properties), font var(--transition-properties);
 }
