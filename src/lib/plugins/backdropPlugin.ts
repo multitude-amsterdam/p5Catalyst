@@ -7,10 +7,7 @@ export function backdropPlugin(): Plugin {
 
 		beforeInit(config) {
 			config.clearBackground = true;
-			console.log(config);
 		},
-
-		setup: (gui, state) => {},
 
 		afterInit: gui => {
 			const appearanceTab = gui.getTab('appearance');

@@ -30,6 +30,7 @@ const initialize = async (
 	const config: Config = {};
 	userPlugins = userPlugins?.flat();
 	userPlugins?.forEach(plugin => plugin.beforeInit?.(config));
+	console.log('config:', config);
 
 	const container = await createContainer(sketchFunction, config);
 	const gui = createGUI(

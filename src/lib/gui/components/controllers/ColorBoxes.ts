@@ -85,7 +85,6 @@ export class ColorBoxes extends ValuedController {
 	}
 
 	setValue(color: p5.Color) {
-		console.log(color, this.colors);
 		const index = this.colors.findIndex(
 			col => col.toString() === color.toString()
 		);
