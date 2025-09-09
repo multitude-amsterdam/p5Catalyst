@@ -29,7 +29,7 @@ export class GUIForP5 {
 	div: p5.Element;
 
 	fields: Field[] = [];
-	controllers: any[] = [];
+	controllers: Controller[] = [];
 
 	tabs: Tab[] = [];
 	tabBar?: p5.Element;
@@ -237,14 +237,14 @@ export class GUIForP5 {
 	 */
 	getState(): Serializable[] {
 		return this.controllers
-			.filter(controller => controller.value !== undefined)
-			.map(controller => {
+			.filter(controller => controller instanceof ValuedController)
+			.map(valuedController => {
 				const serializable: Serializable = {
-					name: controller.name,
-					value: controller.getSerializedValue(),
+					name: valuedController.name,
+					value: valuedController.getSerializedValue(),
 				};
-				if (controller.die !== undefined)
-					serializable.isDieActive = controller.die.isActive;
+				if (valuedController.die !== undefined)
+					serializable.isDieActive = valuedController.die.isActive;
 				return serializable;
 			});
 	}
