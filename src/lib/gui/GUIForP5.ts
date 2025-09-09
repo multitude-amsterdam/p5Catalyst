@@ -253,6 +253,8 @@ export class GUIForP5 {
 	 * Restores the state of controllers from a saved state.
 	 */
 	restoreState(serializedState: Serializable[]) {
+		console.log('restoring state');
+		console.log(serializedState);
 		Controller._doUpdateChangeSet = false;
 		for (let {
 			name,
