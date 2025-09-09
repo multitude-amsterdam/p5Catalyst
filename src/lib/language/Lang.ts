@@ -66,7 +66,7 @@ export class Lang {
 	 */
 	process(
 		str: string,
-		doCapitalizeFirstLetter: boolean = false,
+		doCapitalizeFirstLetter: boolean = true,
 		depth: number = 10
 	): string {
 		// recursively replace all hotStrings in str with their translations

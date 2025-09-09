@@ -193,11 +193,30 @@ body:where(.dark-mode) {
 	flex-direction: column;
 }
 
+/* ---------------------------------- PANEL --------------------------------- */
+
+details > summary {
+	list-style-type: none;
+}
+details > summary::-webkit-details-marker {
+	display: none;
+}
+details > summary::before {
+	content: ''; /* rightArrow.case (U+E1D7), use rightArrow '→' (U+2192) if glyph isn't in your font */
+	display: inline-block;
+	transition: rotate var(--transition-properties);
+	margin-right: 0.25em;
+}
+details[open] > summary::before {
+	rotate: 90deg;
+}
+
 .panel details summary {
 	border-bottom: solid var(--divider-col) var(--line-width);
 	padding: 0.5rem 0;
 	margin: 0 0 0.5rem 0;
-	font-size: larger;
+	/* font-size: 1.5rem; */
+	font-size: 2rem;
 	transition: color var(--transition-properties),
 		border var(--transition-properties),
 		font-weight var(--transition-properties);
@@ -205,7 +224,7 @@ body:where(.dark-mode) {
 
 .panel details[open] summary {
 	border-color: var(--base-col);
-	font-weight: bold;
+	font-weight: 800;
 }
 
 .panel details summary:hover {
@@ -1255,6 +1274,7 @@ main:where(.gui-right) .command-bar {
 }
 .command-bar__button:focus {
 	outline-offset: 0;
+	border-radius: 100%;
 }
 
 .command-bar__button > span {

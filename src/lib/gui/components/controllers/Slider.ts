@@ -66,6 +66,9 @@ export class Slider extends ValuedController {
 	}
 
 	randomize() {
-		this.setValue(this.gui.p5Instance.random(this.minVal, this.maxVal));
+		const steps = Math.floor((this.maxVal - this.minVal) / this.stepSize);
+		const randomStep = Math.floor(this.gui.p5Instance.random(steps + 1));
+		const randomValue = this.minVal + randomStep * this.stepSize;
+		this.setValue(randomValue);
 	}
 }
