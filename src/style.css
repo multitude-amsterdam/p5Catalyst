@@ -320,7 +320,6 @@ body:where(.dark-mode) .p5catalyst-logo {
 	gap: var(--spacing-x);
 	align-items: center;
 	justify-content: space-between;
-	min-height: var(--base-height);
 }
 
 .gui-controller {
