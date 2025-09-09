@@ -84,8 +84,8 @@ body {
 	/* main colors */
 	--base-col: #7685f7;
 	--text-col-on-base: var(--bg-col);
-	--hover-col: #bffb50;
-	--focus-col: var(--base-col);
+	--hover-col: #90de00;
+	--focus-col: var(--hover-col);
 	--info-col: #a830f6;
 	--error-col: #e95e2a;
 	--divider-col: rgba(var(--fgRGB), 0.1);
@@ -215,8 +215,8 @@ details[open] > summary::before {
 	border-bottom: solid var(--divider-col) var(--line-width);
 	padding: 0.5rem 0;
 	margin: 0 0 0.5rem 0;
-	/* font-size: 1.5rem; */
-	font-size: 2rem;
+	/* font-size: 1.5rem;
+	font-size: 2rem; */
 	transition: color var(--transition-properties),
 		border var(--transition-properties),
 		font-weight var(--transition-properties);
@@ -406,8 +406,8 @@ button:hover {
 }
 
 button:focus {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
+	background-color: var(--focus-col);
+	color: var(--text-col-on-hover);
 	border-radius: calc(
 		var(--corner-radius) + sign(var(--corner-radius)) *
 			var(--focus-outline-offset)
@@ -488,8 +488,6 @@ button.toggle[toggled] span:last-child:hover {
 }
 
 button.toggle:focus span:first-child {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
 	z-index: 1;
 }
 
@@ -504,8 +502,6 @@ button.toggle[toggled]:focus span:first-child {
 }
 
 button.toggle[toggled]:focus span:last-child {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
 	z-index: 1;
 }
 
@@ -545,8 +541,9 @@ select:hover {
 }
 
 select:focus {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
+	border-color: var(--focus-col);
+	/* outline: var(--focus-outline);
+	outline-offset: var(--focus-outline-offset); */
 }
 
 option {
@@ -582,8 +579,7 @@ textarea:hover {
 }
 
 textarea:focus {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
+	border-color: var(--focus-col);
 }
 
 /* ----------------------------- COLORTEXTAREA ----------------------------- */
@@ -620,9 +616,9 @@ input[type='text']:hover {
 }
 
 input[type='text']:focus {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
+	border-color: var(--focus-col);
 	border-radius: var(--corner-radius);
+	outline: none;
 }
 
 /* ---------------------------------- RANGE --------------------------------- */
@@ -668,6 +664,7 @@ input[type='range']:hover::-webkit-slider-thumb {
 input[type='range']:focus::-webkit-slider-thumb {
 	outline: var(--focus-outline);
 	outline-offset: var(--focus-outline-offset);
+	background-color: var(--focus-col);
 }
 
 /* Firefox styles */
@@ -693,8 +690,7 @@ input[type='range']:hover::-moz-range-thumb {
 }
 
 input[type='range']:focus::-moz-range-thumb {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
+	background-color: var(--focus-col);
 }
 
 /* ---------------------------------- RADIO --------------------------------- */
@@ -718,8 +714,7 @@ input[type='radio']:hover {
 }
 
 input[type='radio']:focus {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
+	border-color: var(--focus-col);
 }
 
 input[type='radio']:hover::before {
@@ -932,8 +927,9 @@ input[type='checkbox']:hover {
 	border-color: var(--hover-col);
 }
 input[type='checkbox']:focus {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
+	/* outline: var(--focus-outline);
+	outline-offset: var(--focus-outline-offset); */
+	border-color: var(--focus-col);
 }
 input[type='checkbox']:hover::before {
 	transform: scale(1);
@@ -999,9 +995,10 @@ input[type='checkbox']:checked::before {
 }
 
 .xyslider .handle:active {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
+	/* outline: var(--focus-outline);
+	outline-offset: var(--focus-outline-offset); */
 	border-radius: 100%;
+	border-color: var(--focus-col);
 }
 
 /* ------------------------------ COLOR BOXES ------------------------------ */
@@ -1275,6 +1272,7 @@ main:where(.gui-right) .command-bar {
 .command-bar__button:focus {
 	outline-offset: 0;
 	border-radius: 100%;
+	border-color: var(--focus-col);
 }
 
 .command-bar__button > span {
@@ -1624,7 +1622,7 @@ button.dialog-close:hover {
 	border-bottom: var(--line-width) solid var(--divider-col);
 	cursor: pointer;
 	color: var(--text-col);
-	text-align: center;
+	/* text-align: center; */
 }
 .tab-bar button:hover {
 	color: var(--hover-col);
