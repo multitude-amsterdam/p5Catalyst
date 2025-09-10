@@ -1,7 +1,11 @@
 /* ---------------------------------- FONTS --------------------------------- */
 
 * {
+	--font-weight-regular: 400;
+	--font-weight-bold: 700;
 	font-size: 1rem;
+	line-height: 1.5;
+
 	font-family: 'Inter Variable', sans-serif;
 	font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
 	font-variant-alternates: styleset(open-digits)
@@ -15,8 +19,6 @@
 			simplified-u
 		);
 	font-variant-ligatures: common-ligatures discretionary-ligatures contextual;
-	line-height: 1;
-	font-variation-settings: 'wght' 500;
 }
 @supports (font-variation-settings: normal) {
 	* {
@@ -28,25 +30,25 @@ button {
 }
 h1 {
 	font-size: 3rem;
-	font-variation-settings: 'wght' 700;
+	font-weight: var(--font-weight-bold);
 }
 h2 {
 	font-size: 2rem;
-	font-variation-settings: 'wght' 700;
+	font-weight: var(--font-weight-bold);
 }
 h3 {
 	font-size: 1.5rem;
-	font-variation-settings: 'wght' 700;
+	font-weight: var(--font-weight-bold);
 }
 h4 {
 	font-size: 1.25rem;
-	font-variation-settings: 'wght' 700;
+	font-weight: var(--font-weight-bold);
 }
 strong {
-	font-weight: 800;
+	font-weight: var(--font-weight-bold);
 }
 .label {
-	font-weight: 500;
+	font-weight: var(--font-weight-regular);
 }
 
 /* ------------------------------- BOX SIZING ------------------------------- */
@@ -81,13 +83,12 @@ body {
 	--squareSize: 30px;
 
 	/* main colors */
-	--base-col: #7685f7;
+	--base-col: #336dff;
 	--text-col-on-base: var(--bg-col);
 	--hover-col: #90de00;
 	--focus-col: var(--hover-col);
-	--info-col: #a830f6;
-	--error-col: #e95e2a;
-	--divider-col: rgba(var(--fgRGB), 0.2);
+	--signal-col: #fd750d;
+	--divider-col: rgba(var(--fgRGB), 0.1);
 	--inactive-col: transparent;
 
 	/* text colors */
@@ -97,10 +98,6 @@ body {
 	--text-on-inactive-col: var(--text-col);
 	--link-col: var(--base-col);
 	--link-hover-col: var(--hover-col);
-
-	/* console colors */
-	--console-bgcol: var(--inactive-col);
-	--console-textcol: var(--text-col);
 
 	/* input colors */
 	--input-text-bg-col: var(--bg-col);
@@ -146,7 +143,13 @@ body:where(.dark-mode) {
 	to style the dark mode of any element */
 	--bgRGB: var(--blackRGB);
 	--fgRGB: var(--whiteRGB);
-	--divider-col: rgba(var(--fgRGB), 0.3);
+
+	/* adjust the main GUI colours here if they don't work well in dark mode */
+	/* --base-col: #336dff; */
+	/* --text-col-on-base: var(--bg-col); */
+	/* --hover-col: #90de00; */
+	/* --focus-col: var(--hover-col); */
+	/* --signal-col: #fd750d; */
 }
 
 /* ------------------------------- SELECTIONS ------------------------------- */
@@ -171,7 +174,7 @@ body:where(.dark-mode) {
 #gui {
 	min-width: 25rem;
 	width: 25rem;
-	padding: 1.5rem 1rem;
+	padding: 1rem;
 
 	height: 100vh;
 	overflow-y: auto;
@@ -222,7 +225,7 @@ details[open] > summary::before {
 
 .panel details[open] summary {
 	border-color: var(--base-col);
-	font-variation-settings: 'wght' 700;
+	font-weight: var(--font-weight-bold);
 }
 
 .panel details summary:hover {
@@ -306,13 +309,6 @@ body:where(.dark-mode) .p5catalyst-logo {
 	margin: 0.5em 0;
 }
 
-.gui-textfield.info {
-	background-color: var(--info-col);
-	border-radius: 100em;
-	padding: 0.5em 1em;
-	color: var(--black);
-}
-
 /* ------------------------------- CONTROLLER ------------------------------- */
 .controller-wrapper {
 	display: flex;
@@ -347,20 +343,6 @@ textarea {
 	margin: 0;
 	padding: 0;
 	font-size: 1em;
-}
-
-/* --------------------------------- CONSOLE -------------------------------- */
-.gui-console {
-	text-align: center;
-	padding: 0.5em;
-	background: var(--console-bgcol);
-	color: var(--console-textcol);
-	border-radius: 3px;
-}
-
-.gui-console-error {
-	color: var(--error-col);
-	font-weight: 800;
 }
 
 /* --------------------------------- DIVIDER -------------------------------- */
@@ -1629,7 +1611,7 @@ button.dialog-close:hover {
 }
 .tab-bar button.active {
 	border-bottom: var(--line-width) solid var(--base-col);
-	font-weight: bold;
+	font-weight: var(--font-weight-bold);
 }
 .tab-bar button:hover {
 	border-bottom: var(--line-width) solid var(--hover-col);
