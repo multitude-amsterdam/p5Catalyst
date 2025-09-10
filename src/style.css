@@ -1170,58 +1170,32 @@ a:hover {
 .die-icon {
 	aspect-ratio: 1;
 	/* correlates with target diameter, but compensates for shape */
-	height: var(--icon-size);
+	height: var(--die-icon-size);
+	width: var(--die-icon-size);
 	transform-origin: center;
-
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-origin: content-box;
-	background-position: center;
 
 	opacity: 1;
 	cursor: pointer;
-	transition: rotate var(--transition-properties);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	color: var(--base-col);
+
+	transition: rotate var(--transition-properties),
+		color var(--transition-properties), opacity var(--transition-properties);
+}
+.die-icon:hover {
+	color: var(--hover-col);
+}
+.die-icon svg {
+	height: var(--die-icon-size);
+	width: var(--die-icon-size);
 }
 
 .die-icon--disabled {
 	opacity: 0.333;
-}
-
-.die-icon--1 {
-	background-image: url('/assets/dice/die-1.svg');
-}
-.die-icon--2 {
-	background-image: url('/assets/dice/die-2.svg');
-}
-.die-icon--3 {
-	background-image: url('/assets/dice/die-3.svg');
-}
-.die-icon--4 {
-	background-image: url('/assets/dice/die-4.svg');
-}
-.die-icon--5 {
-	background-image: url('/assets/dice/die-5.svg');
-}
-.die-icon--6 {
-	background-image: url('/assets/dice/die-6.svg');
-}
-body:where(.dark-mode) .die-icon--1 {
-	background-image: url('/assets/dark-mode/dice/die-1.svg');
-}
-body:where(.dark-mode) .die-icon--2 {
-	background-image: url('/assets/dark-mode/dice/die-2.svg');
-}
-body:where(.dark-mode) .die-icon--3 {
-	background-image: url('/assets/dark-mode/dice/die-3.svg');
-}
-body:where(.dark-mode) .die-icon--4 {
-	background-image: url('/assets/dark-mode/dice/die-4.svg');
-}
-body:where(.dark-mode) .die-icon--5 {
-	background-image: url('/assets/dark-mode/dice/die-5.svg');
-}
-body:where(.dark-mode) .die-icon--6 {
-	background-image: url('/assets/dark-mode/dice/die-6.svg');
 }
 
 /* ------------------------------- COMMAND BAR ------------------------------ */
@@ -1242,7 +1216,7 @@ main:where(.gui-right) .command-bar {
 	flex-direction: row-reverse;
 }
 
-.commandbar__center {
+.command-bar__center {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -1251,28 +1225,29 @@ main:where(.gui-right) .command-bar {
 	margin: auto;
 
 	height: inherit;
-
-	background-image: url('/assets/generator-logo.svg');
-	background-repeat: no-repeat;
-	background-size: contain;
-	background-origin: content-box;
-	background-position: center;
-
-	width: 8rem;
+	width: fit-content;
+}
+.command-bar__center > svg {
+	height: inherit;
+	width: auto;
+	color: var(--base-col);
 }
 
 .command-bar__button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 0.5rem;
-	gap: var(--spacing-x);
-
-	width: auto;
+	padding: 0;
+	height: var(--base-height);
+	max-width: var(--base-height);
 	background: none;
 	border: none;
 	color: var(--base-col);
 }
+.command-bar__button > svg {
+	height: var(--icon-size);
+}
+
 .command-bar__button:hover {
 	background: none;
 	color: var(--hover-col);
@@ -1306,38 +1281,40 @@ main:where(.gui-right) .command-bar {
 	cursor: pointer;
 	transition: rotate var(--transition-properties);
 }
-.command-bar__icon--randomizer {
-	width: 12px;
+.command-bar__button--randomizer:hover {
+	rotate: 60deg;
 }
-.command-bar__icon--undo {
-	background-image: url('/assets/undo.svg');
+.command-bar__button--undo:hover {
+	rotate: -30deg;
 }
-.command-bar__icon--redo {
-	background-image: url('/assets/redo.svg');
+.command-bar__button--redo:hover {
+	rotate: 30deg;
 }
-.command-bar__icon--reset {
-	background-image: url('/assets/reset.svg');
+.command-bar__button--reset:hover {
+	rotate: -180deg;
 }
-.command-bar__icon--help {
-	background-image: url('/assets/help.svg');
+.command-bar__button--theme-toggle:hover {
+	rotate: 60deg;
+}
+.command-bar__button--help:hover {
+}
+/* Add to your existing CSS file */
+svg,
+svg * {
+	stroke-width: 2px !important; /* Force 2px stroke width */
+	vector-effect: non-scaling-stroke; /* Prevent stroke scaling */
 }
 
-body:where(.dark-mode) .command-bar__icon--undo {
-	background-image: url('/assets/dark-mode/undo.svg');
-}
-body:where(.dark-mode) .command-bar__icon--redo {
-	background-image: url('/assets/dark-mode/redo.svg');
-}
-body:where(.dark-mode) .command-bar__icon--reset {
-	background-image: url('/assets/dark-mode/reset.svg');
-}
-body:where(.dark-mode) .command-bar__icon--help {
-	background-image: url('/assets/dark-mode/help.svg');
+/* If specific elements need different stroke widths */
+svg path,
+svg line,
+svg rect,
+svg circle {
+	stroke-width: 2px !important;
 }
 
 /* ---------------------------- DARK MODE BUTTON ---------------------------- */
-
-.command-bar__icon--theme-toggle {
+/* .command-bar__icon--theme-toggle {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-size: contain;
@@ -1346,26 +1323,7 @@ body:where(.dark-mode) .command-bar__icon--help {
 	aspect-ratio: 1;
 	padding: 0;
 	border-radius: 100%;
-}
-
-.theme-toggle--light {
-	background-image: url('/assets/theme-toggle/light-mode-icon.svg');
-}
-.theme-toggle--dark {
-	background-image: url('/assets/theme-toggle/dark-mode-icon.svg');
-}
-.theme-toggle--auto {
-	background-image: url('/assets/theme-toggle/auto-mode-icon.svg');
-}
-body:where(.dark-mode) .theme-toggle--light {
-	background-image: url('/assets/dark-mode/theme-toggle/light-mode-icon.svg');
-}
-body:where(.dark-mode) .theme-toggle--dark {
-	background-image: url('/assets/dark-mode/theme-toggle/dark-mode-icon.svg');
-}
-body:where(.dark-mode) .theme-toggle--auto {
-	background-image: url('/assets/dark-mode/theme-toggle/auto-mode-icon.svg');
-}
+} */
 
 /* ----------------------------- CANVAS SECTION ----------------------------- */
 #canvas-workarea {

@@ -3,7 +3,7 @@ import type { GUIForP5 } from '../GUIForP5';
 import { GUIButton } from './GUIButton';
 
 export class RandomizeButton extends GUIButton {
-	constructor(gui: GUIForP5) {
+	constructor(gui: GUIForP5, dieIconSvgs: string[]) {
 		super(gui);
 
 		if (!gui.randomizer) return;
@@ -11,6 +11,8 @@ export class RandomizeButton extends GUIButton {
 		this.button.mousePressed(() => {
 			gui.randomizer?.randomize();
 		});
+
+		DieIcon.dieIconSvgs = dieIconSvgs;
 
 		const die = new DieIcon(gui.randomizer, undefined, () => {
 			die.randomizeIcon();

@@ -8,14 +8,7 @@ import type { Randomizer } from '../Randomizer';
  */
 export class DieIcon {
 	static iconClass = 'die-icon';
-	static iconModifierClasses = [
-		'die-icon--1',
-		'die-icon--2',
-		'die-icon--3',
-		'die-icon--4',
-		'die-icon--5',
-		'die-icon--6',
-	];
+	static dieIconSvgs: string[] | undefined = undefined;
 
 	randomizer: Randomizer;
 	controller?: Controller;
@@ -23,14 +16,8 @@ export class DieIcon {
 	rotation: number;
 	p5Instance: p5;
 	isActive: boolean = true;
-	currentModifierClass?: string;
+	currentSvgIndex?: number;
 
-	/**
-	 * Constructs a DieIcon.
-	 * @param {Randomizer} randomizer - The parent Randomizer instance.
-	 * @param {Controller} controller - The controller this die is attached to.
-	 * @param {boolean} isActive - Whether the die is active (randomization enabled).
-	 */
 	constructor(
 		randomizer: Randomizer,
 		controller?: Controller,
@@ -52,18 +39,20 @@ export class DieIcon {
 		this.setActive(!this.isActive);
 	}
 
-	/**
-	 * Randomizes the die icon image URL and its rotationation.
-	 */
 	randomizeIcon() {
+		if (!DieIcon.dieIconSvgs) return;
+
 		// resets mofifier classes
 		this.imgContainer.class(DieIcon.iconClass);
 
-		let modifierClass;
-		do modifierClass = this.p5Instance.random(DieIcon.iconModifierClasses);
-		while (modifierClass === this.currentModifierClass);
-		this.imgContainer.addClass(modifierClass);
-		this.currentModifierClass = modifierClass;
+		let svgIndex;
+		do
+			svgIndex = Math.floor(
+				this.p5Instance.random(DieIcon.dieIconSvgs.length)
+			);
+		while (svgIndex === this.currentSvgIndex);
+		this.imgContainer.html(DieIcon.dieIconSvgs[svgIndex]);
+		this.currentSvgIndex = svgIndex;
 
 		// rotate die randomly
 		let currentRotation;
@@ -79,8 +68,6 @@ export class DieIcon {
 	 */
 	click() {
 		this.toggle();
-		// this.randomizer.toggleDoRandomize(this);
-		// if (this.controller.doUpdateChangeSet()) changeSet.save(); // not working (yet)
 	}
 
 	/**
