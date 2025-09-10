@@ -272,7 +272,7 @@ details[open] > summary::before {
 /* ------------------------------ LOGO STYLING ------------------------------ */
 #logo {
 	min-height: 4rem;
-	background-image: url('assets/generator-logo.svg');
+	background-image: url('/assets/generator-logo.svg');
 	background-position-x: center;
 	background-position-y: center;
 	background-size: contain;
@@ -281,7 +281,7 @@ details[open] > summary::before {
 }
 
 body:where(.dark-mode) #logo {
-	background-image: url('assets/dark-mode/generator-logo.svg');
+	background-image: url('/assets/dark-mode/generator-logo.svg');
 }
 
 .footer-logo {
@@ -296,7 +296,7 @@ body:where(.dark-mode) #logo {
 	position: relative;
 	right: -0.5rem;
 	bottom: -0.5rem;
-	background-image: url('assets/p5catalyst-logo.svg');
+	background-image: url('/assets/p5catalyst-logo.svg');
 	background-position-x: left;
 	background-position-y: center;
 	background-size: contain;
@@ -304,7 +304,7 @@ body:where(.dark-mode) #logo {
 }
 
 body:where(.dark-mode) .p5catalyst-logo {
-	background-image: url('assets/dark-mode/p5catalyst-logo.svg');
+	background-image: url('/assets/dark-mode/p5catalyst-logo.svg');
 }
 
 /* -------------------------------- TEXTFIELD ------------------------------- */
@@ -1162,40 +1162,40 @@ a:hover {
 }
 
 .die-icon--1 {
-	background-image: url('assets/dice/die-1.svg');
+	background-image: url('/assets/dice/die-1.svg');
 }
 .die-icon--2 {
-	background-image: url('assets/dice/die-2.svg');
+	background-image: url('/assets/dice/die-2.svg');
 }
 .die-icon--3 {
-	background-image: url('assets/dice/die-3.svg');
+	background-image: url('/assets/dice/die-3.svg');
 }
 .die-icon--4 {
-	background-image: url('assets/dice/die-4.svg');
+	background-image: url('/assets/dice/die-4.svg');
 }
 .die-icon--5 {
-	background-image: url('assets/dice/die-5.svg');
+	background-image: url('/assets/dice/die-5.svg');
 }
 .die-icon--6 {
-	background-image: url('assets/dice/die-6.svg');
+	background-image: url('/assets/dice/die-6.svg');
 }
 body:where(.dark-mode) .die-icon--1 {
-	background-image: url('assets/dark-mode/dice/die-1.svg');
+	background-image: url('/assets/dark-mode/dice/die-1.svg');
 }
 body:where(.dark-mode) .die-icon--2 {
-	background-image: url('assets/dark-mode/dice/die-2.svg');
+	background-image: url('/assets/dark-mode/dice/die-2.svg');
 }
 body:where(.dark-mode) .die-icon--3 {
-	background-image: url('assets/dark-mode/dice/die-3.svg');
+	background-image: url('/assets/dark-mode/dice/die-3.svg');
 }
 body:where(.dark-mode) .die-icon--4 {
-	background-image: url('assets/dark-mode/dice/die-4.svg');
+	background-image: url('/assets/dark-mode/dice/die-4.svg');
 }
 body:where(.dark-mode) .die-icon--5 {
-	background-image: url('assets/dark-mode/dice/die-5.svg');
+	background-image: url('/assets/dark-mode/dice/die-5.svg');
 }
 body:where(.dark-mode) .die-icon--6 {
-	background-image: url('assets/dark-mode/dice/die-6.svg');
+	background-image: url('/assets/dark-mode/dice/die-6.svg');
 }
 
 /* ------------------------------- COMMAND BAR ------------------------------ */
@@ -1226,7 +1226,7 @@ main:where(.gui-right) .command-bar {
 
 	height: inherit;
 
-	background-image: url('/public/assets/generator-logo.svg');
+	background-image: url('/assets/generator-logo.svg');
 	background-repeat: no-repeat;
 	background-size: contain;
 	background-origin: content-box;
@@ -1285,35 +1285,35 @@ main:where(.gui-right) .command-bar {
 	width: 12px;
 }
 .command-bar__icon--undo {
-	background-image: url('assets/undo.svg');
+	background-image: url('/assets/undo.svg');
 }
 .command-bar__icon--redo {
-	background-image: url('assets/redo.svg');
+	background-image: url('/assets/redo.svg');
 }
 .command-bar__icon--reset {
-	background-image: url('assets/reset.svg');
+	background-image: url('/assets/reset.svg');
 }
 .command-bar__icon--settings {
-	background-image: url('assets/settings.svg');
+	background-image: url('/assets/settings.svg');
 }
 .command-bar__icon--help {
-	background-image: url('assets/help.svg');
+	background-image: url('/assets/help.svg');
 }
 
 body:where(.dark-mode) .command-bar__icon--undo {
-	background-image: url('assets/dark-mode/undo.svg');
+	background-image: url('/assets/dark-mode/undo.svg');
 }
 body:where(.dark-mode) .command-bar__icon--redo {
-	background-image: url('assets/dark-mode/redo.svg');
+	background-image: url('/assets/dark-mode/redo.svg');
 }
 body:where(.dark-mode) .command-bar__icon--reset {
-	background-image: url('assets/dark-mode/reset.svg');
+	background-image: url('/assets/dark-mode/reset.svg');
 }
 body:where(.dark-mode) .command-bar__icon--settings {
-	background-image: url('assets/dark-mode/settings.svg');
+	background-image: url('/assets/dark-mode/settings.svg');
 }
 body:where(.dark-mode) .command-bar__icon--help {
-	background-image: url('assets/dark-mode/help.svg');
+	background-image: url('/assets/dark-mode/help.svg');
 }
 
 /* ---------------------------- DARK MODE BUTTON ---------------------------- */
@@ -1330,22 +1330,22 @@ body:where(.dark-mode) .command-bar__icon--help {
 }
 
 .theme-toggle--light {
-	background-image: url('assets/theme-toggle/light-mode-icon.svg');
+	background-image: url('/assets/theme-toggle/light-mode-icon.svg');
 }
 .theme-toggle--dark {
-	background-image: url('assets/theme-toggle/dark-mode-icon.svg');
+	background-image: url('/assets/theme-toggle/dark-mode-icon.svg');
 }
 .theme-toggle--auto {
-	background-image: url('assets/theme-toggle/auto-mode-icon.svg');
+	background-image: url('/assets/theme-toggle/auto-mode-icon.svg');
 }
 body:where(.dark-mode) .theme-toggle--light {
-	background-image: url('assets/dark-mode/theme-toggle/light-mode-icon.svg');
+	background-image: url('/assets/dark-mode/theme-toggle/light-mode-icon.svg');
 }
 body:where(.dark-mode) .theme-toggle--dark {
-	background-image: url('assets/dark-mode/theme-toggle/dark-mode-icon.svg');
+	background-image: url('/assets/dark-mode/theme-toggle/dark-mode-icon.svg');
 }
 body:where(.dark-mode) .theme-toggle--auto {
-	background-image: url('assets/dark-mode/theme-toggle/auto-mode-icon.svg');
+	background-image: url('/assets/dark-mode/theme-toggle/auto-mode-icon.svg');
 }
 
 /* ----------------------------- CANVAS SECTION ----------------------------- */
