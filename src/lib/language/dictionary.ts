@@ -14,10 +14,6 @@ import { getControlKeyName } from '../utils/data';
  * (Only select the outer most braces for this to work correctly.)
  */
 export const dictionary: Dictionary = {
-	LANG_SETTINGS_DIALOG: {
-		en: `<h1>Settings</h1>` + `<p></p>`,
-		nl: '',
-	},
 	LANG_WRONG_FILE_TYPE_MSG: {
 		nl: '<h1>Verkeerd bestandstype</h1><p>Het verkeerde bestandtype was geselecteerd.</p>',
 		en: '<h1>Wrong file type</h1><p>The wrong file type was selected.</p>',
@@ -86,10 +82,6 @@ export const dictionary: Dictionary = {
 		nl: 'toon',
 		en: 'show',
 	},
-	LANG_SETTINGS: {
-		nl: 'instellingen',
-		en: 'settings',
-	},
 	LANG_SELECT: {
 		nl: 'selecteer',
 		en: 'select',
@@ -97,10 +89,6 @@ export const dictionary: Dictionary = {
 	LANG_SCALE: {
 		nl: 'schaal',
 		en: 'scale',
-	},
-	LANG_SAVE_SETTINGS: {
-		nl: 'instellingen opslaan als bestand',
-		en: 'save settings as file',
 	},
 	LANG_RESET: {
 		nl: 'resetten',
@@ -121,10 +109,6 @@ export const dictionary: Dictionary = {
 	LANG_PORTRAIT: {
 		nl: 'staand',
 		en: 'portrait',
-	},
-	LANG_LOAD_SETTINGS: {
-		nl: 'open instellingen',
-		en: 'open settings file',
 	},
 	LANG_LIGHT_MODE: {
 		nl: 'licht thema',
