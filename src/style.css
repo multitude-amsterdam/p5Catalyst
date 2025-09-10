@@ -90,6 +90,8 @@ body {
 	--signal-col: #fd750d;
 	--divider-col: rgba(var(--fgRGB), 0.1);
 	--inactive-col: transparent;
+	--input-text-bg-col: transparent;
+	--input-text-text-col: var(--text-col);
 
 	/* text colors */
 	--text-col: var(--base-col);
@@ -98,10 +100,6 @@ body {
 	--text-on-inactive-col: var(--text-col);
 	--link-col: var(--base-col);
 	--link-hover-col: var(--hover-col);
-
-	/* input colors */
-	--input-text-bg-col: var(--bg-col);
-	--input-text-text-col: var(--text-col);
 
 	/* dimensions */
 	--button-padding-sides: 0.667rem;
