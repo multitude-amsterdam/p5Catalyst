@@ -55,6 +55,7 @@ strong {
 	font-weight: var(--font-weight-regular);
 }
 /* hack for Safari 9+ */
+/* https://browserstrangeness.bitbucket.io/css_hacks.html#safari */
 @supports (-webkit-hyphens: none) {
 	button {
 		font-variation-settings: 'wght' var(--font-weight-regular);
