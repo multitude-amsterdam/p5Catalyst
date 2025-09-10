@@ -16,6 +16,7 @@
 		);
 	font-variant-ligatures: common-ligatures discretionary-ligatures contextual;
 	line-height: 1;
+	font-variation-settings: 'wght' 500;
 }
 @supports (font-variation-settings: normal) {
 	* {
@@ -23,23 +24,23 @@
 	}
 }
 button {
-	font-weight: 400;
+	font-variation-settings: 'wght' 400;
 }
 h1 {
 	font-size: 3rem;
-	font-weight: 700;
+	font-variation-settings: 'wght' 700;
 }
 h2 {
 	font-size: 2rem;
-	font-weight: 800;
+	font-variation-settings: 'wght' 700;
 }
 h3 {
 	font-size: 1.5rem;
-	font-weight: 700;
+	font-variation-settings: 'wght' 700;
 }
 h4 {
 	font-size: 1.25rem;
-	font-weight: 800;
+	font-variation-settings: 'wght' 700;
 }
 strong {
 	font-weight: 800;
@@ -221,7 +222,7 @@ details[open] > summary::before {
 
 .panel details[open] summary {
 	border-color: var(--base-col);
-	font-weight: 700;
+	font-variation-settings: 'wght' 700;
 }
 
 .panel details summary:hover {
