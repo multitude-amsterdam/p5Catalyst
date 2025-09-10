@@ -1293,9 +1293,6 @@ main:where(.gui-right) .command-bar {
 .command-bar__icon--reset {
 	background-image: url('/assets/reset.svg');
 }
-.command-bar__icon--settings {
-	background-image: url('/assets/settings.svg');
-}
 .command-bar__icon--help {
 	background-image: url('/assets/help.svg');
 }
@@ -1308,9 +1305,6 @@ body:where(.dark-mode) .command-bar__icon--redo {
 }
 body:where(.dark-mode) .command-bar__icon--reset {
 	background-image: url('/assets/dark-mode/reset.svg');
-}
-body:where(.dark-mode) .command-bar__icon--settings {
-	background-image: url('/assets/dark-mode/settings.svg');
 }
 body:where(.dark-mode) .command-bar__icon--help {
 	background-image: url('/assets/dark-mode/help.svg');

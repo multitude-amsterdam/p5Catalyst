@@ -5,7 +5,6 @@ import type { Config } from 'src/lib/types';
 import { ThemeToggle } from '../gui-components/ThemeToggle';
 import { RandomizeButton } from '../gui-components/RandomizeButton';
 import { GUIButton } from '../gui-components/GUIButton';
-import { SettingsButton } from '../gui-components/SettingsButton';
 
 export class CommandBar extends Field {
 	undoButton: GUIButton;
@@ -15,7 +14,6 @@ export class CommandBar extends Field {
 
 	themeToggle: ThemeToggle;
 	randomizeButton?: RandomizeButton;
-	settingsButton: SettingsButton;
 
 	filler: p5.Element;
 	centerDiv: p5.Element;
@@ -58,14 +56,6 @@ export class CommandBar extends Field {
 			this.createIconDiv(this.redoButton, 'command-bar__icon--redo');
 		}
 
-		// reset button
-		{
-			this.resetButton = this.createButton('LANG_RESET', () => {
-				this.gui.resetToDefaults();
-			});
-			this.createIconDiv(this.resetButton, 'command-bar__icon--reset');
-		}
-
 		// middle filler
 		// pushes buttons either sides
 		this.filler = gui.p5Instance
@@ -73,12 +63,12 @@ export class CommandBar extends Field {
 			.parent(this.div)
 			.class('command-bar__filler') as p5.Element;
 
-		// help button
+		// reset button
 		{
-			this.helpButton = this.createButton('LANG_HELP', () => {
-				this.gui.dialog.alert('LANG_HELPME_MSG');
+			this.resetButton = this.createButton('LANG_RESET', () => {
+				this.gui.resetToDefaults();
 			});
-			this.createIconDiv(this.helpButton, 'command-bar__icon--help');
+			this.createIconDiv(this.resetButton, 'command-bar__icon--reset');
 		}
 
 		// theme toggle
@@ -88,11 +78,12 @@ export class CommandBar extends Field {
 			this.themeToggle.button.addClass('command-bar__button');
 		}
 
-		// settings
+		// help button
 		{
-			this.settingsButton = new SettingsButton(gui, this);
-			this.settingsButton.button.parent(this.div);
-			this.settingsButton.button.addClass('command-bar__button');
+			this.helpButton = this.createButton('LANG_HELP', () => {
+				this.gui.dialog.alert('LANG_HELPME_MSG');
+			});
+			this.createIconDiv(this.helpButton, 'command-bar__icon--help');
 		}
 
 		// centered div on bar that hold logo or image
