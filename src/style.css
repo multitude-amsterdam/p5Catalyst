@@ -1,11 +1,13 @@
 /* ---------------------------------- FONTS --------------------------------- */
-
 * {
 	--font-weight-regular: 400;
+	--font-weight-regular-light-on-dark: 300;
 	--font-weight-bold: 700;
+
 	font-size: 1rem;
 	line-height: 1.5;
 
+	font-weight: var(--font-weight-regular);
 	font-family: 'Inter Variable', sans-serif;
 	font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
 	font-variant-alternates: styleset(open-digits)
@@ -19,7 +21,8 @@
 			simplified-u
 		);
 	font-variant-ligatures: common-ligatures discretionary-ligatures contextual;
-	font-variation-settings: 'wght' var(--font-weight-regular);
+	/* font-variation-settings: 'wght' var(--font-weight-regular); */
+	/* font-weight: var(--font-weight-regular); */
 }
 @supports (font-variation-settings: normal) {
 	* {
@@ -27,29 +30,53 @@
 	}
 }
 button {
-	font-variation-settings: 'wght' var(--font-weight-regular);
+	font-weight: var(--font-weight-regular-light-on-dark);
 }
 h1 {
 	font-size: 3rem;
-	font-variation-settings: 'wght' var(--font-weight-bold);
+	font-weight: var(--font-weight-bold);
 }
 h2 {
 	font-size: 2rem;
-	font-variation-settings: 'wght' var(--font-weight-bold);
+	font-weight: var(--font-weight-bold);
 }
 h3 {
 	font-size: 1.5rem;
-	font-variation-settings: 'wght' var(--font-weight-bold);
+	font-weight: var(--font-weight-bold);
 }
 h4 {
 	font-size: 1.25rem;
-	font-variation-settings: 'wght' var(--font-weight-bold);
+	font-weight: var(--font-weight-bold);
 }
 strong {
-	font-variation-settings: 'wght' var(--font-weight-bold);
+	font-weight: var(--font-weight-bold);
 }
 .label {
-	font-variation-settings: 'wght' var(--font-weight-regular);
+	font-weight: var(--font-weight-regular);
+}
+/* hack for Safari 9+ */
+@supports (-webkit-hyphens: none) {
+	button {
+		font-variation-settings: 'wght' var(--font-weight-regular);
+	}
+	h1 {
+		font-variation-settings: 'wght' var(--font-weight-bold);
+	}
+	h2 {
+		font-variation-settings: 'wght' var(--font-weight-bold);
+	}
+	h3 {
+		font-variation-settings: 'wght' var(--font-weight-bold);
+	}
+	h4 {
+		font-variation-settings: 'wght' var(--font-weight-bold);
+	}
+	strong {
+		font-variation-settings: 'wght' var(--font-weight-bold);
+	}
+	.label {
+		font-variation-settings: 'wght' var(--font-weight-regular);
+	}
 }
 
 /* ------------------------------- BOX SIZING ------------------------------- */
@@ -94,13 +121,14 @@ body {
 	--input-text-bg-col: transparent;
 	--input-text-text-col: var(--text-col);
 
-	/* text colors */
+	/* text */
 	--text-col: var(--base-col);
 	--text-col-on-hover: var(--black);
-	--text-align: left;
-	--text-on-inactive-col: var(--text-col);
+	--text-col-on-focus: var(var(--text-col-on-hover));
 	--link-col: var(--base-col);
+	--text-on-inactive-col: var(--text-col);
 	--link-hover-col: var(--hover-col);
+	--text-align: left;
 
 	/* dimensions */
 	--button-padding-sides: 0.667rem;
@@ -116,10 +144,6 @@ body {
 	/* mouse targets (eg., range inputs, radios) */
 	--target-col: var(--base-col);
 	--target-diameter: 1.3rem;
-
-	/* focus outline */
-	--focus-outline-offset: calc(1.5 * var(--line-width));
-	--focus-outline: var(--line-width) dotted var(--focus-col);
 
 	/* animation */
 	--transition-properties: 0.25s ease;
@@ -149,6 +173,12 @@ body:where(.dark-mode) {
 	/* --hover-col: #90de00; */
 	/* --focus-col: var(--hover-col); */
 	/* --signal-col: #fd750d; */
+}
+
+body:where(.dark-mode) * {
+	--font-weight-regular: 500;
+	--font-weight-bold: 800;
+	--font-weight-regular-light-on-dark: 400;
 }
 
 /* ------------------------------- SELECTIONS ------------------------------- */
@@ -203,17 +233,7 @@ details > summary {
 details > summary::-webkit-details-marker {
 	display: none;
 }
-details > summary::before {
-	content: '->'; /* switch between rightArrow.case (U+E1D7), rightArrow '→' (U+2192) if glyph isn't in your font or try if your font has a ligature for '->' */
-	display: inline-block;
-	transition: rotate var(--transition-properties);
-	margin-right: 0.25em;
-}
-details[open] > summary::before {
-	rotate: 90deg;
-}
-
-.panel details summary {
+details > summary {
 	border-bottom: solid var(--divider-col) var(--line-width);
 	padding: 0.5rem 0;
 	transition: color var(--transition-properties),
@@ -224,25 +244,41 @@ details[open] > summary::before {
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+/Edge */
 	user-select: none; /* Standard */
+	cursor: pointer;
+}
+details > summary:hover,
+details[open] > summary:hover {
+	color: var(--hover-col);
+	border-color: var(--hover-col);
+}
+details > summary:focus,
+details[open] > summary:focus {
+	color: var(--focus-col);
+	border-color: var(--focus-col);
 }
 
-.panel details[open] summary {
+details[open] > summary {
 	border-color: var(--base-col);
 	font-weight: var(--font-weight-bold);
 }
 
-.panel details summary:hover {
-	cursor: pointer;
-	color: var(--hover-col);
-	border-color: var(--hover-col);
+/* the details arrow */
+details > summary::before {
+	content: '->'; /* switch between rightArrow.case (U+E1D7), rightArrow '→' (U+2192) if glyph isn't in your font or try if your font has a ligature for '->' */
+	display: inline-block;
+	transition: rotate var(--transition-properties);
+	margin-right: 0.25em;
+}
+details[open] > summary::before {
+	rotate: 90deg;
 }
 
-.panel .panel-container {
+/* contains details content */
+.panel-container {
 	display: flex;
 	flex-direction: column;
 	gap: var(--spacing-y);
 	padding: calc(var(--base-height) * 0.25) 0;
-	/* border-bottom: solid var(--base-col) var(--line-width); */
 }
 
 /* ------------------------------- SCROLLBARS ------------------------------- */
@@ -382,18 +418,14 @@ button {
 	text-align: var(--text-align);
 }
 
-.controller-wrapper button:hover {
-	background-color: var(--focus-col);
+button:hover {
+	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
 }
 
 button:focus {
 	background-color: var(--focus-col);
-	color: var(--text-col-on-hover);
-	border-radius: calc(
-		var(--corner-radius) + sign(var(--corner-radius)) *
-			var(--focus-outline-offset)
-	);
+	color: var(--text-col-on-focus);
 }
 
 /* --------------------------------- TOGGLE --------------------------------- */
@@ -524,8 +556,6 @@ select:hover {
 
 select:focus {
 	border-color: var(--focus-col);
-	/* outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset); */
 }
 
 option {
@@ -640,12 +670,9 @@ input[type='range']::-webkit-slider-thumb {
 
 input[type='range']:hover::-webkit-slider-thumb {
 	background-color: var(--hover-col);
-	color: var(--text-col-on-hover);
 }
 
 input[type='range']:focus::-webkit-slider-thumb {
-	outline: var(--focus-outline);
-	outline-offset: var(--focus-outline-offset);
 	background-color: var(--focus-col);
 }
 
@@ -1245,16 +1272,15 @@ main:where(.gui-right) .command-bar {
 	width: auto;
 	background: none;
 	border: none;
-	/* color: var(--base-col); */
+	color: var(--base-col);
 }
 .command-bar__button:hover {
-	/* background: none;
-	color: var(--hover-col); */
+	background: none;
+	color: var(--hover-col);
 }
 .command-bar__button:focus {
-	/* outline-offset: 0;
-	border-radius: 100%;
-	border-color: var(--focus-col); */
+	background: none;
+	color: var(--hover-col);
 }
 
 .command-bar__button > span {
@@ -1598,6 +1624,7 @@ button.dialog-close:hover {
 	border-bottom: var(--line-width) solid var(--divider-col);
 	cursor: pointer;
 	color: var(--text-col);
+	font-weight: var(--font-weight-regular);
 	/* text-align: center; */
 }
 .tab-bar button:hover {
@@ -1646,7 +1673,6 @@ textarea,
 .xyslider,
 .color-text-area-display {
 	transition: color var(--transition-properties),
-		border var(--transition-properties),
-		outline var(--transition-properties),
-		rotate var(--transition-properties), font var(--transition-properties);
+		border var(--transition-properties), rotate var(--transition-properties),
+		font var(--transition-properties);
 }
