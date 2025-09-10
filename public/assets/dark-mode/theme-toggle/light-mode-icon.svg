@@ -10,12 +10,12 @@
 	<defs>
 		<style>
 			.uuid-a4e76c53-749f-4dbe-b3e1-e093783663a0 {
-				fill: #7685f7;
+				fill: #336dff;
 			}
 
 			.uuid-7d878262-ec24-4935-bbf9-48228a115b12 {
 				fill: none;
-				stroke: #7685f7;
+				stroke: #336dff;
 				stroke-miterlimit: 10;
 				stroke-width: 2px;
 			}
