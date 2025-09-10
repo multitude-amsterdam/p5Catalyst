@@ -118,7 +118,7 @@ body {
 
 	/* mouse targets (eg., range inputs, radios) */
 	--target-col: var(--base-col);
-	--target-diameter: 1.5rem;
+	--target-diameter: 1.3rem;
 
 	/* focus outline */
 	--focus-outline-offset: calc(1.5 * var(--line-width));
@@ -396,11 +396,13 @@ button {
 	text-align: var(--text-align);
 }
 
-button:hover {
+.controller-wrapper button:hover {
+	background-color: var(--focus-col);
 	color: var(--text-col-on-hover);
 }
 
 button:focus {
+	background-color: var(--focus-col);
 	color: var(--text-col-on-hover);
 	border-radius: calc(
 		var(--corner-radius) + sign(var(--corner-radius)) *
@@ -1664,9 +1666,7 @@ textarea,
 .xyslider,
 .color-text-area-display {
 	transition: color var(--transition-properties),
-		background var(--transition-properties),
 		border var(--transition-properties),
 		outline var(--transition-properties),
-		transform var(--transition-properties),
 		rotate var(--transition-properties), font var(--transition-properties);
 }
