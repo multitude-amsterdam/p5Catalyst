@@ -48,6 +48,7 @@ const initialize = async (
 
 	userPlugins?.forEach(plugin => plugin.afterInit?.(gui));
 	gui.setup();
+
 	return { container, gui };
 };
 
