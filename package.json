@@ -1,22 +1,21 @@
 {
-  "name": "package.json",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@types/p5": "^1.7.6",
-    "typescript": "~5.8.3",
-    "vite": "^7.0.4"
-  },
-  "dependencies": {
-    "@ffmpeg/ffmpeg": "^0.12.15",
-    "@ffmpeg/util": "^0.12.2",
-    "@fontsource-variable/inter": "^5.2.6",
-    "p5": "^2.0.3"
-  }
+	"name": "package.json",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"devDependencies": {
+		"@types/p5": "^1.7.6",
+		"typescript": "~5.8.3",
+		"vite": "^7.0.4"
+	},
+	"dependencies": {
+		"@ffmpeg/ffmpeg": "^0.12.15",
+		"@ffmpeg/util": "^0.12.2",
+		"p5": "^2.0.3"
+	}
 }

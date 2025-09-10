@@ -7,8 +7,8 @@
 	font-size: 1rem;
 	line-height: 1;
 
-	font-weight: var(--font-weight-regular);
-	font-family: 'Inter Variable', sans-serif;
+	font-family: 'InterVariable', sans-serif;
+	font-optical-sizing: auto;
 	font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
 	font-variant-alternates: styleset(open-digits)
 		character-variant(
@@ -21,12 +21,9 @@
 			simplified-u
 		);
 	font-variant-ligatures: common-ligatures discretionary-ligatures contextual;
+	font-weight: var(--font-weight-regular);
 }
-@supports (font-variation-settings: normal) {
-	* {
-		font-family: 'Inter Variable', sans-serif;
-	}
-}
+
 button {
 	font-weight: var(--font-weight-regular-light-on-dark);
 }
