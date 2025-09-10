@@ -9,7 +9,7 @@
 		<style>
 			.cls-1 {
 				fill: none;
-				stroke: #336dff;
+				stroke: currentColor;
 				stroke-miterlimit: 10;
 				stroke-width: 2px;
 			}

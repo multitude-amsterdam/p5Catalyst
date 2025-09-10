@@ -8,12 +8,12 @@
 	<defs>
 		<style>
 			.cls-1 {
-				fill: #336dff;
+				fill: currentColor;
 			}
 
 			.cls-2 {
 				fill: none;
-				stroke: #336dff;
+				stroke: currentColor;
 				stroke-miterlimit: 10;
 				stroke-width: 2px;
 			}

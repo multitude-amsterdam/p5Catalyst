@@ -10,7 +10,7 @@
 	<defs>
 		<style>
 			.uuid-48f93084-3516-4d8d-b3bb-25688bb2a244 {
-				fill: #336dff;
+				fill: currentColor;
 			}
 		</style>
 	</defs>

@@ -12,7 +12,7 @@
 			}
 
 			.cls-2 {
-				fill: #336dff;
+				fill: currentColor;
 			}
 
 			.cls-3 {
