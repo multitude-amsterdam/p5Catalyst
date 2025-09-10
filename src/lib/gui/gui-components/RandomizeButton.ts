@@ -12,7 +12,9 @@ export class RandomizeButton extends GUIButton {
 			gui.randomizer?.randomize();
 		});
 
-		const die = new DieIcon(gui.randomizer, undefined);
+		const die = new DieIcon(gui.randomizer, undefined, () => {
+			die.randomizeIcon();
+		});
 		die.imgContainer.parent(this.button);
 	}
 }
