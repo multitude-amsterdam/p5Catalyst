@@ -221,6 +221,10 @@ details[open] > summary::before {
 		border var(--transition-properties),
 		font-weight var(--transition-properties);
 	font-size: 1.3rem;
+	-webkit-user-select: none; /* Safari */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+/Edge */
+	user-select: none; /* Standard */
 }
 
 .panel details[open] summary {
