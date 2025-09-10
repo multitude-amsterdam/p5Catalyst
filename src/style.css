@@ -5,7 +5,7 @@
 	--font-weight-bold: 700;
 
 	font-size: 1rem;
-	line-height: 1.5;
+	line-height: 1;
 
 	font-weight: var(--font-weight-regular);
 	font-family: 'Inter Variable', sans-serif;
@@ -21,8 +21,6 @@
 			simplified-u
 		);
 	font-variant-ligatures: common-ligatures discretionary-ligatures contextual;
-	/* font-variation-settings: 'wght' var(--font-weight-regular); */
-	/* font-weight: var(--font-weight-regular); */
 }
 @supports (font-variation-settings: normal) {
 	* {
@@ -125,7 +123,7 @@ body {
 	/* text */
 	--text-col: var(--base-col);
 	--text-col-on-hover: var(--black);
-	--text-col-on-focus: var(var(--text-col-on-hover));
+	--text-col-on-focus: var(--text-col-on-hover);
 	--link-col: var(--base-col);
 	--text-on-inactive-col: var(--text-col);
 	--link-hover-col: var(--hover-col);
