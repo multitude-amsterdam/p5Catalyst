@@ -4,16 +4,22 @@ import { GUIButton } from './GUIButton';
 import p5 from 'p5';
 
 export class ThemeToggle extends GUIButton {
-	icon: p5.Element;
+	iconLightSvg: string;
+	iconDarkSvg: string;
 
-	constructor(gui: GUIForP5, commandBar: CommandBar) {
+	constructor(
+		gui: GUIForP5,
+		commandBar: CommandBar,
+		iconLightSvg: string,
+		iconDarkSvg: string
+	) {
 		super(gui, () => {});
+		this.iconLightSvg = iconLightSvg;
+		this.iconDarkSvg = iconDarkSvg;
+
 		this.button.mousePressed(() => {
 			this.toggleLightDarkMode();
 		});
-
-		this.icon = commandBar.createIconDiv(this, 'command-bar__icon');
-		this.icon.addClass('theme-toggle');
 
 		this.loadLightDarkMode();
 	}
@@ -53,8 +59,7 @@ export class ThemeToggle extends GUIButton {
 		document.body.classList.remove('dark-mode');
 		window.localStorage['isDarkMode'] = this.gui.darkMode = 'false';
 		this.button.elt.title = 'Light mode';
-		this.icon.removeClass('theme-toggle--dark');
-		this.icon.addClass('theme-toggle--light');
+		this.button.html(this.iconLightSvg);
 	}
 
 	/**
@@ -64,8 +69,7 @@ export class ThemeToggle extends GUIButton {
 		document.body.classList.add('dark-mode');
 		window.localStorage['isDarkMode'] = this.gui.darkMode = 'true';
 		this.button.elt.title = 'Dark mode';
-		this.icon.removeClass('theme-toggle--light');
-		this.icon.addClass('theme-toggle--dark');
+		this.button.html(this.iconDarkSvg);
 	}
 
 	/**

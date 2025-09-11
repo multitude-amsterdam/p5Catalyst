@@ -7,13 +7,13 @@
 >
 	<defs>
 		<style>
-			.cls-1 {
-				fill: #336dff;
+			.cls-2039482 {
+				fill: currentColor;
 			}
 
-			.cls-2 {
+			.cls-8254533 {
 				fill: none;
-				stroke: #336dff;
+				stroke: currentColor;
 				stroke-miterlimit: 10;
 				stroke-width: 2px;
 			}
@@ -22,22 +22,22 @@
 	<g id="Layer_1_copy_2" data-name="Layer 1 copy 2">
 		<g>
 			<path
-				class="cls-2"
+				class="cls-8254533"
 				d="M16,31c-8.27,0-15-6.73-15-15S7.73,1,16,1s15,6.73,15,15-6.73,15-15,15Z"
 			/>
 			<g>
 				<g>
 					<path
-						class="cls-1"
+						class="cls-2039482"
 						d="M11.62,16c0,2.42,1.96,4.38,4.38,4.38v-8.76c-2.42,0-4.38,1.96-4.38,4.38Z"
 					/>
 					<path
-						class="cls-1"
+						class="cls-2039482"
 						d="M16,4.82v6.8c2.42,0,4.38,1.96,4.38,4.38s-1.96,4.38-4.38,4.38v6.8c6.17,0,11.18-5.01,11.18-11.18s-5.01-11.18-11.18-11.18Z"
 					/>
 				</g>
 				<path
-					class="cls-2"
+					class="cls-8254533"
 					d="M16,5.82c-5.62,0-10.18,4.56-10.18,10.18s4.56,10.18,10.18,10.18"
 				/>
 			</g>
