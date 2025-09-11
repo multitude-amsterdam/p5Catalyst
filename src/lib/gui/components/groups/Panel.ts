@@ -7,16 +7,18 @@ export class Panel extends BaseGroup {
 	container: p5.Element;
 	gui: GUIForP5;
 
-	constructor(gui: GUIForP5, name: string) {
+	constructor(gui: GUIForP5, name: string, open?: boolean) {
 		name = gui.lang.process(name, true);
 		const id = name.toLowerCase().replace(/\s+/g, '-');
 		super(gui, id, 'panel');
 
 		this.gui = gui;
+
 		let detailElement = gui.p5Instance.createElement(
 			'details',
 			`<summary>${name}</summary>`
 		);
+		detailElement.elt.open = open;
 		this.container = gui.p5Instance
 			.createElement('div')
 			.addClass('panel-container');

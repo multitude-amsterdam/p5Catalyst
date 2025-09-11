@@ -18,8 +18,8 @@ export const createGUI = (
 		getTab: name => {
 			return gui.getTab(name);
 		},
-		addPanel: name => {
-			const panel = new components.Panel(gui, name);
+		addPanel: (name, open) => {
+			const panel = new components.Panel(gui, name, open);
 
 			return gui.addField(panel);
 		},

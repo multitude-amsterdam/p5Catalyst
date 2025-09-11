@@ -36,8 +36,11 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.attachField(group);
 		return group;
 	};
-	addPanel: GUIAddableInterface['addPanel'] = (name: string) => {
-		const panel = new components.Panel(this.gui, name);
+	addPanel: GUIAddableInterface['addPanel'] = (
+		name: string,
+		open?: boolean
+	) => {
+		const panel = new components.Panel(this.gui, name, open);
 		this.gui.addField(panel);
 		this.attachField(panel);
 		return panel;

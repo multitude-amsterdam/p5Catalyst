@@ -54,7 +54,7 @@ catalyst.initialize(
 	(gui, { state }) => {
 		const appearanceTab = gui.getTab('appearance');
 
-		const circlePanel = appearanceTab.addPanel('Circle');
+		const circlePanel = appearanceTab.addPanel('Circle', true);
 
 		circlePanel.addColorBoxes(
 			'colorBoxesCircle',
@@ -78,7 +78,7 @@ catalyst.initialize(
 			}
 		);
 
-		const bgPanel = appearanceTab.addPanel('Background pattern');
+		const bgPanel = appearanceTab.addPanel('Background pattern', true);
 
 		bgPanel.addColorBoxes(
 			'colorBoxesBg',
@@ -101,9 +101,6 @@ catalyst.initialize(
 				state.nBgElements = value;
 			}
 		);
-
-		circlePanel.open();
-		bgPanel.open();
 	},
 	plugins
 );

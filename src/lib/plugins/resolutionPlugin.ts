@@ -15,7 +15,7 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 		setup: (gui: GUIControllerInterface, container: Container) => {
 			const appearanceTab = gui.getTab('appearance');
 
-			const panel = appearanceTab?.addPanel('LANG_RESOLUTION');
+			const panel = appearanceTab?.addPanel('LANG_RESOLUTION', true);
 
 			const group = panel?.addGroup('resolutionGroup', COLUMN);
 
@@ -38,8 +38,6 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 				container.state.width,
 				container.state.height
 			);
-
-			panel?.open();
 		},
 	};
 }

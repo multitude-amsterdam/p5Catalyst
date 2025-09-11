@@ -46,7 +46,7 @@ export interface GUIControllerInterface extends GUIAddableInterface {
 }
 
 export interface GUIAddableInterface {
-	addPanel: (name: string) => Panel;
+	addPanel: (name: string, open?: boolean) => Panel;
 	addGroup: (name: string, orientation: Orientation) => Group;
 	addTitle: (hSize: number, text: string, doAlignCenter?: boolean) => Title;
 	addTextField: (

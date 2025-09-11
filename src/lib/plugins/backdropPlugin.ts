@@ -36,8 +36,6 @@ export function backdropPlugin(): Plugin {
 				delete gui.state.backdrop;
 				delete gui.state.overlay;
 			});
-
-			panel?.close();
 		},
 	};
 }
