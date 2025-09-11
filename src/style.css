@@ -150,12 +150,6 @@ body {
 	background-color: var(--bg-col);
 }
 
-body,
-body * {
-	transition: color var(--transition-properties),
-		background var(--transition-properties);
-}
-
 /* -------------------------------- DARK MODE ------------------------------- */
 body:where(.dark-mode) {
 	/* use: `body:where(.dark-mode) .yourElement {` as a prefix
