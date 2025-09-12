@@ -33,6 +33,7 @@ export function createContainer(
 				canvasWrapper: p5.Element;
 
 			let isGuiTyping = false;
+			let exportStage = 0;
 
 			const defaultFrameRate = 30;
 
@@ -83,6 +84,9 @@ export function createContainer(
 					setFrameRate: (fps: number) => {
 						sketch.frameRate(fps);
 					},
+					getExportStatus: () => {
+						return exportStage;
+					},
 				};
 
 				resolve({ p5Instance, state, sketchHook });
@@ -132,15 +136,17 @@ export function createContainer(
 				}
 
 				if (state.isRecording) {
-					if (sketch.frameCount < NFramesToRender)
+					if (sketch.frameCount < NFramesToRender) {
+						exportStage = 1;
 						saveToLocalFFMPEG(canvas);
-					else {
+					} else {
 						state.isRecording = false;
+						exportStage = 2;
 						ffmpegCreateVideo(
 							state.width,
 							state.height,
 							sketch.getTargetFrameRate()
-						);
+						).then(() => (exportStage = 0));
 					}
 				}
 			};

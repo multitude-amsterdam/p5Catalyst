@@ -49,16 +49,28 @@ export function videoExportPlugin(): Plugin {
 				}
 			);
 
+			const buttonDisplayText = [
+				'Start export!',
+				'Saving Frames...',
+				'Exporting Video...',
+			];
+
 			columnGroup?.addButton(
 				'startExport',
 				'Start export',
 				controller => {
-					if (container.state.isRecording) {
-						gui.stopRecording();
-						controller?.controllerElement?.html('Start export');
-					} else {
+					if (!container.state.isRecording) {
 						gui.startRecording();
-						controller?.controllerElement?.html('Stop export');
+						const interval = setInterval(() => {
+							controller?.controllerElement?.html(
+								buttonDisplayText[
+									container.sketchHook.getExportStatus()
+								]
+							);
+							if (container.sketchHook.getExportStatus() == 0) {
+								clearInterval(interval);
+							}
+						}, 200);
 					}
 				}
 			);
