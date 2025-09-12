@@ -1,7 +1,7 @@
 import p5 from 'p5';
 import type { Container, sketchFunction, State } from './types';
 import type { Config, imageFileType } from './types/plugin';
-import { ffmpegCreateMP4, saveToLocalFFMPEG } from './ffmpeg';
+import { ffmpegCreateVideo, saveToLocalFFMPEG } from './ffmpeg';
 import type { SketchHook } from './types/construction';
 import { getTimestamp } from './utils/time';
 
@@ -35,8 +35,6 @@ export function createContainer(
 			let isGuiTyping = false;
 
 			const defaultFrameRate = 30;
-			state.getNFramesToRender = () =>
-				Math.floor(state.duration * defaultFrameRate);
 
 			sketch.setup = async () => {
 				canvas = sketch.createCanvas(state.width, state.height);
@@ -70,7 +68,7 @@ export function createContainer(
 					stopRecording: () => {
 						state.isRecording = false;
 						console.log('Recording ended.');
-						ffmpegCreateMP4(
+						ffmpegCreateVideo(
 							state.width,
 							state.height,
 							sketch.getTargetFrameRate()
@@ -93,7 +91,10 @@ export function createContainer(
 			sketch.draw = () => {
 				if (!state.isPlaying) sketch.frameCount--;
 
-				state.progress = sketch.frameCount / state.getNFramesToRender();
+				const NFramesToRender = Math.floor(
+					state.duration * sketch.getTargetFrameRate()
+				);
+				state.progress = sketch.frameCount / NFramesToRender;
 				state.time = sketch.frameCount / sketch.getTargetFrameRate();
 
 				if (config?.clearBackground) sketch.clear();
@@ -131,11 +132,11 @@ export function createContainer(
 				}
 
 				if (state.isRecording) {
-					if (sketch.frameCount < state.getNFramesToRender())
+					if (sketch.frameCount < NFramesToRender)
 						saveToLocalFFMPEG(canvas);
 					else {
 						state.isRecording = false;
-						ffmpegCreateMP4(
+						ffmpegCreateVideo(
 							state.width,
 							state.height,
 							sketch.getTargetFrameRate()

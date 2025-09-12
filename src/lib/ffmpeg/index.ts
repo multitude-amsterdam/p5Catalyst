@@ -17,10 +17,10 @@ const MP4: VideoFormatSettings = {
 
 const WEBM_TRANSPARENT: VideoFormatSettings = {
 	ext: 'webm',
-	// mimeType: 'video/webm;codecs=vp9',
 	mimeType: 'video/webm',
 	crf: 21,
-	command: 'TODO: see legacy file',
+	command:
+		'-r FFMPEG_FPS -f image2 -safe 0 -f concat -i FFMPEG_CONCATFILE -progress pipe:2 -vcodec libvpx-vp9 -pix_fmt yuva420p -crf FFMPEG_CRF -vf fps=FFMPEG_FPS,scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos -movflags faststart FFMPEG_OUTPUTFILE',
 };
 
 let videoExportSettings = MP4;
@@ -29,13 +29,13 @@ export async function ffmpegInit() {
 	ffmpeg = new FFmpeg();
 	const baseURL = 'https://unpkg.com/@ffmpeg/core-mt@0.12.10/dist/esm';
 
-	ffmpeg.on('log', ({ message }) => {
-		console.log(message);
-	});
+	// ffmpeg.on('log', ({ message }) => {
+	// 	console.log(message);
+	// });
 
-	ffmpeg.on('progress', ({ progress, time }) => {
-		console.log(progress, time);
-	});
+	// ffmpeg.on('progress', ({ progress, time }) => {
+	// 	console.log(progress, time);
+	// });
 
 	await ffmpeg.load({
 		coreURL: await toBlobURL(
@@ -107,7 +107,7 @@ async function getFrameFileNames() {
 	return frameNames;
 }
 
-export async function ffmpegCreateMP4(
+export async function ffmpegCreateVideo(
 	width: number,
 	height: number,
 	fps: number
@@ -138,7 +138,7 @@ export async function ffmpegCreateMP4(
 
 	// load mp4 to HTML video element
 	const data = await ffmpeg.readFile(outputFile);
-	const blob = new Blob([data as Uint8Array], {
+	const blob = new Blob([data as BlobPart], {
 		type: videoExportSettings.mimeType,
 	});
 	downloadBlob(blob, outputFile);
