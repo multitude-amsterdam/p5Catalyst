@@ -8,6 +8,7 @@ let ffmpeg: FFmpeg;
 let frameId = 0;
 
 const MP4: VideoFormatSettings = {
+	guiName: 'MP4 (HQ)',
 	ext: 'mp4',
 	mimeType: 'video/mp4',
 	crf: 21,
@@ -16,27 +17,27 @@ const MP4: VideoFormatSettings = {
 };
 
 const WEBM_TRANSPARENT: VideoFormatSettings = {
+	guiName: 'WEBM (transparent)',
 	ext: 'webm',
 	mimeType: 'video/webm',
 	crf: 21,
-	command:
-		'-r FFMPEG_FPS -f image2 -safe 0 -f concat -i FFMPEG_CONCATFILE -progress pipe:2 -vcodec libvpx-vp9 -pix_fmt yuva420p -crf FFMPEG_CRF -vf fps=FFMPEG_FPS,scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos -movflags faststart FFMPEG_OUTPUTFILE',
+	command: 'command here!',
 };
 
-const videoFormats = {
+export const videoFormats = {
 	MP4,
 	WEBM_TRANSPARENT,
-} as const;
-
-export type VideoFormatKey = keyof typeof videoFormats;
+};
 
 let videoExportSettings = MP4;
 
-export function setVideoFormatSettings(name: VideoFormatKey) {
-	if (name in videoFormats) {
-		videoExportSettings = videoFormats[name];
+export function setVideoFormatSettings(guiName: string) {
+	const format = Object.values(videoFormats).find(f => f.guiName === guiName);
+
+	if (format) {
+		videoExportSettings = format;
 	} else {
-		console.log(name + ' is not a supported video format');
+		console.log(guiName + ' is not a supported video format');
 	}
 }
 

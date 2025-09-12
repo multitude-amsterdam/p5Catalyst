@@ -1,7 +1,7 @@
-import { ffmpegInit, type VideoFormatKey } from '../ffmpeg';
+import { ffmpegInit } from '../ffmpeg';
 import { COLUMN, ROW } from '../gui/components/groups/Group';
 import type { Container, GUIControllerInterface, Plugin } from '../types';
-import { setVideoFormatSettings } from '../ffmpeg';
+import { setVideoFormatSettings, videoFormats } from '../ffmpeg';
 
 export function videoExportPlugin(): Plugin {
 	return {
@@ -16,10 +16,10 @@ export function videoExportPlugin(): Plugin {
 			columnGroup?.addSelect(
 				'formatSelect',
 				'Video Format',
-				['MP4', 'WEBM_TRANSPARENT'],
+				Object.values(videoFormats).map(format => format.guiName),
 				0,
 				(controller, value) => {
-					setVideoFormatSettings(value as VideoFormatKey);
+					setVideoFormatSettings(value as string);
 				}
 			);
 

@@ -1,4 +1,5 @@
 export interface VideoFormatSettings {
+	guiName: string;
 	ext: string;
 	mimeType: string;
 	crf?: 21; // inverse quality (constant rate factor)
