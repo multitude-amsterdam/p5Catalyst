@@ -13,15 +13,16 @@ const MP4: VideoFormatSettings = {
 	mimeType: 'video/mp4',
 	crf: 21,
 	command:
-		'-r FFMPEG_FPS -f image2 -safe 0 -f concat -i FFMPEG_CONCATFILE -progress pipe:2 -vcodec libx264 -pix_fmt yuv420p -crf FFMPEG_CRF -vf fps=FFMPEG_FPS,scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos -movflags faststart FFMPEG_OUTPUTFILE',
+		'-r FFMPEG_FPS -i frames/%06d.png -progress pipe:2 -c:v libx264 -pix_fmt yuv420p -crf FFMPEG_CRF -vf fps=FFMPEG_FPS,scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos -movflags faststart FFMPEG_OUTPUTFILE',
 };
 
 const WEBM_TRANSPARENT: VideoFormatSettings = {
 	guiName: 'WEBM (transparent)',
 	ext: 'webm',
 	mimeType: 'video/webm',
-	crf: 21,
-	command: 'command here!',
+	crf: 36,
+	command:
+		'-r FFMPEG_FPS -i frames/%06d.png -progress pipe:2 -c:v libvpx-vp9 -pix_fmt yuva420p -lossless 1 -vf fps=FFMPEG_FPS,scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos FFMPEG_OUTPUTFILE',
 };
 
 export const videoFormats = {
@@ -45,13 +46,13 @@ export async function ffmpegInit() {
 	ffmpeg = new FFmpeg();
 	const baseURL = 'https://unpkg.com/@ffmpeg/core-mt@0.12.10/dist/esm';
 
-	// ffmpeg.on('log', ({ message }) => {
-	// 	console.log(message);
-	// });
+	ffmpeg.on('log', ({ message }) => {
+		console.log(message);
+	});
 
-	// ffmpeg.on('progress', ({ progress, time }) => {
-	// 	console.log(progress, time);
-	// });
+	ffmpeg.on('progress', ({ progress, time }) => {
+		console.log(progress, time);
+	});
 
 	await ffmpeg.load({
 		coreURL: await toBlobURL(
@@ -102,7 +103,7 @@ async function ffmpegSaveFrame(frameId: number, pngData: Uint8Array) {
 	}
 
 	let fileName = frameId.toString().padStart(6, '0') + '.png';
-	let filePath = 'frames/' + fileName;
+	let filePath = '/frames/' + fileName;
 	await ffmpeg.writeFile(filePath, pngData);
 }
 
@@ -115,44 +116,29 @@ function downloadBlob(blob: Blob, filename: string) {
 	URL.revokeObjectURL(url);
 }
 
-async function getFrameFileNames() {
-	const frames: FSNode[] = await ffmpeg.listDir('/frames');
-	const frameNames: string[] = frames
-		.filter(item => !item.isDir)
-		.map(frame => frame.name);
-	return frameNames;
-}
-
 export async function ffmpegCreateVideo(
 	width: number,
 	height: number,
 	fps: number
 ) {
 	console.log('exporting');
-	// create concatenation file list as .txt
-	let frames = await getFrameFileNames();
-	let inputPaths = frames.map(f => `file frames/${f}`);
-	const concatFile = 'concat_list.txt';
-	await ffmpeg.writeFile(concatFile, inputPaths.join('\n'));
 
-	// run ffmpeg concatenation
 	const outputFile = 'output.' + videoExportSettings.ext;
 
+	// Replace placeholders in command string with actual values
 	let cmd = videoExportSettings.command;
 	cmd = cmd.replaceAll('FFMPEG_FPS', '' + fps);
-	cmd = cmd.replaceAll('FFMPEG_CONCATFILE', concatFile);
 	cmd = cmd.replaceAll('FFMPEG_CRF', '' + (videoExportSettings.crf || 21));
 	cmd = cmd.replaceAll('FFMPEG_OUTPUTFILE', outputFile);
 	cmd = cmd.replaceAll('FFMPEG_WIDTH', '' + width);
 	cmd = cmd.replaceAll('FFMPEG_HEIGHT', '' + height);
-	let args = cmd.split(' ');
 
-	console.log(cmd);
+	let args = cmd.split(' ');
+	console.log('FFmpeg command:', args.join(' '));
 
 	let execResult = await ffmpeg.exec(args);
-	console.log(execResult);
+	console.log('FFmpeg finished:', execResult);
 
-	// load mp4 to HTML video element
 	const data = await ffmpeg.readFile(outputFile);
 	const blob = new Blob([data as BlobPart], {
 		type: videoExportSettings.mimeType,
@@ -160,6 +146,7 @@ export async function ffmpegCreateVideo(
 	downloadBlob(blob, outputFile);
 	frameId = 0;
 
+	// optionally clean frames
 	// await ffmpeg.deleteDir('/frames');
 	// framesDirectoryCreated = false;
 }
