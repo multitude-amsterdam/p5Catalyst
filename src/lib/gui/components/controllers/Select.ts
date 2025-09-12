@@ -57,7 +57,6 @@ export class Select extends ValuedController {
 			const valueStr = target.value;
 			const ind = this.optionStrs.indexOf(valueStr);
 			this.setValue(this.options[ind]);
-			if (valueCallback) valueCallback(this, this.value);
 		};
 		this.controllerElement.elt.onchange = callback;
 		this.valueCallback =
