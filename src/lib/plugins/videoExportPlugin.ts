@@ -19,7 +19,6 @@ export function videoExportPlugin(): Plugin {
 				['MP4', 'WEBM_TRANSPARENT'],
 				0,
 				(controller, value) => {
-					console.log('changing format');
 					setVideoFormatSettings(value as VideoFormatKey);
 				}
 			);
@@ -31,7 +30,6 @@ export function videoExportPlugin(): Plugin {
 				'Duration (s)',
 				container.state.duration.toString(),
 				(controller, value) => {
-					console.log('duration changed');
 					const duration = parseFloat(value as string);
 					if (!isNaN(duration)) {
 						gui.setDuration(duration);

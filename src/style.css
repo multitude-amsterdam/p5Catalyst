@@ -49,31 +49,6 @@ strong {
 .label {
 	font-weight: var(--font-weight-regular);
 }
-/* hack for Safari 9+ */
-/* https://browserstrangeness.bitbucket.io/css_hacks.html#safari */
-@supports (-webkit-hyphens: none) {
-	button {
-		font-variation-settings: 'wght' var(--font-weight-regular);
-	}
-	h1 {
-		font-variation-settings: 'wght' var(--font-weight-bold);
-	}
-	h2 {
-		font-variation-settings: 'wght' var(--font-weight-bold);
-	}
-	h3 {
-		font-variation-settings: 'wght' var(--font-weight-bold);
-	}
-	h4 {
-		font-variation-settings: 'wght' var(--font-weight-bold);
-	}
-	strong {
-		font-variation-settings: 'wght' var(--font-weight-bold);
-	}
-	.label {
-		font-variation-settings: 'wght' var(--font-weight-regular);
-	}
-}
 
 /* ------------------------------- BOX SIZING ------------------------------- */
 *,

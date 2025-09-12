@@ -35,7 +35,6 @@ let videoExportSettings = MP4;
 export function setVideoFormatSettings(name: VideoFormatKey) {
 	if (name in videoFormats) {
 		videoExportSettings = videoFormats[name];
-		console.log(videoExportSettings);
 	} else {
 		console.log(name + ' is not a supported video format');
 	}
