@@ -1,7 +1,8 @@
-import { ffmpegInit } from '../ffmpeg';
+import { ffmpegInit, type VideoFormatKey } from '../ffmpeg';
 import { COLUMN, ROW } from '../gui/components/groups/Group';
 import type { Container, GUIControllerInterface, Plugin } from '../types';
-// Language plugin
+import { setVideoFormatSettings } from '../ffmpeg';
+
 export function videoExportPlugin(): Plugin {
 	return {
 		name: 'videoExport',
@@ -12,6 +13,17 @@ export function videoExportPlugin(): Plugin {
 
 			const columnGroup = panel?.addGroup('videoExport', COLUMN);
 
+			columnGroup?.addSelect(
+				'formatSelect',
+				'Video Format',
+				['MP4', 'WEBM_TRANSPARENT'],
+				0,
+				(controller, value) => {
+					console.log('changing format');
+					setVideoFormatSettings(value as VideoFormatKey);
+				}
+			);
+
 			const timeGroup = columnGroup?.addGroup('timeField', ROW);
 
 			timeGroup?.addTextbox(
@@ -19,6 +31,7 @@ export function videoExportPlugin(): Plugin {
 				'Duration (s)',
 				container.state.duration.toString(),
 				(controller, value) => {
+					console.log('duration changed');
 					const duration = parseFloat(value as string);
 					if (!isNaN(duration)) {
 						gui.setDuration(duration);

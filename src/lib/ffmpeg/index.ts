@@ -23,7 +23,23 @@ const WEBM_TRANSPARENT: VideoFormatSettings = {
 		'-r FFMPEG_FPS -f image2 -safe 0 -f concat -i FFMPEG_CONCATFILE -progress pipe:2 -vcodec libvpx-vp9 -pix_fmt yuva420p -crf FFMPEG_CRF -vf fps=FFMPEG_FPS,scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos -movflags faststart FFMPEG_OUTPUTFILE',
 };
 
+const videoFormats = {
+	MP4,
+	WEBM_TRANSPARENT,
+} as const;
+
+export type VideoFormatKey = keyof typeof videoFormats;
+
 let videoExportSettings = MP4;
+
+export function setVideoFormatSettings(name: VideoFormatKey) {
+	if (name in videoFormats) {
+		videoExportSettings = videoFormats[name];
+		console.log(videoExportSettings);
+	} else {
+		console.log(name + ' is not a supported video format');
+	}
+}
 
 export async function ffmpegInit() {
 	ffmpeg = new FFmpeg();
