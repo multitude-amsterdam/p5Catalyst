@@ -1,5 +1,6 @@
 import { FFmpeg, type FSNode } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
+import JSZip from 'jszip';
 import type p5 from 'p5';
 
 import type { VideoFormatSettings } from '../types';
@@ -25,9 +26,17 @@ const WEBM_TRANSPARENT: VideoFormatSettings = {
 		'-r FFMPEG_FPS -i frames/%06d.png -progress pipe:2 -c:v libvpx-vp9 -pix_fmt yuva420p -lossless 1 -vf fps=FFMPEG_FPS,scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos FFMPEG_OUTPUTFILE',
 };
 
+const FRAME_SEQUENCE: VideoFormatSettings = {
+	guiName: 'Frame Sequence (PNG)',
+	ext: 'zip',
+	mimeType: 'application/zip',
+	command: '',
+};
+
 export const videoFormats = {
 	MP4,
 	WEBM_TRANSPARENT,
+	FRAME_SEQUENCE,
 };
 
 let videoExportSettings = MP4;
@@ -124,6 +133,24 @@ export async function ffmpegCreateVideo(
 	console.log('exporting');
 
 	const outputFile = 'output.' + videoExportSettings.ext;
+
+	if (videoExportSettings.guiName === 'Frame Sequence (PNG)') {
+		const frames: FSNode[] = await ffmpeg.listDir('/frames');
+		const zip = new JSZip();
+
+		for (const item of frames) {
+			if (!item.isDir && item.name.endsWith('.png')) {
+				const filePath = `/frames/${item.name}`;
+				const data = await ffmpeg.readFile(filePath);
+				zip.file(item.name, data as Uint8Array);
+			}
+		}
+
+		const content = await zip.generateAsync({ type: 'blob' });
+		downloadBlob(content, outputFile); // triggers browser download
+		console.log('✅ Frame sequence exported as ZIP');
+		return;
+	}
 
 	// Replace placeholders in command string with actual values
 	let cmd = videoExportSettings.command;

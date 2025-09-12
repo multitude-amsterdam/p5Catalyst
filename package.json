@@ -16,6 +16,7 @@
 	"dependencies": {
 		"@ffmpeg/ffmpeg": "^0.12.15",
 		"@ffmpeg/util": "^0.12.2",
+		"jszip": "^3.10.1",
 		"p5": "^2.0.3"
 	}
 }
