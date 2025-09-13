@@ -98,12 +98,12 @@ export class GUIForP5 {
 
 	handleKeyboardEvent(event: KeyboardEvent) {
 		if (event.key === 'h') {
-			this.dialog.show();
+			this.showHelp();
 		}
 	}
 
 	showHelp() {
-		this.dialog.alert('HELP');
+		this.dialog.alert('LANG_HELPME_MSG');
 	}
 
 	/**
