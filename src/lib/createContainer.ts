@@ -4,6 +4,7 @@ import type { Config, imageFileType } from './types/plugin';
 import { ffmpegCreateVideo, saveToLocalFFMPEG } from './ffmpeg';
 import type { SketchHook } from './types/construction';
 import { getTimestamp } from './utils/time';
+import type { GUIForP5 } from './gui/GUIForP5';
 
 export function createContainer(
 	userSketch: sketchFunction,
@@ -33,7 +34,7 @@ export function createContainer(
 				canvasWrapper: p5.Element;
 
 			let isGuiTyping = false;
-			let exportStage = 0;
+			let exportStage: 'idle' | 'recording' | 'exporting' = 'idle';
 
 			const defaultFrameRate = 30;
 
@@ -137,16 +138,16 @@ export function createContainer(
 
 				if (state.isRecording) {
 					if (sketch.frameCount < NFramesToRender) {
-						exportStage = 1;
+						exportStage = 'recording';
 						saveToLocalFFMPEG(canvas);
 					} else {
 						state.isRecording = false;
-						exportStage = 2;
+						exportStage = 'exporting';
 						ffmpegCreateVideo(
 							state.width,
 							state.height,
 							sketch.getTargetFrameRate()
-						).then(() => (exportStage = 0));
+						).then(() => (exportStage = 'idle'));
 					}
 				}
 			};
