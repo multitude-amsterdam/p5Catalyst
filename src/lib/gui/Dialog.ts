@@ -62,6 +62,7 @@ export class Dialog {
 	}
 
 	alert(html: string): void {
+		//retrieves the html content from the dictionary
 		html = this.gui.lang.process(html, true);
 
 		this.divPrompt.style('display', 'none');

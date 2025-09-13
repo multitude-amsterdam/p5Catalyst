@@ -217,11 +217,6 @@ details[open] > summary:hover {
 	color: var(--hover-col);
 	border-color: var(--hover-col);
 }
-details > summary:focus,
-details[open] > summary:focus {
-	color: var(--focus-col);
-	border-color: var(--focus-col);
-}
 
 details[open] > summary {
 	border-color: var(--base-col);
