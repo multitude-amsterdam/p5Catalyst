@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+	id="Layer_2"
+	data-name="Layer 2"
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 32 32"
+>
+	<defs>
+		<style>
+			.cls-3904583845 {
+				fill: currentColor;
+			}
+
+			.cls-9273948290 {
+				fill: none;
+				stroke: currentColor;
+				stroke-miterlimit: 10;
+				stroke-width: 2px;
+			}
+		</style>
+	</defs>
+	<g id="Layer_1_copy_2" data-name="Layer 1 copy 2">
+		<g>
+			<path
+				class="cls-9273948290"
+				d="M16,31c-8.27,0-15-6.73-15-15S7.73,1,16,1s15,6.73,15,15-6.73,15-15,15Z"
+			/>
+			<g>
+				<circle class="cls-3904583845" cx="16" cy="24.37" r="1.29" />
+				<path
+					class="cls-9273948290"
+					d="M16,21.7c0-3.23,1.66-3.94,3.05-4.98s2.16-2.37,2.16-4.18c0-2.87-2.33-5.2-5.2-5.2s-5.2,2.33-5.2,5.2"
+				/>
+			</g>
+		</g>
+	</g>
+</svg>

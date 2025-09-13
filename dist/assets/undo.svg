@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+	id="Layer_2"
+	data-name="Layer 2"
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 32 32"
+>
+	<defs>
+		<style>
+			.cls-27834298 {
+				fill: none;
+				stroke: currentColor;
+				stroke-miterlimit: 10;
+				stroke-width: 2px;
+			}
+		</style>
+	</defs>
+	<g id="Layer_1_copy_2" data-name="Layer 1 copy 2">
+		<g>
+			<path
+				class="cls-27834298"
+				d="M16,31c-8.27,0-15-6.73-15-15S7.73,1,16,1s15,6.73,15,15-6.73,15-15,15Z"
+			/>
+			<g>
+				<polyline
+					class="cls-27834298"
+					points="12.19 15.57 9.19 12.57 12.19 9.58"
+				/>
+				<path
+					class="cls-27834298"
+					d="M17.88,22.42c2.72,0,4.92-2.2,4.92-4.92s-2.2-4.92-4.92-4.92h-8.69"
+				/>
+			</g>
+		</g>
+	</g>
+</svg>
