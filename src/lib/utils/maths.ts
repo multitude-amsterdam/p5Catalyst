@@ -1,4 +1,4 @@
-import p5, { Vector } from 'p5';
+import p5 from 'p5';
 // import p5 from 'p5';
 
 /* -------------------------------- CONSTANTS ------------------------------- */
@@ -166,16 +166,16 @@ export function constrainAngle(
  * Box–Muller method.
  */
 export function randomGaussianBoxMueller2(
-	mu: Vector = new Vector(),
+	mu: p5.Vector = new p5.Vector(),
 	sigma: number = 1
-): Vector {
+): p5.Vector {
 	// outputs normally distributed 2d vector
 	// x and y are individually normally distributed
 	let u1 = Math.random();
 	let u2 = Math.random();
 	let r = Math.sqrt(-2 * Math.log(u1));
 	let th = TAU * u2;
-	return Vector.fromAngle(th)
+	return p5.Vector.fromAngle(th)
 		.mult(r * sigma)
 		.add(mu);
 }
@@ -185,14 +185,14 @@ export function randomGaussianBoxMueller2(
 /**
  * Linear interpolation between two vectors.
  */
-export function mix(va: Vector, vb: Vector, t: number): Vector {
+export function mix(va: p5.Vector, vb: p5.Vector, t: number): p5.Vector {
 	return vb.sub(va).mult(t).add(va);
 }
 
 /**
  * Midpoint between two vectors.
  */
-export function midPoint(va: Vector, vb: Vector): Vector {
+export function midPoint(va: p5.Vector, vb: p5.Vector): p5.Vector {
 	return mix(va, vb, 0.5);
 }
 
@@ -200,7 +200,7 @@ export function midPoint(va: Vector, vb: Vector): Vector {
  * Check whether a vector lies within rectangular bounds.
  */
 export function isInBounds(
-	v: Vector,
+	v: p5.Vector,
 	x: number,
 	y: number,
 	w: number,
@@ -216,7 +216,7 @@ export function isInBounds(
  * Check whether a vector lies within the canvas.
  */
 export function isInCanvas(
-	v: Vector,
+	v: p5.Vector,
 	w: number,
 	h: number,
 	offs: number = 0
@@ -227,7 +227,7 @@ export function isInCanvas(
 /**
  * Check whether a vector lies within the offscreen graphics buffer.
  */
-export function inPg(v: Vector, pg: p5.Graphics, offs: number = 0): boolean {
+export function inPg(v: p5.Vector, pg: p5.Graphics, offs: number = 0): boolean {
 	return isInBounds(v, 0, 0, pg.width, pg.height, offs);
 }
 
@@ -235,12 +235,12 @@ export function inPg(v: Vector, pg: p5.Graphics, offs: number = 0): boolean {
  * Check if a point lies inside the triangle defined by v1,v2,v3.
  */
 export function isPointInTriangle(
-	pt: Vector,
-	v1: Vector,
-	v2: Vector,
-	v3: Vector
+	pt: p5.Vector,
+	v1: p5.Vector,
+	v2: p5.Vector,
+	v3: p5.Vector
 ): boolean {
-	function triangleSign(p1: Vector, p2: Vector, p3: Vector): number {
+	function triangleSign(p1: p5.Vector, p2: p5.Vector, p3: p5.Vector): number {
 		return (p1.x - p3.x) * (p2.y - p3.y) - (p2.x - p3.x) * (p1.y - p3.y);
 	}
 	const d1 = triangleSign(pt, v1, v2);
@@ -254,7 +254,7 @@ export function isPointInTriangle(
 /**
  * Signed angle from vector v to vector w.
  */
-export function signedAngleBetween(v: Vector, w: Vector): number {
+export function signedAngleBetween(v: p5.Vector, w: p5.Vector): number {
 	// angle measured from v to w
 	return Math.atan2(v.x * w.y - v.y * w.x, v.x * w.x + v.y * w.y);
 }
