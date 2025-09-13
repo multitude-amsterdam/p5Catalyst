@@ -107,7 +107,7 @@ body {
 	--line-width: 2px;
 	--base-height: 2.4rem;
 	--spacing-y: calc(var(--base-height) / 2);
-	--spacing-y-label: calc(var(--spacing-y) / 2);
+	--spacing-y-label: calc(var(--spacing-y) / 4);
 	--spacing-x: calc(var(--base-height) / 4);
 	--icon-size: 32px; /* from ilustrator file */
 	--die-icon-size: calc(var(--icon-size) * 1);

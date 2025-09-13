@@ -2,6 +2,7 @@ import { ffmpegInit } from '../ffmpeg';
 import { COLUMN, ROW } from '../gui/components/groups/Group';
 import type { Container, GUIControllerInterface, Plugin } from '../types';
 import { setVideoFormatSettings, videoFormats } from '../ffmpeg';
+import type { GUIForP5 } from '../gui/GUIForP5';
 
 export function videoExportPlugin(): Plugin {
 	return {
@@ -15,7 +16,7 @@ export function videoExportPlugin(): Plugin {
 
 			columnGroup?.addSelect(
 				'formatSelect',
-				'Video Format',
+				'Video format',
 				Object.values(videoFormats).map(format => format.guiName),
 				0,
 				(controller, value) => {
@@ -49,11 +50,11 @@ export function videoExportPlugin(): Plugin {
 				}
 			);
 
-			const buttonDisplayText = [
-				'Start export!',
-				'Saving Frames...',
-				'Exporting Video...',
-			];
+			const buttonDisplayText = {
+				idle: 'Start export',
+				recording: 'Saving frames...',
+				exporting: 'Exporting video...',
+			};
 
 			columnGroup?.addButton(
 				'startExport',
@@ -67,7 +68,10 @@ export function videoExportPlugin(): Plugin {
 									container.sketchHook.getExportStatus()
 								]
 							);
-							if (container.sketchHook.getExportStatus() == 0) {
+							if (
+								container.sketchHook.getExportStatus() ===
+								'idle'
+							) {
 								clearInterval(interval);
 							}
 						}, 200);
@@ -78,8 +82,8 @@ export function videoExportPlugin(): Plugin {
 			panel?.open();
 		},
 
-		afterInit: () => {
-			ffmpegInit();
+		afterInit: (gui: GUIForP5) => {
+			ffmpegInit(gui);
 		},
 	};
 }

@@ -2,8 +2,11 @@ import { FFmpeg, type FSNode } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import JSZip from 'jszip';
 import type p5 from 'p5';
+import { getTimestamp } from '../utils';
 
 import type { VideoFormatSettings } from '../types';
+import type { GUIForP5 } from '../gui/GUIForP5';
+import type { Dialog } from '../gui/Dialog';
 
 let ffmpeg: FFmpeg;
 let frameId = 0;
@@ -27,7 +30,7 @@ const WEBM_TRANSPARENT: VideoFormatSettings = {
 };
 
 const FRAME_SEQUENCE: VideoFormatSettings = {
-	guiName: 'Frame Sequence (PNG)',
+	guiName: 'Frame sequence (PNG)',
 	ext: 'zip',
 	mimeType: 'application/zip',
 	command: '',
@@ -51,7 +54,10 @@ export function setVideoFormatSettings(guiName: string) {
 	}
 }
 
-export async function ffmpegInit() {
+let dialog: Dialog;
+export async function ffmpegInit(gui: GUIForP5) {
+	dialog = gui.dialog;
+
 	ffmpeg = new FFmpeg();
 	const baseURL = 'https://unpkg.com/@ffmpeg/core-mt@0.12.10/dist/esm';
 
@@ -103,12 +109,12 @@ export function saveToLocalFFMPEG(canvas: p5.Renderer) {
 	frameId++;
 }
 
-let framesDirectoryCreated = false;
+let isFramesDirectoryCreated = false;
 
 async function ffmpegSaveFrame(frameId: number, pngData: Uint8Array) {
-	if (!framesDirectoryCreated) {
+	if (!isFramesDirectoryCreated) {
 		await ffmpeg.createDir('/frames');
-		framesDirectoryCreated = true;
+		isFramesDirectoryCreated = true;
 	}
 
 	let fileName = frameId.toString().padStart(6, '0') + '.png';
@@ -132,9 +138,10 @@ export async function ffmpegCreateVideo(
 ) {
 	console.log('exporting');
 
-	const outputFile = 'output.' + videoExportSettings.ext;
+	let fileName = `${width}x${height}@${fps}fps_${getTimestamp().base64}`;
+	const outputFile = fileName + '.' + videoExportSettings.ext;
 
-	if (videoExportSettings.guiName === 'Frame Sequence (PNG)') {
+	if (videoExportSettings === FRAME_SEQUENCE) {
 		const frames: FSNode[] = await ffmpeg.listDir('/frames');
 		const zip = new JSZip();
 
@@ -148,7 +155,10 @@ export async function ffmpegCreateVideo(
 
 		const content = await zip.generateAsync({ type: 'blob' });
 		downloadBlob(content, outputFile); // triggers browser download
-		console.log('✅ Frame sequence exported as ZIP');
+		dialog.alert(
+			'<h1>Frame sequence ready</h1>' +
+				'<p>The frames have been downloaded as a ZIP file.</p>'
+		);
 		return;
 	}
 
@@ -173,7 +183,12 @@ export async function ffmpegCreateVideo(
 	downloadBlob(blob, outputFile);
 	frameId = 0;
 
-	// optionally clean frames
-	// await ffmpeg.deleteDir('/frames');
-	// framesDirectoryCreated = false;
+	dialog.alert(
+		'<h1>Video ready</h1>' +
+			`<p>The video file has been downloaded as a ${videoExportSettings.ext.toUpperCase()} file.</p>`
+	);
+
+	// need to clean frames to prevent newer shorter animatinos to include old frames
+	await ffmpeg.deleteDir('/frames');
+	isFramesDirectoryCreated = false;
 }

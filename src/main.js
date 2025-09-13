@@ -59,7 +59,7 @@ catalyst.initialize(
 		circlePanel.addColorBoxes(
 			'colorBoxesCircle',
 			'Circle color',
-			['#FF6400', '#86D594', '#004D30', '#0000FF', '#F5CBFF'],
+			['#FF2600', '#86D594', '#004D30', '#336DFF', '#F5CBFF'],
 			0,
 			(controller, value) => {
 				state.circleColor = value;
@@ -83,7 +83,7 @@ catalyst.initialize(
 		bgPanel.addColorBoxes(
 			'colorBoxesBg',
 			'Background color',
-			['#FF6400', '#86D594', '#004D30', '#0000FF', '#F5CBFF'],
+			['#FF2600', '#86D594', '#004D30', '#336DFF', '#F5CBFF'],
 			3,
 			(controller, value) => {
 				state.bgColor = value;
