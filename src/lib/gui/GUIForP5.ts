@@ -150,7 +150,7 @@ export class GUIForP5 {
 
 		let newTabs: Tab[] = [];
 
-		for (const name of names) {
+		for (const [index, name] of names.entries()) {
 			const tab = new Tab(this, name);
 			newTabs.push(tab);
 			this.tabs.push(tab);
@@ -161,7 +161,9 @@ export class GUIForP5 {
 			const tabBtn = this.p5Instance.createButton(
 				tab.name.charAt(0).toUpperCase() + tab.name.slice(1)
 			);
-			// tabBtn.attribute('data-tabname', tab.name);
+
+			if (index == 0) tabBtn.addClass('active');
+
 			tabBtn.mousePressed(() => this.activateTab(tab.name));
 			this.tabBar?.child(tabBtn);
 		}

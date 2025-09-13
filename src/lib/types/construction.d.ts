@@ -29,6 +29,7 @@ export interface SketchHook {
 	setDuration: (duration: number) => void;
 	getTargetFrameRate: () => number;
 	setFrameRate: (fps: number) => void;
+	getExportStatus: () => 'idle' | 'recording' | 'exporting';
 }
 
 export type Container = {

@@ -1,7 +1,9 @@
 import { ffmpegInit } from '../ffmpeg';
 import { COLUMN, ROW } from '../gui/components/groups/Group';
 import type { Container, GUIControllerInterface, Plugin } from '../types';
-// Language plugin
+import { setVideoFormatSettings, videoFormats } from '../ffmpeg';
+import type { GUIForP5 } from '../gui/GUIForP5';
+
 export function videoExportPlugin(): Plugin {
 	return {
 		name: 'videoExport',
@@ -11,6 +13,16 @@ export function videoExportPlugin(): Plugin {
 			const panel = exportTab?.addPanel('Export video');
 
 			const columnGroup = panel?.addGroup('videoExport', COLUMN);
+
+			columnGroup?.addSelect(
+				'formatSelect',
+				'Video format',
+				Object.values(videoFormats).map(format => format.guiName),
+				0,
+				(controller, value) => {
+					setVideoFormatSettings(value as string);
+				}
+			);
 
 			const timeGroup = columnGroup?.addGroup('timeField', ROW);
 
@@ -38,16 +50,31 @@ export function videoExportPlugin(): Plugin {
 				}
 			);
 
+			const buttonDisplayText = {
+				idle: 'Start export',
+				recording: 'Saving frames...',
+				exporting: 'Exporting video...',
+			};
+
 			columnGroup?.addButton(
 				'startExport',
 				'Start export',
 				controller => {
-					if (container.state.isRecording) {
-						gui.stopRecording();
-						controller?.controllerElement?.html('Start export');
-					} else {
+					if (!container.state.isRecording) {
 						gui.startRecording();
-						controller?.controllerElement?.html('Stop export');
+						const interval = setInterval(() => {
+							controller?.controllerElement?.html(
+								buttonDisplayText[
+									container.sketchHook.getExportStatus()
+								]
+							);
+							if (
+								container.sketchHook.getExportStatus() ===
+								'idle'
+							) {
+								clearInterval(interval);
+							}
+						}, 200);
 					}
 				}
 			);
@@ -55,8 +82,8 @@ export function videoExportPlugin(): Plugin {
 			panel?.open();
 		},
 
-		afterInit: () => {
-			ffmpegInit();
+		afterInit: (gui: GUIForP5) => {
+			ffmpegInit(gui);
 		},
 	};
 }
