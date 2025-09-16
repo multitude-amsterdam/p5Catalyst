@@ -278,7 +278,6 @@ details[open] > summary::before {
 }
 
 body:where(.dark-mode) #logo {
-	background-image: url('/assets/dark-mode/generator-logo.svg');
 }
 
 .footer-logo {
@@ -301,7 +300,6 @@ body:where(.dark-mode) #logo {
 }
 
 body:where(.dark-mode) .p5catalyst-logo {
-	background-image: url('/assets/dark-mode/p5catalyst-logo.svg');
 }
 
 /* -------------------------------- TEXTFIELD ------------------------------- */
