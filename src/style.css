@@ -1552,6 +1552,7 @@ button.dialog-close:hover {
 	cursor: pointer;
 	color: var(--text-col);
 	font-weight: var(--font-weight-regular);
+	border-radius: 0;
 	/* text-align: center; */
 }
 .tab-bar button:hover {
