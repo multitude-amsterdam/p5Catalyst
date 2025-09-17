@@ -101,21 +101,26 @@ body {
 	--link-hover-col: var(--hover-col);
 	--text-align: left;
 
+	--font-size-label: 0.9rem;
+	--font-size-text-box: var(--font-size-label);
+	--font-size-select: var(--font-size-label);
+	--font-size-button: var(--font-size-label);
+
 	/* dimensions */
 	--button-padding-sides: 0.667rem;
 	--corner-radius: 0;
 	--line-width: 2px;
-	--slider-width: 0.2rem;
-	--base-height: 2.4rem;
-	--spacing-y: calc(var(--base-height) / 2);
+	--slider-width: var(--line-width);
+	--base-height: 2.25rem;
+	--spacing-y: calc(var(--base-height) * 0.75);
 	--spacing-y-label: calc(var(--spacing-y) / 4);
 	--spacing-x: calc(var(--base-height) / 4);
-	--icon-size: 32px; /* from ilustrator file */
+	--icon-size: calc(var(--target-diameter) * 1.5); /* from ilustrator file */
 	--die-icon-size: calc(var(--icon-size) * 1);
 
 	/* mouse targets (eg., range inputs, radios) */
 	--target-col: var(--base-col);
-	--target-diameter: 1.2rem;
+	--target-diameter: 1rem;
 
 	/* animation */
 	--transition-properties: 0.25s ease;
@@ -180,7 +185,8 @@ body:where(.dark-mode) * {
 
 .button-group {
 	display: flex;
-	gap: var(--spacing-x);
+	row-gap: var(--spacing-x);
+	column-gap: var(--spacing-x);
 }
 
 .row {
@@ -340,7 +346,7 @@ textarea {
 .label {
 	margin: 0;
 	padding: 0;
-	font-size: 1em;
+	font-size: var(--font-size-label);
 }
 
 /* --------------------------------- DIVIDER -------------------------------- */
@@ -373,7 +379,7 @@ button {
 	border-radius: var(--corner-radius);
 	min-height: var(--base-height);
 	padding: 0 var(--button-padding-sides);
-	font-size: inherit;
+	font-size: var(--font-size-button);
 	text-align: var(--text-align);
 }
 
@@ -502,6 +508,8 @@ select {
 	background: var(--arrow-url) var(--input-text-bg-col) no-repeat
 		calc(100% - var(--button-padding-sides));
 	color: var(--input-text-text-col);
+
+	font-size: var(--font-size-select);
 }
 
 select::-ms-expand {
@@ -543,6 +551,7 @@ textarea {
 	font-style: normal;
 	resize: vertical;
 	overflow-y: auto;
+	font-size: var(--font-size-text-box);
 }
 
 textarea:hover {
@@ -580,6 +589,7 @@ input[type='text'] {
 	color: var(--input-text-text-col);
 	border-radius: var(--corner-radius);
 	border: var(--line-width) solid var(--base-col);
+	font-size: var(--font-size-text-box);
 }
 
 input[type='text']:hover {
