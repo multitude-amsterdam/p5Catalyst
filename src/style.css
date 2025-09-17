@@ -1,8 +1,8 @@
 /* ---------------------------------- FONTS --------------------------------- */
 * {
 	--font-weight-regular: 400;
-	--font-weight-regular-light-on-dark: 300;
 	--font-weight-bold: 700;
+	--font-weight-regular-light-on-dark: 300;
 
 	font-size: 1rem;
 	line-height: 1;
@@ -108,7 +108,7 @@ body {
 
 	/* dimensions */
 	--button-padding-sides: 0.67rem;
-	--corner-radius: 0;
+	--corner-radius: 0em;
 	--line-width: 2px;
 	--slider-width: var(--line-width);
 	--base-height: 2.25rem;
@@ -382,6 +382,9 @@ button {
 	font-size: var(--font-size-button);
 	text-align: var(--text-align);
 }
+button * {
+	font-size: inherit;
+}
 
 button:hover {
 	background-color: var(--hover-col);
@@ -424,6 +427,7 @@ button.toggle span:first-child {
 
 	background-color: var(--base-col);
 	color: var(--text-col-on-base);
+	font-weight: var(--font-weight-regular-light-on-dark);
 }
 
 button.toggle span:last-child {
@@ -434,16 +438,19 @@ button.toggle span:last-child {
 
 	background-color: var(--inactive-col);
 	color: var(--text-on-inactive-col);
+	font-weight: var(--font-weight-regular);
 }
 
 button.toggle[toggled] span:first-child {
 	background-color: var(--inactive-col);
 	color: var(--text-on-inactive-col);
+	font-weight: var(--font-weight-regular);
 }
 
 button.toggle[toggled] span:last-child {
 	background-color: var(--base-col);
 	color: var(--text-col-on-base);
+	font-weight: var(--font-weight-regular-light-on-dark);
 }
 
 button.toggle span:first-child:hover {
