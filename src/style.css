@@ -381,6 +381,8 @@ button {
 	padding: 0 var(--button-padding-sides);
 	font-size: var(--font-size-button);
 	text-align: var(--text-align);
+	transition: background-color var(--transition-properties),
+		color var(--transition-properties);
 }
 
 button:hover {
@@ -1601,6 +1603,7 @@ textarea,
 .xyslider,
 .color-text-area-display {
 	transition: color var(--transition-properties),
+		background-color var(--transition-properties),
 		border var(--transition-properties), rotate var(--transition-properties),
 		font var(--transition-properties);
 }
