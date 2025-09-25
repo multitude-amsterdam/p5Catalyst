@@ -89,6 +89,6 @@ export class Catalyst {
 				sketch.containCanvasInWrapper();
 			};
 		});
-		globalThis.sketch = sketch;
+		globalThis.sketch = this.sketch;
 	}
 }
