@@ -1220,6 +1220,8 @@ main:where(.gui-right) .command-bar {
 	background: none;
 	border: none;
 	color: var(--base-col);
+
+	transition: transform var(--transition-properties);
 }
 .command-bar__button > svg {
 	height: var(--icon-size);
@@ -1244,36 +1246,23 @@ main:where(.gui-right) .command-bar {
 	width: 100%;
 }
 
-.command-bar__icon {
-	aspect-ratio: 1;
-	/* correlates with target diameter, but compensates for shape */
-	height: var(--icon-size);
-	transform-origin: center;
-
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-origin: content-box;
-	background-position: center;
-
-	cursor: pointer;
-	transition: rotate var(--transition-properties);
-}
 .command-bar__button--randomizer:hover {
-	rotate: 60deg;
+	transform: rotate(60deg);
 }
 .command-bar__button--undo:hover {
-	rotate: -30deg;
+	transform: translate(-0.125rem, 0) rotate(-10deg);
 }
 .command-bar__button--redo:hover {
-	rotate: 30deg;
+	transform: translate(0.125rem, 0) rotate(10deg);
 }
 .command-bar__button--reset:hover {
-	rotate: -180deg;
+	transform: rotate(-180deg);
 }
 .command-bar__button--theme-toggle:hover {
-	rotate: 60deg;
+	transform: rotate(60deg);
 }
 .command-bar__button--help:hover {
+	transform: translate(0, -0.125rem);
 }
 /* Add to your existing CSS file */
 svg,
@@ -1441,7 +1430,6 @@ button.dialog-backdrop-close {
 }
 
 .dialog-close {
-	opacity: 1;
 	position: absolute;
 	z-index: 1;
 	border-radius: var(--corner-radius);
@@ -1465,7 +1453,6 @@ button.dialog-backdrop-close {
 
 button.dialog-close:focus-visible,
 button.dialog-close:hover {
-	opacity: 1;
 	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
 }
