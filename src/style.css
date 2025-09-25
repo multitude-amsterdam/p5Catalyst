@@ -1,8 +1,8 @@
 /* ---------------------------------- FONTS --------------------------------- */
 * {
 	--font-weight-regular: 400;
-	--font-weight-regular-light-on-dark: 300;
 	--font-weight-bold: 700;
+	--font-weight-regular-light-on-dark: 300;
 
 	font-size: 1rem;
 	line-height: 1;
@@ -101,21 +101,26 @@ body {
 	--link-hover-col: var(--hover-col);
 	--text-align: left;
 
+	--font-size-label: 0.9rem;
+	--font-size-text-box: var(--font-size-label);
+	--font-size-select: var(--font-size-label);
+	--font-size-button: var(--font-size-label);
+
 	/* dimensions */
-	--button-padding-sides: 0.667rem;
-	--corner-radius: 0;
+	--button-padding-sides: 0.67rem;
+	--corner-radius: 0em;
 	--line-width: 2px;
-	--slider-width: 0.2rem;
-	--base-height: 2.4rem;
-	--spacing-y: calc(var(--base-height) / 2);
+	--slider-width: var(--line-width);
+	--base-height: 2.25rem;
+	--spacing-y: calc(var(--base-height) * 0.75);
 	--spacing-y-label: calc(var(--spacing-y) / 4);
 	--spacing-x: calc(var(--base-height) / 4);
-	--icon-size: 32px; /* from ilustrator file */
+	--icon-size: calc(var(--target-diameter) * 1.5); /* from ilustrator file */
 	--die-icon-size: calc(var(--icon-size) * 1);
 
 	/* mouse targets (eg., range inputs, radios) */
 	--target-col: var(--base-col);
-	--target-diameter: 1.2rem;
+	--target-diameter: 1rem;
 
 	/* animation */
 	--transition-properties: 0.25s ease;
@@ -180,7 +185,8 @@ body:where(.dark-mode) * {
 
 .button-group {
 	display: flex;
-	gap: var(--spacing-x);
+	row-gap: var(--spacing-x);
+	column-gap: var(--spacing-x);
 }
 
 .row {
@@ -304,7 +310,7 @@ body:where(.dark-mode) .p5catalyst-logo {
 
 /* -------------------------------- TEXTFIELD ------------------------------- */
 .gui-textfield {
-	margin: 0.5em 0;
+	margin: 0.5rem 0;
 }
 
 /* ------------------------------- CONTROLLER ------------------------------- */
@@ -340,7 +346,7 @@ textarea {
 .label {
 	margin: 0;
 	padding: 0;
-	font-size: 1em;
+	font-size: var(--font-size-label);
 }
 
 /* --------------------------------- DIVIDER -------------------------------- */
@@ -373,8 +379,11 @@ button {
 	border-radius: var(--corner-radius);
 	min-height: var(--base-height);
 	padding: 0 var(--button-padding-sides);
-	font-size: inherit;
+	font-size: var(--font-size-button);
 	text-align: var(--text-align);
+}
+button * {
+	font-size: inherit;
 }
 
 button:hover {
@@ -418,6 +427,7 @@ button.toggle span:first-child {
 
 	background-color: var(--base-col);
 	color: var(--text-col-on-base);
+	font-weight: var(--font-weight-regular-light-on-dark);
 }
 
 button.toggle span:last-child {
@@ -428,16 +438,19 @@ button.toggle span:last-child {
 
 	background-color: var(--inactive-col);
 	color: var(--text-on-inactive-col);
+	font-weight: var(--font-weight-regular);
 }
 
 button.toggle[toggled] span:first-child {
 	background-color: var(--inactive-col);
 	color: var(--text-on-inactive-col);
+	font-weight: var(--font-weight-regular);
 }
 
 button.toggle[toggled] span:last-child {
 	background-color: var(--base-col);
 	color: var(--text-col-on-base);
+	font-weight: var(--font-weight-regular-light-on-dark);
 }
 
 button.toggle span:first-child:hover {
@@ -502,6 +515,8 @@ select {
 	background: var(--arrow-url) var(--input-text-bg-col) no-repeat
 		calc(100% - var(--button-padding-sides));
 	color: var(--input-text-text-col);
+
+	font-size: var(--font-size-select);
 }
 
 select::-ms-expand {
@@ -543,6 +558,7 @@ textarea {
 	font-style: normal;
 	resize: vertical;
 	overflow-y: auto;
+	font-size: var(--font-size-text-box);
 }
 
 textarea:hover {
@@ -580,6 +596,7 @@ input[type='text'] {
 	color: var(--input-text-text-col);
 	border-radius: var(--corner-radius);
 	border: var(--line-width) solid var(--base-col);
+	font-size: var(--font-size-text-box);
 }
 
 input[type='text']:hover {
@@ -1078,28 +1095,28 @@ input[type='checkbox']:checked::before {
 }
 
 #vidLoad > div {
-	width: 2em;
-	height: 2em;
+	width: 2rem;
+	height: 2rem;
 }
 
 #vidLoad > div:before,
 #vidLoad > div:after {
 	content: '';
 	display: inline-block;
-	width: 1em;
-	height: 2em;
+	width: 1rem;
+	height: 2rem;
 }
 
 #vidLoad > div:before {
 	background-color: var(--base-col);
-	border-top-left-radius: 1em;
-	border-bottom-left-radius: 1em;
+	border-top-left-radius: 1rem;
+	border-bottom-left-radius: 1rem;
 }
 
 #vidLoad > div:after {
 	background-color: var(--inactive-col);
-	border-top-right-radius: 1em;
-	border-bottom-right-radius: 1em;
+	border-top-right-radius: 1rem;
+	border-bottom-right-radius: 1rem;
 }
 
 @keyframes rotate {
@@ -1115,7 +1132,7 @@ input[type='checkbox']:checked::before {
 /* ----------------------------- CONTACT SECTION ---------------------------- */
 #contact {
 	/*	margin-top: 1em;*/
-	font-size: 0.8em;
+	font-size: 0.8rem;
 }
 
 a {
@@ -1203,6 +1220,8 @@ main:where(.gui-right) .command-bar {
 	background: none;
 	border: none;
 	color: var(--base-col);
+
+	transition: transform var(--transition-properties);
 }
 .command-bar__button > svg {
 	height: var(--icon-size);
@@ -1219,7 +1238,7 @@ main:where(.gui-right) .command-bar {
 
 .command-bar__button > span {
 	width: max-content;
-	font-size: 0.8em;
+	font-size: 0.8rem;
 }
 
 .command-bar__filler {
@@ -1227,36 +1246,23 @@ main:where(.gui-right) .command-bar {
 	width: 100%;
 }
 
-.command-bar__icon {
-	aspect-ratio: 1;
-	/* correlates with target diameter, but compensates for shape */
-	height: var(--icon-size);
-	transform-origin: center;
-
-	background-size: contain;
-	background-repeat: no-repeat;
-	background-origin: content-box;
-	background-position: center;
-
-	cursor: pointer;
-	transition: rotate var(--transition-properties);
-}
 .command-bar__button--randomizer:hover {
-	rotate: 60deg;
+	transform: rotate(60deg);
 }
 .command-bar__button--undo:hover {
-	rotate: -30deg;
+	transform: translate(-0.125rem, 0) rotate(-10deg);
 }
 .command-bar__button--redo:hover {
-	rotate: 30deg;
+	transform: translate(0.125rem, 0) rotate(10deg);
 }
 .command-bar__button--reset:hover {
-	rotate: -180deg;
+	transform: rotate(-180deg);
 }
 .command-bar__button--theme-toggle:hover {
-	rotate: 60deg;
+	transform: rotate(60deg);
 }
 .command-bar__button--help:hover {
+	transform: translate(0, -0.125rem);
 }
 /* Add to your existing CSS file */
 svg,
@@ -1424,7 +1430,6 @@ button.dialog-backdrop-close {
 }
 
 .dialog-close {
-	opacity: 1;
 	position: absolute;
 	z-index: 1;
 	border-radius: var(--corner-radius);
@@ -1448,7 +1453,6 @@ button.dialog-backdrop-close {
 
 button.dialog-close:focus-visible,
 button.dialog-close:hover {
-	opacity: 1;
 	background-color: var(--hover-col);
 	color: var(--text-col-on-hover);
 }
@@ -1542,6 +1546,7 @@ button.dialog-close:hover {
 	cursor: pointer;
 	color: var(--text-col);
 	font-weight: var(--font-weight-regular);
+	border-radius: 0;
 	/* text-align: center; */
 }
 .tab-bar button:hover {
@@ -1560,7 +1565,7 @@ button.dialog-close:hover {
 
 /* -------------------------------- AUXILIARY ------------------------------- */
 p {
-	line-height: 1.5em;
+	line-height: 1.5;
 }
 
 code {
@@ -1575,7 +1580,7 @@ code {
 
 ul li,
 ol li {
-	line-height: 1.5em;
+	line-height: 1.5;
 }
 
 /* ------------------------------- TRANSITIONS ------------------------------ */
@@ -1590,6 +1595,7 @@ textarea,
 .xyslider,
 .color-text-area-display {
 	transition: color var(--transition-properties),
+		background-color var(--transition-properties),
 		border var(--transition-properties), rotate var(--transition-properties),
 		font var(--transition-properties);
 }
