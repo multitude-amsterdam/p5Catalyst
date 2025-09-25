@@ -44,6 +44,8 @@ export class Catalyst {
 
 				// 1 create GUI
 				const gui = new CatalystGUI(sketch);
+				this.gui = gui;
+				globalThis.gui = gui;
 
 				// 2 plugins.preCreate(User)Gui
 				userPlugins = userPlugins?.flat();
@@ -61,11 +63,6 @@ export class Catalyst {
 
 				// 5 gui finalize
 				gui.finalize();
-
-				this.gui = gui;
-
-				globalThis.gui = gui;
-				globalThis.sketch = sketch;
 			};
 
 			sketch.draw = () => {
@@ -92,5 +89,6 @@ export class Catalyst {
 				sketch.containCanvasInWrapper();
 			};
 		});
+		globalThis.sketch = sketch;
 	}
 }
