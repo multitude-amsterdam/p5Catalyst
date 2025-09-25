@@ -1,19 +1,17 @@
 import type { ExtensibleP5 } from './lib/Catalyst';
-import type { CatalystGUI } from './lib/CatalystGUI';
 
 export const sketchSeedFunction = async (sketch: ExtensibleP5) => {
-	// more info on instance mode:
-	// https://github.com/processing/p5.js/wiki/Global-and-instance-mode
+	sketch.q = 13;
 
-	sketch.setup = async () => {
-		sketch.frameRate(3);
-		sketch.q = 13;
-	};
+	sketch.setup = async () => {};
 
 	sketch.draw = () => {
-		sketch.clear();
+		sketch.background(128);
+		sketch.noStroke();
+		sketch.fill(0);
 		sketch.circle(
-			sketch.width / 2 + ((sketch.frameCount % 5) - 2) * 100,
+			sketch.width / 2 +
+				(sketch.cos(sketch.millis() / 300) * (sketch.width - 100)) / 2,
 			sketch.height / 2,
 			100
 		);
