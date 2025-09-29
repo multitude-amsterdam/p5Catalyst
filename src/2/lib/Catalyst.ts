@@ -50,7 +50,7 @@ export class Catalyst {
 				// 2 plugins.preCreate(User)Gui
 				userPlugins = userPlugins?.flat();
 				userPlugins?.forEach(plugin =>
-					plugin.preCreateGui?.(gui, sketch)
+					plugin.beforeCreateGui?.(gui, sketch)
 				);
 
 				// 3 createUserGui
@@ -58,7 +58,7 @@ export class Catalyst {
 
 				// 4 plugins.postCreate(User)Gui
 				userPlugins?.forEach(plugin =>
-					plugin.postCreateGui?.(gui, sketch)
+					plugin.afterCreateGui?.(gui, sketch)
 				);
 
 				// 5 gui finalize
