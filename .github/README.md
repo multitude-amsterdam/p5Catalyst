@@ -55,7 +55,7 @@ The project now uses [Vite](https://vitejs.dev/) for development and builds. Fol
 git clone https://github.com/multitude-amsterdam/p5Catalyst.git YOUR_NEW_APP_NAME
 ```
 
-or alternatively, download the code as a ZIP file by clicking the **`<>` Code**" button at the top-right of this page. ↗️
+or alternatively, download the code as a ZIP file by clicking the **`<> Code`** button at the top-right of this page. ↗️
 
 ## 2. Install dependencies with npm
 
