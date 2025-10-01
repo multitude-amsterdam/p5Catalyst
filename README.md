@@ -1,5 +1,5 @@
-![p5Catalyst](./app/assets/dark-mode/p5catalyst-logo.svg#gh-dark-mode-only)
-![p5Catalyst](./app/assets/p5catalyst-logo.svg#gh-light-mode-only)
+![p5Catalyst](./public/assets/p5catalyst-logo-dark.svg#gh-dark-mode-only)
+![p5Catalyst](./public/assets/p5catalyst-logo-light.svg#gh-light-mode-only)
 
 <p align="center">
 	<a style="text-decoration:none !important;" href="./LICENSE"><img alt="p5Catalyst license" src="https://img.shields.io/github/license/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7"></a>
