@@ -1,5 +1,5 @@
-![p5Catalyst](./public/assets/p5catalyst-logo-dark.svg#gh-dark-mode-only)
-![p5Catalyst](./public/assets/p5catalyst-logo-light.svg#gh-light-mode-only)
+![p5Catalyst](./../public/assets/p5catalyst-logo-dark.svg#gh-dark-mode-only)
+![p5Catalyst](./../public/assets/p5catalyst-logo-light.svg#gh-light-mode-only)
 
 <p align="center">
 	<a style="text-decoration:none !important;" href="./LICENSE"><img alt="p5Catalyst license" src="https://img.shields.io/github/license/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7"></a>
@@ -19,7 +19,7 @@ p5Catalyst is a GUI framework that wraps your `p5.js` sketches into polished, in
 
 Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew out of real-world branding needs, and is now shared as a creative coding tool for everyone.
 
-[![p5Catalyst in use.](./p5catalyst-in-use.png)](https://multitude-amsterdam.github.io/p5Catalyst/app/demo.html)
+[![p5Catalyst in use.](./../p5catalyst-in-use.png)](https://multitude-amsterdam.github.io/p5Catalyst/app/demo.html)
 
 # 🛠️ Features
 
@@ -96,7 +96,7 @@ The build artifacts are emitted to the `dist/` directory and can be deployed to 
 
 ## 5. Develop your sketch
 
-[`src/main.js`](./src/main.js) is the single entry point that Vite loads. It initializes the GUI layer and spins up a p5 sketch in **instance mode**, meaning all sketch functions live on the `sketch` argument, rather than the global scope. Instance mode keeps the sketch encapsulated and avoids global name collisions as the project grows.
+[`src/main.js`](./../src/main.js) is the single entry point that Vite loads. It initializes the GUI layer and spins up a p5 sketch in **instance mode**, meaning all sketch functions live on the `sketch` argument, rather than the global scope. Instance mode keeps the sketch encapsulated and avoids global name collisions as the project grows.
 
 `src/main.js` is the main entrypoint for the p5 sketch. Using p5Catalyst here is done in three parts.
 
@@ -273,7 +273,7 @@ Developed using [p5.js](https://p5js.org/) and [ffmpeg.wasm](https://github.com/
 
 # 🧾 License
 
-This project is licensed under the [**MIT License**](./LICENSE): free to use and modify.
+This project is licensed under the [**MIT License**](./../LICENSE): free to use and modify.
 
 # 📢 Stay Updated
 
