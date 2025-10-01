@@ -11,8 +11,6 @@
 	<a style="text-decoration:none !important;" href="https://github.com/multitude-amsterdam/p5Catalyst/pulls"><img alt="p5Catalyst pull-requests" src="https://img.shields.io/github/issues-pr/multitude-amsterdam/p5Catalyst?style=flat-square&color=7685F7"></a>
 </p>
 
-<p align="center"><em>⚠️ This repo has been deprecated and will not be updated. For the current version, see <a href="https://github.com/multitude-amsterdam/p5Catalyst.git">this repo</a>.</em></p>
-
 ---
 
 # 🧪 What is p5Catalyst?
