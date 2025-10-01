@@ -51,6 +51,8 @@ This project includes a Prettier setup under [`.vscode/settings.json`](./.vscode
 
 Formatting helps keep pull requests clean and focused on actual changes.
 
+Please visit [the styleguide](./styleguide.md) for more info.
+
 ---
 
 ## 👥 Contributors
