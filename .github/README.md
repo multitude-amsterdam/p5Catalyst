@@ -281,5 +281,3 @@ Follow the development and join the discussion:
 
 -   GitHub Discussions: [join the conversation](https://github.com/multitude-amsterdam/p5Catalyst/discussions)
 -   Multitude's Instagram: [@multitudecreativeagency](https://www.instagram.com/multitudecreativeagency/)
-
----
