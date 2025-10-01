@@ -47,7 +47,7 @@ Let's build the future of generative design!
 
 # 📥 Installation & setup
 
-To run p5Catalyst locally, follow these steps.
+The project now uses [Vite](https://vitejs.dev/) for development and builds. Follow the steps below to get started.
 
 ## 1. Clone the repository
 
@@ -57,105 +57,105 @@ git clone https://github.com/multitude-amsterdam/p5Catalyst.git YOUR_NEW_APP
 
 or alternatively, download the code as a ZIP file by clicking the "**<> Code**" button at the top-right of this page. ↗️
 
-## 2. Start a local development server
+## 2. Install dependencies with npm
 
-The `/app` directory holds the runnable website. You need to start a local web server (a "dev server") in this folder to use p5 and the other libraries. Opening the `index.html` file will not work on its own. Here are some options to do this in a command prompt window:
-
-First, open a command prompt and navigate to the `/app` directory.
+Vite relies on Node.js tooling. Make sure you have [Node.js](https://nodejs.org/en/download) (which includes `npm`) installed, then install the project dependencies:
 
 ```sh
-cd /Users/You/Your Github Folder/YOUR_NEW_APP/app
+cd YOUR_NEW_APP
+npm install
 ```
 
-_If you have Python installed:_
+This command downloads the packages listed in `package.json` and links the Vite dev server locally.
+
+## 3. Run the development server
+
+Start an interactive development environment with hot module reloading:
 
 ```sh
-python3 -m http.server 8000
+npm run dev
 ```
 
-_If you have Node.js installed:_
+Vite will print a local URL (usually `http://localhost:5173`) where you can preview p5Catalyst while you work.
+
+## 4. Build & preview production output
+
+When you're ready to create an optimized build, run:
 
 ```sh
-npx http-server -p 8000
+npm run build
 ```
 
-_If you PHP installed:_
+To inspect the built site locally, use Vite's preview server:
 
 ```sh
-php -S localhost:8000
+npm run preview
 ```
 
-The app will be up and running at `http://localhost:8000`.
+The build artifacts are emitted to the `dist/` directory and can be deployed to any static host.
 
-[More on running local web servers by Mozilla.](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Tools_and_setup/set_up_a_local_testing_server)
+## 5. Develop your sketch
 
-## 3. Paste your p5 sketch in `generator.js`
+[`src/main.js`](./src/main.js) is the single entry point that Vite loads. It initializes the GUI layer and spins up a `p5` sketch in **instance mode**—meaning all sketch functions live on the `p` argument, rather than the global scope. Instance mode keeps the sketch encapsulated and avoids global name collisions when the UI grows.
 
-The `Generator` class in generator.js is designed to correspond with the `setup()` and `draw()` functions in p5. You can copy/paste your sketches in there. You won't need to use `createCanvas()`, as there is a `canvas` object available already. There is also some structure in place to help you get started with using shaders as well.
+### JavaScript: structure your sketch
 
-```javascript
-class Generator {
-	static name = 'Project Name';
-	...
+```js
+// src/main.js
+import './style.css';
+import p5 from 'p5';
 
-	setup() {
-		// your sketch's setup() here
-		...
-	}
+const sketch = (p) => {
+  let angle = 0;
 
-	draw() {
-		// your sketch's draw() here
-		...
-	}
+  p.setup = () => {
+    p.createCanvas(window.innerWidth, window.innerHeight);
+  };
 
-	...
-}
+  p.draw = () => {
+    p.background(20);
+    p.translate(p.width / 2, p.height / 2);
+    p.rotate(angle);
+    p.rectMode(p.CENTER);
+    p.rect(0, 0, 200, 200);
+    angle += 0.01;
+  };
+
+  p.windowResized = () => {
+    p.resizeCanvas(window.innerWidth, window.innerHeight);
+  };
+};
+
+new p5(sketch, document.getElementById('app'));
 ```
 
-## 4. Create GUI elements in `create-gui.js`
+-   Import additional modules (GUI definitions, data loaders, etc.) at the top of `main.js`.
+-   Share state between the GUI and sketch by reading or updating variables inside the `sketch` function.
+-   Extract reusable logic into files in [`src/`](./src) and import them into `main.js` as your project grows.
 
-There is a custom set of GUI controller classes that can be used, including sliders, text boxes, buttons, colour selectors, dropdowns and a toggle. You can add custom callback functions to handle the data from these DOM elements.
-
-```javascript
-...
-gui.addController(new ColourBoxes(
-	gui, 'colourBoxesBirdCol', 'Bird flock colour', generator.birdPalette, 0,
-	(controller, value) => {
-		generator.birdCol = value;
-	}
-), doAddToRandomizerAs=true);
-gui.addController(new XYSlider(
-	gui, 'xySliderBirdTarget', 'Bird flock target',
-	0, width, width / 2, 1,
-	0, height, height / 2, 1,
-	(controller, value) => {
-		generator.imagePosition.set(value.x, value.y);
-	}
-), doAddToRandomizerAs=true);
-...
-```
-
-Note: adding the `doAddToRandomizerAs` argument will add a die button (🎲) to the controller. It indicates whether the controller will be randomized when the Randomize button is clicked. Adding it as `false` will also add it to the controller, but it will load as the 'off' state. See how this works in the [demo](https://multitude-amsterdam.github.io/p5Catalyst/app/demo.html). This is practical for users to take control of the randomization of the sketch.
-
-## 5. Customize the styling in `style.css`
-
-Most of the styling variables can be found under `:root`, like colours, sizes and font settings.
+### CSS: style your canvas and UI
 
 ```css
+/* src/style.css */
 :root {
-	...
-	--gui-base-col: #7685F7;
-	--gui-hover-col: #BFFB50;
-	...
+  font-family: 'Inter', sans-serif;
+  background-color: #05050a;
+  color: #f5f7ff;
+}
+
+canvas {
+  display: block;
+  margin: 2rem auto;
+  max-width: min(90vw, 600px);
+  box-shadow: 0 0 40px rgba(118, 133, 247, 0.35);
+  border-radius: 16px;
 }
 ```
+
+Any change you make to JavaScript or CSS is immediately reflected in the browser thanks to Vite's hot module replacement.
 
 > [!TIP]
 > For more insight into the relationship between script files, visit the [documentation of the code architecture](https://multitude-amsterdam.github.io/p5Catalyst/docs/architecture).
-
-## 6. Plop it on a server!
-
-That's it! You can now host the application 😶‍🌫️ and send it to your client or users for testing. Just copy the contents of the `/app` folder into the root of your server environment using FTP or otherwise.
 
 # 📄 Documentation
 
