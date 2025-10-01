@@ -26,10 +26,11 @@ Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew
 -   **Sketch integration**: integrate a finished p5 sketch easily.
 -   **Lives in the browser**: no install required, shareable and hackable by default.
 -   **Built-in GUI system**: add sliders, dropdowns, toggles, and color pickers with minimal setup.
--   **Export support**: save outputs as PNG or video (MP4, WEBM) via ffmpeg.wasm.
+-   **Export support**: save outputs as PNG or video: PNG frames, MP4 or transparent WEBM.
 -   **Theming**: GUI respects system theme and the light and dark themes are easy to style.
 -   **File I/O**: save/load user settings.
 <!-- -   **Change history**: use CTRL+Z and CTRL+SHIFT+Z to undo and redo changes. -->
+-   **Change history**: undo and redo changes.
 -   **Internationalization**: plug in translations for global-ready tools.
 
 # 👀 Demo
