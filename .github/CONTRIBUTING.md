@@ -41,7 +41,7 @@ To keep the code clean and consistent, we use a **code formatter** (specifically
 
 #### 📁 How it’s configured
 
-This project includes a Prettier setup under [`.vscode/settings.json`](./.vscode/settings.json). If you’re using [**VS Code**](https://code.visualstudio.com/), it will automatically follow these settings when formatting your files. Just make sure you have the [Prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) installed. Other IDEs like WebStorm or Sublime Text can also use Prettier, just match the config in [`.vscode/settings.json`](./.vscode/settings.json). We recommend enabling **Format on save**.
+This project includes a Prettier setup under [`.vscode/settings.json`](../.vscode/settings.json). If you’re using [**VS Code**](https://code.visualstudio.com/), it will automatically follow these settings when formatting your files. Just make sure you have the [Prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) installed. Other IDEs like WebStorm or Sublime Text can also use Prettier, just match the config in [`.vscode/settings.json`](../.vscode/settings.json). We recommend enabling **Format on save**.
 
 #### ✅ To format your code:
 

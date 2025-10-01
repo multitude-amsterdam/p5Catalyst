@@ -1,6 +1,6 @@
 # Styleguide
 
-This repository follows a consistent code style across JavaScript, TypeScript, CSS, and HTML files to maintain readability and uniformity. Formatting is managed by [Prettier](https://prettier.io/) using the settings in [.vscode/settings.json](.vscode/settings.json).
+This repository follows a consistent code style across JavaScript, TypeScript, CSS, and HTML files to maintain readability and uniformity. Formatting is managed by [Prettier](https://prettier.io/) using the settings in [.vscode/settings.json](../.vscode/settings.json).
 
 To format code:
 

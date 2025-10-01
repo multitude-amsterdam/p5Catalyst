@@ -25,11 +25,11 @@
 		"sourceMap": true,
 		"inlineSources": true,
 
-		/* Path aliases */
+		/* baseUrl = "." for a relative root on static host */
+		/* this means the contents of /dist can be put onto: */
+		/* https://yourdomain.org/design/generator/ */
+		/* and it will load URLs starting with "/..." from this path */
 		"baseUrl": "."
-		// "paths": {
-		// 	"utils/*": ["src/lib/utils/*"]
-		// }
 	},
 	"include": ["src"]
 }
