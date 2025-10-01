@@ -47,7 +47,7 @@ Let's build the future of generative design!
 
 # 📥 Installation & setup
 
-To run p5Catalyst locally, follow these steps.
+The project now uses [Vite](https://vitejs.dev/) for development and builds. Follow the steps below to get started.
 
 ## 1. Clone the repository
 
@@ -57,109 +57,195 @@ git clone https://github.com/multitude-amsterdam/p5Catalyst.git YOUR_NEW_APP
 
 or alternatively, download the code as a ZIP file by clicking the "**<> Code**" button at the top-right of this page. ↗️
 
-## 2. Start a local development server
+## 2. Install dependencies with npm
 
-The `/app` directory holds the runnable website. You need to start a local web server (a "dev server") in this folder to use p5 and the other libraries. Opening the `index.html` file will not work on its own. Here are some options to do this in a command prompt window:
-
-First, open a command prompt and navigate to the `/app` directory.
+Vite relies on Node.js tooling. Make sure you have [Node.js](https://nodejs.org/en/download) (which includes `npm`) installed, then install the project dependencies:
 
 ```sh
-cd /Users/You/Your Github Folder/YOUR_NEW_APP/app
+cd YOUR_NEW_APP
+npm install
 ```
 
-_If you have Python installed:_
+This command downloads the packages listed in `package.json` and links the Vite dev server locally.
+
+## 3. Run the development server
+
+Start an interactive development environment with hot module reloading:
 
 ```sh
-python3 -m http.server 8000
+npm run dev
 ```
 
-_If you have Node.js installed:_
+Vite will print a local URL (usually `http://localhost:5173`) where you can preview p5Catalyst while you work.
+
+## 4. Build & preview production output
+
+When you're ready to create an optimized build, run:
 
 ```sh
-npx http-server -p 8000
+npm run build
 ```
 
-_If you PHP installed:_
+To inspect the built site locally, use Vite's preview server:
 
 ```sh
-php -S localhost:8000
+npm run preview
 ```
 
-The app will be up and running at `http://localhost:8000`.
+The build artifacts are emitted to the `dist/` directory and can be deployed to any static host.
 
-[More on running local web servers by Mozilla.](https://developer.mozilla.org/en-US/docs/Learn_web_development/Howto/Tools_and_setup/set_up_a_local_testing_server)
+## 5. Develop your sketch
 
-## 3. Paste your p5 sketch in `generator.js`
+[`src/main.js`](./src/main.js) is the single entry point that Vite loads. It initializes the GUI layer and spins up a p5 sketch in **instance mode**, meaning all sketch functions live on the `sketch` argument, rather than the global scope. Instance mode keeps the sketch encapsulated and avoids global name collisions as the project grows.
 
-The `Generator` class in generator.js is designed to correspond with the `setup()` and `draw()` functions in p5. You can copy/paste your sketches in there. You won't need to use `createCanvas()`, as there is a `canvas` object available already. There is also some structure in place to help you get started with using shaders as well.
+`src/main.js` is the main entrypoint for the p5 sketch. Using p5Catalyst here is done in three parts.
 
-```javascript
-class Generator {
-	static name = 'Project Name';
-	...
+### 5.1. Sketch definition: `sketchFunction`
 
-	setup() {
-		// your sketch's setup() here
-		...
-	}
+This is where your setup() and draw() functions live, just like in a regular p5 sketch.
 
-	draw() {
-		// your sketch's draw() here
-		...
-	}
+```js
+// src/main.js
 
-	...
-}
+const sketchFunction = async (sketch, state) => {
+	sketch.setup = async () => {
+		sketch.noStroke();
+
+		// the `state` object stores shared values that update via the GUI
+		state.circleColor = sketch.color(0);
+		state.circleDiameter = 0.5;
+		state.bgColor = sketch.color(0);
+		state.nBgElements = 5;
+	};
+
+	sketch.draw = () => {
+		// background ellipses
+		sketch.fill(state.bgColor);
+		let sx = state.width / state.nBgElements;
+		let sy = state.height / state.nBgElements;
+		for (let x = 0; x < state.nBgElements; x++) {
+			for (let y = 0; y < state.nBgElements; y++) {
+				sketch.ellipse((x + 0.5) * sx, (y + 0.5) * sy, sx, sy);
+			}
+		}
+
+		// animated circle
+		sketch.fill(state.circleColor);
+		const diam =
+			sketch.width *
+			sketch.lerp(1 / state.nBgElements, 1, state.circleDiameter);
+		const amp = (sketch.height - diam) / 2;
+		// `state.progress` is automatically provided by p5Catalyst to animate over time
+		sketch.circle(
+			state.width / 2,
+			state.height / 2 +
+				sketch.sin(state.progress * sketch.TAU * 2) * amp,
+			diam
+		);
+	};
+};
 ```
 
-## 4. Create GUI elements in `create-gui.js`
+### 5.2. GUI Definition: `createGui`
 
-There is a custom set of GUI controller classes that can be used, including sliders, text boxes, buttons, colour selectors, dropdowns and a toggle. You can add custom callback functions to handle the data from these DOM elements.
+This section creates user-facing controls to interact with the sketch. Think of it as all of the controllers: sliders, color pickers, textboxes, etc.
 
-```javascript
-...
-gui.addController(new ColourBoxes(
-	gui, 'colourBoxesBirdCol', 'Bird flock colour', generator.birdPalette, 0,
-	(controller, value) => {
-		generator.birdCol = value;
-	}
-), doAddToRandomizerAs=true);
-gui.addController(new XYSlider(
-	gui, 'xySliderBirdTarget', 'Bird flock target',
-	0, width, width / 2, 1,
-	0, height, height / 2, 1,
-	(controller, value) => {
-		generator.imagePosition.set(value.x, value.y);
-	}
-), doAddToRandomizerAs=true);
-...
+Controllers are grouped into tabs and panels. All controllers can access `state` via a callback, so that they can store data there that can be accessed by the `sketchFunction`.
+
+Naming controller, like 'sliderCircleDiameter', is important for plugin targeting, like randomization.
+
+```js
+const createGui = (gui, { state }) => {
+	const appearanceTab = gui.getTab('appearance');
+
+	const circlePanel = appearanceTab.addPanel('Circle', true);
+	circlePanel.addColorBoxes(
+		'colorBoxesCircle',
+		'Circle color',
+		['#FF2600', '#86D594', '#004D30', '#336DFF', '#F5CBFF'],
+		0,
+		(controller, value) => {
+			state.circleColor = value;
+		}
+	);
+	circlePanel.addSlider(
+		'sliderCircleDiameter',
+		'Circle size',
+		0,
+		1,
+		state.circleDiameter,
+		0.001,
+		(controller, value) => {
+			state.circleDiameter = value;
+		}
+	);
+
+	const bgPanel = appearanceTab.addPanel('Background pattern', true);
+	bgPanel.addColorBoxes(
+		'colorBoxesBg',
+		'Background color',
+		['#FF2600', '#86D594', '#004D30', '#336DFF', '#F5CBFF'],
+		3,
+		(controller, value) => {
+			state.bgColor = value;
+		}
+	);
+	bgPanel.addSlider(
+		'sliderNBg',
+		'Number of ellipses',
+		1,
+		10,
+		state.nBgElements,
+		1,
+		(controller, value) => {
+			state.nBgElements = value;
+		}
+	);
+};
 ```
 
-Note: adding the `doAddToRandomizerAs` argument will add a die button (🎲) to the controller. It indicates whether the controller will be randomized when the Randomize button is clicked. Adding it as `false` will also add it to the controller, but it will load as the 'off' state. See how this works in the [demo](https://multitude-amsterdam.github.io/p5Catalyst/app/demo.html). This is practical for users to take control of the randomization of the sketch.
+### 5.3. Plugins
 
-## 5. Customize the styling in `style.css`
+This section defines which p5Catalyst features your sketch will use. Many of these are additions to the GUI that add specific functionality, like video exporting.
 
-Most of the styling variables can be found under `:root`, like colours, sizes and font settings.
+```js
+const plugins = [
+	catalyst.defaultPlugin(), // adds state and time management
+	catalyst.randomizerPlugin([
+		// adds 🎲 randomization support for these controls
+		'colorBoxesCircle',
+		'sliderCircleDiameter',
+		'colorBoxesBg',
+		'sliderNBg',
+	])
+	catalyst.storeSettingsPlugin(), // allows saving and restoring settings
+];
+```
+
+### 5.4. Best practices
+
+-   Share `state` between the GUI and sketch by reading or updating variables inside the `state` variable.
+-   Import additional modules (GUI definitions, data loaders, etc.) at the top of `main.js`.
+-   Extract reusable logic into files in `src/` and `import` them into `main.js` as your project grows.
+
+### 6. Style the GUI
 
 ```css
-:root {
-	...
-	--gui-base-col: #7685F7;
-	--gui-hover-col: #BFFB50;
-	...
+/* src/style.css */
+
+body {
+	/* edit colors and other variables here */
+	--base-col: #336dff;
+	--text-col-on-base: var(--bg-col);
+	--hover-col: #90de00;
+	--focus-col: var(--hover-col);
 }
 ```
+
+Any change you make to JavaScript or CSS is immediately reflected in the browser thanks to Vite's hot module replacement.
 
 > [!TIP]
 > For more insight into the relationship between script files, visit the [documentation of the code architecture](https://multitude-amsterdam.github.io/p5Catalyst/docs/architecture).
-
-## 6. Plop it on a server!
-
-That's it! You can now host the application 😶‍🌫️ and send it to your client or users for testing. Just copy the contents of the `/app` folder into the root of your server environment using FTP or otherwise.
-
-# 📄 Documentation
-
-You can find more information on the specifics of the codebase in the [online documentation](https://multitude-amsterdam.github.io/p5Catalyst/docs).
 
 # 🌍 Sharing your work
 
@@ -183,7 +269,7 @@ For security concerns, please review the [security policy](./SECURITY.md).
 
 # ❤️‍🔥 Credits
 
-Developed using [p5.js](https://p5js.org/), [p5.js-svg](https://github.com/zenozeng/p5.js-svg), [toxiclibs.js](https://github.com/hapticdata/toxiclibsjs), and [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
+Developed using [p5.js](https://p5js.org/) and [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
 
 # 🧾 License
 
@@ -195,6 +281,5 @@ Follow the development and join the discussion:
 
 -   GitHub Discussions: [join the conversation](https://github.com/multitude-amsterdam/p5Catalyst/discussions)
 -   Multitude's Instagram: [@multitudecreativeagency](https://www.instagram.com/multitudecreativeagency/)
--   Creative Coding Amsterdam: [join a Meetup](https://www.meetup.com/nl-NL/creative-coding-amsterdam/) and ask Aidan about this project in person 🤔🤔 or [find the Discord server here](https://cca.codes/) 👋
 
 ---

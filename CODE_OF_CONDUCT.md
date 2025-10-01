@@ -17,7 +17,7 @@ This Code of Conduct outlines basic expectations for community behaviour across 
 
 If you see behaviour that doesn't align with these principles—whether it's dismissive, hostile, or simply unhelpful—please raise it respectfully. Most misunderstandings can be cleared up with calm conversation. If that doesn't work, contact the maintainers privately to review the situation.
 
-You can reach Aidan, the project maintainer, at [aidan.wyber@multitude.nl](mailto:aidan.wyber@multitude.nl). He's approachable and happy to help resolve concerns in a fair and constructive way.
+You can reach Aidan, the project maintainer, at [pandakaas@gmail.com](mailto:pandakaas@gmail.com). He's approachable and happy to help resolve concerns in a fair and constructive way.
 
 ## Consequences of unacceptable behaviour
 

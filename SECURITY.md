@@ -7,8 +7,6 @@ Welcome to the `p5Catalyst` security policy. We take the security of this open-s
 This project is maintained and tested with:
 
 -   [p5.js](https://p5js.org/): version 1.6.1
--   [p5.js-svg](https://github.com/zenozeng/p5.js-svg): version 1.5.1
--   [toxiclibs.js](https://github.com/hapticdata/toxiclibsjs): version 0.3
 -   [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm): version 3?
 
 Older versions may be partially supported but are not actively tested.

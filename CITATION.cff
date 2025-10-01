@@ -21,6 +21,8 @@ authors:
       family-names: Wyber
       email: aidan.wyber@multitude.nl
       affiliation: Multitude
+    - given-names: Christoph
+      family-names: Seibel
 repository-code: 'https://github.com/multitude-amsterdam/p5Catalyst'
 url: 'https://github.com/multitude-amsterdam/p5Catalyst'
 abstract: >-
@@ -30,13 +32,12 @@ abstract: >-
     robust web apps.
 keywords:
     - p5
-    - p5-svg
     - ffmpeg.wasm
-    - toxiclibs
     - open-source
     - javascript
+    - typescript
+    - vite
     - wrapper
-    - vanilla
 license: MIT
 version: 1.0.0
-date-released: '2025-06-11'
+date-released: '2025-10-01'
