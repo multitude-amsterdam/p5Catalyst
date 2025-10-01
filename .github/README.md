@@ -23,15 +23,14 @@ Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew
 
 # 🛠️ Features
 
+-   **Sketch integration**: integrate a finished p5 sketch easily.
 -   **Lives in the browser**: no install required, shareable and hackable by default.
 -   **Built-in GUI system**: add sliders, dropdowns, toggles, and color pickers with minimal setup.
--   **Flexible and modular**: built in vanilla JavaScript, extend it however you like.
--   **Export support**: save outputs as PNG, SVG, or video (MP4, WEBM) via ffmpeg.wasm.
--   **Dark mode and theming**: UI respects system theme and is easy to style.
--   **File I/O**: save/load user settings, support for `localStorage`.
--   **Change history**: use CTRL+Z and CTRL+SHIFT+Z to undo and redo changes.
+-   **Export support**: save outputs as PNG or video (MP4, WEBM) via ffmpeg.wasm.
+-   **Theming**: GUI respects system theme and the light and dark themes are easy to style.
+-   **File I/O**: save/load user settings.
+<!-- -   **Change history**: use CTRL+Z and CTRL+SHIFT+Z to undo and redo changes. -->
 -   **Internationalization**: plug in translations for global-ready tools.
--   **Sketch integration**: integrate a finished p5 sketch easily.
 
 # 👀 Demo
 
@@ -52,55 +51,39 @@ The project now uses [Vite](https://vitejs.dev/) for development and builds. Fol
 ## 1. Clone the repository
 
 ```sh
-git clone https://github.com/multitude-amsterdam/p5Catalyst.git YOUR_NEW_APP
+git clone https://github.com/multitude-amsterdam/p5Catalyst.git YOUR_NEW_APP_NAME
 ```
 
-or alternatively, download the code as a ZIP file by clicking the "**<> Code**" button at the top-right of this page. ↗️
+or alternatively, download the code as a ZIP file by clicking the **`<>` Code**" button at the top-right of this page. ↗️
 
 ## 2. Install dependencies with npm
 
 Vite relies on Node.js tooling. Make sure you have [Node.js](https://nodejs.org/en/download) (which includes `npm`) installed, then install the project dependencies:
 
 ```sh
-cd YOUR_NEW_APP
+cd YOUR_NEW_APP_NAME
 npm install
 ```
 
-This command downloads the packages listed in `package.json` and links the Vite dev server locally.
+This command downloads the packages listed in `package.json`.
 
 ## 3. Run the development server
 
-Start an interactive development environment with hot module reloading:
+Start an interactive development environment:
 
 ```sh
 npm run dev
 ```
 
-Vite will print a local URL (usually `http://localhost:5173`) where you can preview p5Catalyst while you work.
+Vite will print a local URL (usually `http://localhost:5173`) where you can preview p5Catalyst while you work. You can run "`o`" in the terminal to open the web page in your browser.
 
-## 4. Build & preview production output
-
-When you're ready to create an optimized build, run:
-
-```sh
-npm run build
-```
-
-To inspect the built site locally, use Vite's preview server:
-
-```sh
-npm run preview
-```
-
-The build artifacts are emitted to the `dist/` directory and can be deployed to any static host.
-
-## 5. Develop your sketch
+## 4. Develop your sketch
 
 [`src/main.js`](./../src/main.js) is the single entry point that Vite loads. It initializes the GUI layer and spins up a p5 sketch in **instance mode**, meaning all sketch functions live on the `sketch` argument, rather than the global scope. Instance mode keeps the sketch encapsulated and avoids global name collisions as the project grows.
 
 `src/main.js` is the main entrypoint for the p5 sketch. Using p5Catalyst here is done in three parts.
 
-### 5.1. Sketch definition: `sketchFunction`
+### 4.1. Sketch definition: `sketchFunction`
 
 This is where your setup() and draw() functions live, just like in a regular p5 sketch.
 
@@ -146,7 +129,7 @@ const sketchFunction = async (sketch, state) => {
 };
 ```
 
-### 5.2. GUI Definition: `createGui`
+### 4.2. GUI Definition: `createGui`
 
 This section creates user-facing controls to interact with the sketch. Think of it as all of the controllers: sliders, color pickers, textboxes, etc.
 
@@ -204,7 +187,7 @@ const createGui = (gui, { state }) => {
 };
 ```
 
-### 5.3. Plugins
+### 4.3. Plugins
 
 This section defines which p5Catalyst features your sketch will use. Many of these are additions to the GUI that add specific functionality, like video exporting.
 
@@ -222,13 +205,13 @@ const plugins = [
 ];
 ```
 
-### 5.4. Best practices
+### 4.4. Best practices
 
 -   Share `state` between the GUI and sketch by reading or updating variables inside the `state` variable.
 -   Import additional modules (GUI definitions, data loaders, etc.) at the top of `main.js`.
 -   Extract reusable logic into files in `src/` and `import` them into `main.js` as your project grows.
 
-### 6. Style the GUI
+### 5. Style the GUI
 
 ```css
 /* src/style.css */
@@ -242,10 +225,15 @@ body {
 }
 ```
 
-Any change you make to JavaScript or CSS is immediately reflected in the browser thanks to Vite's hot module replacement.
+## 6. Build for production
 
-> [!TIP]
-> For more insight into the relationship between script files, visit the [documentation of the code architecture](https://multitude-amsterdam.github.io/p5Catalyst/docs/architecture).
+When you're ready to create an optimized build, run:
+
+```sh
+npm run build
+```
+
+If there are no errors, the project has now been built into the `dist/` directory and you can plop it in on a server with FTP.
 
 # 🌍 Sharing your work
 
