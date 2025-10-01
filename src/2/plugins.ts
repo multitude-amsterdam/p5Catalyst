@@ -10,9 +10,11 @@ export interface Plugin {
 export const plugins: Plugin[] = [
 	{
 		name: 'test',
+
 		beforeCreateGui: () => {
 			console.log('beforeCreateGui!');
 		},
+
 		afterCreateGui: () => {
 			console.log('afterCreateGui!');
 		},

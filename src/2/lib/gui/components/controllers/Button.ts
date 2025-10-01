@@ -1,0 +1,49 @@
+import type { controllerCallback, setupCallback } from '../../../types';
+import { Controller } from '../Controller';
+import type { GUIForP5 } from '../../GUIForP5';
+/**
+ * Simple push button controller.
+ * @extends Controller
+ */
+export class Button extends Controller {
+	/**
+	 * Constructor for Button.
+	 * @param {GUIForP5} gui
+	 * @param {string} name
+	 * @param {string} labelStr
+	 * @param {function} callback
+	 * @param {SetupCallback} [setupCallback]
+	 * @example
+	 * const button = new Button(
+	 * 	gui,
+	 * 	'buttonName',
+	 * 	'Click me',
+	 * 	controller => {
+	 * 		print('Button clicked!');
+	 * 	}
+	 * );
+	 */
+	constructor(
+		gui: GUIForP5,
+		name: string,
+		labelStr: string,
+		callback?: controllerCallback,
+		setupCallback?: setupCallback
+	) {
+		super(gui, name, '', setupCallback);
+		labelStr = gui.lang.process(labelStr, true);
+		this.controllerElement = gui.p5Instance.createButton(labelStr);
+		this.controllerElement.parent(this.controllerWrapper);
+		this.controllerElement.elt.onclick = () => {
+			if (callback) callback(this);
+			if (this.doUpdateChangeSet()) this.gui.changeSet.save();
+		};
+	}
+
+	/**
+	 * Simulates a button click.
+	 */
+	click() {
+		if (this.controllerElement) this.controllerElement.elt.onclick();
+	}
+}
