@@ -1,12 +1,16 @@
 # ✍️ Authors
 
-## Maintainer & creator
+## Maintainers
 
 **Aidan Wyber**
-Lead developer and designer of the p5Catalyst project, creative coder at Multitude.
+Creator and designer of the p5Catalyst project, creative coder at Multitude.
 @aidanwyber
-Email: [aidan.wyber@multitude.nl](mailto:aidan.wyber@multitude.nl)
+Email: [pandakaas@gmail.com](mailto:pandakaas@gmail.com)
 Discord: [aidanwyber](https://discordapp.com/users/603927521691435019)
+
+**Christoph Seibel**
+Lead architect and TypeScript specialist.
+@christophseibel
 
 ## 👥 Contributors
 

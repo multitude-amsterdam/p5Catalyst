@@ -96,59 +96,149 @@ The build artifacts are emitted to the `dist/` directory and can be deployed to 
 
 ## 5. Develop your sketch
 
-[`src/main.js`](./src/main.js) is the single entry point that Vite loads. It initializes the GUI layer and spins up a `p5` sketch in **instance mode**—meaning all sketch functions live on the `p` argument, rather than the global scope. Instance mode keeps the sketch encapsulated and avoids global name collisions when the UI grows.
+[`src/main.js`](./src/main.js) is the single entry point that Vite loads. It initializes the GUI layer and spins up a p5 sketch in **instance mode**, meaning all sketch functions live on the `sketch` argument, rather than the global scope. Instance mode keeps the sketch encapsulated and avoids global name collisions as the project grows.
 
-### JavaScript: structure your sketch
+`src/main.js` is the main entrypoint for the p5 sketch. Using p5Catalyst here is done in three parts.
+
+### 5.1. Sketch definition: `sketchFunction`
+
+This is where your setup() and draw() functions live, just like in a regular p5 sketch.
 
 ```js
 // src/main.js
-import './style.css';
-import p5 from 'p5';
 
-const sketch = (p) => {
-  let angle = 0;
+const sketchFunction = async (sketch, state) => {
+	sketch.setup = async () => {
+		sketch.noStroke();
 
-  p.setup = () => {
-    p.createCanvas(window.innerWidth, window.innerHeight);
-  };
+		// the `state` object stores shared values that update via the GUI
+		state.circleColor = sketch.color(0);
+		state.circleDiameter = 0.5;
+		state.bgColor = sketch.color(0);
+		state.nBgElements = 5;
+	};
 
-  p.draw = () => {
-    p.background(20);
-    p.translate(p.width / 2, p.height / 2);
-    p.rotate(angle);
-    p.rectMode(p.CENTER);
-    p.rect(0, 0, 200, 200);
-    angle += 0.01;
-  };
+	sketch.draw = () => {
+		// background ellipses
+		sketch.fill(state.bgColor);
+		let sx = state.width / state.nBgElements;
+		let sy = state.height / state.nBgElements;
+		for (let x = 0; x < state.nBgElements; x++) {
+			for (let y = 0; y < state.nBgElements; y++) {
+				sketch.ellipse((x + 0.5) * sx, (y + 0.5) * sy, sx, sy);
+			}
+		}
 
-  p.windowResized = () => {
-    p.resizeCanvas(window.innerWidth, window.innerHeight);
-  };
+		// animated circle
+		sketch.fill(state.circleColor);
+		const diam =
+			sketch.width *
+			sketch.lerp(1 / state.nBgElements, 1, state.circleDiameter);
+		const amp = (sketch.height - diam) / 2;
+		// `state.progress` is automatically provided by p5Catalyst to animate over time
+		sketch.circle(
+			state.width / 2,
+			state.height / 2 +
+				sketch.sin(state.progress * sketch.TAU * 2) * amp,
+			diam
+		);
+	};
 };
-
-new p5(sketch, document.getElementById('app'));
 ```
 
--   Import additional modules (GUI definitions, data loaders, etc.) at the top of `main.js`.
--   Share state between the GUI and sketch by reading or updating variables inside the `sketch` function.
--   Extract reusable logic into files in [`src/`](./src) and import them into `main.js` as your project grows.
+### 5.2. GUI Definition: `createGui`
 
-### CSS: style your canvas and UI
+This section creates user-facing controls to interact with the sketch. Think of it as all of the controllers: sliders, color pickers, textboxes, etc.
+
+Controllers are grouped into tabs and panels. All controllers can access `state` via a callback, so that they can store data there that can be accessed by the `sketchFunction`.
+
+Naming controller, like 'sliderCircleDiameter', is important for plugin targeting, like randomization.
+
+```js
+const createGui = (gui, { state }) => {
+	const appearanceTab = gui.getTab('appearance');
+
+	const circlePanel = appearanceTab.addPanel('Circle', true);
+	circlePanel.addColorBoxes(
+		'colorBoxesCircle',
+		'Circle color',
+		['#FF2600', '#86D594', '#004D30', '#336DFF', '#F5CBFF'],
+		0,
+		(controller, value) => {
+			state.circleColor = value;
+		}
+	);
+	circlePanel.addSlider(
+		'sliderCircleDiameter',
+		'Circle size',
+		0,
+		1,
+		state.circleDiameter,
+		0.001,
+		(controller, value) => {
+			state.circleDiameter = value;
+		}
+	);
+
+	const bgPanel = appearanceTab.addPanel('Background pattern', true);
+	bgPanel.addColorBoxes(
+		'colorBoxesBg',
+		'Background color',
+		['#FF2600', '#86D594', '#004D30', '#336DFF', '#F5CBFF'],
+		3,
+		(controller, value) => {
+			state.bgColor = value;
+		}
+	);
+	bgPanel.addSlider(
+		'sliderNBg',
+		'Number of ellipses',
+		1,
+		10,
+		state.nBgElements,
+		1,
+		(controller, value) => {
+			state.nBgElements = value;
+		}
+	);
+};
+```
+
+### 5.3. Plugins
+
+This section defines which p5Catalyst features your sketch will use. Many of these are additions to the GUI that add specific functionality, like video exporting.
+
+```js
+const plugins = [
+	catalyst.defaultPlugin(), // adds state and time management
+	catalyst.randomizerPlugin([
+		// adds 🎲 randomization support for these controls
+		'colorBoxesCircle',
+		'sliderCircleDiameter',
+		'colorBoxesBg',
+		'sliderNBg',
+	])
+	catalyst.storeSettingsPlugin(), // allows saving and restoring settings
+];
+```
+
+### 5.4. Best practices
+
+-   Share `state` between the GUI and sketch by reading or updating variables inside the `state` variable.
+-   Import additional modules (GUI definitions, data loaders, etc.) at the top of `main.js`.
+-   Extract reusable logic into files in `src/` and `import` them into `main.js` as your project grows.
+
+### 6. Style the GUI
 
 ```css
 /* src/style.css */
-:root {
-  font-family: 'Inter', sans-serif;
-  background-color: #05050a;
-  color: #f5f7ff;
-}
 
-canvas {
-  display: block;
-  margin: 2rem auto;
-  max-width: min(90vw, 600px);
-  box-shadow: 0 0 40px rgba(118, 133, 247, 0.35);
-  border-radius: 16px;
+body {
+	/* edit colors and other variables here */
+	--base-col: #336dff;
+	--text-col-on-base: var(--bg-col);
+	--hover-col: #90de00;
+	--focus-col: var(--hover-col);
 }
 ```
 
@@ -156,10 +246,6 @@ Any change you make to JavaScript or CSS is immediately reflected in the browser
 
 > [!TIP]
 > For more insight into the relationship between script files, visit the [documentation of the code architecture](https://multitude-amsterdam.github.io/p5Catalyst/docs/architecture).
-
-# 📄 Documentation
-
-You can find more information on the specifics of the codebase in the [online documentation](https://multitude-amsterdam.github.io/p5Catalyst/docs).
 
 # 🌍 Sharing your work
 
@@ -183,7 +269,7 @@ For security concerns, please review the [security policy](./SECURITY.md).
 
 # ❤️‍🔥 Credits
 
-Developed using [p5.js](https://p5js.org/), [p5.js-svg](https://github.com/zenozeng/p5.js-svg), [toxiclibs.js](https://github.com/hapticdata/toxiclibsjs), and [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
+Developed using [p5.js](https://p5js.org/) and [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
 
 # 🧾 License
 
@@ -195,6 +281,5 @@ Follow the development and join the discussion:
 
 -   GitHub Discussions: [join the conversation](https://github.com/multitude-amsterdam/p5Catalyst/discussions)
 -   Multitude's Instagram: [@multitudecreativeagency](https://www.instagram.com/multitudecreativeagency/)
--   Creative Coding Amsterdam: [join a Meetup](https://www.meetup.com/nl-NL/creative-coding-amsterdam/) and ask Aidan about this project in person 🤔🤔 or [find the Discord server here](https://cca.codes/) 👋
 
 ---
