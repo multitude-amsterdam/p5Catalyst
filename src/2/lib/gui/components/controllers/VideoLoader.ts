@@ -10,7 +10,7 @@ export class VideoLoader extends FileLoader {
 		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
-		fileReadyCallback: fileReadyCallback,
+		fileReadyCallback?: fileReadyCallback,
 		setupCallback?: setupCallback
 	) {
 		super(
@@ -25,7 +25,7 @@ export class VideoLoader extends FileLoader {
 				this.video.loop();
 				this.file = this.video;
 
-				fileReadyCallback(this.file);
+				fileReadyCallback?.(this.file);
 			},
 			setupCallback
 		);

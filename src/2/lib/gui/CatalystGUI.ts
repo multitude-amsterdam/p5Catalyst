@@ -5,6 +5,10 @@ import type {
 	Serializable,
 	LangCode,
 	ExtensibleP5,
+	valueCallback,
+	setupCallback,
+	fileReadyCallback,
+	controllerCallback,
 } from '../types';
 
 import { Field } from './components/Field';
@@ -16,6 +20,11 @@ import { Lang } from '../language/Lang';
 import { Tab } from './components/groups/Tab';
 import { Dialog } from './Dialog';
 import { CommandBar } from './components/CommandBar';
+
+import type { Orientation } from './components/groups/Group';
+
+import * as Components from './components';
+import type { Group } from 'src/lib/gui/components';
 
 export class CatalystGUI {
 	sketch: ExtensibleP5;
@@ -268,5 +277,363 @@ export class CatalystGUI {
 			if (controller.value === null) continue;
 			controller.setValue(controller.defaultValue as ControllerValue);
 		}
+	}
+
+	addPanel(name: string, isOpen: boolean) {
+		const panel = new Components.Panel(gui, name, isOpen);
+
+		return gui.addField(panel);
+	}
+
+	addGroup(name: string, orientation: Orientation) {
+		const group = new Components.Group(gui, name, orientation);
+		return gui.addField(group);
+	}
+
+	addTitle(headerSize: number, text: string) {
+		const title = new Components.Title(gui, headerSize, text);
+		return gui.addField(title);
+	}
+
+	addTextField(text: string, className: string, doAlignCenter = false) {
+		const textField = new Components.TextField(
+			gui,
+			text,
+			className,
+			doAlignCenter
+		);
+		return gui.addField(textField);
+	}
+	addImageField(url: string, altText: string, doAlignCenter = false) {
+		const imageField = new Components.ImageField(
+			gui,
+			url,
+			altText,
+			doAlignCenter
+		);
+		return gui.addField(imageField);
+	}
+	addDivider() {
+		const divider = new Components.Divider(gui);
+		return gui.addField(divider);
+	}
+	addButton(
+		name: string,
+		labelStr: string,
+		controllerCallback?: controllerCallback,
+		setupCallback?: setupCallback
+	) {
+		const button = new Components.Button(
+			gui,
+			name,
+			labelStr,
+			controllerCallback,
+			setupCallback
+		);
+		return gui.addController(button);
+	}
+	addSelect(
+		name: string,
+		labelStr: string,
+		options: string[],
+		defaultIndex: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) {
+		const select = new Components.Select(
+			gui,
+			name,
+			labelStr,
+			options,
+			defaultIndex,
+			valueCallback,
+			setupCallback
+		);
+		return gui.addController(select);
+	}
+	addResolutionSelect(
+		labelStr: string,
+		resolutionOptions: string[],
+		defaultIndex: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) {
+		const resolutionSelect = new Components.ResolutionSelect(
+			gui,
+			labelStr,
+			resolutionOptions,
+			defaultIndex,
+			valueCallback,
+			setupCallback
+		);
+		return gui.addController(resolutionSelect);
+	}
+	addToggle(
+		name: string,
+		labelStr0: string,
+		labelStr1: string,
+		isToggled: boolean,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) {
+		const toggle = new Components.Toggle(
+			gui,
+			name,
+			labelStr0,
+			labelStr1,
+			isToggled,
+			valueCallback,
+			setupCallback
+		);
+		return gui.addController(toggle);
+	}
+	addSlider(
+		name: string,
+		labelStr: string,
+		minVal: number,
+		maxVal: number,
+		defaultVal: number,
+		stepSize: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) {
+		const slider = new Components.Slider(
+			gui,
+			name,
+			labelStr,
+			minVal,
+			maxVal,
+			defaultVal,
+			stepSize,
+			valueCallback,
+			setupCallback
+		);
+		return gui.addController(slider);
+	}
+	addXYSlider(
+		name: string,
+		labelStr: string,
+		minValX: number,
+		maxValX: number,
+		defaultValX: number,
+		stepSizeX: number,
+		minValY: number,
+		maxValY: number,
+		defaultValY: number,
+		stepSizeY: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) {
+		const xySlider = new Components.XYSlider(
+			gui,
+			name,
+			labelStr,
+			minValX,
+			maxValX,
+			defaultValX,
+			stepSizeX,
+			minValY,
+			maxValY,
+			defaultValY,
+			stepSizeY,
+			valueCallback,
+			setupCallback
+		);
+
+		return gui.addController(xySlider);
+	}
+	addTextbox(
+		name: string,
+		labelStr: string,
+		defaultVal: string,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) {
+		const textbox = new Components.Textbox(
+			gui,
+			name,
+			labelStr,
+			defaultVal,
+			valueCallback,
+			setupCallback
+		);
+		return gui.addController(textbox);
+	}
+
+	addResolutionTextBoxes(
+		defaulWidth: number,
+		defaultHeight: number,
+		valueCallback: valueCallback
+	) {
+		const resbox = new Components.ResolutionTextBoxes(
+			gui,
+			defaulWidth,
+			defaultHeight,
+			valueCallback
+		);
+		return gui.addController(resbox);
+	}
+
+	addTextArea(
+		name: string,
+		labelStr: string,
+		defaultVal: string,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) {
+		const textarea = new Components.TextArea(
+			gui,
+			name,
+			labelStr,
+			defaultVal,
+			valueCallback,
+			setupCallback
+		);
+		return gui.addController(textarea);
+	}
+
+	addCrementer(
+		name: string,
+		labelStr: string,
+		minVal: number,
+		maxVal: number,
+		defaultVal: number,
+		stepSize: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) {
+		const crementer = new Components.Crementer(
+			gui,
+			name,
+			labelStr,
+			minVal,
+			maxVal,
+			defaultVal,
+			stepSize,
+			valueCallback,
+			setupCallback
+		);
+		return gui.addController(crementer);
+	}
+
+	addColorBoxes(
+		name: string,
+		labelStr: string,
+		colors: string[],
+		defaultIndex: number,
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) {
+		const colourBoxes = new Components.ColorBoxes(
+			gui,
+			name,
+			labelStr,
+			colors,
+			defaultIndex,
+			valueCallback,
+			setupCallback
+		);
+		return gui.addController(colourBoxes);
+	}
+
+	addMultiColorBoxes(
+		name: string,
+		labelStr: string,
+		colors: string[],
+		defaultIndices: number[],
+		valueCallback?: valueCallback,
+		setupCallback?: setupCallback
+	) {
+		const multiColourBoxes = new Components.MultiColorBoxes(
+			gui,
+			name,
+			labelStr,
+			colors,
+			defaultIndices,
+			valueCallback,
+			setupCallback
+		);
+
+		return gui.addController(multiColourBoxes);
+	}
+
+	addTextLoader(
+		name: string,
+		labelStr: string,
+		fileReadyCallback?: fileReadyCallback,
+		setupCallback?: setupCallback
+	) {
+		const textLoader = new Components.TextFileLoader(
+			gui,
+			name,
+			labelStr,
+			fileReadyCallback,
+			setupCallback
+		);
+		return gui.addController(textLoader);
+	}
+
+	addJSONLoader(
+		name: string,
+		labelStr: string,
+		fileReadyCallback?: fileReadyCallback,
+		setupCallback?: setupCallback
+	) {
+		const JSONLoader = new Components.JSONFileLoader(
+			gui,
+			name,
+			labelStr,
+			fileReadyCallback,
+			setupCallback
+		);
+		return gui.addController(JSONLoader);
+	}
+
+	addImageLoader(
+		name: string,
+		labelStr: string,
+		fileReadyCallback?: fileReadyCallback,
+		setupCallback?: setupCallback
+	) {
+		const imageLoader = new Components.ImageLoader(
+			gui,
+			name,
+			labelStr,
+			fileReadyCallback,
+			setupCallback
+		);
+		return gui.addController(imageLoader);
+	}
+
+	addVideoLoader(
+		name: string,
+		labelStr: string,
+		fileReadyCallback?: fileReadyCallback,
+		setupCallback?: setupCallback
+	) {
+		const videoLoader = new Components.VideoLoader(
+			gui,
+			name,
+			labelStr,
+			fileReadyCallback,
+			setupCallback
+		);
+		return gui.addController(videoLoader);
+	}
+
+	addMediaLoader(
+		name: string,
+		labelStr: string,
+		fileReadyCallback?: fileReadyCallback,
+		setupCallback?: setupCallback
+	) {
+		const mediaLoader = new Components.MediaLoader(
+			gui,
+			name,
+			labelStr,
+			fileReadyCallback,
+			setupCallback
+		);
+		return gui.addController(mediaLoader);
 	}
 }

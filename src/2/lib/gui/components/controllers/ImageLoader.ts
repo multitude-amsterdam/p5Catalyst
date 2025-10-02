@@ -9,7 +9,7 @@ export class ImageLoader extends FileLoader {
 		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
-		fileReadyCallback: fileReadyCallback,
+		fileReadyCallback?: fileReadyCallback,
 		setupCallback?: setupCallback
 	) {
 		super(
@@ -19,7 +19,7 @@ export class ImageLoader extends FileLoader {
 			'image',
 			file => {
 				this.img = gui.sketch.loadImage(file.data, img => {
-					fileReadyCallback(img, this);
+					fileReadyCallback?.(img, this);
 				});
 				this.file = this.img;
 			},

@@ -4,6 +4,7 @@ import type { CatalystGUI } from '../gui/CatalystGUI';
 import { COLUMN, ROW } from '../gui/components/groups/Group';
 import { ffmpegInit } from '../ffmpeg';
 import { setVideoFormatSettings, videoFormats } from '../ffmpeg';
+import type { Controller } from '../gui/components/Controller';
 
 export function videoExportPlugin(): Plugin {
 	return {
@@ -60,20 +61,21 @@ export function videoExportPlugin(): Plugin {
 				recording: 'Saving frames...',
 				exporting: 'Exporting video...',
 			};
-
 			columnGroup?.addButton(
 				'startExport',
 				'Start export',
 				controller => {
-					if (!sketch.catalyst?.isRecording) {
-						gui.startRecording();
+					if (sketch.isRecording) {
+						sketch.catalyst?.cancelRecording();
+					} else {
+						sketch.catalyst?.startRecording();
 						const interval = setInterval(() => {
-							controller?.controllerElement?.html(
+							controller.controllerElement?.html(
 								buttonDisplayText[
-									container.sketchHook.getExportStatus()
+									sketch.catalyst?.exportStage || 'idle'
 								]
 							);
-							if (sketch.catalyst?.getExportStatus() === 'idle') {
+							if (sketch.catalyst?.exportStage === 'idle') {
 								clearInterval(interval);
 							}
 						}, 200);

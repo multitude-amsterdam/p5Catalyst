@@ -7,6 +7,9 @@ export const sketchSeedFunction = async (sketch: ExtensibleP5) => {
 
 	sketch.draw = () => {
 		sketch.background(128);
+
+		sketch.attemptDrawBackdrop();
+
 		sketch.noStroke();
 		sketch.fill(0);
 		sketch.circle(
@@ -15,5 +18,7 @@ export const sketchSeedFunction = async (sketch: ExtensibleP5) => {
 			sketch.height / 2,
 			100
 		);
+
+		sketch.attemptDrawOverlay();
 	};
 };

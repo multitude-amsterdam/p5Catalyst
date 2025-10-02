@@ -14,7 +14,7 @@ export class MediaLoader extends FileLoader {
 		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
-		fileReadyCallback: fileReadyCallback,
+		fileReadyCallback?: fileReadyCallback,
 		setupCallback?: setupCallback
 	) {
 		super(
@@ -34,7 +34,7 @@ export class MediaLoader extends FileLoader {
 				this.media?.hide();
 				this.file = this.media;
 
-				fileReadyCallback(this.media as p5.Element);
+				fileReadyCallback?.(this.media as p5.Element);
 			},
 			setupCallback
 		);

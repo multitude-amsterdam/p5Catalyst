@@ -29,8 +29,8 @@ export class BaseGroup extends Field {
 		return panel;
 	}
 
-	addTitle(hSize: number, text: string) {
-		const title = new Components.Title(this.gui, hSize, text);
+	addTitle(headerSize: number, text: string) {
+		const title = new Components.Title(this.gui, headerSize, text);
 		this.gui.addField(title);
 		this.attachField(title);
 		return title;

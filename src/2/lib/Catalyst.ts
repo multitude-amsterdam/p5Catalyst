@@ -9,6 +9,7 @@ import type {
 import p5 from 'p5';
 import { CatalystGUI } from './gui/CatalystGUI';
 import { getTimestamp } from './utils';
+import { saveToLocalFFMPEG, ffmpegCreateVideo } from './ffmpeg';
 
 declare global {
 	var sketch: ExtensibleP5;
@@ -21,17 +22,54 @@ export class Catalyst {
 	#duration: number = 10;
 	#fps: number = 30;
 	#animationFrameCount: number = -1;
+	#exportStage: 'idle' | 'recording' | 'exporting' = 'idle';
 
 	constructor(
 		userSketchSeed: sketchSeedFunction,
 		createUserGui: (gui: CatalystGUI, sketch: ExtensibleP5) => void,
 		userPlugins?: Plugin[]
 	) {
-		globalThis.sketch = new p5(async (sketch: ExtensibleP5) => {
-			await userSketchSeed(sketch);
+		this.setNFrames();
 
-			// store Catalyst object in sketch
+		globalThis.sketch = new p5(async (sketch: ExtensibleP5) => {
+			sketch.attemptDrawBackdrop = () => {
+				if (!sketch.backdrop) return;
+				sketch.image(
+					sketch.backdrop,
+					0,
+					0,
+					sketch.width,
+					sketch.height,
+					0,
+					0,
+					sketch.backdrop.width,
+					sketch.backdrop.height,
+					sketch.COVER
+				);
+			};
+
+			sketch.attemptDrawOverlay = () => {
+				if (!sketch.overlay) return;
+				sketch.image(
+					sketch.overlay,
+					0,
+					0,
+					sketch.width,
+					sketch.height,
+					0,
+					0,
+					sketch.overlay.width,
+					sketch.overlay.height,
+					sketch.COVER
+				);
+			};
+
+			sketch.isPlaying = true;
+			sketch.isRecording = false;
+
 			sketch.catalyst = this;
+
+			await userSketchSeed(sketch);
 
 			const {
 				setup: userSetup,
@@ -40,16 +78,12 @@ export class Catalyst {
 				keyPressed: userKeyPressed,
 			} = sketch;
 
-			const defaultFrameRate = 30;
-
-			sketch.isPlaying = true;
-
 			sketch.setup = async () => {
 				sketch.canvas = sketch.createCanvas(500, 500);
 				sketch.createCanvasWrapper();
 				sketch.containCanvasInWrapper();
 
-				sketch.frameRate(defaultFrameRate);
+				sketch.frameRate(this.#fps);
 
 				await userSetup?.(); // (user-defined)
 
@@ -83,7 +117,56 @@ export class Catalyst {
 			};
 
 			sketch.draw = () => {
+				sketch.progress = sketch.frameCount / this.#animationFrameCount;
+
+				if (sketch.backdrop) {
+					sketch.image(
+						sketch.backdrop,
+						0,
+						0,
+						sketch.width,
+						sketch.height,
+						0,
+						0,
+						sketch.backdrop.width,
+						sketch.backdrop.height,
+						sketch.COVER
+					);
+				}
+
 				userDraw?.(); // (user-defined)
+
+				if (sketch.overlay) {
+					sketch.image(
+						sketch.overlay,
+						0,
+						0,
+						sketch.width,
+						sketch.height,
+						0,
+						0,
+						sketch.overlay.width,
+						sketch.overlay.height,
+						sketch.COVER
+					);
+				}
+
+				if (sketch.isRecording) {
+					if (sketch.frameCount < this.#animationFrameCount) {
+						this.#exportStage = 'recording';
+						saveToLocalFFMPEG(sketch.canvas);
+					} else {
+						sketch.isRecording = false;
+						this.#exportStage = 'exporting';
+						ffmpegCreateVideo(
+							sketch.width,
+							sketch.height,
+							this.#fps
+						).then(() => {
+							this.#exportStage = 'idle';
+						});
+					}
+				}
 			};
 
 			sketch.keyPressed = (event: KeyboardEvent) => {
@@ -104,7 +187,6 @@ export class Catalyst {
 			};
 		});
 		// sketch can be globally accessed from now on
-		this.setNFrames();
 	}
 
 	createCanvasWrapper() {
@@ -186,7 +268,7 @@ export class Catalyst {
 		this.#fps = fps;
 		this.setNFrames();
 
-		sketch.frameRate(fps);
+		sketch?.frameRate(fps);
 	}
 
 	setNFrames(duration?: number, fps?: number) {
@@ -203,5 +285,30 @@ export class Catalyst {
 	}
 	get animationFrameCount() {
 		return this.#animationFrameCount;
+	}
+
+	startRecording() {
+		sketch.isRecording = true;
+		sketch.isPlaying = true;
+		sketch.frameCount = 0;
+		console.log('Recording started.');
+	}
+
+	stopRecording() {
+		sketch.isRecording = false;
+		sketch.isPlaying = false;
+		console.log('Recording ended.');
+		ffmpegCreateVideo(sketch.width, sketch.height, this.#fps, () => {
+			this.#exportStage = 'idle';
+		});
+	}
+
+	cancelRecording() {
+		sketch.isRecording = false;
+		sketch.isPlaying = false;
+	}
+
+	get exportStage() {
+		return this.#exportStage;
 	}
 }

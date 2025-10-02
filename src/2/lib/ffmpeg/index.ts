@@ -134,9 +134,10 @@ function downloadBlob(blob: Blob, filename: string) {
 export async function ffmpegCreateVideo(
 	width: number,
 	height: number,
-	fps: number
+	fps: number,
+	finalCallback?: () => void
 ) {
-	console.log('exporting');
+	console.log('Exporting video...');
 
 	let fileName = `${width}x${height}@${fps}fps_${getTimestamp().base64}`;
 	const outputFile = fileName + '.' + videoExportSettings.ext;
@@ -191,4 +192,6 @@ export async function ffmpegCreateVideo(
 	// need to clean frames to prevent newer shorter animatinos to include old frames
 	await ffmpeg.deleteDir('/frames');
 	isFramesDirectoryCreated = false;
+
+	finalCallback?.();
 }

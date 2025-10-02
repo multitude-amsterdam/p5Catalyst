@@ -7,7 +7,7 @@ export class JSONFileLoader extends FileLoader {
 		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
-		fileReadyCallback: fileReadyCallback,
+		fileReadyCallback?: fileReadyCallback,
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, labelStr, 'json', fileReadyCallback, setupCallback);

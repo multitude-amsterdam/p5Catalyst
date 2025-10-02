@@ -7,18 +7,18 @@ export class Panel extends BaseGroup {
 	container: p5.Element;
 	gui: CatalystGUI;
 
-	constructor(gui: CatalystGUI, name: string, open?: boolean) {
+	constructor(gui: CatalystGUI, name: string, isOpen?: boolean) {
 		name = gui.lang.process(name, true);
 		const id = name.toLowerCase().replace(/\s+/g, '-');
 		super(gui, id, 'panel');
 
 		this.gui = gui;
 
-		let detailElement = gui.sketch.createElement(
+		const detailElement = gui.sketch.createElement(
 			'details',
 			`<summary>${name}</summary>`
 		);
-		detailElement.elt.open = open;
+		detailElement.elt.open = isOpen;
 		this.container = gui.sketch
 			.createElement('div')
 			.addClass('panel-container');
@@ -30,7 +30,7 @@ export class Panel extends BaseGroup {
 		this.container.child(field.div);
 	}
 
-	isClosed() {
+	isOpen() {
 		return (this.div.elt.firstChild as HTMLDetailsElement).open === false;
 	}
 
@@ -43,10 +43,10 @@ export class Panel extends BaseGroup {
 	}
 
 	toggle() {
-		if (this.isClosed()) {
-			this.open();
-		} else {
+		if (this.isOpen()) {
 			this.close();
+		} else {
+			this.open();
 		}
 	}
 }
