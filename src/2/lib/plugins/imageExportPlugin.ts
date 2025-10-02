@@ -4,10 +4,10 @@ import type {
 	GUIControllerInterface,
 	Plugin,
 	Container,
+	ImageFileType,
 } from '../types';
-import type { imageFileType } from '../types/plugin';
 
-export function imageExportPlugin(fileType: imageFileType): Plugin {
+export function imageExportPlugin(fileType: ImageFileType): Plugin {
 	return {
 		name: 'image_export',
 		setup: (

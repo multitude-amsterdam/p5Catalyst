@@ -8,7 +8,7 @@ import type {
 	fileReadyCallback,
 	setupCallback,
 	valueCallback,
-} from './controller';
+} from '../../2/lib/types/controller';
 
 import type {
 	Button,

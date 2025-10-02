@@ -1,11 +1,7 @@
 import type { ExtensibleP5 } from './lib/Catalyst';
 import type { CatalystGUI } from './lib/CatalystGUI';
 
-export interface Plugin {
-	name: string;
-	beforeCreateGui?: (gui: CatalystGUI, sketch: ExtensibleP5) => void;
-	afterCreateGui?: (gui: CatalystGUI, sketch: ExtensibleP5) => void;
-}
+import type { Plugin } from './lib/types';
 
 export const plugins: Plugin[] = [
 	{

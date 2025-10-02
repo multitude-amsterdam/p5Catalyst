@@ -3,7 +3,7 @@ import type { GUIForP5 } from '../../GUIForP5';
 import { ValuedController } from '../ValuedController';
 import type { setupCallback, valueCallback } from '../../../types';
 import type { Controller } from '../Controller';
-import type { P5SelectElement } from '../../../types/controller';
+import type { P5SelectElement } from '../../../../2/lib/types/controller';
 
 /**
  * Radio buttons displaying colored options.

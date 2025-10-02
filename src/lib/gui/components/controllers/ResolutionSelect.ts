@@ -1,4 +1,7 @@
-import type { setupCallback, valueCallback } from '../../../types/controller';
+import type {
+	setupCallback,
+	valueCallback,
+} from '../../../../2/lib/types/controller';
 import type { GUIForP5 } from '../../GUIForP5';
 import { Select } from './Select';
 /**

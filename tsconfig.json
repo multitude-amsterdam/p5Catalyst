@@ -31,5 +31,5 @@
 		// 	"utils/*": ["src/lib/utils/*"]
 		// }
 	},
-	"include": ["src"]
+	"include": ["src/2"]
 }

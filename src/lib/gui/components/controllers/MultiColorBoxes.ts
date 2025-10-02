@@ -6,7 +6,7 @@ import { Controller } from '../Controller';
 import type {
 	P5CheckboxElement,
 	P5SelectElement,
-} from '../../../types/controller';
+} from '../../../../2/lib/types/controller';
 
 /**
  * Multiple selectable color checkboxes.

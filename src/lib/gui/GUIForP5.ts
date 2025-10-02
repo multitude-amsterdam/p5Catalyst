@@ -5,7 +5,10 @@ import { Controller } from './components/Controller';
 import { ValuedController } from './components/ValuedController';
 
 import type { State, Config, LangCode } from '../types';
-import type { ControllerValue, Serializable } from '../types/controller';
+import type {
+	ControllerValue,
+	Serializable,
+} from '../../2/lib/types/controller';
 import type { Container, SketchHook } from '../types/construction';
 
 import { Randomizer } from './Randomizer';
