@@ -69,8 +69,10 @@ export class Catalyst {
 
 			sketch.catalyst = this;
 
+			// load user properties onto sketch
 			await userSketchSeed(sketch);
 
+			// extract relevant user properties
 			const {
 				setup: userSetup,
 				draw: userDraw,
@@ -80,12 +82,12 @@ export class Catalyst {
 
 			sketch.setup = async () => {
 				sketch.canvas = sketch.createCanvas(500, 500);
-				sketch.createCanvasWrapper();
-				sketch.containCanvasInWrapper();
+				this.createCanvasWrapper();
+				this.containCanvasInWrapper();
 
 				sketch.frameRate(this.#fps);
 
-				await userSetup?.(); // (user-defined)
+				await userSetup?.();
 
 				const config: Config = {};
 
@@ -117,6 +119,10 @@ export class Catalyst {
 			};
 
 			sketch.draw = () => {
+				if (!sketch.isRecording && !sketch.isPlaying) {
+					sketch.frameCount--;
+				}
+
 				sketch.progress = sketch.frameCount / this.#animationFrameCount;
 
 				if (sketch.backdrop) {
@@ -134,7 +140,7 @@ export class Catalyst {
 					);
 				}
 
-				userDraw?.(); // (user-defined)
+				userDraw?.();
 
 				if (sketch.overlay) {
 					sketch.image(
@@ -177,13 +183,13 @@ export class Catalyst {
 						sketch.isPlaying = !sketch.isPlaying;
 						return;
 					default:
-						userKeyPressed?.(event); // (user-defined)
+						userKeyPressed?.(event);
 				}
 			};
 
 			sketch.windowResized = (event: UIEvent) => {
-				userWindowResized?.(event); // (user-defined)
-				sketch.containCanvasInWrapper();
+				userWindowResized?.(event);
+				this.containCanvasInWrapper();
 			};
 		});
 		// sketch can be globally accessed from now on

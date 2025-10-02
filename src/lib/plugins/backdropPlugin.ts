@@ -8,19 +8,11 @@ export function backdropPlugin(): Plugin {
 	return {
 		name: 'backdrop',
 
-		beforeUserCreatesGui(
-			gui: CatalystGUI,
-			sketch: ExtensibleP5,
-			config: Config
-		) {
+		beforeUserCreatesGui(gui, sketch, config) {
 			if (config) config.doClearBackground = true;
 		},
 
-		afterUserCreatesGui: (
-			gui: CatalystGUI,
-			sketch: ExtensibleP5,
-			config: Config
-		) => {
+		afterUserCreatesGui: (gui, sketch, config) => {
 			const appearanceTab = gui.getTab('appearance');
 
 			const panel = appearanceTab?.addPanel('Backdrop & overlay');

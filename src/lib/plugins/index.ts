@@ -7,3 +7,4 @@ export * from './resolutionPlugin';
 export * from './setConfigPlugin';
 export * from './storeSettingsPlugin';
 export * from './videoExportPlugin';
+export * from './appTitlePlugin';

@@ -1,27 +1,30 @@
-import type { ExtensibleP5, Config, Plugin } from './lib/types';
-import type { CatalystGUI } from './lib/gui/CatalystGUI';
-import { defaultPlugins, setConfigPlugin } from './lib/plugins';
+import type { Plugin } from './lib/types';
+import {
+	appTitlePlugin,
+	defaultPlugins,
+	randomizerPlugin,
+} from './lib/plugins';
 
 export const plugins: Plugin[] = [
-	setConfigPlugin({}),
+	appTitlePlugin('CircleGen'),
 
 	...defaultPlugins,
-	{
-		name: 'test',
+	randomizerPlugin([
+		'colorBoxesCircle',
+		'sliderCircleDiameter',
+		'colorBoxesBg',
+		'sliderNBg',
+	]),
 
-		beforeUserCreatesGui: (
-			gui: CatalystGUI,
-			sketch: ExtensibleP5,
-			config?: Config
-		) => {
+	{
+		name: 'customPlugin',
+		beforeGuiExists(sketch, config) {
+			console.log('beforeGuiExists!');
+		},
+		beforeUserCreatesGui: (gui, sketch, config) => {
 			console.log('beforeUserCreatesGui!');
 		},
-
-		afterUserCreatesGui: (
-			gui: CatalystGUI,
-			sketch: ExtensibleP5,
-			config?: Config
-		) => {
+		afterUserCreatesGui: (gui, sketch, config) => {
 			console.log('afterUserCreatesGui!');
 		},
 	},
