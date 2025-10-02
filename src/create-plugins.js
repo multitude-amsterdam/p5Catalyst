@@ -1,11 +1,10 @@
-import type { Plugin } from './lib/types';
 import {
 	appTitlePlugin,
 	defaultPlugins,
 	randomizerPlugin,
 } from './lib/plugins';
 
-export const plugins: Plugin[] = [
+export const plugins = [
 	appTitlePlugin('CircleGen'),
 
 	...defaultPlugins,

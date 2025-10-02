@@ -1,7 +1,4 @@
-import type { ExtensibleP5 } from './lib/types';
-import type { CatalystGUI } from './lib/gui/CatalystGUI';
-
-export function createGui(gui: CatalystGUI, sketch: ExtensibleP5) {
+export function createGui(gui, sketch) {
 	const appearanceTab = gui.getTab('appearance');
 
 	const circlePanel = appearanceTab?.addPanel('Circle', true);

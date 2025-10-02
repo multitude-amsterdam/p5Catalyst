@@ -1,11 +1,7 @@
-import type { ExtensibleP5, sketchSeedFunction } from './lib/types';
-
-export const sketchSeed: sketchSeedFunction = async (sketch: ExtensibleP5) => {
-	sketch.q = 13;
-
+export const sketchSeed = async sketch => {
 	sketch.setup = async () => {
-		sketch.circleColor = sketch.color(0);
 		sketch.circleDiameter = 0.5;
+		sketch.circleColor = sketch.color(0);
 		sketch.bgColor = sketch.color(0);
 		sketch.nBgElements = 5;
 
