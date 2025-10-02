@@ -1,19 +1,14 @@
+import type { ExtensibleP5, Config, Plugin, ImageFileType } from '../types';
+import type { CatalystGUI } from '../gui/CatalystGUI';
 import { COLUMN, ROW } from '../gui/components/groups/Group';
-import type {
-	Config,
-	GUIControllerInterface,
-	Plugin,
-	Container,
-	ImageFileType,
-} from '../types';
 
 export function imageExportPlugin(fileType: ImageFileType): Plugin {
 	return {
 		name: 'image_export',
-		setup: (
-			gui: GUIControllerInterface,
-			container: Container,
-			config?: Config
+		afterUserCreatesGui: (
+			gui: CatalystGUI,
+			sketch: ExtensibleP5,
+			config: Config
 		) => {
 			if (
 				fileType !== 'jpg' &&
@@ -34,7 +29,7 @@ export function imageExportPlugin(fileType: ImageFileType): Plugin {
 				'buttonCopyPNG',
 				'LANG_COPY_TO_CLIPBOARD',
 				controller => {
-					container.sketchHook?.copyCanvasToClipboard();
+					sketch.catalyst?.copyCanvasToClipboard();
 				}
 			);
 
@@ -42,7 +37,7 @@ export function imageExportPlugin(fileType: ImageFileType): Plugin {
 				'buttonDownloadImage',
 				'LANG_DOWNLOAD_IMAGE',
 				controller => {
-					container.sketchHook?.exportImage(fileType, fileName);
+					sketch.catalyst?.exportImage(fileType, fileName);
 				}
 			);
 

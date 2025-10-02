@@ -1,28 +1,28 @@
 import type p5 from 'p5';
-import type { GUIForP5 } from '../GUIForP5';
+import type { CatalystGUI } from '../CatalystGUI';
 
 /**
  * Base GUI element container used by controllers.
  */
 export class Field {
-	/**
-	 * Creates a new Field instance.
-	 * @param {p5} p5Instance - The p5Instance.
-	 * @param {p5.Element} parentDiv - The parent element to attach the field to.
-	 * @param {string} id - The ID to assign to the field (optional).
-	 * @param {string} className - The CSS class to assign to the field (optional).
-	 */
-	gui: GUIForP5;
+	gui: CatalystGUI;
 	div: p5.Element;
 
+	/**
+	 * Creates a new Field instance.
+	 * @param {CatalystGUI} sketch - The sketch.
+	 * @param {string} id - The ID to assign to the field (optional).
+	 * @param {string} className - The CSS class to assign to the field (optional).
+	 * @param {[p5.Element]} parentDiv - The parent element to attach the field to.
+	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		id: string,
 		className: string,
 		parentDiv?: p5.Element
 	) {
 		this.gui = gui;
-		this.div = gui.p5Instance.createDiv();
+		this.div = gui.sketch.createDiv();
 		this.div.parent(parentDiv || gui.div);
 		if (id !== '') this.div.id(id);
 		this.div.class(className);

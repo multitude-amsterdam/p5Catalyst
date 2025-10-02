@@ -1,12 +1,12 @@
 import type { P5Button } from 'src/2/lib/types/controller';
-import type { GUIForP5 } from '../GUIForP5';
+import type { CatalystGUI } from '../CatalystGUI';
 
 export class GUIButton {
 	button: P5Button;
-	gui: GUIForP5;
-	constructor(gui: GUIForP5, callback?: () => void) {
+	gui: CatalystGUI;
+	constructor(gui: CatalystGUI, callback?: () => void) {
 		this.gui = gui;
-		this.button = gui.p5Instance.createButton('') as P5Button;
+		this.button = gui.sketch.createButton('') as P5Button;
 		if (callback) this.button.mousePressed(callback);
 	}
 }

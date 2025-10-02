@@ -1,9 +1,10 @@
-import type { GUIForP5 } from '../GUIForP5';
 import type { setupCallback } from '../../types';
-import { Field } from './Field';
-import p5 from 'p5';
-import type { DieIcon } from '../gui-components/DieIcon';
+import type { CatalystGUI } from '../CatalystGUI';
 import type { Randomizer } from '../Randomizer';
+import type { DieIcon } from '../gui-components/DieIcon';
+
+import p5 from 'p5';
+import { Field } from './Field';
 import { Label } from './fields/Label';
 
 /**
@@ -85,13 +86,13 @@ export class Controller extends Field {
 
 	/**
 	 * Constructor for the Controller class.
-	 * @param {GUIForP5} gui - The GUI instance this controller belongs to.
+	 * @param {CatalystGUI} gui - The GUI instance this controller belongs to.
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label text for the controller.
 	 * @param {SetupCallback} [setupCallback] - Optional callback function for setup.
 	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		setupCallback?: setupCallback
@@ -104,7 +105,7 @@ export class Controller extends Field {
 			this.label = new Label(gui, this, labelStr, this.div);
 		}
 
-		this.controllerWrapper = gui.p5Instance.createDiv();
+		this.controllerWrapper = gui.sketch.createDiv();
 		this.controllerWrapper.class('controller-wrapper');
 		this.controllerWrapper.parent(this.div);
 

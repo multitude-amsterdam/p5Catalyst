@@ -8,7 +8,7 @@ import type {
 	valueCallback,
 } from '../../types';
 import { Controller } from './Controller';
-import type { GUIForP5 } from '../GUIForP5';
+import type { CatalystGUI } from '../CatalystGUI';
 
 /**
  * Controller that holds a value which can be serialized.
@@ -38,13 +38,13 @@ export class ValuedController extends Controller {
 
 	/**
 	 * Constructor for ValuedController.
-	 * @param {GUIForP5} gui
+	 * @param {CatalystGUI} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		defaultValue: ControllerValue,
@@ -59,7 +59,7 @@ export class ValuedController extends Controller {
 
 	resetToDefault() {
 		if (this.defaultValue instanceof p5.Color) {
-			this.value = this.gui.p5Instance.color(this.defaultValue);
+			this.value = this.gui.sketch.color(this.defaultValue);
 		} else if (this.defaultValue instanceof p5.Vector) {
 			this.value = this.defaultValue.copy();
 		} else {
@@ -169,10 +169,10 @@ export class ValuedController extends Controller {
 	 * @see restoreSerializedColor
 	 */
 	serializeColor(color: p5.Color): SerializedColor {
-		const r = this.gui.p5Instance.red(color);
-		const g = this.gui.p5Instance.green(color);
-		const b = this.gui.p5Instance.blue(color);
-		const a = this.gui.p5Instance.alpha(color);
+		const r = this.gui.sketch.red(color);
+		const g = this.gui.sketch.green(color);
+		const b = this.gui.sketch.blue(color);
+		const a = this.gui.sketch.alpha(color);
 		return { r, g, b, a };
 	}
 	/**
@@ -180,10 +180,10 @@ export class ValuedController extends Controller {
 	 */
 	restoreSerializedColor(color: SerializedColor): p5.Color {
 		const { r, g, b, a } = color;
-		this.gui.p5Instance.push();
-		this.gui.p5Instance.colorMode(this.gui.p5Instance.RGB);
-		const col = this.gui.p5Instance.color(r, g, b, a);
-		this.gui.p5Instance.pop();
+		this.gui.sketch.push();
+		this.gui.sketch.colorMode(this.gui.sketch.RGB);
+		const col = this.gui.sketch.color(r, g, b, a);
+		this.gui.sketch.pop();
 		return col;
 	}
 }

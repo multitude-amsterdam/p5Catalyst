@@ -1,5 +1,5 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { ValuedController } from '../ValuedController';
 import { Controller } from '../Controller';
 
@@ -16,7 +16,7 @@ export class Toggle extends ValuedController {
 
 	/**
 	 * Constructor for Toggle.
-	 * @param {GUIForP5} gui
+	 * @param {CatalystGUI} gui
 	 * @param {string} name
 	 * @param {string} labelStr0
 	 * @param {string} labelStr1
@@ -25,7 +25,7 @@ export class Toggle extends ValuedController {
 	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr0: string,
 		labelStr1: string,
@@ -34,14 +34,14 @@ export class Toggle extends ValuedController {
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, '', isToggled, setupCallback);
-		this.controllerElement = gui.p5Instance.createButton('');
+		this.controllerElement = gui.sketch.createButton('');
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.class('toggle');
 
 		labelStr0 = gui.lang.process(labelStr0, true);
 		labelStr1 = gui.lang.process(labelStr1, true);
-		const span0 = gui.p5Instance.createSpan(labelStr0);
-		const span1 = gui.p5Instance.createSpan(labelStr1);
+		const span0 = gui.sketch.createSpan(labelStr0);
+		const span1 = gui.sketch.createSpan(labelStr1);
 		span0.parent(this.controllerElement);
 		span1.parent(this.controllerElement);
 
@@ -79,6 +79,6 @@ export class Toggle extends ValuedController {
 	 * Randomizes the toggle value.
 	 */
 	randomize() {
-		this.setValue(this.gui.p5Instance.random(1) < 0.5);
+		this.setValue(this.gui.sketch.random(1) < 0.5);
 	}
 }

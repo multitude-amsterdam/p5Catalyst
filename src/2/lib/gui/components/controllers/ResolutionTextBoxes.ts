@@ -1,6 +1,6 @@
 import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { ValuedController } from '../ValuedController';
 import { Textbox } from './Textbox';
 
@@ -12,16 +12,8 @@ export class ResolutionTextBoxes extends ValuedController {
 	wBox: Textbox;
 	hBox: Textbox;
 
-	/**
-	 * Constructor for ResolutionTextBoxes.
-	 * @param {GUIForP5} gui - The GUI instance.
-	 * @param {number} defaultWidth - Default width value.
-	 * @param {number} defaultHeight - Default height value.
-	 * @param {function} valueCallback - Callback function for value changes.
-	 * @param {function} [setupCallback] - Optional setup callback.
-	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		defaultWidth: number,
 		defaultHeight: number,
 		valueCallback?: valueCallback,
@@ -31,11 +23,9 @@ export class ResolutionTextBoxes extends ValuedController {
 			gui,
 			'resolutionTextboxes',
 			'',
-			gui.p5Instance.createVector(defaultWidth, defaultHeight),
+			gui.sketch.createVector(defaultWidth, defaultHeight),
 			setupCallback
 		);
-		// this.value = defaultWidth;
-		// this.h = defaultHeight;
 		this.wBox = new Textbox(
 			gui,
 			'resolutionTextBoxes-Width',
@@ -46,7 +36,7 @@ export class ResolutionTextBoxes extends ValuedController {
 				const pxDim = parseInt(textBoxValue as string);
 				if (isNaN(pxDim)) return;
 				value.x = pxDim;
-				gui.state.resize?.(value.x, value.y);
+				gui.sketch.catalyst?.resizeCanvas(value.x, value.y);
 				if (valueCallback) valueCallback(this, this.value);
 			}
 		);
@@ -60,7 +50,7 @@ export class ResolutionTextBoxes extends ValuedController {
 				const pxDim = parseInt(textBoxValue as string);
 				if (isNaN(pxDim)) return;
 				value.y = pxDim;
-				gui.state.resize?.(value.x, value.y);
+				gui.sketch.catalyst?.resizeCanvas(value.x, value.y);
 				if (valueCallback) valueCallback(this, this.value);
 			}
 		);

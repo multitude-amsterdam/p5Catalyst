@@ -1,6 +1,6 @@
 import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { ValuedController } from '../ValuedController';
 import { Controller } from '../Controller';
 
@@ -21,7 +21,7 @@ export class XYSlider extends ValuedController {
 	isDragging: boolean;
 
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		minValX: number,
@@ -39,7 +39,7 @@ export class XYSlider extends ValuedController {
 			gui,
 			name,
 			labelStr,
-			gui.p5Instance.createVector(defaultValX, defaultValY),
+			gui.sketch.createVector(defaultValX, defaultValY),
 			controller => {
 				this.setDisplay();
 				if (setupCallback !== undefined) setupCallback(controller);
@@ -54,10 +54,10 @@ export class XYSlider extends ValuedController {
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
 
-		this.controllerElement = gui.p5Instance.createDiv();
+		this.controllerElement = gui.sketch.createDiv();
 		this.controllerElement.class('xyslider');
 		this.controllerElement.parent(this.controllerWrapper);
-		const handle = gui.p5Instance.createDiv();
+		const handle = gui.sketch.createDiv();
 		handle.class('handle');
 		handle.parent(this.controllerElement);
 		this.handle = handle;
@@ -84,7 +84,7 @@ export class XYSlider extends ValuedController {
 			this.setValue(this.getValueFromHandlePosition(e));
 		});
 
-		this.value = gui.p5Instance.createVector(defaultValX, defaultValY);
+		this.value = gui.sketch.createVector(defaultValX, defaultValY);
 		this.valueCallback(this, this.value);
 		this.setDisplay();
 	}
@@ -104,25 +104,25 @@ export class XYSlider extends ValuedController {
 
 		const handleW = this.handle.elt.offsetWidth;
 		const handleH = this.handle.elt.offsetHeight;
-		x = this.gui.p5Instance.constrain(
+		x = this.gui.sketch.constrain(
 			x,
 			-handleW / 2,
 			rect.width - handleW / 2
 		);
-		y = this.gui.p5Instance.constrain(
+		y = this.gui.sketch.constrain(
 			y,
 			-handleH / 2,
 			rect.height - handleH / 2
 		);
 
-		let normX = this.gui.p5Instance.map(
+		let normX = this.gui.sketch.map(
 			x,
 			-handleW / 2,
 			rect.width - handleW / 2,
 			-1,
 			1
 		);
-		let normY = this.gui.p5Instance.map(
+		let normY = this.gui.sketch.map(
 			y,
 			-handleH / 2,
 			rect.height - handleH / 2,
@@ -131,33 +131,33 @@ export class XYSlider extends ValuedController {
 		);
 
 		return this.mapSteppedFromNormedVec(
-			this.gui.p5Instance.createVector(normX, normY)
+			this.gui.sketch.createVector(normX, normY)
 		);
 	}
 
 	mapSteppedFromNormedVec(normedVec: p5.Vector) {
 		// snap to axes
-		if (this.gui.p5Instance.abs(normedVec.x) < 0.033) normedVec.x = 0;
-		if (this.gui.p5Instance.abs(normedVec.y) < 0.033) normedVec.y = 0;
+		if (this.gui.sketch.abs(normedVec.x) < 0.033) normedVec.x = 0;
+		if (this.gui.sketch.abs(normedVec.y) < 0.033) normedVec.y = 0;
 
-		const nStepsX = this.gui.p5Instance.round(
+		const nStepsX = this.gui.sketch.round(
 			(this.maxValX - this.minValX) / this.stepSizeX
 		);
-		const nStepsY = this.gui.p5Instance.round(
+		const nStepsY = this.gui.sketch.round(
 			(this.maxValY - this.minValY) / this.stepSizeY
 		);
 
 		const returnX =
 			this.minValX +
-			(this.gui.p5Instance.round((normedVec.x * 0.5 + 0.5) * nStepsX) /
+			(this.gui.sketch.round((normedVec.x * 0.5 + 0.5) * nStepsX) /
 				nStepsX) *
 				(this.maxValX - this.minValX);
 		const returnY =
 			this.minValY +
-			(this.gui.p5Instance.round((normedVec.y * 0.5 + 0.5) * nStepsY) /
+			(this.gui.sketch.round((normedVec.y * 0.5 + 0.5) * nStepsY) /
 				nStepsY) *
 				(this.maxValY - this.minValY);
-		const returnVector = this.gui.p5Instance.createVector(returnX, returnY);
+		const returnVector = this.gui.sketch.createVector(returnX, returnY);
 		return returnVector;
 	}
 
@@ -183,14 +183,14 @@ export class XYSlider extends ValuedController {
 		rect.height -= borderW * 2;
 		const handleW = this.handle.elt.offsetWidth;
 		const handleH = this.handle.elt.offsetHeight;
-		const feedbackX = this.gui.p5Instance.map(
+		const feedbackX = this.gui.sketch.map(
 			(this.value as p5.Vector).x,
 			this.minValX,
 			this.maxValX,
 			-handleW / 2,
 			rect.width - handleW / 2
 		);
-		const feedbackY = this.gui.p5Instance.map(
+		const feedbackY = this.gui.sketch.map(
 			(this.value as p5.Vector).y,
 			this.minValY,
 			this.maxValY,
@@ -208,11 +208,11 @@ export class XYSlider extends ValuedController {
 	}
 
 	randomize() {
-		const randomX = this.gui.p5Instance.random(-1, 1);
-		const randomY = this.gui.p5Instance.random(-1, 1);
+		const randomX = this.gui.sketch.random(-1, 1);
+		const randomY = this.gui.sketch.random(-1, 1);
 		this.setValue(
 			this.mapSteppedFromNormedVec(
-				this.gui.p5Instance.createVector(randomX, randomY)
+				this.gui.sketch.createVector(randomX, randomY)
 			)
 		);
 	}

@@ -1,6 +1,6 @@
 import type p5 from 'p5';
 import type { setupCallback, fileReadyCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { Button } from './Button';
 
 export class FileLoader extends Button {
@@ -9,7 +9,7 @@ export class FileLoader extends Button {
 	fileName?: string;
 
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		fileType: string,
@@ -28,7 +28,7 @@ export class FileLoader extends Button {
 
 		this.fileType = fileType;
 
-		this.controllerElement = gui.p5Instance.createFileInput(file => {
+		this.controllerElement = gui.sketch.createFileInput(file => {
 			this.file = file;
 			this.fileName = file.name;
 			if (fileReadyCallback) fileReadyCallback(file, this);

@@ -1,6 +1,6 @@
 import type p5 from 'p5';
 import type { setupCallback, valueCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { ValuedController } from '../ValuedController';
 import { Controller } from '../Controller';
 import type {
@@ -25,7 +25,7 @@ export class MultiColorBoxes extends ValuedController {
 
 	/**
 	 * Constructor for MultiColorBoxes.
-	 * @param {GUIForP5} gui
+	 * @param {CatalystGUI} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {Array<p5.Color>} colors - Array of p5.Color objects.
@@ -34,7 +34,7 @@ export class MultiColorBoxes extends ValuedController {
 	 * @param {function} [setupCallback] - Optional setup callback function.
 	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		colors: string[],
@@ -63,13 +63,12 @@ export class MultiColorBoxes extends ValuedController {
 			this.controllerElement.remove();
 		}
 
-		const div = this.gui.p5Instance.createDiv();
+		const div = this.gui.sketch.createDiv();
 		div.class('color-boxes');
 		this.controllerWrapper.elt.prepend(div.elt);
 		this.checkboxes = [];
 		for (let i = 0; i < this.colors.length; i++) {
-			const cb =
-				this.gui.p5Instance.createCheckbox() as P5CheckboxElement;
+			const cb = this.gui.sketch.createCheckbox() as P5CheckboxElement;
 			cb.parent(div);
 			cb.value('' + i);
 			cb.elt.addEventListener('click', () => {
@@ -103,9 +102,7 @@ export class MultiColorBoxes extends ValuedController {
 	 */
 	setValueFromIndices(indices: number[]) {
 		this.valueIndices = indices;
-		this.value = indices.map(i =>
-			this.gui.p5Instance.color(this.colors[i])
-		);
+		this.value = indices.map(i => this.gui.sketch.color(this.colors[i]));
 		this.checkboxes?.forEach((cb, i) => {
 			cb.checked(indices.includes(i));
 		});
@@ -123,12 +120,12 @@ export class MultiColorBoxes extends ValuedController {
 	randomize() {
 		const indices = [];
 		for (let i = 0; i < this.colors.length; i++) {
-			if (this.gui.p5Instance.random(1) < 0.5) indices.push(i);
+			if (this.gui.sketch.random(1) < 0.5) indices.push(i);
 		}
 		if (indices.length === 0)
 			indices.push(
-				this.gui.p5Instance.floor(
-					this.gui.p5Instance.random(this.colors.length)
+				this.gui.sketch.floor(
+					this.gui.sketch.random(this.colors.length)
 				)
 			);
 		this.setValueFromIndices(indices);

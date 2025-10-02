@@ -1,9 +1,14 @@
-import p5 from 'p5';
-import { CatalystGUI } from './CatalystGUI';
-import type { Plugin } from '../plugins';
+import type {
+	Plugin,
+	ExtensibleP5,
+	sketchSeedFunction,
+	Config,
+	ImageFileType,
+} from './types';
 
-export type ExtensibleP5 = p5 & { [key: string]: any };
-export type sketchSeedFunction = (sketch: ExtensibleP5) => void;
+import p5 from 'p5';
+import { CatalystGUI } from './gui/CatalystGUI';
+import { getTimestamp } from './utils';
 
 declare global {
 	var sketch: ExtensibleP5;
@@ -11,16 +16,22 @@ declare global {
 }
 
 export class Catalyst {
-	sketch: ExtensibleP5;
 	gui?: CatalystGUI;
+
+	#duration: number = 10;
+	#fps: number = 30;
+	#animationFrameCount: number = -1;
 
 	constructor(
 		userSketchSeed: sketchSeedFunction,
 		createUserGui: (gui: CatalystGUI, sketch: ExtensibleP5) => void,
 		userPlugins?: Plugin[]
 	) {
-		this.sketch = new p5(async (sketch: ExtensibleP5) => {
+		globalThis.sketch = new p5(async (sketch: ExtensibleP5) => {
 			await userSketchSeed(sketch);
+
+			// store Catalyst object in sketch
+			sketch.catalyst = this;
 
 			const {
 				setup: userSetup,
@@ -42,26 +53,32 @@ export class Catalyst {
 
 				await userSetup?.(); // (user-defined)
 
-				// 1 create GUI
-				const gui = new CatalystGUI(sketch);
+				const config: Config = {};
+
+				userPlugins = userPlugins?.flat();
+
+				// plugins: beforeGuiExists
+				userPlugins?.forEach(plugin =>
+					plugin.beforeGuiExists?.(sketch, config)
+				);
+
+				const gui = new CatalystGUI(sketch, config);
 				this.gui = gui;
 				globalThis.gui = gui;
+				// gui can be globally accessed from now on
 
-				// 2 plugins.preCreate(User)Gui
-				userPlugins = userPlugins?.flat();
+				// plugins: beforeUserCreatesGui
 				userPlugins?.forEach(plugin =>
-					plugin.beforeCreateGui?.(gui, sketch)
+					plugin.beforeUserCreatesGui?.(gui, sketch, config)
 				);
 
-				// 3 createUserGui
 				createUserGui(gui, sketch);
 
-				// 4 plugins.postCreate(User)Gui
+				// plugins: afterUserCreatesGui
 				userPlugins?.forEach(plugin =>
-					plugin.afterCreateGui?.(gui, sketch)
+					plugin.afterUserCreatesGui?.(gui, sketch, config)
 				);
 
-				// 5 gui finalize
 				gui.finalize();
 			};
 
@@ -69,11 +86,8 @@ export class Catalyst {
 				userDraw?.(); // (user-defined)
 			};
 
-			sketch.createCanvasWrapper = () => {};
-			sketch.containCanvasInWrapper = () => {};
-
 			sketch.keyPressed = (event: KeyboardEvent) => {
-				if (this.gui?.isTyping) return;
+				if (this.gui?.isTypingText) return;
 
 				switch (event.key) {
 					case ' ':
@@ -89,6 +103,105 @@ export class Catalyst {
 				sketch.containCanvasInWrapper();
 			};
 		});
-		globalThis.sketch = this.sketch;
+		// sketch can be globally accessed from now on
+		this.setNFrames();
+	}
+
+	createCanvasWrapper() {
+		sketch.canvasWorkArea = sketch.createDiv();
+		sketch.canvasWrapper = sketch.createDiv();
+		sketch.canvasWorkArea.id('canvas-workarea');
+		sketch.canvasWrapper.id('canvas-wrapper');
+
+		sketch.canvas.parent(sketch.canvasWrapper);
+		sketch.canvasWrapper.parent(sketch.canvasWorkArea);
+		sketch.canvasWorkArea.parent(sketch.select('main') as p5.Element);
+	}
+
+	containCanvasInWrapper() {
+		const canvAsp = sketch.width / sketch.height;
+
+		const wrapperW = sketch.canvasWrapper.elt.clientWidth;
+		const wrapperH = sketch.canvasWrapper.elt.clientHeight;
+		const wrapperAsp = wrapperW / wrapperH;
+
+		sketch.canvas.elt.style = '';
+
+		sketch.canvas.elt.style.maxWidth = `1px`;
+		sketch.canvas.elt.style.maxHeight = `1px`;
+
+		sketch.canvas.elt.style.aspectRatio = canvAsp.toString();
+		if (canvAsp > wrapperAsp) {
+			sketch.canvas.elt.style.width = '100%';
+			sketch.canvas.elt.style.maxWidth = `calc(${wrapperW}px - 2rem)`;
+			sketch.canvas.elt.style.height = '';
+			sketch.canvas.elt.style.maxHeight = '';
+		} else {
+			sketch.canvas.elt.style.width = '';
+			sketch.canvas.elt.style.maxWidth = '';
+			sketch.canvas.elt.style.height = '100%';
+			sketch.canvas.elt.style.maxHeight = `calc(${wrapperH}px - 2rem)`;
+		}
+	}
+
+	resizeCanvas(width: number, height: number) {
+		if (width < 1 || height < 1) return;
+
+		sketch.pixelDensity(1);
+		sketch.resizeCanvas(width, height);
+
+		this.containCanvasInWrapper();
+		this.containCanvasInWrapper(); // needs a double call
+	}
+
+	/**
+	 * Copy the current canvas bitmap to the system clipboard.
+	 */
+	copyCanvasToClipboard() {
+		sketch.canvas.elt.toBlob((blob: Blob) => {
+			navigator.clipboard.write([
+				new ClipboardItem({ 'image/png': blob }),
+			]);
+		});
+	}
+
+	exportImage(fileType: ImageFileType, fileName?: string) {
+		fileName = fileName || document.title || 'canvas';
+		fileName =
+			`${fileName.replaceAll(' ', '-')}` +
+			`_${sketch.width}x${sketch.height}` +
+			`_${getTimestamp().base64}`;
+		sketch.save(sketch.canvas, fileName + '.' + fileType.toLowerCase());
+	}
+
+	/**
+	 * @param duration Set animiation duration in seconds.
+	 */
+	setDuration(duration: number) {
+		this.#duration = duration;
+		this.setNFrames();
+	}
+
+	setFrameRate(fps: number) {
+		this.#fps = fps;
+		this.setNFrames();
+
+		sketch.frameRate(fps);
+	}
+
+	setNFrames(duration?: number, fps?: number) {
+		duration = duration || this.#duration;
+		fps = fps || this.#fps;
+		this.#animationFrameCount = Math.round(duration * fps);
+	}
+
+	get duration() {
+		return this.#duration;
+	}
+	get fps() {
+		return this.#fps;
+	}
+	get animationFrameCount() {
+		return this.#animationFrameCount;
 	}
 }

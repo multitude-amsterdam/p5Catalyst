@@ -1,4 +1,5 @@
-import p5 from 'p5';
+import type p5 from 'p5';
+import type { ExtensibleP5 } from '../types';
 
 /**
  * Calculates the relative luminance of a color in sRGB color space.
@@ -9,7 +10,7 @@ import p5 from 'p5';
  * @param {p5.Color} col - The color value to compute luminance for. Must be compatible with p5.js color functions.
  * @returns {number} The relative luminance of the color (0 to 1).
  */
-export function luminance(sketch: p5, col: p5.Color): number {
+export function luminance(sketch: ExtensibleP5, col: p5.Color): number {
 	// luminance as sRGB
 	const a = [sketch.red(col), sketch.green(col), sketch.blue(col)].map(v => {
 		v /= 255;

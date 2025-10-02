@@ -1,5 +1,5 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { ValuedController } from '../ValuedController';
 import { Controller } from '../Controller';
 
@@ -18,7 +18,7 @@ export class Slider extends ValuedController {
 	 */
 	valueCallback: valueCallback;
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		minVal: number,
@@ -29,7 +29,7 @@ export class Slider extends ValuedController {
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, labelStr, defaultVal, setupCallback);
-		this.controllerElement = gui.p5Instance.createSlider(
+		this.controllerElement = gui.sketch.createSlider(
 			minVal,
 			maxVal,
 			defaultVal,
@@ -59,7 +59,7 @@ export class Slider extends ValuedController {
 
 	setValue(value: number) {
 		this.value =
-			this.gui.p5Instance.round(value / this.stepSize) * this.stepSize;
+			this.gui.sketch.round(value / this.stepSize) * this.stepSize;
 		this.valueCallback(this, value);
 		this.controllerElement?.value(value);
 		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
@@ -67,7 +67,7 @@ export class Slider extends ValuedController {
 
 	randomize() {
 		const steps = Math.floor((this.maxVal - this.minVal) / this.stepSize);
-		const randomStep = Math.floor(this.gui.p5Instance.random(steps + 1));
+		const randomStep = Math.floor(this.gui.sketch.random(steps + 1));
 		const randomValue = this.minVal + randomStep * this.stepSize;
 		this.setValue(randomValue);
 	}

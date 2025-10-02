@@ -1,12 +1,12 @@
 import type p5 from 'p5';
 import type { fileReadyCallback, setupCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { FileLoader } from './FileLoader';
 export class ImageLoader extends FileLoader {
 	img?: p5.Image;
 
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		fileReadyCallback: fileReadyCallback,
@@ -18,7 +18,7 @@ export class ImageLoader extends FileLoader {
 			labelStr,
 			'image',
 			file => {
-				this.img = gui.p5Instance.loadImage(file.data, img => {
+				this.img = gui.sketch.loadImage(file.data, img => {
 					fileReadyCallback(img, this);
 				});
 				this.file = this.img;

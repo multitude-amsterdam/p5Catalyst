@@ -1,6 +1,8 @@
 import type p5 from 'p5';
-import { Controller } from '../components/Controller';
+import type { ExtensibleP5 } from '../../types';
 import type { Randomizer } from '../Randomizer';
+
+import { Controller } from '../components/Controller';
 
 /**
  * Small dice icon indicating randomization state for a controller.
@@ -14,7 +16,7 @@ export class DieIcon {
 	controller?: Controller;
 	imgContainer: p5.Element;
 	rotation: number;
-	p5Instance: p5;
+	sketch: ExtensibleP5;
 	isActive: boolean = true;
 	currentSvgIndex?: number;
 
@@ -25,9 +27,9 @@ export class DieIcon {
 	) {
 		this.randomizer = randomizer;
 		this.controller = controller;
-		this.p5Instance = randomizer.p5Instance;
+		this.sketch = randomizer.sketch;
 
-		this.imgContainer = randomizer.p5Instance.createDiv();
+		this.imgContainer = randomizer.sketch.createDiv();
 		this.imgContainer.class(DieIcon.iconClass);
 		this.imgContainer.mouseClicked(callback || (() => this.click()));
 		this.rotation = 0;
@@ -48,7 +50,7 @@ export class DieIcon {
 		let svgIndex;
 		do
 			svgIndex = Math.floor(
-				this.p5Instance.random(DieIcon.dieIconSvgs.length)
+				this.sketch.random(DieIcon.dieIconSvgs.length)
 			);
 		while (svgIndex === this.currentSvgIndex);
 		this.imgContainer.html(DieIcon.dieIconSvgs[svgIndex]);
@@ -56,9 +58,9 @@ export class DieIcon {
 
 		// rotate die randomly
 		let currentRotation;
-		do currentRotation = this.p5Instance.int(this.p5Instance.random(4));
+		do currentRotation = this.sketch.int(this.sketch.random(4));
 		while (currentRotation === this.rotation);
-		let angle = (this.rotation * this.p5Instance.TAU) / 3;
+		let angle = (this.rotation * this.sketch.TAU) / 3;
 		this.imgContainer.style('rotate', angle + 'rad');
 		this.rotation = currentRotation;
 	}

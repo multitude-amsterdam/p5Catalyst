@@ -1,5 +1,5 @@
 import type { setupCallback, valueCallback } from '../../../types/controller';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { Select } from './Select';
 /**
  * Specialised select for common resolutions.
@@ -12,7 +12,7 @@ export class ResolutionSelect extends Select {
 	 */
 	_doUpdateChangeSet: boolean = false;
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		labelStr: string,
 		resOptions: string[],
 		defaultIndex: number,
@@ -31,7 +31,7 @@ export class ResolutionSelect extends Select {
 					const wh = resolutionStr.split(' x ');
 					const w = parseInt(wh[0]);
 					const h = parseInt(wh[1]);
-					gui.sketchHook.resizeCanvas(w, h);
+					gui.sketch.catalyst?.resizeCanvas(w, h);
 				}
 				if (valueCallback) valueCallback(controller, value);
 			},

@@ -1,25 +1,25 @@
 import type p5 from 'p5';
 import { Field } from '../Field';
-import { GUIForP5 } from '../../GUIForP5';
+import { CatalystGUI } from '../../CatalystGUI';
 import { BaseGroup } from './BaseGroup';
 
 export class Panel extends BaseGroup {
 	container: p5.Element;
-	gui: GUIForP5;
+	gui: CatalystGUI;
 
-	constructor(gui: GUIForP5, name: string, open?: boolean) {
+	constructor(gui: CatalystGUI, name: string, open?: boolean) {
 		name = gui.lang.process(name, true);
 		const id = name.toLowerCase().replace(/\s+/g, '-');
 		super(gui, id, 'panel');
 
 		this.gui = gui;
 
-		let detailElement = gui.p5Instance.createElement(
+		let detailElement = gui.sketch.createElement(
 			'details',
 			`<summary>${name}</summary>`
 		);
 		detailElement.elt.open = open;
-		this.container = gui.p5Instance
+		this.container = gui.sketch
 			.createElement('div')
 			.addClass('panel-container');
 		detailElement.child(this.container);

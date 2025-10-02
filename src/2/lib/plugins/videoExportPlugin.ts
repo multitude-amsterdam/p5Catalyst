@@ -1,13 +1,19 @@
-import { ffmpegInit } from '../ffmpeg';
+import type { Plugin, Config, ExtensibleP5 } from '../types';
+import type { CatalystGUI } from '../gui/CatalystGUI';
+
 import { COLUMN, ROW } from '../gui/components/groups/Group';
-import type { Container, GUIControllerInterface, Plugin } from '../types';
+import { ffmpegInit } from '../ffmpeg';
 import { setVideoFormatSettings, videoFormats } from '../ffmpeg';
-import type { GUIForP5 } from '../gui/GUIForP5';
 
 export function videoExportPlugin(): Plugin {
 	return {
 		name: 'videoExport',
-		setup: (gui: GUIControllerInterface, container: Container) => {
+
+		afterUserCreatesGui: (
+			gui: CatalystGUI,
+			sketch: ExtensibleP5,
+			config: Config
+		) => {
 			const exportTab = gui.getTab('export');
 
 			const panel = exportTab?.addPanel('Export video');
@@ -24,29 +30,28 @@ export function videoExportPlugin(): Plugin {
 				}
 			);
 
-			const timeGroup = columnGroup?.addGroup('timeField', ROW);
+			const timeGroup = columnGroup?.addGroup('timeGroup', ROW);
 
 			timeGroup?.addTextbox(
-				'durationInput',
+				'durationTextbox',
 				'Duration (s)',
-				container.state.duration.toString(),
+				sketch.catalyst?.duration.toString() || '10',
 				(controller, value) => {
 					const duration = parseFloat(value as string);
 					if (!isNaN(duration)) {
-						gui.setDuration(duration);
+						sketch.catalyst?.setDuration(duration);
 					}
 				}
 			);
 
 			timeGroup?.addTextbox(
-				'frameRateInput',
+				'frameRateTextbox',
 				'LANG_FRAME_RATE (fps)',
-				container.sketchHook?.getTargetFrameRate().toString() || '30',
+				sketch.catalyst?.fps.toString() || '30',
 				(controller, value) => {
 					const frameRate = parseInt(value as string);
-					if (!isNaN(frameRate)) {
-						gui.setFrameRate(frameRate);
-					}
+					if (isNaN(frameRate)) return;
+					sketch.catalyst?.setFrameRate(frameRate);
 				}
 			);
 
@@ -60,7 +65,7 @@ export function videoExportPlugin(): Plugin {
 				'startExport',
 				'Start export',
 				controller => {
-					if (!container.state.isRecording) {
+					if (!sketch.catalyst?.isRecording) {
 						gui.startRecording();
 						const interval = setInterval(() => {
 							controller?.controllerElement?.html(
@@ -68,10 +73,7 @@ export function videoExportPlugin(): Plugin {
 									container.sketchHook.getExportStatus()
 								]
 							);
-							if (
-								container.sketchHook.getExportStatus() ===
-								'idle'
-							) {
+							if (sketch.catalyst?.getExportStatus() === 'idle') {
 								clearInterval(interval);
 							}
 						}, 200);
@@ -80,9 +82,7 @@ export function videoExportPlugin(): Plugin {
 			);
 
 			panel?.open();
-		},
 
-		afterInit: (gui: GUIForP5) => {
 			ffmpegInit(gui);
 		},
 	};

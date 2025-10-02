@@ -1,5 +1,5 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { ValuedController } from '../ValuedController';
 import { Controller } from '../Controller';
 
@@ -28,7 +28,7 @@ export class Select extends ValuedController {
 
 	/**
 	 * Constructor for Select.
-	 * @param {GUIForP5} gui
+	 * @param {CatalystGUI} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {Array} options
@@ -37,7 +37,7 @@ export class Select extends ValuedController {
 	 * @param {SetupCallback} [setupCallback]
 	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		options: string[],
@@ -47,7 +47,7 @@ export class Select extends ValuedController {
 	) {
 		super(gui, name, labelStr, options[defaultIndex], setupCallback);
 
-		this.controllerElement = gui.p5Instance.createSelect();
+		this.controllerElement = gui.sketch.createSelect();
 		this.options = options;
 		this.optionStrs = options.map(option => option.toString());
 		this.setOptions();
@@ -110,6 +110,6 @@ export class Select extends ValuedController {
 	 * Randomizes the select value.
 	 */
 	randomize() {
-		this.setValue(this.gui.p5Instance.random(this.options));
+		this.setValue(this.gui.sketch.random(this.options));
 	}
 }

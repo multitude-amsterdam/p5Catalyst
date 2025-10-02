@@ -1,6 +1,6 @@
 import p5 from 'p5';
 import type { setupCallback, fileReadyCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { FileLoader } from './FileLoader';
 
 /**
@@ -11,7 +11,7 @@ export class MediaLoader extends FileLoader {
 	media?: p5.MediaElement | p5.Element;
 
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		fileReadyCallback: fileReadyCallback,
@@ -25,11 +25,11 @@ export class MediaLoader extends FileLoader {
 			file => {
 				file = file as p5.File;
 				if (file.type === 'video') {
-					this.media = gui.p5Instance.createVideo(file.data);
+					this.media = gui.sketch.createVideo(file.data);
 					(this.media as p5.MediaElement).volume(0);
 					(this.media as p5.MediaElement).loop();
 				} else if (file.type === 'image') {
-					this.media = gui.p5Instance.createImg(file.data, '');
+					this.media = gui.sketch.createImg(file.data, '');
 				}
 				this.media?.hide();
 				this.file = this.media;

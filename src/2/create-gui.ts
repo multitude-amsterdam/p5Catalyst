@@ -1,5 +1,5 @@
-import type { ExtensibleP5 } from './lib/Catalyst';
-import type { CatalystGUI } from './lib/CatalystGUI';
+import type { ExtensibleP5 } from './lib/types';
+import type { CatalystGUI } from './lib/gui/CatalystGUI';
 
 export function createGui(gui: CatalystGUI, sketch: ExtensibleP5) {
 	// gui.addController(

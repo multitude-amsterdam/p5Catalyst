@@ -1,18 +1,19 @@
 import type { ResolutionTextBoxes } from '../gui/components';
 import { COLUMN } from '../gui/components/groups/Group';
 
-import type {
-	State,
-	Plugin,
-	GUIControllerInterface,
-	Container,
-} from '../types';
+import type { Plugin, ExtensibleP5, Config } from '../types';
+import type { CatalystGUI } from '../gui/CatalystGUI';
 
 // Language plugin
 export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 	return {
 		name: 'resolution',
-		setup: (gui: GUIControllerInterface, container: Container) => {
+
+		beforeUserCreatesGui: (
+			gui: CatalystGUI,
+			sketch: ExtensibleP5,
+			config: Config
+		) => {
 			const appearanceTab = gui.getTab('appearance');
 
 			const panel = appearanceTab?.addPanel('LANG_RESOLUTION', true);
@@ -27,17 +28,11 @@ export function resolutionPlugin(resolutionOptions: string[]): Plugin {
 					const resbox = gui.getController<ResolutionTextBoxes>(
 						'resolutionTextboxes'
 					);
-					resbox?.setValueOnlyDisplay(
-						container.state.width,
-						container.state.height
-					);
+					resbox?.setValueOnlyDisplay(sketch.width, sketch.height);
 				}
 			);
 
-			group?.addResolutionTextBoxes(
-				container.state.width,
-				container.state.height
-			);
+			group?.addResolutionTextBoxes(sketch.width, sketch.height);
 		},
 	};
 }

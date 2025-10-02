@@ -1,72 +1,43 @@
-import { Field } from '../Field';
-import type { GUIForP5 } from '../../GUIForP5';
-import type { Orientation } from './Group';
-
 import type {
 	controllerCallback,
 	valueCallback,
 	fileReadyCallback,
 	setupCallback,
-	GUIAddableInterface,
-} from 'src/lib/types';
-import * as components from '../index';
+} from '../../../types';
 
-export class BaseGroup extends Field implements GUIAddableInterface {
-	gui: GUIForP5;
+import { Field } from '../Field';
+import type { Orientation } from './Group';
 
-	constructor(gui: GUIForP5, id: string, className: string) {
-		super(gui, id, className);
-		this.gui = gui;
-	}
-	//   /**
-	//    * Adds a field (GUI element) to the GUI.
-	//    * @param {Field} field
-	//    * @returns {Field}
-	//    */
+import * as Components from '../index';
+
+export class BaseGroup extends Field {
 	attachField<T extends Field>(field: T) {
 		this.div.child(field.div);
 	}
 
-	addGroup: GUIAddableInterface['addGroup'] = (
-		name: string,
-		orientation: Orientation
-	) => {
-		const group = new components.Group(this.gui, name, orientation);
+	addGroup(name: string, orientation: Orientation): Components.Group {
+		const group = new Components.Group(this.gui, name, orientation);
 		this.gui.addField(group);
 		this.attachField(group);
 		return group;
-	};
-	addPanel: GUIAddableInterface['addPanel'] = (
-		name: string,
-		open?: boolean
-	) => {
-		const panel = new components.Panel(this.gui, name, open);
+	}
+
+	addPanel(name: string, open?: boolean) {
+		const panel = new Components.Panel(this.gui, name, open);
 		this.gui.addField(panel);
 		this.attachField(panel);
 		return panel;
-	};
-	addTitle: GUIAddableInterface['addTitle'] = (
-		hSize,
-		text,
-		doAlignCenter
-	) => {
-		const title = new components.Title(
-			this.gui,
-			hSize,
-			text,
-			doAlignCenter
-		);
+	}
+
+	addTitle(hSize: number, text: string) {
+		const title = new Components.Title(this.gui, hSize, text);
 		this.gui.addField(title);
 		this.attachField(title);
 		return title;
-	};
+	}
 
-	addTextField: GUIAddableInterface['addTextField'] = (
-		text: string,
-		className?: string,
-		doAlignCenter?: boolean
-	) => {
-		const textField = new components.TextField(
+	addTextField(text: string, className?: string, doAlignCenter?: boolean) {
+		const textField = new Components.TextField(
 			this.gui,
 			text,
 			className,
@@ -75,13 +46,10 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addField(textField);
 		this.attachField(textField);
 		return textField;
-	};
-	addImageField: GUIAddableInterface['addImageField'] = (
-		url: string,
-		altText: string,
-		doAlignCenter?: boolean
-	) => {
-		const imageField = new components.ImageField(
+	}
+
+	addImageField(url: string, altText: string, doAlignCenter?: boolean) {
+		const imageField = new Components.ImageField(
 			this.gui,
 			url,
 			altText,
@@ -90,20 +58,22 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addField(imageField);
 		this.attachField(imageField);
 		return imageField;
-	};
-	addDivider: GUIAddableInterface['addDivider'] = () => {
-		const divider = new components.Divider(this.gui);
+	}
+
+	addDivider() {
+		const divider = new Components.Divider(this.gui);
 		this.gui.addField(divider);
 		this.attachField(divider);
 		return divider;
-	};
-	addButton: GUIAddableInterface['addButton'] = (
+	}
+
+	addButton(
 		name: string,
 		labelStr: string,
 		callback?: controllerCallback,
 		setupCallback?: setupCallback
-	) => {
-		const button = new components.Button(
+	) {
+		const button = new Components.Button(
 			this.gui,
 			name,
 			labelStr,
@@ -113,16 +83,17 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(button);
 		this.attachField(button);
 		return button;
-	};
-	addSelect: GUIAddableInterface['addSelect'] = (
+	}
+
+	addSelect(
 		name: string,
 		labelStr: string,
 		options: string[],
 		defaultIndex: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const select = new components.Select(
+	) {
+		const select = new Components.Select(
 			this.gui,
 			name,
 			labelStr,
@@ -134,15 +105,16 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(select);
 		this.attachField(select);
 		return select;
-	};
-	addResolutionSelect: GUIAddableInterface['addResolutionSelect'] = (
+	}
+
+	addResolutionSelect(
 		labelStr: string,
 		resOptions: string[],
 		defaultIndex: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const resolutionSelect = new components.ResolutionSelect(
+	) {
+		const resolutionSelect = new Components.ResolutionSelect(
 			this.gui,
 			labelStr,
 			resOptions,
@@ -153,16 +125,17 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(resolutionSelect);
 		this.attachField(resolutionSelect);
 		return resolutionSelect;
-	};
-	addToggle: GUIAddableInterface['addToggle'] = (
+	}
+
+	addToggle(
 		name: string,
 		labelStr0: string,
 		labelStr1: string,
 		isToggled: boolean,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const toggle = new components.Toggle(
+	) {
+		const toggle = new Components.Toggle(
 			this.gui,
 			name,
 			labelStr0,
@@ -174,8 +147,9 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(toggle);
 		this.attachField(toggle);
 		return toggle;
-	};
-	addSlider: GUIAddableInterface['addSlider'] = (
+	}
+
+	addSlider(
 		name: string,
 		labelStr: string,
 		minVal: number,
@@ -184,8 +158,8 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		stepSize: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const slider = new components.Slider(
+	) {
+		const slider = new Components.Slider(
 			this.gui,
 			name,
 			labelStr,
@@ -199,8 +173,9 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(slider);
 		this.attachField(slider);
 		return slider;
-	};
-	addXYSlider: GUIAddableInterface['addXYSlider'] = (
+	}
+
+	addXYSlider(
 		name: string,
 		labelStr: string,
 		minValX: number,
@@ -213,8 +188,8 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		stepSizeY: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const xySlider = new components.XYSlider(
+	) {
+		const xySlider = new Components.XYSlider(
 			this.gui,
 			name,
 			labelStr,
@@ -232,15 +207,16 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(xySlider);
 		this.attachField(xySlider);
 		return xySlider;
-	};
-	addTextbox: GUIAddableInterface['addTextbox'] = (
+	}
+
+	addTextbox(
 		name: string,
 		labelStr: string,
 		defaultVal: string,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const textbox = new components.Textbox(
+	) {
+		const textbox = new Components.Textbox(
 			this.gui,
 			name,
 			labelStr,
@@ -251,14 +227,15 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(textbox);
 		this.attachField(textbox);
 		return textbox;
-	};
-	addResolutionTextBoxes: GUIAddableInterface['addResolutionTextBoxes'] = (
+	}
+
+	addResolutionTextBoxes(
 		defaultWidth: number,
 		defaultHeight: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const resolutionTextBoxes = new components.ResolutionTextBoxes(
+	) {
+		const resolutionTextBoxes = new Components.ResolutionTextBoxes(
 			this.gui,
 			defaultWidth,
 			defaultHeight,
@@ -268,15 +245,16 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(resolutionTextBoxes);
 		this.attachField(resolutionTextBoxes);
 		return resolutionTextBoxes;
-	};
-	addTextArea: GUIAddableInterface['addTextArea'] = (
+	}
+
+	addTextArea(
 		name: string,
 		labelStr: string,
 		defaultVal: string,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const textArea = new components.TextArea(
+	) {
+		const textArea = new Components.TextArea(
 			this.gui,
 			name,
 			labelStr,
@@ -287,8 +265,9 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(textArea);
 		this.attachField(textArea);
 		return textArea;
-	};
-	addCrementer: GUIAddableInterface['addCrementer'] = (
+	}
+
+	addCrementer(
 		name: string,
 		labelStr: string,
 		minVal: number,
@@ -297,8 +276,8 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		stepSize: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const crementer = new components.Crementer(
+	) {
+		const crementer = new Components.Crementer(
 			this.gui,
 			name,
 			labelStr,
@@ -312,16 +291,17 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(crementer);
 		this.attachField(crementer);
 		return crementer;
-	};
-	addColorBoxes: GUIAddableInterface['addColorBoxes'] = (
+	}
+
+	addColorBoxes(
 		name: string,
 		labelStr: string,
 		colors: string[],
 		defaultIndex: number,
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const colorBoxes = new components.ColorBoxes(
+	) {
+		const colorBoxes = new Components.ColorBoxes(
 			this.gui,
 			name,
 			labelStr,
@@ -333,16 +313,17 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(colorBoxes);
 		this.attachField(colorBoxes);
 		return colorBoxes;
-	};
-	addMultiColorBoxes: GUIAddableInterface['addMultiColorBoxes'] = (
+	}
+
+	addMultiColorBoxes(
 		name: string,
 		labelStr: string,
 		colors: string[],
 		defaultIndices: number[],
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
-	) => {
-		const multiColorBoxes = new components.MultiColorBoxes(
+	) {
+		const multiColorBoxes = new Components.MultiColorBoxes(
 			this.gui,
 			name,
 			labelStr,
@@ -354,14 +335,15 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(multiColorBoxes);
 		this.attachField(multiColorBoxes);
 		return multiColorBoxes;
-	};
-	addTextLoader: GUIAddableInterface['addTextLoader'] = (
+	}
+
+	addTextLoader(
 		name: string,
 		labelStr: string,
 		fileReadyCallback?: fileReadyCallback,
 		setupCallback?: setupCallback
-	) => {
-		const textLoader = new components.TextFileLoader(
+	) {
+		const textLoader = new Components.TextFileLoader(
 			this.gui,
 			name,
 			labelStr,
@@ -371,14 +353,15 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(textLoader);
 		this.attachField(textLoader);
 		return textLoader;
-	};
-	addJSONLoader: GUIAddableInterface['addJSONLoader'] = (
+	}
+
+	addJSONLoader(
 		name: string,
 		labelStr: string,
 		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
-	) => {
-		const JSONLoader = new components.JSONFileLoader(
+	) {
+		const JSONLoader = new Components.JSONFileLoader(
 			this.gui,
 			name,
 			labelStr,
@@ -388,14 +371,15 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(JSONLoader);
 		this.attachField(JSONLoader);
 		return JSONLoader;
-	};
-	addImageLoader: GUIAddableInterface['addImageLoader'] = (
+	}
+
+	addImageLoader(
 		name: string,
 		labelStr: string,
 		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
-	) => {
-		const imageLoader = new components.ImageLoader(
+	) {
+		const imageLoader = new Components.ImageLoader(
 			this.gui,
 			name,
 			labelStr,
@@ -405,14 +389,15 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(imageLoader);
 		this.attachField(imageLoader);
 		return imageLoader;
-	};
-	addVideoLoader: GUIAddableInterface['addVideoLoader'] = (
-		name,
-		labelStr,
-		fileReadyCallback,
-		setupCallback
-	) => {
-		const videoLoader = new components.VideoLoader(
+	}
+
+	addVideoLoader(
+		name: string,
+		labelStr: string,
+		fileReadyCallback: fileReadyCallback,
+		setupCallback: setupCallback
+	) {
+		const videoLoader = new Components.VideoLoader(
 			this.gui,
 			name,
 			labelStr,
@@ -422,14 +407,15 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(videoLoader);
 		this.attachField(videoLoader);
 		return videoLoader;
-	};
-	addMediaLoader: GUIAddableInterface['addMediaLoader'] = (
+	}
+
+	addMediaLoader(
 		name: string,
 		labelStr: string,
 		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
-	) => {
-		const mediaLoader = new components.MediaLoader(
+	) {
+		const mediaLoader = new Components.MediaLoader(
 			this.gui,
 			name,
 			labelStr,
@@ -439,5 +425,5 @@ export class BaseGroup extends Field implements GUIAddableInterface {
 		this.gui.addController(mediaLoader);
 		this.attachField(mediaLoader);
 		return mediaLoader;
-	};
+	}
 }

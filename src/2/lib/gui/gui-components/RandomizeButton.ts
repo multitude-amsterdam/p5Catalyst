@@ -1,9 +1,9 @@
 import { DieIcon } from '../components';
-import type { GUIForP5 } from '../GUIForP5';
+import type { CatalystGUI } from '../CatalystGUI';
 import { GUIButton } from './GUIButton';
 
 export class RandomizeButton extends GUIButton {
-	constructor(gui: GUIForP5, dieIconSvgs: string[]) {
+	constructor(gui: CatalystGUI, dieIconSvgs: string[]) {
 		super(gui);
 
 		if (!gui.randomizer) return;

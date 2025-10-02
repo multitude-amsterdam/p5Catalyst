@@ -1,10 +1,10 @@
 import type { fileReadyCallback, setupCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { FileLoader } from './FileLoader';
 
 export class TextFileLoader extends FileLoader {
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		fileReaderCallback?: fileReadyCallback,

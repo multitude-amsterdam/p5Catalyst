@@ -1,5 +1,5 @@
 import { Field } from '../Field';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 
 /**
  * Block of explanatory text.
@@ -7,7 +7,7 @@ import type { GUIForP5 } from '../../GUIForP5';
  */
 export class TextField extends Field {
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		text: string,
 		className?: string,
 		doAlignCenter?: boolean

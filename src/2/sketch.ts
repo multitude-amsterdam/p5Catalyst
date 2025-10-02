@@ -1,4 +1,4 @@
-import type { ExtensibleP5 } from './lib/Catalyst';
+import type { ExtensibleP5 } from './lib/types';
 
 export const sketchSeedFunction = async (sketch: ExtensibleP5) => {
 	sketch.q = 13;

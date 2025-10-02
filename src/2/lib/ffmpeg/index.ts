@@ -5,7 +5,7 @@ import type p5 from 'p5';
 import { getTimestamp } from '../utils';
 
 import type { VideoFormatSettings } from '../types';
-import type { GUIForP5 } from '../gui/GUIForP5';
+import type { CatalystGUI } from '../gui/CatalystGUI';
 import type { Dialog } from '../gui/Dialog';
 
 let ffmpeg: FFmpeg;
@@ -55,7 +55,7 @@ export function setVideoFormatSettings(guiName: string) {
 }
 
 let dialog: Dialog;
-export async function ffmpegInit(gui: GUIForP5) {
+export async function ffmpegInit(gui: CatalystGUI) {
 	dialog = gui.dialog;
 
 	ffmpeg = new FFmpeg();
