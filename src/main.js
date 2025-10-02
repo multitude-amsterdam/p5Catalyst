@@ -2,12 +2,14 @@ import { catalyst } from './lib';
 
 const sketchFunction = async (sketch, state) => {
 	sketch.setup = async () => {
-		sketch.noStroke();
+		document.title = 'CircleGen';
 
 		state.circleColor = sketch.color(0);
 		state.circleDiameter = 0.5;
 		state.bgColor = sketch.color(0);
 		state.nBgElements = 5;
+
+		sketch.noStroke();
 	};
 
 	sketch.draw = () => {
