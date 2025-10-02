@@ -1,6 +1,5 @@
-import type { ExtensibleP5, Config, Plugin } from '../types';
-import type { CatalystGUI } from '../gui/CatalystGUI';
-import type { Controller } from '../gui/components/Controller';
+import type { Plugin } from '../types';
+import type { Controller } from '../gui/components';
 
 import { COLUMN, ROW } from '../gui/components/groups/Group';
 

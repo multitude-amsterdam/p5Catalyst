@@ -1,5 +1,4 @@
-import type { Config, Dictionary, Plugin, ExtensibleP5 } from '../types';
-import type { CatalystGUI } from '../gui/CatalystGUI';
+import type { Dictionary, Plugin } from '../types';
 
 export function languagePlugin(
 	lang: string,
@@ -7,7 +6,7 @@ export function languagePlugin(
 ): Plugin {
 	return {
 		name: 'language',
-		beforeGuiExists: (sketch: ExtensibleP5, config: Config) => {
+		beforeGuiExists: (sketch, config) => {
 			config.defaultLanguage = lang;
 			config.userDictionary = userDictionary;
 		},

@@ -1,5 +1,4 @@
 import type { Plugin } from '../types';
-
 import {
 	imageExportPlugin,
 	videoExportPlugin,

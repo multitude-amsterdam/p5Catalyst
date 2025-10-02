@@ -1,6 +1,6 @@
 import type { CommandBar } from '../components/CommandBar';
 import type { CatalystGUI } from '../CatalystGUI';
-import { GUIButton } from './GUIButton';
+import { GUIButton } from '../components/GUIButton';
 import p5 from 'p5';
 
 export class ThemeToggle extends GUIButton {

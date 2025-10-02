@@ -11,20 +11,23 @@ import type {
 	controllerCallback,
 } from '../types';
 
-import { Field } from './components/Field';
-import { Controller } from './components/Controller';
-import { ValuedController } from './components/ValuedController';
-import { Randomizer } from './Randomizer';
-import { ChangeSet } from './ChangeSet';
-import { Lang } from '../language/Lang';
-import { Tab } from './components/groups/Tab';
-import { Dialog } from './Dialog';
-import { CommandBar } from './components/CommandBar';
-
-import type { Orientation } from './components/groups/Group';
+import {
+	Field,
+	Controller,
+	ValuedController,
+	CommandBar,
+	Tab,
+} from './components';
 
 import * as Components from './components';
-import type { Group } from 'src/lib/gui/components';
+
+import { Lang } from '../language';
+
+import { ChangeSet } from './ChangeSet';
+import { Randomizer } from './Randomizer';
+import { Dialog } from './Dialog';
+
+import type { Orientation } from './components/groups';
 
 export class CatalystGUI {
 	sketch: ExtensibleP5;

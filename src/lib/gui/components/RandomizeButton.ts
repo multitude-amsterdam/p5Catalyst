@@ -1,6 +1,6 @@
 import { DieIcon } from '../components';
 import type { CatalystGUI } from '../CatalystGUI';
-import { GUIButton } from './GUIButton';
+import { GUIButton } from '../components/GUIButton';
 
 export class RandomizeButton extends GUIButton {
 	constructor(gui: CatalystGUI, dieIconSvgs: string[]) {

@@ -1,12 +1,12 @@
-import { FFmpeg, type FSNode } from '@ffmpeg/ffmpeg';
-import { fetchFile, toBlobURL } from '@ffmpeg/util';
-import JSZip from 'jszip';
 import type p5 from 'p5';
-import { getTimestamp } from '../utils';
-
 import type { VideoFormatSettings } from '../types';
 import type { CatalystGUI } from '../gui/CatalystGUI';
 import type { Dialog } from '../gui/Dialog';
+
+import { FFmpeg, type FSNode } from '@ffmpeg/ffmpeg';
+import { toBlobURL } from '@ffmpeg/util';
+import JSZip from 'jszip';
+import { getTimestamp } from '../utils';
 
 let ffmpeg: FFmpeg;
 let frameId = 0;

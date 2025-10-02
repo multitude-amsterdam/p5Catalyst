@@ -1,7 +1,7 @@
 import type { setupCallback } from '../../types';
 import type { CatalystGUI } from '../CatalystGUI';
 import type { Randomizer } from '../Randomizer';
-import type { DieIcon } from '../gui-components/DieIcon';
+import type { DieIcon } from '.';
 
 import p5 from 'p5';
 import { Field } from './Field';

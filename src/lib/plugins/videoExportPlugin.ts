@@ -10,11 +10,7 @@ export function videoExportPlugin(): Plugin {
 	return {
 		name: 'videoExport',
 
-		afterUserCreatesGui: (
-			gui: CatalystGUI,
-			sketch: ExtensibleP5,
-			config: Config
-		) => {
+		afterUserCreatesGui: (gui, sketch, config) => {
 			const exportTab = gui.getTab('export');
 
 			const panel = exportTab?.addPanel('Export video');

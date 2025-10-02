@@ -1,16 +1,10 @@
 import type { Plugin, Serializable } from '../types';
 import { COLUMN, ROW } from '../gui/components/groups/Group';
-import type { CatalystGUI } from '../gui/CatalystGUI';
-import type { ExtensibleP5, Config } from '../types';
 
 export function storeSettingsPlugin(): Plugin {
 	return {
 		name: 'storeSettings',
-		afterUserCreatesGui(
-			gui: CatalystGUI,
-			sketch: ExtensibleP5,
-			config: Config
-		) {
+		afterUserCreatesGui(gui, sketch, config) {
 			const exportTab = gui.getTab('export');
 			const panel = exportTab?.addPanel('Save & open settings');
 			const buttonGroup = panel?.addGroup('saveOpenGroup', ROW);

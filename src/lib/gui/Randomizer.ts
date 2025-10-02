@@ -1,7 +1,5 @@
 import type { ExtensibleP5 } from '../types';
-import { Controller } from './components/Controller';
-import { ValuedController } from './components/ValuedController';
-import { Button, DieIcon } from './components';
+import { Controller, ValuedController, Button, DieIcon } from './components';
 
 /**
  * Helper class that manages randomization of controllers marked as randomizable.

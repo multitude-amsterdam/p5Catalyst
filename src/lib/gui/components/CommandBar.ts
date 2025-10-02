@@ -2,10 +2,7 @@ import type { Config } from 'src/lib/types';
 
 import p5 from 'p5';
 import { CatalystGUI } from '../CatalystGUI';
-import { Field } from './Field';
-import { ThemeToggle } from '../gui-components/ThemeToggle';
-import { RandomizeButton } from '../gui-components/RandomizeButton';
-import { GUIButton } from '../gui-components/GUIButton';
+import { ThemeToggle, RandomizeButton, GUIButton, Field } from '.';
 
 import dieIcon1Svg from '/assets/dice/die-1.svg?raw';
 import dieIcon2Svg from '/assets/dice/die-2.svg?raw';
