@@ -1,5 +1,5 @@
 import type { setupCallback, valueCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { ValuedController } from '../ValuedController';
 import { Controller } from '../Controller';
 
@@ -15,7 +15,7 @@ export class TextArea extends ValuedController {
 	valueCallback: valueCallback;
 	/**
 	 * Constructor for TextArea.
-	 * @param {GUIForP5} gui - The GUI instance.
+	 * @param {CatalystGUI} gui - The GUI instance.
 	 * @param {string} name - The name of the controller.
 	 * @param {string} labelStr - The label for the controller.
 	 * @param {string} defaultVal - The default value for the textarea.
@@ -23,7 +23,7 @@ export class TextArea extends ValuedController {
 	 * @param {function} [setupCallback] - Optional setup callback.
 	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		defaultVal: string,
@@ -31,7 +31,7 @@ export class TextArea extends ValuedController {
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, labelStr, defaultVal, setupCallback);
-		this.controllerElement = gui.p5Instance.createElement('textarea');
+		this.controllerElement = gui.sketch.createElement('textarea');
 		this.controllerElement.parent(this.controllerWrapper);
 
 		this.controllerElement.html(defaultVal);
@@ -47,12 +47,14 @@ export class TextArea extends ValuedController {
 
 		this.controllerElement.elt.addEventListener(
 			'focusin',
-			(event: FocusEvent) => gui.state.setTyping(true)
+			(event: FocusEvent) => {
+				gui.isTypingText = true;
+			}
 		);
 		this.controllerElement.elt.addEventListener(
 			'focusout',
 			(event: FocusEvent) => {
-				gui.state.setTyping(false);
+				gui.isTypingText = false;
 				const target = event.target as HTMLInputElement;
 				const value = target.value;
 				this.setValue(value);

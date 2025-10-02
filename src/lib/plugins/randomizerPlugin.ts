@@ -1,24 +1,24 @@
 import { Controller } from '../gui/components/Controller';
 import { ValuedController } from '../gui/components/ValuedController';
-import type { GUIForP5 } from '../gui/GUIForP5';
-import type { Plugin, Config, GUIControllerInterface, State } from '../types';
+import type { CatalystGUI } from '../gui/CatalystGUI';
+import type { Plugin, Config, ExtensibleP5 } from '../types';
 
 export function randomizerPlugin(controllerNames: string[]): Plugin {
 	return {
 		name: 'randomizer',
 
-		beforeInit: (config: Config) => {
-			config.createRandomizer = true;
+		beforeGuiExists: (sketch: ExtensibleP5, config: Config) => {
+			config.doCreateRandomizer = true;
 		},
 
-		setup: (gui: GUIControllerInterface, state: State) => {},
-
-		afterInit: (gui: GUIForP5) => {
-			const controllers: Controller[] =
-				gui.getControllers(controllerNames);
-			controllers.forEach(controller => {
+		afterUserCreatesGui: (
+			gui: CatalystGUI,
+			sketch: ExtensibleP5,
+			config: Config
+		) => {
+			for (let controller of gui.getControllers(controllerNames)) {
 				gui.randomizer?.addController(controller);
-			});
+			}
 		},
 	};
 }

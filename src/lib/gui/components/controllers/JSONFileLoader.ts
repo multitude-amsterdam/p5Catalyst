@@ -1,13 +1,13 @@
 import type { fileReadyCallback, setupCallback } from '../../../types';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { FileLoader } from './FileLoader';
 
 export class JSONFileLoader extends FileLoader {
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
-		fileReadyCallback: fileReadyCallback,
+		fileReadyCallback?: fileReadyCallback,
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, labelStr, 'json', fileReadyCallback, setupCallback);

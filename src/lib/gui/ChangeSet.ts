@@ -1,14 +1,14 @@
-import type { GUIForP5 } from './GUIForP5';
+import type { CatalystGUI } from './CatalystGUI';
 
 export class ChangeSet {
 	static localStorageKey = 'changeset';
 
 	changeset: string[] = [];
 	index = -1; // no state yet
-	gui: GUIForP5;
+	gui: CatalystGUI;
 	doInitFromLocalStorage = false;
 
-	constructor(gui: GUIForP5, doInitFromLocalStorage = false) {
+	constructor(gui: CatalystGUI, doInitFromLocalStorage = false) {
 		this.doInitFromLocalStorage = doInitFromLocalStorage;
 		this.gui = gui;
 		if (this.doInitFromLocalStorage) {
@@ -73,7 +73,7 @@ export class ChangeSet {
 
 	download(fileName: string, doMinify = true) {
 		const json = this.changeset[this.index];
-		this.gui.p5Instance.saveJSON(
+		this.gui.sketch.saveJSON(
 			JSON.parse(json),
 			'test',
 			// fileName + '_' + Generator.getOutputFileName('settings'),

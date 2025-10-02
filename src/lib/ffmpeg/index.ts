@@ -5,7 +5,7 @@ import type p5 from 'p5';
 import { getTimestamp } from '../utils';
 
 import type { VideoFormatSettings } from '../types';
-import type { GUIForP5 } from '../gui/GUIForP5';
+import type { CatalystGUI } from '../gui/CatalystGUI';
 import type { Dialog } from '../gui/Dialog';
 
 let ffmpeg: FFmpeg;
@@ -55,7 +55,7 @@ export function setVideoFormatSettings(guiName: string) {
 }
 
 let dialog: Dialog;
-export async function ffmpegInit(gui: GUIForP5) {
+export async function ffmpegInit(gui: CatalystGUI) {
 	dialog = gui.dialog;
 
 	ffmpeg = new FFmpeg();
@@ -134,9 +134,10 @@ function downloadBlob(blob: Blob, filename: string) {
 export async function ffmpegCreateVideo(
 	width: number,
 	height: number,
-	fps: number
+	fps: number,
+	finalCallback?: () => void
 ) {
-	console.log('exporting');
+	console.log('Exporting video...');
 
 	let fileName = `${width}x${height}@${fps}fps_${getTimestamp().base64}`;
 	const outputFile = fileName + '.' + videoExportSettings.ext;
@@ -191,4 +192,6 @@ export async function ffmpegCreateVideo(
 	// need to clean frames to prevent newer shorter animatinos to include old frames
 	await ffmpeg.deleteDir('/frames');
 	isFramesDirectoryCreated = false;
+
+	finalCallback?.();
 }

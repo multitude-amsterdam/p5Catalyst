@@ -1,7 +1,8 @@
-import p5 from 'p5';
-import { GUIForP5 } from '../GUIForP5';
-import { Field } from './Field';
 import type { Config } from 'src/lib/types';
+
+import p5 from 'p5';
+import { CatalystGUI } from '../CatalystGUI';
+import { Field } from './Field';
 import { ThemeToggle } from '../gui-components/ThemeToggle';
 import { RandomizeButton } from '../gui-components/RandomizeButton';
 import { GUIButton } from '../gui-components/GUIButton';
@@ -40,19 +41,14 @@ export class CommandBar extends Field {
 	filler: p5.Element;
 	centerDiv: p5.Element;
 
-	constructor(config: Config, gui: GUIForP5) {
-		super(
-			gui,
-			'',
-			'command-bar',
-			gui.p5Instance.select('main') as p5.Element
-		);
+	constructor(config: Config, gui: CatalystGUI) {
+		super(gui, '', 'command-bar', gui.sketch.select('main') as p5.Element);
 
 		this.div.class('command-bar');
-		gui.p5Instance.select('#canvas-workarea')?.elt.prepend(this.div.elt);
+		gui.sketch.select('#canvas-workarea')?.elt.prepend(this.div.elt);
 
 		// randomizer button
-		if (config.createRandomizer) {
+		if (config.doCreateRandomizer) {
 			this.randomizeButton = new RandomizeButton(gui, dieIconSvgs);
 			this.randomizeButton.button.parent(this.div);
 			this.randomizeButton.button.addClass('command-bar__button');
@@ -88,7 +84,7 @@ export class CommandBar extends Field {
 
 		// middle filler
 		// pushes buttons either sides
-		this.filler = gui.p5Instance
+		this.filler = gui.sketch
 			.createDiv()
 			.parent(this.div)
 			.class('command-bar__filler') as p5.Element;
@@ -133,7 +129,7 @@ export class CommandBar extends Field {
 		}
 
 		// centered div on bar that hold logo or image
-		this.centerDiv = gui.p5Instance
+		this.centerDiv = gui.sketch
 			.createDiv(logoSvg)
 			.parent(this.div)
 			.class('command-bar__center') as p5.Element;

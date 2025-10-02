@@ -1,4 +1,4 @@
-import type p5 from 'p5';
+import type { ExtensibleP5 } from '../types';
 import { Controller } from './components/Controller';
 import { ValuedController } from './components/ValuedController';
 import { Button, DieIcon } from './components';
@@ -9,16 +9,16 @@ import { Button, DieIcon } from './components';
  */
 export class Randomizer {
 	controllers: Controller[];
-	p5Instance: p5;
+	sketch: ExtensibleP5;
 	/**
 	 * Constructs a new Randomizer instance.
 	 */
-	constructor(p5Instance: p5) {
+	constructor(sketch: ExtensibleP5) {
 		/**
 		 * @type {Controller[]}
 		 */
 		this.controllers = [];
-		this.p5Instance = p5Instance;
+		this.sketch = sketch;
 	}
 
 	/**

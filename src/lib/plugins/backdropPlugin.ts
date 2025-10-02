@@ -1,15 +1,26 @@
+import type { ExtensibleP5, Config, Plugin } from '../types';
+import type { CatalystGUI } from '../gui/CatalystGUI';
+import type { Controller } from '../gui/components/Controller';
+
 import { COLUMN, ROW } from '../gui/components/groups/Group';
-import type { Plugin } from '../types';
 
 export function backdropPlugin(): Plugin {
 	return {
 		name: 'backdrop',
 
-		beforeInit(config) {
-			config.clearBackground = true;
+		beforeUserCreatesGui(
+			gui: CatalystGUI,
+			sketch: ExtensibleP5,
+			config: Config
+		) {
+			if (config) config.doClearBackground = true;
 		},
 
-		afterInit: gui => {
+		afterUserCreatesGui: (
+			gui: CatalystGUI,
+			sketch: ExtensibleP5,
+			config: Config
+		) => {
 			const appearanceTab = gui.getTab('appearance');
 
 			const panel = appearanceTab?.addPanel('Backdrop & overlay');
@@ -20,22 +31,26 @@ export function backdropPlugin(): Plugin {
 			loadGroup?.addMediaLoader(
 				'backdropLoader',
 				'Load backdrop',
-				media => {
-					gui.state.backdrop = media;
+				(media: any) => {
+					gui.sketch.backdrop = media;
 				}
 			);
 			loadGroup?.addMediaLoader(
 				'overlayLoader',
 				'Load overlay',
-				media => {
-					gui.state.overlay = media;
+				(media: any) => {
+					gui.sketch.overlay = media;
 				}
 			);
 
-			columnGroup?.addButton('clearMedia', 'Clear media', controller => {
-				delete gui.state.backdrop;
-				delete gui.state.overlay;
-			});
+			columnGroup?.addButton(
+				'clearMedia',
+				'Clear media',
+				(controller: Controller) => {
+					delete gui.sketch.backdrop;
+					delete gui.sketch.overlay;
+				}
+			);
 		},
 	};
 }

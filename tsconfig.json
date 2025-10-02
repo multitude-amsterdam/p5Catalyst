@@ -5,6 +5,7 @@
 		"module": "ESNext",
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"skipLibCheck": true,
+		"outDir": "./dist",
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
@@ -27,9 +28,10 @@
 
 		/* Path aliases */
 		"baseUrl": "."
+		// "rootDirs": [".", "src"]
 		// "paths": {
 		// 	"utils/*": ["src/lib/utils/*"]
 		// }
 	},
-	"include": ["src/2"]
+	"include": ["src/**/*"]
 }

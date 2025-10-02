@@ -1,5 +1,5 @@
 import { Field } from '../Field';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 
 /**
  * Wrapper for <img> elements placed in the GUI.
@@ -14,7 +14,7 @@ export class ImageField extends Field {
 	 * @param {boolean} [doAlignCenter=true] - Whether to center the image in its container.
 	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		url: string,
 		altText: string,
 		doAlignCenter?: boolean

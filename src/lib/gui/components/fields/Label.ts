@@ -1,7 +1,7 @@
 import p5 from 'p5';
 import { Field } from '../Field';
 import { Controller } from '../Controller';
-import { GUIForP5 } from '../../GUIForP5';
+import { CatalystGUI } from '../../CatalystGUI';
 
 /**
  * Text label associated with a controller.
@@ -16,7 +16,7 @@ export class Label extends Field {
 	 * @param {string} text - The text content of the label.
 	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		controller: Controller,
 		text: string,
 		parentDiv?: p5.Element

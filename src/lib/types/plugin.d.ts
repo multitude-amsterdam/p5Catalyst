@@ -1,28 +1,21 @@
-import type { GUIControllerInterface } from './gui_interface';
-import type { State } from './construction';
-import type { GUIForP5 } from '../gui/GUIForP5';
-import type { Dictionary } from './lang';
+import type { Config } from '../types/config';
+import type { CatalystGUI } from '../gui/CatalystGUI';
+import type { ExtensibleP5 } from './p5-extension';
 
 export interface Plugin {
 	name: string;
-	beforeInit?: (config: Config) => void;
-	setup?: (
-		gui: GUIControllerInterface,
-		container: Container,
-		config?: Config
+
+	beforeGuiExists?: (sketch: ExtensibleP5, config: Config) => void;
+
+	beforeUserCreatesGui?: (
+		gui: CatalystGUI,
+		sketch: ExtensibleP5,
+		config: Config
 	) => void;
-	afterInit?: (gui: GUIForP5) => void;
+
+	afterUserCreatesGui?: (
+		gui: CatalystGUI,
+		sketch: ExtensibleP5,
+		config: Config
+	) => void;
 }
-
-export interface Config {
-	defaultLanguage?: string;
-	userDictionary?: Dictionary;
-	fileName?: string;
-	contactMail?: string;
-	createRandomizer?: boolean;
-	clearBackground?: boolean;
-}
-
-export interface UserConfig extends Pick<Config, 'fileName' | 'contactMail'> {}
-
-export type imageFileType = 'png' | 'jpg' | 'webp';

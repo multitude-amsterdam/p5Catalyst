@@ -1,6 +1,6 @@
 import type { controllerCallback, setupCallback } from '../../../types';
 import { Controller } from '../Controller';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 /**
  * Simple push button controller.
  * @extends Controller
@@ -8,7 +8,7 @@ import type { GUIForP5 } from '../../GUIForP5';
 export class Button extends Controller {
 	/**
 	 * Constructor for Button.
-	 * @param {GUIForP5} gui
+	 * @param {CatalystGUI} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {function} callback
@@ -24,7 +24,7 @@ export class Button extends Controller {
 	 * );
 	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		callback?: controllerCallback,
@@ -32,7 +32,7 @@ export class Button extends Controller {
 	) {
 		super(gui, name, '', setupCallback);
 		labelStr = gui.lang.process(labelStr, true);
-		this.controllerElement = gui.p5Instance.createButton(labelStr);
+		this.controllerElement = gui.sketch.createButton(labelStr);
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.elt.onclick = () => {
 			if (callback) callback(this);

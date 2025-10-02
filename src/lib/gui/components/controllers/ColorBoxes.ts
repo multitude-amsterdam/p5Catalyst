@@ -1,9 +1,9 @@
 import p5 from 'p5';
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { ValuedController } from '../ValuedController';
 import type { setupCallback, valueCallback } from '../../../types';
 import type { Controller } from '../Controller';
-import type { P5SelectElement } from '../../../../2/lib/types/controller';
+import type { P5SelectElement } from '../../../types/controller';
 
 /**
  * Radio buttons displaying colored options.
@@ -21,7 +21,7 @@ export class ColorBoxes extends ValuedController {
 
 	/**
 	 * Constructor for ColorBoxes.
-	 * @param {GUIForP5} gui
+	 * @param {CatalystGUI} gui
 	 * @param {string} name
 	 * @param {string} labelStr
 	 * @param {Array<p5.Color>} colors - Array of p5.Color objects.
@@ -30,7 +30,7 @@ export class ColorBoxes extends ValuedController {
 	 * @param {function} [setupCallback] - Optional setup callback function.
 	 */
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		name: string,
 		labelStr: string,
 		colors: string[],
@@ -38,13 +38,13 @@ export class ColorBoxes extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		const defaultValue = gui.p5Instance.color(colors[defaultIndex]);
+		const defaultValue = gui.sketch.color(colors[defaultIndex]);
 		super(gui, name, labelStr, defaultValue, setupCallback);
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
 		this.createRadioFromColors(colors);
 		this.valueCallback(this, this.value);
-		this.colors = colors.map(color => gui.p5Instance.color(color));
+		this.colors = colors.map(color => gui.sketch.color(color));
 	}
 
 	/**
@@ -58,9 +58,7 @@ export class ColorBoxes extends ValuedController {
 			this.controllerElement.elt.remove();
 		}
 
-		const radio = this.gui.p5Instance.createRadio(
-			this.name
-		) as P5SelectElement;
+		const radio = this.gui.sketch.createRadio(this.name) as P5SelectElement;
 		radio.class('color-boxes');
 		this.controllerWrapper.elt.prepend(radio.elt);
 
@@ -92,13 +90,13 @@ export class ColorBoxes extends ValuedController {
 			throw new Error(color + ' can not be found in colors.');
 		}
 
-		this.value = this.gui.p5Instance.color(this.colors[index]);
+		this.value = this.gui.sketch.color(this.colors[index]);
 		(this.controllerElement as P5SelectElement).selected('' + index);
 		this.valueCallback(this, this.value);
 		if (this.doUpdateChangeSet()) this.gui.changeSet.save();
 	}
 
 	randomize() {
-		this.setValue(this.gui.p5Instance.random(this.colors));
+		this.setValue(this.gui.sketch.random(this.colors));
 	}
 }

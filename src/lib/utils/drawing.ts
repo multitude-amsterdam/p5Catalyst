@@ -1,4 +1,6 @@
-import p5 from 'p5';
+import type { ExtensibleP5 } from '../types';
+import type p5 from 'p5';
+
 /**
  * Execute a drawing function wrapped in push/pop calls. Can also operate on a
  * {@link p5.Graphics} instance if provided.
@@ -13,7 +15,7 @@ export function pushpop(canvas: p5.Graphics, func: () => void): void {
  * Draw an image fitted to the canvas centre.
  */
 export function imageCentered(
-	sketch: p5,
+	sketch: ExtensibleP5,
 	img: p5.Image,
 	doFill: boolean
 ): void {
