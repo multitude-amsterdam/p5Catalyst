@@ -22,6 +22,10 @@ Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew
 ![p5Catalyst demo](./demo-dark.png#gh-dark-mode-only)
 ![p5Catalyst demo](./demo-light.png#gh-light-mode-only)
 
+# 👀 Demo
+
+[See it in action!](https://multitude-amsterdam.github.io/p5Catalyst)
+
 # 🛠️ Features
 
 -   **Sketch integration**: integrate a finished p5 sketch easily.
@@ -33,10 +37,6 @@ Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew
 <!-- -   **Change history**: use CTRL+Z and CTRL+SHIFT+Z to undo and redo changes. -->
 -   **Change history**: undo and redo changes.
 -   **Internationalization**: plug in translations for global-ready tools.
-
-# 👀 Demo
-
-[See it in action!](https://multitude-amsterdam.github.io/p5Catalyst)
 
 # 🔁 Why open-source?
 
