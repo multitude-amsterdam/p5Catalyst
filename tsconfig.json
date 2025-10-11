@@ -5,6 +5,7 @@
 		"module": "ESNext",
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 		"skipLibCheck": true,
+		"outDir": "./dist",
 
 		/* Bundler mode */
 		"moduleResolution": "bundler",
@@ -30,6 +31,9 @@
 		/* https://yourdomain.org/design/generator/ */
 		/* and it will load URLs starting with "/..." from this path */
 		"baseUrl": "."
+		// "paths": {
+		// 	"utils/*": ["src/lib/utils/*"]
+		// }
 	},
-	"include": ["src"]
+	"include": ["src/**/*"]
 }

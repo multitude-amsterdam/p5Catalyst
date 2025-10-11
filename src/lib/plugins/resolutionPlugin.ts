@@ -1,48 +1,9 @@
 import type { ResolutionTextBoxes } from '../gui/components';
+import type { Plugin } from '../types';
+
 import { COLUMN } from '../gui/components/groups/Group';
 
-import type {
-	State,
-	Plugin,
-	GUIControllerInterface,
-	Container,
-} from '../types';
-
-// Language plugin
-export function resolutionPlugin(resolutionOptions: string[]): Plugin {
-	return {
-		name: 'resolution',
-		setup: (gui: GUIControllerInterface, container: Container) => {
-			const appearanceTab = gui.getTab('appearance');
-
-			const panel = appearanceTab?.addPanel('LANG_RESOLUTION', true);
-
-			const group = panel?.addGroup('resolutionGroup', COLUMN);
-
-			group?.addResolutionSelect(
-				'Presets',
-				resolutionOptions,
-				0,
-				(controller, value) => {
-					const resbox = gui.getController<ResolutionTextBoxes>(
-						'resolutionTextboxes'
-					);
-					resbox?.setValueOnlyDisplay(
-						container.state.width,
-						container.state.height
-					);
-				}
-			);
-
-			group?.addResolutionTextBoxes(
-				container.state.width,
-				container.state.height
-			);
-		},
-	};
-}
-
-export const resolutionPresets = [
+const resolutionPresets: string[] = [
 	'Full-HD (1080p) LANG_PORTRAIT: 1080 x 1920',
 	'Full-HD (1080p) LANG_LANDSCAPE: 1920 x 1080',
 	'4K-Ultra-HD (2160p): 3840 x 2160',
@@ -101,7 +62,7 @@ function getASeriesPaperResolutionOptionAtDpi(
 	sizeASeriesPaper: number,
 	dpi: number,
 	isPortrait: boolean = true
-) {
+): string {
 	// A0 paper size in mm
 	const baseWidth = 841;
 	const baseHeight = 1189;
@@ -116,4 +77,32 @@ function getASeriesPaperResolutionOptionAtDpi(
 		} @ ${dpi} DPI: ` +
 		`${isPortrait ? wPx : hPx} x ${isPortrait ? hPx : wPx}`
 	);
+}
+
+export function resolutionPlugin(resolutionOptions?: string[]): Plugin {
+	return {
+		name: 'resolution',
+
+		beforeUserCreatesGui: (gui, sketch, config) => {
+			const appearanceTab = gui.getTab('appearance');
+
+			const panel = appearanceTab?.addPanel('LANG_RESOLUTION', true);
+
+			const group = panel?.addGroup('resolutionGroup', COLUMN);
+
+			group?.addResolutionSelect(
+				'Presets',
+				resolutionOptions || resolutionPresets,
+				0,
+				(controller, value) => {
+					const resbox = gui.getController<ResolutionTextBoxes>(
+						'resolutionTextboxes'
+					);
+					resbox?.setValueOnlyDisplay(sketch.width, sketch.height);
+				}
+			);
+
+			group?.addResolutionTextBoxes(sketch.width, sketch.height);
+		},
+	};
 }

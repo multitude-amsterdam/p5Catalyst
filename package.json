@@ -1,22 +1,45 @@
 {
 	"name": "package.json",
-	"private": true,
 	"version": "0.0.0",
+	"private": true,
+	"description": "A GUI wrapper that powercharges your p5.js sketches into polished and robust web apps.",
+	"keywords": [
+		"p5",
+		"p5.js",
+		"wrapper",
+		"GUI",
+		"UI",
+		"interface",
+		"web",
+		"app",
+		"generator"
+	],
+	"homepage": "https://github.com/multitude-amsterdam/p5Catalyst#readme",
+	"bugs": {
+		"url": "https://github.com/multitude-amsterdam/p5Catalyst/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/multitude-amsterdam/p5Catalyst.git"
+	},
+	"license": "MIT",
+	"author": "Aidan Wyber & Christoph Seibel",
 	"type": "module",
+	"main": "src/main.ts",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
 		"preview": "vite preview"
-	},
-	"devDependencies": {
-		"@types/p5": "^1.7.6",
-		"typescript": "~5.8.3",
-		"vite": "^7.0.4"
 	},
 	"dependencies": {
 		"@ffmpeg/ffmpeg": "^0.12.15",
 		"@ffmpeg/util": "^0.12.2",
 		"jszip": "^3.10.1",
 		"p5": "^2.0.3"
+	},
+	"devDependencies": {
+		"@types/p5": "^1.7.6",
+		"typescript": "~5.8.3",
+		"vite": "^7.0.4"
 	}
 }

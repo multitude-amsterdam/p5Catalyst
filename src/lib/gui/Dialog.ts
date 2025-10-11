@@ -1,8 +1,8 @@
 import p5 from 'p5';
-import type { GUIForP5 } from './GUIForP5';
+import type { CatalystGUI } from './CatalystGUI';
 
 export class Dialog {
-	gui: GUIForP5;
+	gui: CatalystGUI;
 	dialogElement: p5.Element;
 	divContent: p5.Element;
 	buttonCloseDialog: p5.Element;
@@ -12,47 +12,45 @@ export class Dialog {
 	promptInput: p5.Element;
 	promptConfirmButton: p5.Element;
 
-	constructor(gui: GUIForP5) {
+	constructor(gui: CatalystGUI) {
 		this.gui = gui;
 
 		// create html structure
-		this.dialogElement = gui.p5Instance
-			.createElement('dialog')
-			.class('dialog');
+		this.dialogElement = gui.sketch.createElement('dialog').class('dialog');
 		{
-			this.dialogBackdropClose = gui.p5Instance
+			this.dialogBackdropClose = gui.sketch
 				.createButton('')
 				.parent(this.dialogElement)
 				.class('dialog-backdrop-close')
 				.attribute('tabindex', '-1')
 				.mousePressed(() => this.close());
 
-			this.divContent = gui.p5Instance
+			this.divContent = gui.sketch
 				.createDiv()
 				.parent(this.dialogElement)
 				.class('dialog-content');
 			{
-				this.buttonCloseDialog = gui.p5Instance
+				this.buttonCloseDialog = gui.sketch
 					.createButton('&#10005;') // cross
 					.parent(this.divContent)
 					.class('dialog-close')
 					.mousePressed(() => this.close());
 
-				this.contentWrapper = gui.p5Instance
+				this.contentWrapper = gui.sketch
 					.createDiv()
 					.parent(this.divContent)
 					.class('dialog-content-wrapper');
 
-				this.divPrompt = gui.p5Instance
+				this.divPrompt = gui.sketch
 					.createDiv()
 					.parent(this.divContent)
 					.class('dialog-prompt-form');
 				{
-					this.promptInput = gui.p5Instance
+					this.promptInput = gui.sketch
 						.createInput()
 						.parent(this.divPrompt)
 						.class('dialog-prompt-input');
-					this.promptConfirmButton = gui.p5Instance
+					this.promptConfirmButton = gui.sketch
 						.createButton('OK')
 						.parent(this.divPrompt)
 						.class('dialog-prompt-confirm');

@@ -1,9 +1,9 @@
-import type { Plugin, Config, UserConfig } from '../types';
+import type { Plugin, UserConfig } from '../types';
 
 export function setConfigPlugin(userConfig: UserConfig): Plugin {
 	return {
 		name: 'setConfig',
-		beforeInit: (config: Config) => {
+		beforeGuiExists: (sketch, config) => {
 			Object.assign(config, userConfig);
 		},
 	};

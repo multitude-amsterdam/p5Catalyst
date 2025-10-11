@@ -1,12 +1,12 @@
-import type { Config, Dictionary, Plugin } from '../types';
-// Language plugin
+import type { Dictionary, Plugin } from '../types';
+
 export function languagePlugin(
 	lang: string,
 	userDictionary: Dictionary = {}
 ): Plugin {
 	return {
 		name: 'language',
-		beforeInit: (config: Config) => {
+		beforeGuiExists: (sketch, config) => {
 			config.defaultLanguage = lang;
 			config.userDictionary = userDictionary;
 		},

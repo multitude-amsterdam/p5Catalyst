@@ -1,11 +1,11 @@
-import type { GUIForP5 } from '../../GUIForP5';
+import type { CatalystGUI } from '../../CatalystGUI';
 import { BaseGroup } from './BaseGroup';
 
 export class Tab extends BaseGroup {
-	gui: GUIForP5;
+	gui: CatalystGUI;
 	name: string;
 
-	constructor(gui: GUIForP5, name: string) {
+	constructor(gui: CatalystGUI, name: string) {
 		super(
 			gui,
 			'guiGroup-' + name.replaceAll(' ', '-').toLowerCase(),

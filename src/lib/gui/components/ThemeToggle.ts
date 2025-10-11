@@ -1,6 +1,6 @@
 import type { CommandBar } from '../components/CommandBar';
-import type { GUIForP5 } from '../GUIForP5';
-import { GUIButton } from './GUIButton';
+import type { CatalystGUI } from '../CatalystGUI';
+import { GUIButton } from '../components/GUIButton';
 import p5 from 'p5';
 
 export class ThemeToggle extends GUIButton {
@@ -8,7 +8,7 @@ export class ThemeToggle extends GUIButton {
 	iconDarkSvg: string;
 
 	constructor(
-		gui: GUIForP5,
+		gui: CatalystGUI,
 		commandBar: CommandBar,
 		iconLightSvg: string,
 		iconDarkSvg: string

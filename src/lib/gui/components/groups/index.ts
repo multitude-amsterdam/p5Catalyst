@@ -1,5 +1,4 @@
-import { Panel } from './Panel';
-import { Group } from './Group';
-import { Tab } from './Tab';
-
-export { Panel, Group, Tab };
+export * from './BaseGroup';
+export * from './Group';
+export * from './Panel';
+export * from './Tab';

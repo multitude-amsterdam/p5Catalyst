@@ -3,6 +3,7 @@ import type { Controller } from '../gui/components/Controller';
 
 export type ControllerElement = p5.Element | P5SelectElement | null;
 
+// types of controller callbacks
 export type controllerCallback = (controller: Controller) => void;
 export type valueCallback = (
 	controller: Controller,

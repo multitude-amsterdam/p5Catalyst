@@ -1,15 +1,17 @@
-import { COLUMN, ROW } from '../gui/components/groups/Group';
 import type { Plugin } from '../types';
+import type { Controller } from '../gui/components';
+
+import { COLUMN, ROW } from '../gui/components/groups/Group';
 
 export function backdropPlugin(): Plugin {
 	return {
 		name: 'backdrop',
 
-		beforeInit(config) {
-			config.clearBackground = true;
+		beforeUserCreatesGui(gui, sketch, config) {
+			if (config) config.doClearBackground = true;
 		},
 
-		afterInit: gui => {
+		afterUserCreatesGui: (gui, sketch, config) => {
 			const appearanceTab = gui.getTab('appearance');
 
 			const panel = appearanceTab?.addPanel('Backdrop & overlay');
@@ -20,22 +22,26 @@ export function backdropPlugin(): Plugin {
 			loadGroup?.addMediaLoader(
 				'backdropLoader',
 				'Load backdrop',
-				media => {
-					gui.state.backdrop = media;
+				(media: any) => {
+					gui.sketch.backdrop = media;
 				}
 			);
 			loadGroup?.addMediaLoader(
 				'overlayLoader',
 				'Load overlay',
-				media => {
-					gui.state.overlay = media;
+				(media: any) => {
+					gui.sketch.overlay = media;
 				}
 			);
 
-			columnGroup?.addButton('clearMedia', 'Clear media', controller => {
-				delete gui.state.backdrop;
-				delete gui.state.overlay;
-			});
+			columnGroup?.addButton(
+				'clearMedia',
+				'Clear media',
+				(controller: Controller) => {
+					delete gui.sketch.backdrop;
+					delete gui.sketch.overlay;
+				}
+			);
 		},
 	};
 }
