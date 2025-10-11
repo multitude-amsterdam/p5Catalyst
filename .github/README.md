@@ -90,43 +90,40 @@ Vite will print a local URL (usually `http://localhost:5173`) where you can prev
 This is where your setup() and draw() functions live, just like in a regular p5 sketch.
 
 ```js
-// src/main.js
+// src/sketch.js
 
-const sketchFunction = async (sketch, state) => {
+export const sketchSeed = async sketch => {
 	sketch.setup = async () => {
-		sketch.noStroke();
+		sketch.circleDiameter = 0.5;
+		sketch.circleColor = sketch.color(0);
+		sketch.bgColor = sketch.color(0);
 
-		// the `state` object stores shared values that update via the GUI
-		state.circleColor = sketch.color(0);
-		state.circleDiameter = 0.5;
-		state.bgColor = sketch.color(0);
-		state.nBgElements = 5;
+		sketch.noStroke();
 	};
 
 	sketch.draw = () => {
 		// background ellipses
-		sketch.fill(state.bgColor);
-		let sx = state.width / state.nBgElements;
-		let sy = state.height / state.nBgElements;
-		for (let x = 0; x < state.nBgElements; x++) {
-			for (let y = 0; y < state.nBgElements; y++) {
-				sketch.ellipse((x + 0.5) * sx, (y + 0.5) * sy, sx, sy);
-			}
-		}
+		sketch.background(sketch.bgColor);
+
+		// method provided by p5Catalyst to display a backdrop image
+		sketch.attemptDrawBackdrop();
 
 		// animated circle
-		sketch.fill(state.circleColor);
+		sketch.fill(sketch.circleColor);
 		const diam =
 			sketch.width *
-			sketch.lerp(1 / state.nBgElements, 1, state.circleDiameter);
+			sketch.lerp(1 / sketch.nBgElements, 1, sketch.circleDiameter);
 		const amp = (sketch.height - diam) / 2;
-		// `state.progress` is automatically provided by p5Catalyst to animate over time
+		// `sketch.progress` is automatically provided by p5Catalyst to animate over time
 		sketch.circle(
-			state.width / 2,
-			state.height / 2 +
-				sketch.sin(state.progress * sketch.TAU * 2) * amp,
+			sketch.width / 2,
+			sketch.height / 2 +
+				sketch.sin(sketch.progress * sketch.TAU * 2) * amp,
 			diam
 		);
+
+		// method provided by p5Catalyst to display an overlay image
+		sketch.attemptDrawOverlay();
 	};
 };
 ```
@@ -140,53 +137,50 @@ Controllers are grouped into tabs and panels. All controllers can access `state`
 Naming controller, like 'sliderCircleDiameter', is important for plugin targeting, like randomization.
 
 ```js
-const createGui = (gui, { state }) => {
+export function createGui(gui, sketch) {
+	// get the 'Appearance' tab that is proved by p5Catalyst in `defaultPlugins`
 	const appearanceTab = gui.getTab('appearance');
 
-	const circlePanel = appearanceTab.addPanel('Circle', true);
-	circlePanel.addColorBoxes(
+	// add a new collapsable panel to contain the controllers
+	const circlePanel = appearanceTab?.addPanel('Circle', true);
+
+	// add a color picker with multiple colored boxes
+	circlePanel?.addColorBoxes(
 		'colorBoxesCircle',
 		'Circle color',
 		['#FF2600', '#86D594', '#004D30', '#336DFF', '#F5CBFF'],
 		0,
 		(controller, value) => {
-			state.circleColor = value;
+			// these callback are called when the controller's value changes
+			sketch.circleColor = value;
 		}
 	);
-	circlePanel.addSlider(
+
+	circlePanel?.addSlider(
 		'sliderCircleDiameter',
 		'Circle size',
 		0,
 		1,
-		state.circleDiameter,
+		sketch.circleDiameter,
 		0.001,
 		(controller, value) => {
-			state.circleDiameter = value;
+			sketch.circleDiameter = value;
 		}
 	);
 
-	const bgPanel = appearanceTab.addPanel('Background pattern', true);
-	bgPanel.addColorBoxes(
+	// add another collapsible panel
+	const bgPanel = appearanceTab?.addPanel('Background pattern', true);
+
+	bgPanel?.addColorBoxes(
 		'colorBoxesBg',
 		'Background color',
 		['#FF2600', '#86D594', '#004D30', '#336DFF', '#F5CBFF'],
 		3,
 		(controller, value) => {
-			state.bgColor = value;
+			sketch.bgColor = value;
 		}
 	);
-	bgPanel.addSlider(
-		'sliderNBg',
-		'Number of ellipses',
-		1,
-		10,
-		state.nBgElements,
-		1,
-		(controller, value) => {
-			state.nBgElements = value;
-		}
-	);
-};
+}
 ```
 
 ### 4.3. Plugins
@@ -194,24 +188,42 @@ const createGui = (gui, { state }) => {
 This section defines which p5Catalyst features your sketch will use. Many of these are additions to the GUI that add specific functionality, like video exporting.
 
 ```js
-const plugins = [
-	catalyst.defaultPlugin(), // adds state and time management
-	catalyst.randomizerPlugin([
-		// adds 🎲 randomization support for these controls
+export const plugins = [
+	// set the title of your app
+	appTitlePlugin('CircleGen'),
+
+	// add the default plugins
+	...defaultPlugins,
+
+	// add a randomizer (dice icons) on controllers by name
+	randomizerPlugin([
 		'colorBoxesCircle',
 		'sliderCircleDiameter',
 		'colorBoxesBg',
 		'sliderNBg',
-	])
-	catalyst.storeSettingsPlugin(), // allows saving and restoring settings
+	]),
+
+	// create your own custom plugin to run code at specific times during initialization
+	{
+		name: 'customPlugin',
+		beforeGuiExists(sketch, config) {
+			console.log('beforeGuiExists!');
+		},
+		beforeUserCreatesGui: (gui, sketch, config) => {
+			console.log('beforeUserCreatesGui!');
+		},
+		afterUserCreatesGui: (gui, sketch, config) => {
+			console.log('afterUserCreatesGui!');
+		},
+	},
 ];
 ```
 
 ### 4.4. Best practices
 
--   Share `state` between the GUI and sketch by reading or updating variables inside the `state` variable.
--   Import additional modules (GUI definitions, data loaders, etc.) at the top of `main.js`.
--   Extract reusable logic into files in `src/` and `import` them into `main.js` as your project grows.
+-   Share `sketch` between the GUI and sketch by reading or updating variables inside the `sketch` variable.
+-   Access `sketch.catalyst` for additional fields provided by p5Catalyst, including properties: `isPlaying`, `isRecording`, `animationFrameCount`, `exportStage`, `duration`, `fps`, `gui`, and a bunch of helper methods (see: (p5Catalyst.ts)[../src/lib/Catalyst.ts])
+-   Extract your reusable code into JavaScript or TypeScript files in `src/` and `import` them into `sketch.js` as your project grows.
 
 ### 5. Style the GUI
 
