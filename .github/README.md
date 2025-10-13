@@ -249,6 +249,51 @@ npm run build
 
 If there are no errors, the project has now been built into the `dist/` directory and you can plop it in on a server with FTP.
 
+# 🗞️ Updating your project
+
+When you clone this repo and create a project out of it, you also disconnect from any updates to this repo. To update your project to match this repo, you can merge this main repo into your clone.
+
+## 1. Add this repo to your clone as a "remote":
+
+```sh
+git remote add p5catalyst https://github.com/multitude-amsterdam/p5Catalyst.git
+```
+
+## 2. Fetch the updates:
+
+```sh
+git fetch catalyst
+```
+
+You can view these changes with:
+
+```sh
+git diff main..p5catalyst/main
+```
+
+Or just for an overview:
+
+```sh
+git diff --stat main..p5catalyst/main
+```
+
+## 3. Merge into your local clone:
+
+```sh
+git merge p5catalyst/main
+```
+
+If any merge conflicts arise, you will need to resolve these in your editor.
+
+## 4. Commit changes
+
+```sh
+git add .
+git commit -m "p5catalyst update"
+```
+
+Done!
+
 # 🌍 Sharing your work
 
 We kindly ask: if you make something cool with p5Catalyst, please share it! Whether it's a wild new web app, an adaptation for a client, or just a fun remix, **we'd love to see it 👀**!
@@ -283,3 +328,11 @@ Follow the development and join the discussion:
 
 -   GitHub Discussions: [join the conversation](https://github.com/multitude-amsterdam/p5Catalyst/discussions)
 -   Multitude's Instagram: [@multitudecreativeagency](https://www.instagram.com/multitudecreativeagency/)
+
+```
+
+```
+
+```
+
+```
