@@ -20,7 +20,7 @@ declare global {
 export class Catalyst {
 	gui?: CatalystGUI;
 
-	#isPlaying: boolean;
+	isPlaying: boolean;
 	#isRecording: boolean;
 	#duration: number = 10;
 	#fps: number = 30;
@@ -28,21 +28,21 @@ export class Catalyst {
 	#exportStage: 'idle' | 'recording' | 'exporting' = 'idle';
 	#progress: number = 0;
 	#time: number = 0;
-	#mouseWheelScale: number = 1;
-	#sessionId: string;
-	#sessionHash: number;
+	mouseWheelScale: number = 1;
+	sessionId: string;
+	sessionHash: number;
 
 	constructor(
 		userSketchSeed: sketchSeedFunction,
 		createUserGui: (gui: CatalystGUI, sketch: ExtensibleP5) => void,
 		userPlugins?: Plugin[]
 	) {
-		this.#isPlaying = true;
+		this.isPlaying = true;
 		this.#isRecording = false;
 		this.setNFrames();
 		const timestamp = Date.now();
-		this.#sessionId = toB64(timestamp);
-		this.#sessionHash =
+		this.sessionId = toB64(timestamp);
+		this.sessionHash =
 			(((Math.sin(timestamp * 12.9898) * 43758.5453) % 1) + 1) % 1; // hash in [0, 1>
 
 		globalThis.sketch = new p5(async (sketch: ExtensibleP5) => {
@@ -99,7 +99,7 @@ export class Catalyst {
 			};
 
 			sketch.draw = () => {
-				if (!this.#isRecording && !this.#isPlaying) {
+				if (!this.#isRecording && !this.isPlaying) {
 					sketch.frameCount--;
 				}
 
@@ -131,7 +131,7 @@ export class Catalyst {
 
 				switch (event.key) {
 					case ' ':
-						this.#isPlaying = !this.#isPlaying;
+						this.isPlaying = !this.isPlaying;
 						return;
 					default:
 						userKeyPressed?.(event);
@@ -154,15 +154,12 @@ export class Catalyst {
 				)
 					return;
 
-				this.#mouseWheelScale *= Math.exp(event.deltaY * 1);
+				this.mouseWheelScale *= Math.exp(event.deltaY * 1);
 			};
 		});
 		// `sketch` can be globally accessed from here on
 	}
 
-	get isPlaying() {
-		return this.#isPlaying;
-	}
 	get isRecording() {
 		return this.#isRecording;
 	}
@@ -180,15 +177,6 @@ export class Catalyst {
 	}
 	get time() {
 		return this.#time;
-	}
-	get sessionId() {
-		return this.#sessionId;
-	}
-	get sessionHash() {
-		return this.#sessionHash;
-	}
-	get mouseWheelScale() {
-		return this.#mouseWheelScale;
 	}
 
 	attemptDrawBackdrop() {
@@ -313,14 +301,14 @@ export class Catalyst {
 
 	startRecording() {
 		this.#isRecording = true;
-		this.#isPlaying = true;
+		this.isPlaying = true;
 		sketch.frameCount = 0;
 		console.log('Recording started.');
 	}
 
 	stopRecording() {
 		this.#isRecording = false;
-		this.#isPlaying = false;
+		this.isPlaying = false;
 		console.log('Recording ended.');
 		ffmpegCreateVideo(sketch.width, sketch.height, this.#fps, () => {
 			this.#exportStage = 'idle';
@@ -329,7 +317,7 @@ export class Catalyst {
 
 	cancelRecording() {
 		this.#isRecording = false;
-		this.#isPlaying = false;
+		this.isPlaying = false;
 	}
 
 	get exportStage() {
