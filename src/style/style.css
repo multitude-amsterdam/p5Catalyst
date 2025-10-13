@@ -272,43 +272,6 @@ details[open] > summary::before {
 	}
 }
 
-/* ------------------------------ LOGO STYLING ------------------------------ */
-#logo {
-	min-height: 4rem;
-	background-image: url('/assets/generator-logo.svg');
-	background-position-x: center;
-	background-position-y: center;
-	background-size: contain;
-	background-repeat: no-repeat;
-	margin-bottom: 0.5rem;
-}
-
-body:where(.dark-mode) #logo {
-}
-
-.footer-logo {
-	position: fixed;
-	bottom: 1rem;
-	right: 1rem;
-}
-
-.p5catalyst-logo {
-	height: 2.8rem;
-	width: 6rem;
-	position: relative;
-	right: -0.5rem;
-	bottom: -0.5rem;
-	background-image: url('/assets/p5catalyst-logo-light.svg');
-	background-position-x: left;
-	background-position-y: center;
-	background-size: contain;
-	background-repeat: no-repeat;
-}
-
-body:where(.dark-mode) .p5catalyst-logo {
-	background-image: url('/assets/p5catalyst-logo-dark.svg');
-}
-
 /* -------------------------------- TEXTFIELD ------------------------------- */
 .gui-textfield {
 	margin: 0.5rem 0;
