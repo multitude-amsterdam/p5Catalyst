@@ -44,20 +44,19 @@ export class Field {
 	//     this.div.elt.innerText = text;
 	//   }
 
-	//   /**
-	//    * Hides this field by setting its display to 'none'.
-	//    */
-	//   hide() {
-	//     this.div.hide();
-	//   }
+	/**
+	 * Hides this field by setting its display to 'none'.
+	 */
+	hide() {
+		this.div.hide();
+	}
 
-	//   /**
-	//    * Shows this field by setting its display to '' (default).
-	//    */
-	//   show() {
-	//     this.div.elt.style.display = ""; // more general than p5 .show()
-	//     if (this.setDisplay) this.setDisplay(); // XYSlider needs this for now
-	//   }
+	/**
+	 * Shows this field by setting its display to '' (default).
+	 */
+	show() {
+		this.div.elt.style.display = ''; // more general than p5 .show()
+	}
 
 	/**
 	 * Checks if this field is currently hidden.
