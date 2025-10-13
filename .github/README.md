@@ -221,9 +221,19 @@ export const plugins = [
 
 ### 4.4. Best practices
 
--   Share `sketch` between the GUI and sketch by reading or updating variables inside the `sketch` variable.
--   Access `sketch.catalyst` for additional fields provided by p5Catalyst, including properties: `isPlaying`, `isRecording`, `animationFrameCount`, `exportStage`, `duration`, `fps`, `gui`, and a bunch of helper methods (see: (p5Catalyst.ts)[../src/lib/Catalyst.ts])
 -   Extract your reusable code into JavaScript or TypeScript files in `src/` and `import` them into `sketch.js` as your project grows.
+-   Share `sketch` between the GUI and sketch by reading or updating variables inside the `sketch` variable.
+-   Access `sketch.catalyst` for additional fields provided by p5Catalyst, including properties:
+    -   `isPlaying`: a flag to pause the updateing of `sketch.frameCount`, which causes a pause in `sketch.catalyst.progress` and `sketch.catalyst.time`
+    -   `isRecording`: flag to indicate when frames are being saved for video exporting
+    -   `animationFrameCount`: the number of frames to record for video export
+    -   `exportStage`: a string describing the stage in video exporting (`"idle"`, `"recording "` or `"exporting"`)
+    -   `duration`: suration of the animation setting in seconds
+    -   `fps`: the set frame rate
+    -   `mouseWheelScale`: a scaling factor that updates when a mousewheel event happens
+    -   `sessionId`: a unique string per page load
+    -   `sessionHash`: a unique number between 0–1
+    -   And a bunch of helper methods (see: (p5Catalyst.ts)[../src/lib/Catalyst.ts])
 
 ### 5. Style the GUI
 
@@ -253,7 +263,7 @@ If there are no errors, the project has now been built into the `dist/` director
 
 When you clone this repo and create a project out of it, you also disconnect from any updates to this repo. To update your project to match this repo, you can merge this main repo into your clone.
 
-## 1. Add this repo to your clone as a "remote":
+## 1. Add this repo to your clone as a `remote`:
 
 ```sh
 git remote add p5catalyst https://github.com/multitude-amsterdam/p5Catalyst.git
