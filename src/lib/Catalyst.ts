@@ -144,7 +144,7 @@ export class Catalyst {
 			};
 
 			sketch.mouseWheel = (event: WheelEvent) => {
-				userMouseWheel(event);
+				userMouseWheel?.(event);
 
 				if (
 					sketch.mouseX < 0 ||
@@ -154,7 +154,7 @@ export class Catalyst {
 				)
 					return;
 
-				this.mouseWheelScale *= Math.exp(event.deltaY * 1);
+				this.mouseWheelScale *= Math.exp(event.deltaY * 0.001);
 			};
 		});
 		// `sketch` can be globally accessed from here on
