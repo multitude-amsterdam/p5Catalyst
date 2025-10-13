@@ -8,6 +8,7 @@ export const plugins = [
 	appTitlePlugin('CircleGen'),
 
 	...defaultPlugins,
+
 	randomizerPlugin([
 		'colorBoxesCircle',
 		'sliderCircleDiameter',

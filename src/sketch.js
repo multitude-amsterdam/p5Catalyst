@@ -1,4 +1,6 @@
 export const sketchSeed = async sketch => {
+	const catalyst = sketch.catalyst;
+
 	sketch.setup = async () => {
 		sketch.circleDiameter = 0.5;
 		sketch.circleColor = sketch.color(0);
@@ -11,7 +13,7 @@ export const sketchSeed = async sketch => {
 	sketch.draw = () => {
 		sketch.clear();
 
-		sketch.attemptDrawBackdrop();
+		catalyst.attemptDrawBackdrop();
 
 		sketch.fill(sketch.bgColor);
 		const sx = sketch.width / sketch.nBgElements;
@@ -30,10 +32,10 @@ export const sketchSeed = async sketch => {
 		sketch.circle(
 			sketch.width / 2,
 			sketch.height / 2 +
-				sketch.sin(sketch.progress * sketch.TAU * 2) * amp,
+				sketch.sin(catalyst.time * 0.1 * sketch.TAU) * amp,
 			diam
 		);
 
-		sketch.attemptDrawOverlay();
+		catalyst.attemptDrawOverlay();
 	};
 };

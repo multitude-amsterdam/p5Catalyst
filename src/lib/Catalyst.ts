@@ -19,54 +19,25 @@ declare global {
 export class Catalyst {
 	gui?: CatalystGUI;
 
+	#isPlaying: boolean;
+	#isRecording: boolean;
 	#duration: number = 10;
 	#fps: number = 30;
 	#animationFrameCount: number = -1;
 	#exportStage: 'idle' | 'recording' | 'exporting' = 'idle';
+	#progress: number = 0;
+	#time: number = 0;
 
 	constructor(
 		userSketchSeed: sketchSeedFunction,
 		createUserGui: (gui: CatalystGUI, sketch: ExtensibleP5) => void,
 		userPlugins?: Plugin[]
 	) {
+		this.#isPlaying = true;
+		this.#isRecording = false;
 		this.setNFrames();
 
 		globalThis.sketch = new p5(async (sketch: ExtensibleP5) => {
-			sketch.attemptDrawBackdrop = () => {
-				if (!sketch.backdrop) return;
-				sketch.image(
-					sketch.backdrop,
-					0,
-					0,
-					sketch.width,
-					sketch.height,
-					0,
-					0,
-					sketch.backdrop.width,
-					sketch.backdrop.height,
-					sketch.COVER
-				);
-			};
-
-			sketch.attemptDrawOverlay = () => {
-				if (!sketch.overlay) return;
-				sketch.image(
-					sketch.overlay,
-					0,
-					0,
-					sketch.width,
-					sketch.height,
-					0,
-					0,
-					sketch.overlay.width,
-					sketch.overlay.height,
-					sketch.COVER
-				);
-			};
-
-			sketch.isPlaying = true;
-			sketch.isRecording = false;
-
 			sketch.catalyst = this;
 
 			// load user properties onto sketch
@@ -119,50 +90,21 @@ export class Catalyst {
 			};
 
 			sketch.draw = () => {
-				if (!sketch.isRecording && !sketch.isPlaying) {
+				if (!this.#isRecording && !this.#isPlaying) {
 					sketch.frameCount--;
 				}
 
-				sketch.progress = sketch.frameCount / this.#animationFrameCount;
-
-				if (sketch.backdrop) {
-					sketch.image(
-						sketch.backdrop,
-						0,
-						0,
-						sketch.width,
-						sketch.height,
-						0,
-						0,
-						sketch.backdrop.width,
-						sketch.backdrop.height,
-						sketch.COVER
-					);
-				}
+				this.#progress = sketch.frameCount / this.#animationFrameCount;
+				this.#time = this.#progress * this.#duration; // duration-independent time
 
 				userDraw?.();
 
-				if (sketch.overlay) {
-					sketch.image(
-						sketch.overlay,
-						0,
-						0,
-						sketch.width,
-						sketch.height,
-						0,
-						0,
-						sketch.overlay.width,
-						sketch.overlay.height,
-						sketch.COVER
-					);
-				}
-
-				if (sketch.isRecording) {
+				if (this.#isRecording) {
 					if (sketch.frameCount < this.#animationFrameCount) {
 						this.#exportStage = 'recording';
 						saveToLocalFFMPEG(sketch.canvas);
 					} else {
-						sketch.isRecording = false;
+						this.#isRecording = false;
 						this.#exportStage = 'exporting';
 						ffmpegCreateVideo(
 							sketch.width,
@@ -180,7 +122,7 @@ export class Catalyst {
 
 				switch (event.key) {
 					case ' ':
-						sketch.isPlaying = !sketch.isPlaying;
+						this.#isPlaying = !this.#isPlaying;
 						return;
 					default:
 						userKeyPressed?.(event);
@@ -193,6 +135,60 @@ export class Catalyst {
 			};
 		});
 		// sketch can be globally accessed from now on
+	}
+
+	get isPlaying() {
+		return this.#isPlaying;
+	}
+	get isRecording() {
+		return this.#isRecording;
+	}
+	get duration() {
+		return this.#duration;
+	}
+	get fps() {
+		return this.#fps;
+	}
+	get animationFrameCount() {
+		return this.#animationFrameCount;
+	}
+	get progress() {
+		return this.#progress;
+	}
+	get time() {
+		return this.#time;
+	}
+
+	attemptDrawBackdrop() {
+		if (!sketch.backdrop) return;
+		sketch.image(
+			sketch.backdrop,
+			0,
+			0,
+			sketch.width,
+			sketch.height,
+			0,
+			0,
+			sketch.backdrop.width,
+			sketch.backdrop.height,
+			sketch.COVER
+		);
+	}
+
+	attemptDrawOverlay() {
+		if (!sketch.overlay) return;
+		sketch.image(
+			sketch.overlay,
+			0,
+			0,
+			sketch.width,
+			sketch.height,
+			0,
+			0,
+			sketch.overlay.width,
+			sketch.overlay.height,
+			sketch.COVER
+		);
 	}
 
 	createCanvasWrapper() {
@@ -283,26 +279,16 @@ export class Catalyst {
 		this.#animationFrameCount = Math.round(duration * fps);
 	}
 
-	get duration() {
-		return this.#duration;
-	}
-	get fps() {
-		return this.#fps;
-	}
-	get animationFrameCount() {
-		return this.#animationFrameCount;
-	}
-
 	startRecording() {
-		sketch.isRecording = true;
-		sketch.isPlaying = true;
+		this.#isRecording = true;
+		this.#isPlaying = true;
 		sketch.frameCount = 0;
 		console.log('Recording started.');
 	}
 
 	stopRecording() {
-		sketch.isRecording = false;
-		sketch.isPlaying = false;
+		this.#isRecording = false;
+		this.#isPlaying = false;
 		console.log('Recording ended.');
 		ffmpegCreateVideo(sketch.width, sketch.height, this.#fps, () => {
 			this.#exportStage = 'idle';
@@ -310,8 +296,8 @@ export class Catalyst {
 	}
 
 	cancelRecording() {
-		sketch.isRecording = false;
-		sketch.isPlaying = false;
+		this.#isRecording = false;
+		this.#isPlaying = false;
 	}
 
 	get exportStage() {
