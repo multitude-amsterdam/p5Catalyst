@@ -1289,8 +1289,7 @@ main {
 	flex-direction: row-reverse;
 }
 
-canvas,
-.p5Canvas > svg {
+canvas {
 	display: block;
 	margin: auto;
 
@@ -1309,13 +1308,15 @@ canvas,
 		calc(var(--squareSize) / -2) 0px;
 	background-repeat: repeat;
 
+	/* for panning: */
+	/* cursor: grab; */
+
+	/* default cursor: */
 	cursor: crosshair;
 }
-
-.p5Canvas > svg {
-	display: none;
-	position: relative;
-	z-index: 1000;
+canvas:active {
+	/* for panning: */
+	/* cursor: grabbing; */
 }
 
 /* --------------------------------- DIALOG --------------------------------- */
