@@ -5,6 +5,7 @@ import type {
 	Config,
 	ImageFileType,
 } from './types';
+import { toB64 } from './utils';
 
 import p5 from 'p5';
 import { CatalystGUI } from './gui/CatalystGUI';
@@ -27,6 +28,9 @@ export class Catalyst {
 	#exportStage: 'idle' | 'recording' | 'exporting' = 'idle';
 	#progress: number = 0;
 	#time: number = 0;
+	#mouseWheelScale: number = 1;
+	#sessionId: string;
+	#sessionHash: number;
 
 	constructor(
 		userSketchSeed: sketchSeedFunction,
@@ -36,6 +40,10 @@ export class Catalyst {
 		this.#isPlaying = true;
 		this.#isRecording = false;
 		this.setNFrames();
+		const timestamp = Date.now();
+		this.#sessionId = toB64(timestamp);
+		this.#sessionHash =
+			(((Math.sin(timestamp * 12.9898) * 43758.5453) % 1) + 1) % 1; // hash in [0, 1>
 
 		globalThis.sketch = new p5(async (sketch: ExtensibleP5) => {
 			sketch.catalyst = this;
@@ -49,6 +57,7 @@ export class Catalyst {
 				draw: userDraw,
 				windowResized: userWindowResized,
 				keyPressed: userKeyPressed,
+				mouseWheel: userMouseWheel,
 			} = sketch;
 
 			sketch.setup = async () => {
@@ -133,8 +142,22 @@ export class Catalyst {
 				userWindowResized?.(event);
 				this.containCanvasInWrapper();
 			};
+
+			sketch.mouseWheel = (event: WheelEvent) => {
+				userMouseWheel(event);
+
+				if (
+					sketch.mouseX < 0 ||
+					sketch.mouseX > sketch.width ||
+					sketch.mouseY < 0 ||
+					sketch.mouseY > sketch.height
+				)
+					return;
+
+				this.#mouseWheelScale *= Math.exp(event.deltaY * 1);
+			};
 		});
-		// sketch can be globally accessed from now on
+		// `sketch` can be globally accessed from here on
 	}
 
 	get isPlaying() {
