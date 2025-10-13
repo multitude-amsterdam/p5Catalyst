@@ -181,6 +181,15 @@ export class Catalyst {
 	get time() {
 		return this.#time;
 	}
+	get sessionId() {
+		return this.#sessionId;
+	}
+	get sessionHash() {
+		return this.#sessionHash;
+	}
+	get mouseWheelScale() {
+		return this.#mouseWheelScale;
+	}
 
 	attemptDrawBackdrop() {
 		if (!sketch.backdrop) return;
