@@ -12,21 +12,21 @@ export function backdropPlugin(): Plugin {
 		},
 
 		afterUserCreatesGui: (gui, sketch, config) => {
-			const appearanceTab = gui.getTab('appearance');
+			const appearanceTab = gui.getTab('appearance') || gui;
 
-			const panel = appearanceTab?.addPanel('Backdrop & overlay');
+			const panel = appearanceTab.addPanel('Backdrop & overlay', false);
 
-			const columnGroup = panel?.addGroup('backdropGroup', COLUMN);
-			const loadGroup = columnGroup?.addGroup('mediaLoad', ROW);
+			const columnGroup = panel.addGroup('backdropGroup', COLUMN);
+			const loadGroup = columnGroup.addGroup('mediaLoad', ROW);
 
-			loadGroup?.addMediaLoader(
+			loadGroup.addMediaLoader(
 				'backdropLoader',
 				'Load backdrop',
 				(media: any) => {
 					gui.sketch.backdrop = media;
 				}
 			);
-			loadGroup?.addMediaLoader(
+			loadGroup.addMediaLoader(
 				'overlayLoader',
 				'Load overlay',
 				(media: any) => {
@@ -34,7 +34,7 @@ export function backdropPlugin(): Plugin {
 				}
 			);
 
-			columnGroup?.addButton(
+			columnGroup.addButton(
 				'clearMedia',
 				'Clear media',
 				(controller: Controller) => {

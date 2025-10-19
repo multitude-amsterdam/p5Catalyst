@@ -11,13 +11,13 @@ export function videoExportPlugin(): Plugin {
 		name: 'videoExport',
 
 		afterUserCreatesGui: (gui, sketch, config) => {
-			const exportTab = gui.getTab('export');
+			const exportTab = gui.getTab('export') || gui;
 
-			const panel = exportTab?.addPanel('Export video');
+			const panel = exportTab.addPanel('Export video', true);
 
-			const columnGroup = panel?.addGroup('videoExport', COLUMN);
+			const columnGroup = panel.addGroup('videoExport', COLUMN);
 
-			columnGroup?.addSelect(
+			columnGroup.addSelect(
 				'formatSelect',
 				'Video format',
 				Object.values(videoFormats).map(format => format.guiName),
@@ -27,9 +27,9 @@ export function videoExportPlugin(): Plugin {
 				}
 			);
 
-			const timeGroup = columnGroup?.addGroup('timeGroup', ROW);
+			const timeGroup = columnGroup.addGroup('timeGroup', ROW);
 
-			timeGroup?.addTextbox(
+			timeGroup.addTextbox(
 				'durationTextbox',
 				'Duration (s)',
 				sketch.catalyst?.duration.toString() || '10',
@@ -41,7 +41,7 @@ export function videoExportPlugin(): Plugin {
 				}
 			);
 
-			timeGroup?.addTextbox(
+			timeGroup.addTextbox(
 				'frameRateTextbox',
 				'LANG_FRAME_RATE (fps)',
 				sketch.catalyst?.fps.toString() || '30',
@@ -57,29 +57,25 @@ export function videoExportPlugin(): Plugin {
 				recording: 'Saving frames...',
 				exporting: 'Exporting video...',
 			};
-			columnGroup?.addButton(
-				'startExport',
-				'Start export',
-				controller => {
-					if (sketch.isRecording) {
-						sketch.catalyst?.cancelRecording();
-					} else {
-						sketch.catalyst?.startRecording();
-						const interval = setInterval(() => {
-							controller.controllerElement?.html(
-								buttonDisplayText[
-									sketch.catalyst?.exportStage || 'idle'
-								]
-							);
-							if (sketch.catalyst?.exportStage === 'idle') {
-								clearInterval(interval);
-							}
-						}, 200);
-					}
+			columnGroup.addButton('startExport', 'Start export', controller => {
+				if (sketch.isRecording) {
+					sketch.catalyst?.cancelRecording();
+				} else {
+					sketch.catalyst?.startRecording();
+					const interval = setInterval(() => {
+						controller.controllerElement?.html(
+							buttonDisplayText[
+								sketch.catalyst?.exportStage || 'idle'
+							]
+						);
+						if (sketch.catalyst?.exportStage === 'idle') {
+							clearInterval(interval);
+						}
+					}, 200);
 				}
-			);
+			});
 
-			panel?.open();
+			panel.open();
 
 			ffmpegInit(gui);
 		},

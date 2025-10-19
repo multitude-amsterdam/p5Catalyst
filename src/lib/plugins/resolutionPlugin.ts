@@ -84,13 +84,13 @@ export function resolutionPlugin(resolutionOptions?: string[]): Plugin {
 		name: 'resolution',
 
 		beforeUserCreatesGui: (gui, sketch, config) => {
-			const appearanceTab = gui.getTab('appearance');
+			const appearanceTab = gui.getTab('appearance') || gui;
 
-			const panel = appearanceTab?.addPanel('LANG_RESOLUTION', true);
+			const panel = appearanceTab.addPanel('LANG_RESOLUTION', true);
 
-			const group = panel?.addGroup('resolutionGroup', COLUMN);
+			const group = panel.addGroup('resolutionGroup', COLUMN);
 
-			group?.addResolutionSelect(
+			group.addResolutionSelect(
 				'Presets',
 				resolutionOptions || resolutionPresets,
 				0,
@@ -102,7 +102,7 @@ export function resolutionPlugin(resolutionOptions?: string[]): Plugin {
 				}
 			);
 
-			group?.addResolutionTextBoxes(sketch.width, sketch.height);
+			group.addResolutionTextBoxes(sketch.width, sketch.height);
 		},
 	};
 }

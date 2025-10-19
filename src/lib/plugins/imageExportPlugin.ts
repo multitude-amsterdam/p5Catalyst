@@ -19,13 +19,13 @@ export function imageExportPlugin(fileType: ImageFileType): Plugin {
 			}
 			let fileName = config?.fileName || 'p5Catalyst';
 
-			const exportTab = gui.getTab('export');
+			const exportTab = gui.getTab('export') || gui;
 
-			const panel = exportTab?.addPanel('Export image');
+			const panel = exportTab.addPanel('Export image', true);
 
-			const buttonGroup = panel?.addGroup('buttonGroup', ROW);
+			const buttonGroup = panel.addGroup('buttonGroup', ROW);
 
-			buttonGroup?.addButton(
+			buttonGroup.addButton(
 				'buttonCopyPNG',
 				'LANG_COPY_TO_CLIPBOARD',
 				controller => {
@@ -33,7 +33,7 @@ export function imageExportPlugin(fileType: ImageFileType): Plugin {
 				}
 			);
 
-			buttonGroup?.addButton(
+			buttonGroup.addButton(
 				'buttonDownloadImage',
 				'LANG_DOWNLOAD_IMAGE',
 				controller => {
@@ -41,7 +41,7 @@ export function imageExportPlugin(fileType: ImageFileType): Plugin {
 				}
 			);
 
-			panel?.open();
+			panel.open();
 		},
 	};
 }

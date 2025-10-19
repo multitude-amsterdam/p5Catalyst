@@ -5,10 +5,10 @@ export function storeSettingsPlugin(): Plugin {
 	return {
 		name: 'storeSettings',
 		afterUserCreatesGui(gui, sketch, config) {
-			const exportTab = gui.getTab('export');
-			const panel = exportTab?.addPanel('Save & open settings');
-			const buttonGroup = panel?.addGroup('saveOpenGroup', ROW);
-			buttonGroup?.addButton(
+			const exportTab = gui.getTab('export') || gui;
+			const panel = exportTab.addPanel('Save & open settings', true);
+			const buttonGroup = panel.addGroup('saveOpenGroup', ROW);
+			buttonGroup.addButton(
 				'buttonSaveSettings',
 				'Save as...',
 				async controller => {
@@ -28,7 +28,7 @@ export function storeSettingsPlugin(): Plugin {
 					);
 				}
 			);
-			buttonGroup?.addJSONLoader(
+			buttonGroup.addJSONLoader(
 				'buttonOpenSettings',
 				'Open...',
 				(file, controller) => {
@@ -37,7 +37,7 @@ export function storeSettingsPlugin(): Plugin {
 					controller?.gui.changeSet.save();
 				}
 			);
-			panel?.open();
+			panel.open();
 		},
 	};
 }
