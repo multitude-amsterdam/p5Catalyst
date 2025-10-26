@@ -9,3 +9,4 @@ export * from './sizedCanvas';
 export * from './storeSettingsPlugin';
 export * from './videoExportPlugin';
 export * from './appTitlePlugin';
+export * from './webglMode';

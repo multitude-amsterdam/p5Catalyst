@@ -5,6 +5,7 @@ export interface Config {
 	contactMail?: string;
 	doCreateRandomizer?: boolean;
 	doClearBackground?: boolean;
+	doWebglMode?: boolean;
 }
 
 export interface UserConfig extends Pick<Config, 'fileName' | 'contactMail'> {}

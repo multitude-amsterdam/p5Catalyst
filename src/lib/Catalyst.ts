@@ -61,22 +61,23 @@ export class Catalyst {
 			} = sketch;
 
 			sketch.setup = async () => {
-				sketch.canvas = sketch.createCanvas(500, 500);
+				const config: Config = {};
+
+				userPlugins = userPlugins?.flat();
+				// plugins: beforeGuiExists
+				userPlugins?.forEach(plugin =>
+					plugin.beforeGuiExists?.(sketch, config)
+				);
+
+				sketch.canvas = config.doWebglMode
+					? sketch.createCanvas(1, 1, sketch.WEBGL)
+					: sketch.createCanvas(1, 1);
 				this.createCanvasWrapper();
 				this.containCanvasInWrapper();
 
 				sketch.frameRate(this.#fps);
 
 				await userSetup?.();
-
-				const config: Config = {};
-
-				userPlugins = userPlugins?.flat();
-
-				// plugins: beforeGuiExists
-				userPlugins?.forEach(plugin =>
-					plugin.beforeGuiExists?.(sketch, config)
-				);
 
 				const gui = new CatalystGUI(sketch, config);
 				this.gui = gui;

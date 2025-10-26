@@ -2,6 +2,7 @@ import {
 	appTitlePlugin,
 	defaultPlugins,
 	randomizerPlugin,
+	webglMode,
 } from './lib/plugins';
 
 export const plugins = [
