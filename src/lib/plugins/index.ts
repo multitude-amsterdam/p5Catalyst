@@ -5,6 +5,7 @@ export * from './languagePlugin';
 export * from './randomizerPlugin';
 export * from './resolutionPlugin';
 export * from './setConfigPlugin';
+export * from './sizedCanvas';
 export * from './storeSettingsPlugin';
 export * from './videoExportPlugin';
 export * from './appTitlePlugin';
