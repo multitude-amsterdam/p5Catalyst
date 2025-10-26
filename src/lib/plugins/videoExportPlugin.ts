@@ -1,10 +1,8 @@
-import type { Plugin, Config, ExtensibleP5 } from '../types';
-import type { CatalystGUI } from '../gui/CatalystGUI';
+import type { Plugin } from '../types';
 
 import { COLUMN, ROW } from '../gui/components/groups/Group';
 import { ffmpegInit } from '../ffmpeg';
 import { setVideoFormatSettings, videoFormats } from '../ffmpeg';
-import type { Controller } from '../gui/components/Controller';
 
 export function videoExportPlugin(): Plugin {
 	return {
