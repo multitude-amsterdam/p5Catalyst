@@ -11,24 +11,10 @@ import type { P5SelectElement } from '../../../types/controller';
  * @see {MultiColorBoxes}
  */
 export class ColorBoxes extends ValuedController {
-	/**
-	 * The value callback.
-	 * @type {valueCallback}
-	 */
 	valueCallback: valueCallback;
 
-	colors: p5.Color[];
+	colors!: p5.Color[]; // initialised in createRadioFromColors()
 
-	/**
-	 * Constructor for ColorBoxes.
-	 * @param {CatalystGUI} gui
-	 * @param {string} name
-	 * @param {string} labelStr
-	 * @param {Array<p5.Color>} colors - Array of p5.Color objects.
-	 * @param {number} defaultIndex - Index of the default color.
-	 * @param {function} valueCallback - Callback function to handle value changes.
-	 * @param {function} [setupCallback] - Optional setup callback function.
-	 */
 	constructor(
 		gui: CatalystGUI,
 		name: string,
@@ -44,14 +30,9 @@ export class ColorBoxes extends ValuedController {
 			valueCallback || ((controller: Controller, value: any) => {});
 		this.createRadioFromColors(colors);
 		this.valueCallback(this, this.value);
-		this.colors = colors.map(color => gui.sketch.color(color));
+		this.setValue(defaultValue);
 	}
 
-	/**
-	 * Creates a radio button controller from an array of colors.
-	 * @param {Array<p5.Color>} colors - Array of p5.Color objects.
-	 * @returns {void}
-	 */
 	createRadioFromColors(colors: string[]) {
 		const isInit = this.controllerElement === undefined;
 		if (this.controllerElement) {
@@ -78,6 +59,8 @@ export class ColorBoxes extends ValuedController {
 				this.setValue(this.colors[parseInt(elt.value)]);
 			};
 		}
+
+		this.colors = colors.map(color => gui.sketch.color(color));
 
 		this.controllerElement = radio;
 	}
