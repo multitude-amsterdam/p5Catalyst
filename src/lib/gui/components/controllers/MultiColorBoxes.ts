@@ -3,10 +3,7 @@ import type { setupCallback, valueCallback } from '../../../types';
 import type { CatalystGUI } from '../../CatalystGUI';
 import { ValuedController } from '../ValuedController';
 import { Controller } from '../Controller';
-import type {
-	P5CheckboxElement,
-	P5SelectElement,
-} from '../../../types/controller';
+import type { P5CheckboxElement } from '../../../types/controller';
 
 /**
  * Multiple selectable color checkboxes.
@@ -14,25 +11,11 @@ import type {
  * @see {ColorBoxes}
  */
 export class MultiColorBoxes extends ValuedController {
-	/**
-	 * The value callback.
-	 * @type {valueCallback}
-	 */
 	valueCallback: valueCallback;
-	colors: string[];
-	checkboxes?: P5CheckboxElement[];
-	valueIndices?: number[];
+	colors!: string[];
+	checkboxes!: P5CheckboxElement[];
+	valueIndices!: number[];
 
-	/**
-	 * Constructor for MultiColorBoxes.
-	 * @param {CatalystGUI} gui
-	 * @param {string} name
-	 * @param {string} labelStr
-	 * @param {Array<p5.Color>} colors - Array of p5.Color objects.
-	 * @param {Array<number>} defaultIndices - Indices of the default colors.
-	 * @param {function} valueCallback - Callback function to handle value changes.
-	 * @param {function} [setupCallback] - Optional setup callback function.
-	 */
 	constructor(
 		gui: CatalystGUI,
 		name: string,
@@ -42,15 +25,11 @@ export class MultiColorBoxes extends ValuedController {
 		valueCallback?: valueCallback,
 		setupCallback?: setupCallback
 	) {
-		const defaultCols = defaultIndices.map(i => this.colors[i]);
+		const defaultCols = defaultIndices.map(i => colors[i]);
 		super(gui, name, labelStr, defaultCols, setupCallback);
-
-		this.colors = colors;
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
-
-		this.setControllerColors();
-
+		this.setControllerColors(colors);
 		this.setValue(defaultCols);
 	}
 
@@ -58,10 +37,11 @@ export class MultiColorBoxes extends ValuedController {
 	 * Sets the controller colors and creates checkboxes for each color.
 	 * @returns {void}
 	 */
-	setControllerColors() {
+	setControllerColors(colors: string[]) {
 		if (this.controllerElement) {
 			this.controllerElement.remove();
 		}
+		this.colors = colors;
 
 		const div = this.gui.sketch.createDiv();
 		div.class('color-boxes');
@@ -73,8 +53,8 @@ export class MultiColorBoxes extends ValuedController {
 			cb.value('' + i);
 			cb.elt.addEventListener('click', () => {
 				const indices: number[] = [];
-				this.checkboxes?.forEach((c, idx) => {
-					if (c.checked()) indices.push(idx);
+				this.checkboxes.forEach((checkbox, idx) => {
+					if (checkbox.checked()) indices.push(idx);
 				});
 				this.setValueFromIndices(indices);
 			});
@@ -98,12 +78,11 @@ export class MultiColorBoxes extends ValuedController {
 	/**
 	 * Sets the value from an array of indices.
 	 * @param {Array<number>} indices - Array of indices corresponding to selected colors.
-	 * @return {void}
 	 */
 	setValueFromIndices(indices: number[]) {
 		this.valueIndices = indices;
 		this.value = indices.map(i => this.gui.sketch.color(this.colors[i]));
-		this.checkboxes?.forEach((cb, i) => {
+		this.checkboxes.forEach((cb, i) => {
 			cb.checked(indices.includes(i));
 		});
 		this.valueCallback(this, this.value);

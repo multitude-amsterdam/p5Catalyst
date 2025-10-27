@@ -12,7 +12,6 @@ import type { P5SelectElement } from '../../../types/controller';
  */
 export class ColorBoxes extends ValuedController {
 	valueCallback: valueCallback;
-
 	colors!: p5.Color[]; // initialised in createRadioFromColors()
 
 	constructor(
