@@ -29,7 +29,7 @@ export class MultiColorBoxes extends ValuedController {
 		super(gui, name, labelStr, defaultCols, setupCallback);
 		this.valueCallback =
 			valueCallback || ((controller: Controller, value: any) => {});
-		this.setControllerColors(colors);
+		this.createCheckboxesFromColors(colors);
 		this.setValue(defaultCols);
 	}
 
@@ -37,7 +37,7 @@ export class MultiColorBoxes extends ValuedController {
 	 * Sets the controller colors and creates checkboxes for each color.
 	 * @returns {void}
 	 */
-	setControllerColors(colors: string[]) {
+	createCheckboxesFromColors(colors: string[]) {
 		if (this.controllerElement) {
 			this.controllerElement.remove();
 		}

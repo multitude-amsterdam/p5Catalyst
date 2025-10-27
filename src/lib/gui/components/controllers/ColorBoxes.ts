@@ -32,6 +32,10 @@ export class ColorBoxes extends ValuedController {
 		this.setValue(defaultValue);
 	}
 
+	/**
+	 * Sets the controller colors and creates radio items for each color.
+	 * @returns {void}
+	 */
 	createRadioFromColors(colors: string[]) {
 		const isInit = this.controllerElement === undefined;
 		if (this.controllerElement) {
