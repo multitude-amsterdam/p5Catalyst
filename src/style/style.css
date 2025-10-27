@@ -986,6 +986,19 @@ input[type='checkbox']:checked::before {
 	display: none;
 }
 
+/* patch to make color boxes full-width next to each other, */
+/* instead of all squares */
+.color-boxes {
+	flex-flow: row;
+}
+.color-boxes > div /* selects inputs of MultiColorBoxes */,
+.color-boxes > label /* selects input of ColorBoxes */ {
+	width: 100%;
+}
+.color-boxes input {
+	width: 100%;
+}
+
 /* --------------------------- MULTI COLOR BOXES --------------------------- */
 .color-boxes input[type='checkbox'] {
 	margin: 0;
