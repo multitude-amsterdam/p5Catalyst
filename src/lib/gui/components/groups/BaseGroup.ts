@@ -11,14 +11,21 @@ import type { Orientation } from './Group';
 import * as Components from '../index';
 
 export class BaseGroup extends Field {
+	fields: Field[] = [];
+	controllers: Components.Controller[] = [];
+	panels: Components.Panel[] = [];
+	groups: Components.Group[] = [];
+
 	attachField<T extends Field>(field: T) {
 		this.div.child(field.div);
+		this.fields.push(field);
 	}
 
 	addGroup(name: string, orientation: Orientation): Components.Group {
 		const group = new Components.Group(this.gui, name, orientation);
 		this.gui.addField(group);
 		this.attachField(group);
+		this.groups.push(group);
 		return group;
 	}
 
@@ -26,6 +33,7 @@ export class BaseGroup extends Field {
 		const panel = new Components.Panel(this.gui, name, open);
 		this.gui.addField(panel);
 		this.attachField(panel);
+		this.panels.push(panel);
 		return panel;
 	}
 
@@ -82,6 +90,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(button);
 		this.attachField(button);
+		this.controllers.push(button);
 		return button;
 	}
 
@@ -104,6 +113,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(select);
 		this.attachField(select);
+		this.controllers.push(select);
 		return select;
 	}
 
@@ -124,6 +134,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(resolutionSelect);
 		this.attachField(resolutionSelect);
+		this.controllers.push(resolutionSelect);
 		return resolutionSelect;
 	}
 
@@ -146,6 +157,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(toggle);
 		this.attachField(toggle);
+		this.controllers.push(toggle);
 		return toggle;
 	}
 
@@ -172,6 +184,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(slider);
 		this.attachField(slider);
+		this.controllers.push(slider);
 		return slider;
 	}
 
@@ -206,6 +219,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(xySlider);
 		this.attachField(xySlider);
+		this.controllers.push(xySlider);
 		return xySlider;
 	}
 
@@ -226,6 +240,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(textbox);
 		this.attachField(textbox);
+		this.controllers.push(textbox);
 		return textbox;
 	}
 
@@ -244,6 +259,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(resolutionTextBoxes);
 		this.attachField(resolutionTextBoxes);
+		this.controllers.push(resolutionTextBoxes);
 		return resolutionTextBoxes;
 	}
 
@@ -264,6 +280,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(textArea);
 		this.attachField(textArea);
+		this.controllers.push(textArea);
 		return textArea;
 	}
 
@@ -290,6 +307,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(crementer);
 		this.attachField(crementer);
+		this.controllers.push(crementer);
 		return crementer;
 	}
 
@@ -312,6 +330,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(colorBoxes);
 		this.attachField(colorBoxes);
+		this.controllers.push(colorBoxes);
 		return colorBoxes;
 	}
 
@@ -334,6 +353,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(multiColorBoxes);
 		this.attachField(multiColorBoxes);
+		this.controllers.push(multiColorBoxes);
 		return multiColorBoxes;
 	}
 
@@ -352,6 +372,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(textLoader);
 		this.attachField(textLoader);
+		this.controllers.push(textLoader);
 		return textLoader;
 	}
 
@@ -361,16 +382,17 @@ export class BaseGroup extends Field {
 		fileReadyCallback: fileReadyCallback,
 		setupCallback?: setupCallback
 	) {
-		const JSONLoader = new Components.JSONFileLoader(
+		const jsonLoader = new Components.JSONFileLoader(
 			this.gui,
 			name,
 			labelStr,
 			fileReadyCallback,
 			setupCallback
 		);
-		this.gui.addController(JSONLoader);
-		this.attachField(JSONLoader);
-		return JSONLoader;
+		this.gui.addController(jsonLoader);
+		this.attachField(jsonLoader);
+		this.controllers.push(jsonLoader);
+		return jsonLoader;
 	}
 
 	addImageLoader(
@@ -388,6 +410,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(imageLoader);
 		this.attachField(imageLoader);
+		this.controllers.push(imageLoader);
 		return imageLoader;
 	}
 
@@ -406,6 +429,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(videoLoader);
 		this.attachField(videoLoader);
+		this.controllers.push(videoLoader);
 		return videoLoader;
 	}
 
@@ -424,6 +448,7 @@ export class BaseGroup extends Field {
 		);
 		this.gui.addController(mediaLoader);
 		this.attachField(mediaLoader);
+		this.controllers.push(mediaLoader);
 		return mediaLoader;
 	}
 }

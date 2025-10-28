@@ -36,6 +36,8 @@ export class CatalystGUI {
 
 	fields: Field[] = [];
 	controllers: Controller[] = [];
+	panels: Components.Panel[] = [];
+	groups: Components.Group[] = [];
 
 	tabs: Tab[] = [];
 	tabBar?: p5.Element;
@@ -284,12 +286,13 @@ export class CatalystGUI {
 
 	addPanel(name: string, isOpen: boolean) {
 		const panel = new Components.Panel(gui, name, isOpen);
-
+		this.panels.push(panel);
 		return gui.addField(panel);
 	}
 
 	addGroup(name: string, orientation: Orientation) {
 		const group = new Components.Group(gui, name, orientation);
+		this.groups.push(group);
 		return gui.addField(group);
 	}
 

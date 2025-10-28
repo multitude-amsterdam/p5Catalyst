@@ -22,7 +22,6 @@ export class Randomizer {
 	/**
 	 * Adds a controller to the randomizer and attaches a DieIcon.
 	 * @param {Controller} controller - The controller to add.
-	 * @param {boolean} doRandomize - Whether this controller should be randomized.
 	 */
 	addController(controller: Controller) {
 		this.controllers.push(controller);
@@ -47,10 +46,16 @@ export class Randomizer {
 	 * Randomizes all controllers marked as randomizable and not hidden.
 	 */
 	randomize() {
-		const controllersToRandomize = this.controllers.filter(
-			controller =>
-				controller.die?.isActive === true && !controller.isHidden()
-		);
+		let panels = gui.tabs.length > 0 ? gui.activeTab!.panels : gui.panels;
+		const controllersToRandomize = panels
+			.filter(panel => panel.isOpen() && !panel.isHidden())
+			.map(panel => panel.controllers)
+			.flat()
+			.filter(
+				controller =>
+					controller.die?.isActive === true && !controller.isHidden()
+			);
+		console.log(controllersToRandomize);
 		for (let controller of controllersToRandomize) {
 			if (controller instanceof ValuedController) {
 				controller.randomize();

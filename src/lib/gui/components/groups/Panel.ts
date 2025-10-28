@@ -4,19 +4,16 @@ import { CatalystGUI } from '../../CatalystGUI';
 import { BaseGroup } from './BaseGroup';
 
 export class Panel extends BaseGroup {
+	name: string;
 	container: p5.Element;
-	gui: CatalystGUI;
 
 	constructor(gui: CatalystGUI, name: string, isOpen?: boolean) {
-		name = gui.lang.process(name, true);
 		const id = name.toLowerCase().replace(/\s+/g, '-');
 		super(gui, id, 'panel');
-
-		this.gui = gui;
-
+		this.name = gui.lang.process(name, true);
 		const detailElement = gui.sketch.createElement(
 			'details',
-			`<summary>${name}</summary>`
+			`<summary>${this.name}</summary>`
 		);
 		detailElement.elt.open = isOpen;
 		this.container = gui.sketch
@@ -28,10 +25,11 @@ export class Panel extends BaseGroup {
 
 	attachField<T extends Field>(field: T) {
 		this.container.child(field.div);
+		this.fields.push(field);
 	}
 
 	isOpen() {
-		return (this.div.elt.firstChild as HTMLDetailsElement).open === false;
+		return (this.div.elt.firstChild as HTMLDetailsElement).open === true;
 	}
 
 	close() {
