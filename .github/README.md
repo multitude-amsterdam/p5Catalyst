@@ -15,9 +15,9 @@
 
 # 🧪 What is p5Catalyst?
 
-p5Catalyst is a GUI framework that wraps your `p5.js` sketches into polished, interactive web apps—ready for real-time control, asset exporting and daily use. Whether you're building generative art, data visualizations, or dynamic brand systems, p5Catalyst gives your sketches the structure and tooling they need to go beyond the sketchpad—into production, publication, or public play.
+p5Catalyst is a GUI framework that wraps your `p5.js` sketches into polished, interactive web apps, ready for asset exporting and daily use. Whether you're building dynamic brand systems, data visualizations, or generative art, p5Catalyst gives your sketches the structure and tooling they need to go beyond a sketch and into production.
 
-Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew out of real-world branding needs, and is now shared as a creative coding tool for everyone.
+Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew out of real-world branding needs, and is now shared as a creative coding toolset for everyone.
 
 ![p5Catalyst demo](./demo-dark.png#gh-dark-mode-only)
 ![p5Catalyst demo](./demo-light.png#gh-light-mode-only)
