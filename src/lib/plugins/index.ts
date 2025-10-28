@@ -1,5 +1,4 @@
 export * from './backdropPlugin';
-export * from './defaultPlugins';
 export * from './imageExportPlugin';
 export * from './languagePlugin';
 export * from './randomizerPlugin';
