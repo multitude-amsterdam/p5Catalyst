@@ -46,16 +46,18 @@ export class Randomizer {
 	 * Randomizes all controllers marked as randomizable and not hidden.
 	 */
 	randomize() {
-		let panels = gui.tabs.length > 0 ? gui.activeTab!.panels : gui.panels;
-		const controllersToRandomize = panels
-			.filter(panel => panel.isOpen() && !panel.isHidden())
-			.map(panel => panel.controllers)
-			.flat()
-			.filter(
-				controller =>
-					controller.die?.isActive === true && !controller.isHidden()
-			);
-		console.log(controllersToRandomize);
+		const panels = gui.tabs.length > 0 ? gui.activeTab!.panels : gui.panels;
+		const controllerPool =
+			panels.length > 0
+				? panels
+						.filter(panel => panel.isOpen() && !panel.isHidden())
+						.map(panel => panel.controllers)
+						.flat()
+				: gui.controllers;
+		const controllersToRandomize = controllerPool.filter(
+			controller =>
+				controller.die?.isActive === true && !controller.isHidden()
+		);
 		for (let controller of controllersToRandomize) {
 			if (controller instanceof ValuedController) {
 				controller.randomize();
@@ -71,15 +73,6 @@ export class Randomizer {
 	 * @param {DieIcon} die - The DieIcon instance to toggle.
 	 */
 	toggleDoRandomize(die: DieIcon) {
-		// // todo: replace with .find()
-		// let index = this.controllers.map(c => c.die).indexOf(die);
-		// if (index < 0) {
-		// 	console.error('Die not in list.', controller);
-		// 	return;
-		// }
-		// this.controllers[index].die.isActive =
-		// 	this.controllers[index].die.isActive !== true;
-		// die.setActive(this.controllers[index].die.isActive);
 		die.toggle();
 	}
 }
