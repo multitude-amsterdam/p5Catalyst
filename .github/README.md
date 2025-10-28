@@ -15,7 +15,7 @@
 
 # 🧪 What is p5Catalyst?
 
-p5Catalyst is a GUI framework that wraps your `p5.js` sketches into polished, interactive web apps, ready for asset exporting and daily use. Whether you're building dynamic brand systems, data visualizations, or generative art, p5Catalyst gives your sketches the structure and tooling they need to go beyond a sketch and into production.
+p5Catalyst is a GUI framework that wraps your [p5.js](https://p5js.org/) sketches into polished, interactive web apps, ready for asset exporting and daily use. Whether you're building dynamic brand systems, data visualizations, or generative art, p5Catalyst gives your sketches the structure and tooling they need to go beyond a sketch and into production.
 
 Initiated by creative agency [Multitude](https://multitude.nl/), p5Catalyst grew out of real-world branding needs, and is now shared as a creative coding toolset for everyone.
 
@@ -326,7 +326,7 @@ For security concerns, please review the [security policy](./SECURITY.md).
 
 # ❤️‍🔥 Credits
 
-Developed using [p5.js](https://p5js.org/) and [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm).
+Developed using [Vite](https://vite.dev/), [p5.js](https://p5js.org/), [ffmpeg.wasm](https://github.com/ffmpegwasm/ffmpeg.wasm) and [jszip](https://www.npmjs.com/package/jszip).
 
 # 🧾 License
 
@@ -339,10 +339,4 @@ Follow the development and join the discussion:
 -   GitHub Discussions: [join the conversation](https://github.com/multitude-amsterdam/p5Catalyst/discussions)
 -   Multitude's Instagram: [@multitudecreativeagency](https://www.instagram.com/multitudecreativeagency/)
 
-```
-
-```
-
-```
-
-```
+---
