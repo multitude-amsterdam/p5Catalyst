@@ -272,7 +272,7 @@ git remote add p5catalyst https://github.com/multitude-amsterdam/p5Catalyst.git
 ## 2. Fetch the updates:
 
 ```sh
-git fetch catalyst
+git fetch p5catalyst
 ```
 
 You can view these changes with:
