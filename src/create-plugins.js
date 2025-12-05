@@ -1,6 +1,5 @@
 import {
 	appTitlePlugin,
-	randomizerPlugin,
 	languagePlugin,
 	resolutionPlugin,
 	backdropPlugin,
