@@ -9,7 +9,9 @@
 
 	font-family: 'InterVariable', sans-serif;
 	font-optical-sizing: auto;
-	font-feature-settings: 'liga' 1, 'calt' 1; /* fix for Chrome */
+	font-feature-settings:
+		'liga' 1,
+		'calt' 1; /* fix for Chrome */
 	font-variant-alternates: styleset(open-digits)
 		character-variant(
 			alt-1,
@@ -208,7 +210,8 @@ details > summary::-webkit-details-marker {
 details > summary {
 	border-bottom: solid var(--divider-col) var(--line-width);
 	padding: 0.5rem 0;
-	transition: color var(--transition-properties),
+	transition:
+		color var(--transition-properties),
 		border var(--transition-properties),
 		font-weight var(--transition-properties);
 	font-size: 1.3rem;
@@ -1137,8 +1140,10 @@ a:hover {
 
 	color: var(--base-col);
 
-	transition: rotate var(--transition-properties),
-		color var(--transition-properties), opacity var(--transition-properties);
+	transition:
+		rotate var(--transition-properties),
+		color var(--transition-properties),
+		opacity var(--transition-properties);
 }
 .die-icon:hover {
 	color: var(--hover-col);
@@ -1306,17 +1311,16 @@ canvas {
 	display: block;
 	margin: auto;
 
-	background-image: linear-gradient(
-			45deg,
-			var(--transpSquareCol1) 25%,
-			transparent 25%
-		),
+	background-image:
+		linear-gradient(45deg, var(--transpSquareCol1) 25%, transparent 25%),
 		linear-gradient(-45deg, var(--transpSquareCol1) 25%, transparent 25%),
 		linear-gradient(45deg, transparent 75%, var(--transpSquareCol1) 75%),
 		linear-gradient(-45deg, transparent 75%, var(--transpSquareCol1) 75%);
 
 	background-size: var(--squareSize) var(--squareSize);
-	background-position: 0 0, 0 calc(var(--squareSize) / 2),
+	background-position:
+		0 0,
+		0 calc(var(--squareSize) / 2),
 		calc(var(--squareSize) / 2) calc(var(--squareSize) / -2),
 		calc(var(--squareSize) / -2) 0px;
 	background-repeat: repeat;
@@ -1572,8 +1576,10 @@ textarea,
 .color-boxes,
 .xyslider,
 .color-text-area-display {
-	transition: color var(--transition-properties),
+	transition:
+		color var(--transition-properties),
 		background-color var(--transition-properties),
-		border var(--transition-properties), rotate var(--transition-properties),
+		border var(--transition-properties),
+		rotate var(--transition-properties),
 		font var(--transition-properties);
 }

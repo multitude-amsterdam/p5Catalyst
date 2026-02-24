@@ -117,11 +117,11 @@ export class Dialog {
 	}
 
 	show() {
-		this.dialogElement.elt.showModal();
+		(this.dialogElement.elt as HTMLDialogElement).showModal();
 	}
 
 	close() {
 		console.trace(this);
-		this.dialogElement.elt.close();
+		(this.dialogElement.elt as HTMLDialogElement).close();
 	}
 }

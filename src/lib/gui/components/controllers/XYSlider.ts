@@ -90,12 +90,17 @@ export class XYSlider extends ValuedController {
 	}
 
 	getValueFromHandlePosition(mouseEvent: MouseEvent) {
-		const compStyle = window.getComputedStyle(this.controllerElement?.elt);
+		const sliderElement = this.controllerElement?.elt;
+		if (!sliderElement) {
+			return (this.value as p5.Vector).copy();
+		}
+
+		const compStyle = window.getComputedStyle(sliderElement);
 		const borderW = parseFloat(compStyle.borderWidth);
 
-		const rect = this.controllerElement?.elt.getBoundingClientRect();
-		rect.width -= borderW * 2;
-		rect.height -= borderW * 2;
+		const rect = sliderElement.getBoundingClientRect();
+		const rectW = rect.width - borderW * 2;
+		const rectH = rect.height - borderW * 2;
 
 		let x =
 			mouseEvent.clientX - rect.left - this.handle.elt.offsetWidth / 2;
@@ -104,28 +109,20 @@ export class XYSlider extends ValuedController {
 
 		const handleW = this.handle.elt.offsetWidth;
 		const handleH = this.handle.elt.offsetHeight;
-		x = this.gui.sketch.constrain(
-			x,
-			-handleW / 2,
-			rect.width - handleW / 2
-		);
-		y = this.gui.sketch.constrain(
-			y,
-			-handleH / 2,
-			rect.height - handleH / 2
-		);
+		x = this.gui.sketch.constrain(x, -handleW / 2, rectW - handleW / 2);
+		y = this.gui.sketch.constrain(y, -handleH / 2, rectH - handleH / 2);
 
 		let normX = this.gui.sketch.map(
 			x,
 			-handleW / 2,
-			rect.width - handleW / 2,
+			rectW - handleW / 2,
 			-1,
 			1
 		);
 		let normY = this.gui.sketch.map(
 			y,
 			-handleH / 2,
-			rect.height - handleH / 2,
+			rectH - handleH / 2,
 			-1,
 			1
 		);
@@ -176,11 +173,14 @@ export class XYSlider extends ValuedController {
 	}
 
 	setDisplay() {
-		const compStyle = window.getComputedStyle(this.controllerElement?.elt);
+		const sliderElement = this.controllerElement?.elt;
+		if (!sliderElement) return;
+
+		const compStyle = window.getComputedStyle(sliderElement);
 		const borderW = parseFloat(compStyle.borderWidth);
-		const rect = this.controllerElement?.elt.getBoundingClientRect();
-		rect.width -= borderW * 2;
-		rect.height -= borderW * 2;
+		const rect = sliderElement.getBoundingClientRect();
+		const rectW = rect.width - borderW * 2;
+		const rectH = rect.height - borderW * 2;
 		const handleW = this.handle.elt.offsetWidth;
 		const handleH = this.handle.elt.offsetHeight;
 		const feedbackX = this.gui.sketch.map(
@@ -188,14 +188,14 @@ export class XYSlider extends ValuedController {
 			this.minValX,
 			this.maxValX,
 			-handleW / 2,
-			rect.width - handleW / 2
+			rectW - handleW / 2
 		);
 		const feedbackY = this.gui.sketch.map(
 			(this.value as p5.Vector).y,
 			this.minValY,
 			this.maxValY,
 			-handleH / 2,
-			rect.height - handleH / 2
+			rectH - handleH / 2
 		);
 
 		this.handle.elt.style.left = `${feedbackX}px`;

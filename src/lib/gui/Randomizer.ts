@@ -48,12 +48,12 @@ export class Randomizer {
 	randomize() {
 		const panels = gui.tabs.length > 0 ? gui.activeTab!.panels : gui.panels;
 		const controllerPool =
-			panels.length > 0
-				? panels
-						.filter(panel => panel.isOpen() && !panel.isHidden())
-						.map(panel => panel.controllers)
-						.flat()
-				: gui.controllers;
+			panels.length > 0 ?
+				panels
+					.filter(panel => panel.isOpen() && !panel.isHidden())
+					.map(panel => panel.controllers)
+					.flat()
+			:	gui.controllers;
 		const controllersToRandomize = controllerPool.filter(
 			controller =>
 				controller.die?.isActive === true && !controller.isHidden()

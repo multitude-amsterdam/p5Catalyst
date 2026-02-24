@@ -58,7 +58,7 @@ export class ColorBoxes extends ValuedController {
 			const hexCol = colors[i++];
 			elt.style.backgroundColor = hexCol;
 			elt.title = hexCol;
-			elt.onclick = (event: InputEvent) => {
+			elt.onclick = () => {
 				this.setValue(this.colors[parseInt(elt.value)]);
 			};
 		}

@@ -29,6 +29,7 @@ export class VideoLoader extends FileLoader {
 			},
 			setupCallback
 		);
-		if (this.controllerElement) this.controllerElement.elt.accept = '.mp4';
+		if (this.controllerElement)
+			(this.controllerElement.elt as HTMLInputElement).accept = '.mp4';
 	}
 }

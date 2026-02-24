@@ -36,7 +36,7 @@ export class Textbox extends ValuedController {
 		this.controllerElement.parent(this.controllerWrapper);
 		this.controllerElement.value(defaultVal);
 
-		this.controllerElement.elt.oninput = (event: InputEvent) => {
+		this.controllerElement.elt.oninput = (event: Event) => {
 			const target = event.target as HTMLInputElement;
 			const value = target.value;
 			if (valueCallback) valueCallback(this, value);

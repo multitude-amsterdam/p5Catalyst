@@ -60,7 +60,7 @@ export class Toggle extends ValuedController {
 	 * Simulates a toggle click.
 	 */
 	click() {
-		this.controllerElement?.elt.onclick();
+		(this.controllerElement?.elt as HTMLButtonElement | undefined)?.click();
 	}
 
 	/**

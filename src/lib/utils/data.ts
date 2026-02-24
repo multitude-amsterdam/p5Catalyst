@@ -25,7 +25,8 @@ export function isArraysEqual(a: any[], b: any[]): boolean {
  * Copy the current canvas bitmap to the system clipboard.
  */
 export function copyCanvasToClipboard(canvas: p5.Graphics): void {
-	canvas.elt.toBlob((blob: Blob) => {
+	canvas.elt.toBlob((blob: Blob | null) => {
+		if (!blob) return;
 		navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
 	});
 }

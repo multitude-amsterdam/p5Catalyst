@@ -7,14 +7,12 @@ import {
 	imageExportPlugin,
 	videoExportPlugin,
 	storeSettingsPlugin,
-	webglMode,
-	sizedCanvas,
+	shaderTemplatePlugin,
 } from './lib/plugins';
 
 export const plugins = [
-	appTitlePlugin('CircleGen'), // set app name
-	// webglMode(),
-	// sizedCanvas(1080, 1080) // fixed-size canvas
+	appTitlePlugin('p5Catalyst Project'), // set app name
+	shaderTemplatePlugin({ enabled: false }), // set enabled=true to render with the shader template
 	languagePlugin('en'),
 
 	{
@@ -28,13 +26,22 @@ export const plugins = [
 	// appearance tab
 	resolutionPlugin(), // variable-size canvas
 	// (gui creation for appearance in main.js happens here)
-	backdropPlugin(), // upload images to show behind and in front of canvas
+	backdropPlugin(), // upload images to feed the shader or fallback sketch
 	randomizerPlugin([
 		// names of controllers to add to the randomizer
 		'colorBoxesCircle',
 		'sliderCircleDiameter',
 		'colorBoxesBg',
 		'sliderNBg',
+		'sliderShaderAA',
+		'sliderShaderLogoScale',
+		'sliderShaderPanX',
+		'sliderShaderPanY',
+		'sliderShaderPlaneOffset',
+		'sliderShaderInfPlaneColorSet',
+		'sliderShaderK',
+		'toggleShaderBackdrop',
+		'toggleShaderDebug',
 	]),
 
 	// export tab

@@ -8,10 +8,16 @@ export const sketchSeed = async sketch => {
 		sketch.nBgElements = 5;
 
 		sketch.noStroke();
+
+		await sketch.shaderTemplate?.setup?.();
 	};
 
 	sketch.draw = () => {
 		sketch.clear();
+
+		if (sketch.shaderTemplate?.draw?.()) {
+			return;
+		}
 
 		catalyst.attemptDrawBackdrop();
 

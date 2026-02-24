@@ -69,9 +69,10 @@ export class Catalyst {
 					plugin.beforeGuiExists?.(sketch, config)
 				);
 
-				sketch.canvas = config.doWebglMode
-					? sketch.createCanvas(1, 1, sketch.WEBGL)
-					: sketch.createCanvas(1, 1);
+				sketch.canvas =
+					config.doWebglMode ?
+						sketch.createCanvas(1, 1, sketch.WEBGL)
+					:	sketch.createCanvas(1, 1);
 				this.createCanvasWrapper();
 				this.containCanvasInWrapper();
 
@@ -101,7 +102,7 @@ export class Catalyst {
 
 			sketch.draw = () => {
 				if (!this.#isRecording && !this.isPlaying) {
-					sketch.frameCount--;
+					(sketch as any).frameCount--;
 				}
 
 				this.#progress = sketch.frameCount / this.#animationFrameCount;
@@ -120,9 +121,13 @@ export class Catalyst {
 							sketch.width,
 							sketch.height,
 							this.#fps
-						).then(() => {
-							this.#exportStage = 'idle';
-						});
+						)
+							.catch(error => {
+								console.error('Video export failed.', error);
+							})
+							.finally(() => {
+								this.#exportStage = 'idle';
+							});
 					}
 				}
 			};
@@ -303,7 +308,7 @@ export class Catalyst {
 	startRecording() {
 		this.#isRecording = true;
 		this.isPlaying = true;
-		sketch.frameCount = 0;
+		(sketch as any).frameCount = 0;
 		console.log('Recording started.');
 	}
 

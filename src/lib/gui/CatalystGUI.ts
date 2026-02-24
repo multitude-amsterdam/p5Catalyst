@@ -190,6 +190,7 @@ export class CatalystGUI {
 		this.activeTab = tabToShow;
 
 		const buttons = this.tabBar?.elt.querySelectorAll('button');
+		if (!buttons) return;
 		for (let [i, button] of buttons.entries()) {
 			button.classList.toggle('active', tabName === this.tabs[i].name);
 		}

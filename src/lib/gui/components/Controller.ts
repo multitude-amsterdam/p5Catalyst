@@ -124,14 +124,26 @@ export class Controller extends Field {
 	 * Disables the controller.
 	 */
 	disable() {
-		if (this.controllerElement) this.controllerElement.elt.disabled = true;
+		const elt = this.controllerElement?.elt as
+			| HTMLInputElement
+			| HTMLButtonElement
+			| HTMLSelectElement
+			| HTMLTextAreaElement
+			| undefined;
+		if (elt && 'disabled' in elt) elt.disabled = true;
 	}
 
 	/**
 	 * Enables the controller.
 	 */
 	enable() {
-		if (this.controllerElement) this.controllerElement.elt.disabled = false;
+		const elt = this.controllerElement?.elt as
+			| HTMLInputElement
+			| HTMLButtonElement
+			| HTMLSelectElement
+			| HTMLTextAreaElement
+			| undefined;
+		if (elt && 'disabled' in elt) elt.disabled = false;
 	}
 
 	/**
@@ -139,7 +151,13 @@ export class Controller extends Field {
 	 * @returns {boolean} - True if the controller is disabled, false otherwise.
 	 */
 	isDisabled(): boolean | undefined {
-		if (this.controllerElement) return this.controllerElement.elt.disabled;
+		const elt = this.controllerElement?.elt as
+			| HTMLInputElement
+			| HTMLButtonElement
+			| HTMLSelectElement
+			| HTMLTextAreaElement
+			| undefined;
+		if (elt && 'disabled' in elt) return elt.disabled;
 	}
 
 	/**

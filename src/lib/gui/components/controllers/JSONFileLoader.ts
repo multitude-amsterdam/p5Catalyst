@@ -11,6 +11,7 @@ export class JSONFileLoader extends FileLoader {
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, labelStr, 'json', fileReadyCallback, setupCallback);
-		if (this.controllerElement) this.controllerElement.elt.accept = '.json';
+		if (this.controllerElement)
+			(this.controllerElement.elt as HTMLInputElement).accept = '.json';
 	}
 }

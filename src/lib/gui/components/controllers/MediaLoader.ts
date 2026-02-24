@@ -39,7 +39,7 @@ export class MediaLoader extends FileLoader {
 			setupCallback
 		);
 		if (this.controllerElement)
-			this.controllerElement.elt.accept =
+			(this.controllerElement.elt as HTMLInputElement).accept =
 				'.jpg,.png,.gif,.tif,.mp4,.webm,.webp';
 	}
 }

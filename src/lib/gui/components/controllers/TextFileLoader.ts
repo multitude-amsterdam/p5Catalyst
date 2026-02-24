@@ -11,6 +11,7 @@ export class TextFileLoader extends FileLoader {
 		setupCallback?: setupCallback
 	) {
 		super(gui, name, labelStr, 'text', fileReaderCallback, setupCallback);
-		if (this.controllerElement) this.controllerElement.elt.accept = '.txt';
+		if (this.controllerElement)
+			(this.controllerElement.elt as HTMLInputElement).accept = '.txt';
 	}
 }

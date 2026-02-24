@@ -42,12 +42,12 @@ export class Slider extends ValuedController {
 		this.stepSize = stepSize;
 		this.value = defaultVal;
 
-		this.controllerElement.elt.oninput = (event: InputEvent) => {
+		this.controllerElement.elt.oninput = (event: Event) => {
 			const target = event.target as HTMLInputElement;
 			const value = parseFloat(target.value);
 			if (valueCallback) valueCallback(this, value);
 		};
-		this.controllerElement.elt.onchange = (event: InputEvent) => {
+		this.controllerElement.elt.onchange = (event: Event) => {
 			const target = event.target as HTMLInputElement;
 			const value = parseFloat(target.value);
 			this.setValue(value);

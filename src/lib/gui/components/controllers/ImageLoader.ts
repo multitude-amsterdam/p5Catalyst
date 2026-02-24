@@ -18,14 +18,23 @@ export class ImageLoader extends FileLoader {
 			labelStr,
 			'image',
 			file => {
-				this.img = gui.sketch.loadImage(file.data, img => {
-					fileReadyCallback?.(img, this);
-				});
+				this.img = gui.sketch.loadImage(
+					file.data,
+					img => {
+						this.img = img;
+						this.file = img;
+						fileReadyCallback?.(img, this);
+					},
+					(error: unknown) => {
+						console.error('Failed to load image file.', error);
+					}
+				);
 				this.file = this.img;
 			},
 			setupCallback
 		);
 		if (this.controllerElement)
-			this.controllerElement.elt.accept = '.jpg,.png,.gif,.tif';
+			(this.controllerElement.elt as HTMLInputElement).accept =
+				'.jpg,.png,.gif,.tif';
 	}
 }

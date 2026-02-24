@@ -15,7 +15,7 @@ export class Panel extends BaseGroup {
 			'details',
 			`<summary>${this.name}</summary>`
 		);
-		detailElement.elt.open = isOpen;
+		(detailElement.elt as HTMLDetailsElement).open = !!isOpen;
 		this.container = gui.sketch
 			.createElement('div')
 			.addClass('panel-container');

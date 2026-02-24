@@ -36,8 +36,8 @@ export class TextArea extends ValuedController {
 
 		this.controllerElement.html(defaultVal);
 
-		this.controllerElement.elt.oninput = (event: InputEvent) => {
-			const target = event.target as HTMLInputElement;
+		this.controllerElement.elt.oninput = (event: Event) => {
+			const target = event.target as HTMLTextAreaElement;
 			const value = target.value;
 			if (valueCallback) valueCallback(this, value);
 		};
@@ -55,7 +55,7 @@ export class TextArea extends ValuedController {
 			'focusout',
 			(event: FocusEvent) => {
 				gui.isTypingText = false;
-				const target = event.target as HTMLInputElement;
+				const target = event.target as HTMLTextAreaElement;
 				const value = target.value;
 				this.setValue(value);
 			}

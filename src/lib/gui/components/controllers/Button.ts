@@ -44,6 +44,6 @@ export class Button extends Controller {
 	 * Simulates a button click.
 	 */
 	click() {
-		if (this.controllerElement) this.controllerElement.elt.onclick();
+		(this.controllerElement?.elt as HTMLButtonElement | undefined)?.click();
 	}
 }

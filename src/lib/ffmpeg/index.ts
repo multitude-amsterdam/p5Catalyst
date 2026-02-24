@@ -4,12 +4,13 @@ import type { CatalystGUI } from '../gui/CatalystGUI';
 import type { Dialog } from '../gui/Dialog';
 
 import { FFmpeg, type FSNode } from '@ffmpeg/ffmpeg';
-import { toBlobURL } from '@ffmpeg/util';
 import JSZip from 'jszip';
 import { getTimestamp } from '../utils';
 
 let ffmpeg: FFmpeg;
 let frameId = 0;
+let frameWriteQueue: Promise<void> = Promise.resolve();
+let frameWriteError: unknown = null;
 
 const MP4: VideoFormatSettings = {
 	guiName: 'MP4 (HQ)',
@@ -17,7 +18,7 @@ const MP4: VideoFormatSettings = {
 	mimeType: 'video/mp4',
 	crf: 21,
 	command:
-		'-r FFMPEG_FPS -i frames/%06d.png -progress pipe:2 -c:v libx264 -pix_fmt yuv420p -crf FFMPEG_CRF -vf fps=FFMPEG_FPS,scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos -movflags faststart FFMPEG_OUTPUTFILE',
+		'-y -nostdin -framerate FFMPEG_FPS -i /frames/%06d.png -c:v libx264 -threads 1 -pix_fmt yuv420p -crf FFMPEG_CRF -vf scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos -movflags +faststart FFMPEG_OUTPUTFILE',
 };
 
 const WEBM_TRANSPARENT: VideoFormatSettings = {
@@ -26,7 +27,7 @@ const WEBM_TRANSPARENT: VideoFormatSettings = {
 	mimeType: 'video/webm',
 	crf: 36,
 	command:
-		'-r FFMPEG_FPS -i frames/%06d.png -progress pipe:2 -c:v libvpx-vp9 -pix_fmt yuva420p -lossless 1 -vf fps=FFMPEG_FPS,scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos FFMPEG_OUTPUTFILE',
+		'-y -nostdin -framerate FFMPEG_FPS -i /frames/%06d.png -c:v libvpx-vp9 -threads 1 -pix_fmt yuva420p -lossless 1 -vf scale=FFMPEG_WIDTH:FFMPEG_HEIGHT:flags=lanczos FFMPEG_OUTPUTFILE',
 };
 
 const FRAME_SEQUENCE: VideoFormatSettings = {
@@ -59,7 +60,6 @@ export async function ffmpegInit(gui: CatalystGUI) {
 	dialog = gui.dialog;
 
 	ffmpeg = new FFmpeg();
-	const baseURL = 'https://unpkg.com/@ffmpeg/core-mt@0.12.10/dist/esm';
 
 	ffmpeg.on('log', ({ message }) => {
 		console.log(message);
@@ -69,20 +69,7 @@ export async function ffmpegInit(gui: CatalystGUI) {
 		console.log(progress, time);
 	});
 
-	await ffmpeg.load({
-		coreURL: await toBlobURL(
-			`${baseURL}/ffmpeg-core.js`,
-			'text/javascript'
-		),
-		wasmURL: await toBlobURL(
-			`${baseURL}/ffmpeg-core.wasm`,
-			'application/wasm'
-		),
-		workerURL: await toBlobURL(
-			`${baseURL}/ffmpeg-core.worker.js`,
-			'text/javascript'
-		),
-	});
+	await ffmpeg.load();
 	console.log('ffmpeg.wasm initialized.');
 }
 
@@ -105,8 +92,15 @@ function convertDataURLToBinary(dataURL: string) {
 export function saveToLocalFFMPEG(canvas: p5.Renderer) {
 	let dataURL = canvas.elt.toDataURL('image/png');
 	let pngData = convertDataURLToBinary(dataURL);
-	ffmpegSaveFrame(frameId, pngData);
+	const currentFrameId = frameId;
 	frameId++;
+
+	frameWriteQueue = frameWriteQueue
+		.then(() => ffmpegSaveFrame(currentFrameId, pngData))
+		.catch(error => {
+			frameWriteError = error;
+			console.error(`Failed to save frame ${currentFrameId}.`, error);
+		});
 }
 
 let isFramesDirectoryCreated = false;
@@ -122,13 +116,28 @@ async function ffmpegSaveFrame(frameId: number, pngData: Uint8Array) {
 	await ffmpeg.writeFile(filePath, pngData);
 }
 
+async function flushPendingFrameWrites() {
+	await frameWriteQueue;
+
+	if (frameWriteError) {
+		const error = frameWriteError;
+		frameWriteError = null;
+		throw error;
+	}
+}
+
 function downloadBlob(blob: Blob, filename: string) {
 	const url = URL.createObjectURL(blob);
 	const link = document.createElement('a');
 	link.href = url;
 	link.download = filename;
+	link.style.display = 'none';
+	document.body.appendChild(link);
 	link.click();
-	URL.revokeObjectURL(url);
+	window.setTimeout(() => {
+		link.remove();
+		URL.revokeObjectURL(url);
+	}, 1000);
 }
 
 export async function ffmpegCreateVideo(
@@ -141,57 +150,87 @@ export async function ffmpegCreateVideo(
 
 	let fileName = `${width}x${height}@${fps}fps_${getTimestamp().base64}`;
 	const outputFile = fileName + '.' + videoExportSettings.ext;
+	const outputPath = '/' + outputFile;
 
-	if (videoExportSettings === FRAME_SEQUENCE) {
-		const frames: FSNode[] = await ffmpeg.listDir('/frames');
-		const zip = new JSZip();
+	try {
+		await flushPendingFrameWrites();
 
-		for (const item of frames) {
-			if (!item.isDir && item.name.endsWith('.png')) {
-				const filePath = `/frames/${item.name}`;
-				const data = await ffmpeg.readFile(filePath);
-				zip.file(item.name, data as Uint8Array);
+		if (videoExportSettings === FRAME_SEQUENCE) {
+			const frames: FSNode[] = await ffmpeg.listDir('/frames');
+			const zip = new JSZip();
+
+			for (const item of frames) {
+				if (!item.isDir && item.name.endsWith('.png')) {
+					const filePath = `/frames/${item.name}`;
+					const data = await ffmpeg.readFile(filePath);
+					zip.file(item.name, data as Uint8Array);
+				}
 			}
+
+			const content = await zip.generateAsync({ type: 'blob' });
+			downloadBlob(content, outputFile); // triggers browser download
+			dialog.alert(
+				'<h1>Frame sequence ready</h1>' +
+					'<p>The frames have been downloaded as a ZIP file.</p>'
+			);
+			return;
 		}
 
-		const content = await zip.generateAsync({ type: 'blob' });
-		downloadBlob(content, outputFile); // triggers browser download
-		dialog.alert(
-			'<h1>Frame sequence ready</h1>' +
-				'<p>The frames have been downloaded as a ZIP file.</p>'
+		// Replace placeholders in command string with actual values
+		let cmd = videoExportSettings.command;
+		cmd = cmd.replaceAll('FFMPEG_FPS', '' + fps);
+		cmd = cmd.replaceAll(
+			'FFMPEG_CRF',
+			'' + (videoExportSettings.crf || 21)
 		);
-		return;
+		cmd = cmd.replaceAll('FFMPEG_OUTPUTFILE', outputPath);
+		cmd = cmd.replaceAll('FFMPEG_WIDTH', '' + width);
+		cmd = cmd.replaceAll('FFMPEG_HEIGHT', '' + height);
+
+		let args = cmd.split(' ');
+		console.log('FFmpeg command:', args.join(' '));
+
+		let execResult = await ffmpeg.exec(args);
+		console.log('FFmpeg finished:', execResult);
+		if (execResult !== 0) {
+			throw new Error(`FFmpeg exited with code ${execResult}.`);
+		}
+
+		const data = await ffmpeg.readFile(outputPath);
+		const blob = new Blob([data as BlobPart], {
+			type: videoExportSettings.mimeType,
+		});
+		downloadBlob(blob, outputFile);
+
+		dialog.alert(
+			'<h1>Video ready</h1>' +
+				`<p>The video file has been downloaded as a ${videoExportSettings.ext.toUpperCase()} file.</p>`
+		);
+	} catch (error) {
+		console.error('Video export failed.', error);
+		dialog.alert(
+			'<h1>Video export failed</h1>' +
+				'<p>Check the browser console for details.</p>'
+		);
+		throw error;
+	} finally {
+		frameId = 0;
+		frameWriteError = null;
+		frameWriteQueue = Promise.resolve();
+
+		// need to clean frames to prevent newer shorter animations to include old frames
+		if (isFramesDirectoryCreated) {
+			try {
+				await ffmpeg.deleteDir('/frames');
+			} catch (cleanupError) {
+				console.warn(
+					'Failed to delete /frames after export.',
+					cleanupError
+				);
+			}
+			isFramesDirectoryCreated = false;
+		}
+
+		finalCallback?.();
 	}
-
-	// Replace placeholders in command string with actual values
-	let cmd = videoExportSettings.command;
-	cmd = cmd.replaceAll('FFMPEG_FPS', '' + fps);
-	cmd = cmd.replaceAll('FFMPEG_CRF', '' + (videoExportSettings.crf || 21));
-	cmd = cmd.replaceAll('FFMPEG_OUTPUTFILE', outputFile);
-	cmd = cmd.replaceAll('FFMPEG_WIDTH', '' + width);
-	cmd = cmd.replaceAll('FFMPEG_HEIGHT', '' + height);
-
-	let args = cmd.split(' ');
-	console.log('FFmpeg command:', args.join(' '));
-
-	let execResult = await ffmpeg.exec(args);
-	console.log('FFmpeg finished:', execResult);
-
-	const data = await ffmpeg.readFile(outputFile);
-	const blob = new Blob([data as BlobPart], {
-		type: videoExportSettings.mimeType,
-	});
-	downloadBlob(blob, outputFile);
-	frameId = 0;
-
-	dialog.alert(
-		'<h1>Video ready</h1>' +
-			`<p>The video file has been downloaded as a ${videoExportSettings.ext.toUpperCase()} file.</p>`
-	);
-
-	// need to clean frames to prevent newer shorter animatinos to include old frames
-	await ffmpeg.deleteDir('/frames');
-	isFramesDirectoryCreated = false;
-
-	finalCallback?.();
 }
