@@ -10,7 +10,11 @@ import { toB64 } from './utils';
 import p5 from 'p5';
 import { CatalystGUI } from './gui/CatalystGUI';
 import { getTimestamp } from './utils';
-import { saveToLocalFFMPEG, ffmpegCreateVideo } from './ffmpeg';
+import {
+	saveToLocalFFMPEG,
+	ffmpegCreateVideo,
+	cancelFFmpegExport,
+} from './ffmpeg';
 
 declare global {
 	var sketch: ExtensibleP5;
@@ -322,8 +326,16 @@ export class Catalyst {
 	}
 
 	cancelRecording() {
+		if (this.#exportStage === 'exporting') {
+			cancelFFmpegExport();
+			// Keep stage as "exporting" until ffmpegCreateVideo settles.
+			// This prevents starting a new export while cancellation cleanup runs.
+			return;
+		}
+
 		this.#isRecording = false;
 		this.isPlaying = false;
+		this.#exportStage = 'idle';
 	}
 
 	get exportStage() {
