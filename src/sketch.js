@@ -15,9 +15,8 @@ export const sketchSeed = async sketch => {
 	sketch.draw = () => {
 		sketch.clear();
 
-		if (sketch.shaderTemplate?.draw?.()) {
-			return;
-		}
+		// draw only shader if it plugin is active
+		if (sketch.shaderTemplate?.draw?.()) return;
 
 		catalyst.attemptDrawBackdrop();
 

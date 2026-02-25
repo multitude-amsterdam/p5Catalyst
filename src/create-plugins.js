@@ -11,10 +11,16 @@ import {
 } from './lib/plugins';
 
 export const plugins = [
-	appTitlePlugin('p5Catalyst Project'), // set app name
-	shaderTemplatePlugin({ enabled: false }), // set enabled=true to render with the shader template
+	// set app name
+	appTitlePlugin('p5Catalyst Project'),
+
+	// creates a glsl shader from a template
+	shaderTemplatePlugin(),
+
+	// set language for gui (option to add custom dictionary)
 	languagePlugin('en'),
 
+	/* ------------------------------- create tabs ------------------------------ */
 	{
 		// custom plugin to create tabs
 		name: 'create-tabs',
@@ -23,33 +29,38 @@ export const plugins = [
 		},
 	},
 
-	// appearance tab
-	resolutionPlugin(), // variable-size canvas
+	/* ----------------------------- appearance tab ----------------------------- */
 	// (gui creation for appearance in main.js happens here)
-	backdropPlugin(), // upload images to feed the shader or fallback sketch
+
+	// variable-size canvas
+	resolutionPlugin(),
+	// fixed-size canvas with css scaling
+	// sizedCanvasPlugin(),
+
+	// upload images or videos to feed the shader or fallback sketch (backdrop & overlay)
+	backdropPlugin(),
+
+	// names of controllers to add to the randomizer
 	randomizerPlugin([
-		// names of controllers to add to the randomizer
 		'colorBoxesCircle',
 		'sliderCircleDiameter',
 		'colorBoxesBg',
 		'sliderNBg',
-		'sliderShaderAA',
-		'sliderShaderLogoScale',
-		'sliderShaderPanX',
-		'sliderShaderPanY',
-		'sliderShaderPlaneOffset',
-		'sliderShaderInfPlaneColorSet',
-		'sliderShaderK',
-		'toggleShaderBackdrop',
-		'toggleShaderDebug',
 	]),
 
-	// export tab
-	imageExportPlugin('png'), // download as png
-	videoExportPlugin(), // record and download as video
-	storeSettingsPlugin(), // download and load settings as json
+	/* ------------------------------- export tab ------------------------------- */
+	// download as png
+	imageExportPlugin('png'),
 
-	// template for custom plugin:
+	// TODO: svg export plugin
+
+	// record and download as video
+	videoExportPlugin(),
+
+	// download and load settings as json
+	storeSettingsPlugin(),
+
+	/* ----------------------- template for custom plugin ----------------------- */
 	// {
 	// 	name: 'customPlugin',
 	// 	beforeGuiExists(sketch, config) {
