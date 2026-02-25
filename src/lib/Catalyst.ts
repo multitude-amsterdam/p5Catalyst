@@ -104,37 +104,43 @@ export class Catalyst {
 				gui.finalize();
 			};
 
-			sketch.draw = () => {
-				if (!this.#isRecording && !this.isPlaying) {
-					(sketch as any).frameCount--;
-				}
-
-				this.#progress = sketch.frameCount / this.#animationFrameCount;
-				this.#time = this.#progress * this.#duration; // duration-independent time
-
-				userDraw?.();
-
-				if (this.#isRecording) {
-					if (sketch.frameCount < this.#animationFrameCount) {
-						this.#exportStage = 'recording';
-						saveToLocalFFMPEG(sketch.canvas);
-					} else {
-						this.#isRecording = false;
-						this.#exportStage = 'exporting';
-						ffmpegCreateVideo(
-							sketch.width,
-							sketch.height,
-							this.#fps
-						)
-							.catch(error => {
-								console.error('Video export failed.', error);
-							})
-							.finally(() => {
-								this.#exportStage = 'idle';
-							});
+			if (userDraw) {
+				sketch.draw = () => {
+					if (!this.#isRecording && !this.isPlaying) {
+						(sketch as any).frameCount--;
 					}
-				}
-			};
+
+					this.#progress =
+						sketch.frameCount / this.#animationFrameCount;
+					this.#time = this.#progress * this.#duration; // duration-independent time
+
+					userDraw?.();
+
+					if (this.#isRecording) {
+						if (sketch.frameCount < this.#animationFrameCount) {
+							this.#exportStage = 'recording';
+							saveToLocalFFMPEG(sketch.canvas);
+						} else {
+							this.#isRecording = false;
+							this.#exportStage = 'exporting';
+							ffmpegCreateVideo(
+								sketch.width,
+								sketch.height,
+								this.#fps
+							)
+								.catch(error => {
+									console.error(
+										'Video export failed.',
+										error
+									);
+								})
+								.finally(() => {
+									this.#exportStage = 'idle';
+								});
+						}
+					}
+				};
+			}
 
 			sketch.keyPressed = (event: KeyboardEvent) => {
 				if (this.gui?.isTypingText) return;
