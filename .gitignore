@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .vite/deps/*
+
+# remove on merge from `npm-create`
+create-p5catalyst
