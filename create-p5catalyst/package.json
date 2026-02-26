@@ -1,0 +1,44 @@
+{
+  "name": "create-p5catalyst",
+  "version": "0.1.0",
+  "description": "Scaffold a new p5Catalyst app via npm create p5catalyst",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/multitude-amsterdam/p5Catalyst.git",
+    "directory": "create-p5catalyst"
+  },
+  "type": "module",
+  "bin": {
+    "create-p5catalyst": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "postbuild": "node scripts/postbuild.mjs",
+    "dev": "tsup --watch",
+    "test": "tsx --test tests/*.test.ts"
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.6",
+    "fs-extra": "^11.3.2",
+    "kleur": "^4.1.5",
+    "ora": "^8.2.0",
+    "prompts": "^2.4.2",
+    "tar": "^7.4.3"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.13.14",
+    "@types/prompts": "^2.4.9",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.7.3"
+  }
+}
