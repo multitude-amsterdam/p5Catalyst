@@ -6,6 +6,8 @@ declare module 'p5.plotsvg' {
 		setSvgFlattenTransforms?: (flattenTransforms: boolean) => void;
 		setSvgCoordinatePrecision?: (precision: number) => void;
 		setSvgTransformPrecision?: (precision: number) => void;
+		setSvgResolutionDPI?: (dpi: number) => void;
+		setSvgResolutionDPCM?: (dpcm: number) => void;
 	};
 
 	const p5plotSvg: PlotSvgApi;

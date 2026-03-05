@@ -14,6 +14,8 @@ type PlotSvgApi = {
 	setSvgFlattenTransforms?: (flattenTransforms: boolean) => void;
 	setSvgCoordinatePrecision?: (precision: number) => void;
 	setSvgTransformPrecision?: (precision: number) => void;
+	setSvgResolutionDPI?: (dpi: number) => void;
+	setSvgResolutionDPCM?: (dpcm: number) => void;
 	_commands?: PlotSvgCommand[];
 };
 
@@ -26,11 +28,23 @@ type StyleEmulationSession = {
 	shouldConvertClosedShapeStrokeToFill: () => boolean;
 };
 
+type SvgPhysicalUnit = 'in' | 'mm';
+
+type SvgExportSettings = {
+	dpi: number;
+	physicalUnit: SvgPhysicalUnit;
+};
+
 const plotSvg = p5plotSvg as unknown as PlotSvgApi;
 const SVG_DRAWABLE_TAG_PATTERN =
 	/<(path|line|rect|circle|ellipse|polyline|polygon|text)\b/i;
 const CLOSED_SVG_SHAPE_TAG_PATTERN =
 	/<(circle|ellipse|rect|polygon)\b([^>]*?)(\/?)>/gi;
+const SVG_UNIT_OPTIONS = ['Inches (in)', 'Millimeters (mm)'] as const;
+const DEFAULT_SVG_EXPORT_SETTINGS: SvgExportSettings = {
+	dpi: 96,
+	physicalUnit: 'in',
+};
 
 const PLOT_SVG_METHODS = [
 	'arc',
@@ -151,61 +165,98 @@ export function shimCircleToEllipseDuringRecording(sketch: ExtensibleP5) {
 	};
 }
 
-function rendererColorToCssString(value: unknown): string | null {
-	if (!Array.isArray(value) || value.length < 3) return null;
-	const r = Number(value[0]);
-	const g = Number(value[1]);
-	const b = Number(value[2]);
-	const alphaRaw = Number(value[3] ?? 255);
+function clampByte(value: number): number {
+	return Math.max(0, Math.min(255, Math.round(value)));
+}
+
+function componentToHex(value: number): string {
+	return clampByte(value).toString(16).padStart(2, '0');
+}
+
+function normalizeHexColor(value: string): string | null {
+	const trimmed = value.trim();
+	const hexMatch = trimmed.match(
+		/^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i
+	);
+	if (!hexMatch) return null;
+
+	const raw = hexMatch[1].toLowerCase();
+	if (raw.length === 3 || raw.length === 4) {
+		return (
+			'#' +
+			raw
+				.split('')
+				.map(part => `${part}${part}`)
+				.join('')
+		);
+	}
+	return `#${raw}`;
+}
+
+function colorArrayToHex(arrayValue: number[]): string | null {
+	if (arrayValue.length < 3) return null;
+	const rgbScale =
+		arrayValue[0] <= 1 && arrayValue[1] <= 1 && arrayValue[2] <= 1 ?
+			255
+		:	1;
+	const r = Number(arrayValue[0]) * rgbScale;
+	const g = Number(arrayValue[1]) * rgbScale;
+	const b = Number(arrayValue[2]) * rgbScale;
 	if (!Number.isFinite(r) || !Number.isFinite(g) || !Number.isFinite(b)) {
 		return null;
 	}
-	if (!Number.isFinite(alphaRaw)) return `rgb(${r},${g},${b})`;
 
-	const alpha = alphaRaw > 1 ? alphaRaw / 255 : alphaRaw;
-	if (alpha >= 0.999) return `rgb(${r},${g},${b})`;
-	return `rgba(${r},${g},${b},${alpha})`;
+	const alphaRaw = Number(arrayValue[3] ?? (rgbScale === 255 ? 1 : 255));
+	const alpha = rgbScale === 255 ? alphaRaw : alphaRaw / 255;
+	const rgbHex =
+		`#${componentToHex(r)}` +
+		`${componentToHex(g)}` +
+		`${componentToHex(b)}`;
+	if (!Number.isFinite(alpha) || alpha >= 0.999) return rgbHex;
+	return `${rgbHex}${componentToHex(alpha * 255)}`;
 }
 
-function stateColorToCssString(value: unknown): string | null {
+function colorLikeToHex(value: unknown): string | null {
 	if (!value) return null;
-	if (typeof value === 'string') return value;
-
-	try {
-		if (typeof (value as any).toString === 'function') {
-			const asString = String((value as any).toString());
-			if (asString && asString !== '[object Object]') return asString;
-		}
-	} catch {
-		// Fall through and try array-based decoding.
+	if (typeof value === 'string') return normalizeHexColor(value);
+	if (Array.isArray(value)) {
+		const numericArray = value.map(component => Number(component));
+		return colorArrayToHex(numericArray);
 	}
 
 	const normalizedArray = (value as any)?._array;
-	if (!Array.isArray(normalizedArray) || normalizedArray.length < 3)
-		return null;
-	const r = Number(normalizedArray[0]) * 255;
-	const g = Number(normalizedArray[1]) * 255;
-	const b = Number(normalizedArray[2]) * 255;
-	const alpha = Number(normalizedArray[3] ?? 1);
-	if (!Number.isFinite(r) || !Number.isFinite(g) || !Number.isFinite(b)) {
-		return null;
+	if (Array.isArray(normalizedArray)) {
+		const numericArray = normalizedArray.map((component: unknown) =>
+			Number(component)
+		);
+		return colorArrayToHex(numericArray);
 	}
-	if (!Number.isFinite(alpha) || alpha >= 0.999) return `rgb(${r},${g},${b})`;
-	return `rgba(${r},${g},${b},${alpha})`;
+
+	const levels = (value as any)?.levels;
+	if (Array.isArray(levels)) {
+		const numericArray = levels.map((component: unknown) =>
+			Number(component)
+		);
+		return colorArrayToHex(numericArray);
+	}
+
+	return null;
 }
 
-function resolveColorToCssString(
+function resolveColorToHex(
 	sketch: ExtensibleP5,
 	args: unknown[]
 ): string | null {
-	if (args.length === 1 && typeof args[0] === 'string') {
-		return args[0] as string;
+	if (args.length === 0) return null;
+	const firstArg = args[0];
+	if (typeof firstArg === 'string') {
+		const normalizedHex = normalizeHexColor(firstArg);
+		if (normalizedHex) return normalizedHex;
 	}
+
 	try {
 		const colorValue = (sketch as any).color?.(...args);
-		if (!colorValue || typeof colorValue.toString !== 'function')
-			return null;
-		return String(colorValue.toString());
+		return colorLikeToHex(colorValue);
 	} catch {
 		return null;
 	}
@@ -240,29 +291,71 @@ export function convertClosedShapeStrokesToFills(
 			const styleMatch = attributes.match(/\sstyle="([^"]*)"/i);
 			const styleStrokeColor =
 				styleMatch ? extractStrokeColorFromStyle(styleMatch[1]) : null;
-				const fillColor = styleStrokeColor || defaultFillColor;
-				if (!fillColor) return match;
+			const fillColor = styleStrokeColor || defaultFillColor;
+			if (!fillColor) return match;
 
-				const remainingStyleDeclarations = styleMatch ?
-						removePaintStyleDeclarations(styleMatch[1])
-					:	[];
-				const cleanedStyleAttributes = attributes.replace(
-					/\sstyle="([^"]*)"/i,
-					''
-				);
-				const attributesWithoutPaint = cleanedStyleAttributes.replace(
-					/\s(?:fill|stroke)="[^"]*"/gi,
-					''
-				);
-				const mergedStyle = [
-					`fill:${fillColor}`,
-					'stroke:none',
-					...remainingStyleDeclarations,
-				].join('; ');
+			const remainingStyleDeclarations =
+				styleMatch ? removePaintStyleDeclarations(styleMatch[1]) : [];
+			const cleanedStyleAttributes = attributes.replace(
+				/\sstyle="([^"]*)"/i,
+				''
+			);
+			const attributesWithoutPaint = cleanedStyleAttributes.replace(
+				/\s(?:fill|stroke)="[^"]*"/gi,
+				''
+			);
+			const mergedStyle = [
+				`fill:${fillColor}`,
+				'stroke:none',
+				...remainingStyleDeclarations,
+			].join('; ');
 
-				return `<${tagName}${attributesWithoutPaint} style="${mergedStyle};"${selfClosingSlash ? '/' : ''}>`;
-			}
+			return `<${tagName}${attributesWithoutPaint} style="${mergedStyle};"${selfClosingSlash ? '/' : ''}>`;
+		}
 	);
+}
+
+function sanitizeDpi(value: number): number {
+	return Number.isFinite(value) && value > 0 ? value : 96;
+}
+
+function formatPhysicalSize(value: number): string {
+	const rounded = Number(value.toFixed(4));
+	return Number.isInteger(rounded) ? String(rounded) : String(rounded);
+}
+
+export function rewriteSvgPhysicalSize(
+	svgContent: string,
+	widthPx: number,
+	heightPx: number,
+	physicalUnit: SvgPhysicalUnit,
+	dpi: number
+): string {
+	const safeDpi = sanitizeDpi(dpi);
+	const widthInches = widthPx / safeDpi;
+	const heightInches = heightPx / safeDpi;
+	const widthPhysical =
+		physicalUnit === 'mm' ? widthInches * 25.4 : widthInches;
+	const heightPhysical =
+		physicalUnit === 'mm' ? heightInches * 25.4 : heightInches;
+	const output = svgContent
+		.replace(
+			/\swidth="[^"]*"/i,
+			` width="${formatPhysicalSize(widthPhysical)}${physicalUnit}"`
+		)
+		.replace(
+			/\sheight="[^"]*"/i,
+			` height="${formatPhysicalSize(heightPhysical)}${physicalUnit}"`
+		);
+	return output;
+}
+
+function applyPhysicalSizeSettingsToRecorder(settings: SvgExportSettings) {
+	const dpi = sanitizeDpi(settings.dpi);
+	plotSvg.setSvgResolutionDPI?.(dpi);
+	if (settings.physicalUnit === 'mm') {
+		plotSvg.setSvgResolutionDPCM?.(dpi / 2.54);
+	}
 }
 
 function emulateStyleAsStrokeDuringRecording(
@@ -279,11 +372,11 @@ function emulateStyleAsStrokeDuringRecording(
 			(renderer?._doStroke === true &&
 				rendererStates?.strokeColor !== null),
 		fillColor:
-			stateColorToCssString(rendererStates?.fillColor) ||
-			rendererColorToCssString(renderer?.curFillColor),
+			colorLikeToHex(rendererStates?.fillColor) ||
+			colorLikeToHex(renderer?.curFillColor),
 		strokeColor:
-			stateColorToCssString(rendererStates?.strokeColor) ||
-			rendererColorToCssString(renderer?.curStrokeColor),
+			colorLikeToHex(rendererStates?.strokeColor) ||
+			colorLikeToHex(renderer?.curStrokeColor),
 	};
 	let sawFillOnlyClosedShape = false;
 
@@ -310,8 +403,7 @@ function emulateStyleAsStrokeDuringRecording(
 
 	wrapMethod('fill', (...args: unknown[]) => {
 		state.hasFill = true;
-		state.fillColor =
-			resolveColorToCssString(sketch, args) || state.fillColor;
+		state.fillColor = resolveColorToHex(sketch, args) || state.fillColor;
 	});
 	wrapMethod('noFill', () => {
 		state.hasFill = false;
@@ -319,7 +411,7 @@ function emulateStyleAsStrokeDuringRecording(
 	wrapMethod('stroke', (...args: unknown[]) => {
 		state.hasStroke = true;
 		state.strokeColor =
-			resolveColorToCssString(sketch, args) || state.strokeColor;
+			resolveColorToHex(sketch, args) || state.strokeColor;
 	});
 	wrapMethod('noStroke', () => {
 		state.hasStroke = false;
@@ -389,7 +481,8 @@ function getSvgFileName(config: Config, sketch: ExtensibleP5): string {
 async function exportCurrentFrameToSvg(
 	gui: CatalystGUI,
 	sketch: ExtensibleP5,
-	config: Config
+	config: Config,
+	exportSettings: SvgExportSettings
 ) {
 	if ((sketch as any)._renderer?.isP3D) {
 		gui.dialog.alert(
@@ -413,7 +506,8 @@ async function exportCurrentFrameToSvg(
 			emulateStyleAsStrokeDuringRecording(sketch);
 
 		plotSvg.setSvgDocumentSize?.(sketch.width, sketch.height);
-		plotSvg.setSvgFlattenTransforms?.(true);
+		applyPhysicalSizeSettingsToRecorder(exportSettings);
+		// plotSvg.setSvgFlattenTransforms?.(true);
 		plotSvg.setSvgCoordinatePrecision?.(4);
 		plotSvg.setSvgTransformPrecision?.(6);
 
@@ -424,6 +518,13 @@ async function exportCurrentFrameToSvg(
 		if (styleEmulationSession.shouldConvertClosedShapeStrokeToFill()) {
 			svgContent = convertClosedShapeStrokesToFills(svgContent);
 		}
+		svgContent = rewriteSvgPhysicalSize(
+			svgContent,
+			sketch.width,
+			sketch.height,
+			exportSettings.physicalUnit,
+			exportSettings.dpi
+		);
 
 		if (!svgContent || typeof svgContent !== 'string') {
 			throw new Error('No SVG content was captured.');
@@ -462,7 +563,32 @@ export function svgExportPlugin(): Plugin {
 		) => {
 			const exportTab = gui.getTab('export') || gui;
 			const panel = exportTab.addPanel('Export SVG', true);
+			const settingsGroup = panel.addGroup('svgExportSettings', ROW);
 			const buttonGroup = panel.addGroup('svgExportButtons', ROW);
+			const exportSettings: SvgExportSettings = {
+				...DEFAULT_SVG_EXPORT_SETTINGS,
+			};
+
+			settingsGroup.addSelect(
+				'svgUnitSelect',
+				'Units',
+				[...SVG_UNIT_OPTIONS],
+				0,
+				(_, value) => {
+					exportSettings.physicalUnit =
+						value === SVG_UNIT_OPTIONS[1] ? 'mm' : 'in';
+				}
+			);
+			settingsGroup.addTextbox(
+				'svgDpiTextbox',
+				'Resolution (DPI)',
+				String(exportSettings.dpi),
+				(_, value) => {
+					const parsedDpi = parseFloat(value as string);
+					if (!Number.isFinite(parsedDpi) || parsedDpi <= 0) return;
+					exportSettings.dpi = parsedDpi;
+				}
+			);
 
 			let isExporting = false;
 			buttonGroup.addButton(
@@ -472,7 +598,12 @@ export function svgExportPlugin(): Plugin {
 					if (isExporting) return;
 					isExporting = true;
 					try {
-						await exportCurrentFrameToSvg(gui, sketch, config);
+						await exportCurrentFrameToSvg(
+							gui,
+							sketch,
+							config,
+							exportSettings
+						);
 					} finally {
 						isExporting = false;
 					}

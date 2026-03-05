@@ -26,6 +26,7 @@ vi.mock('../src/lib/utils/time', () => ({
 import {
 	convertClosedShapeStrokesToFills,
 	hasDrawableSvgContent,
+	rewriteSvgPhysicalSize,
 	shimCircleToEllipseDuringRecording,
 	svgExportPlugin,
 } from '../src/lib/plugins/svgExportPlugin';
@@ -33,14 +34,16 @@ import {
 function createGuiHarness() {
 	let buttonHandler: (() => void | Promise<void>) | undefined;
 
-	const buttonGroup = {
+	const group = {
 		addButton: vi.fn((_, __, callback: () => void | Promise<void>) => {
 			buttonHandler = callback;
 		}),
+		addSelect: vi.fn(),
+		addTextbox: vi.fn(),
 	};
 
 	const panel = {
-		addGroup: vi.fn(() => buttonGroup),
+		addGroup: vi.fn(() => group),
 		open: vi.fn(),
 	};
 
@@ -148,6 +151,22 @@ describe('svgExportPlugin', () => {
 		expect(result).toContain(
 			`<ellipse cx="10" cy="20" rx="5" ry="5" style="fill:black; stroke:none;"/>`
 		);
+	});
+
+	it('rewrites SVG physical size in inches based on DPI', () => {
+		const svg = `<svg width="1in" height="1in" viewBox="0 0 1080 1920"></svg>`;
+		const result = rewriteSvgPhysicalSize(svg, 1080, 1920, 'in', 96);
+
+		expect(result).toContain(`width="11.25in"`);
+		expect(result).toContain(`height="20in"`);
+	});
+
+	it('rewrites SVG physical size in millimeters based on DPI', () => {
+		const svg = `<svg width="1in" height="1in" viewBox="0 0 1080 1920"></svg>`;
+		const result = rewriteSvgPhysicalSize(svg, 1080, 1920, 'mm', 96);
+
+		expect(result).toContain(`width="285.75mm"`);
+		expect(result).toContain(`height="508mm"`);
 	});
 
 	it('shows an error and skips download when SVG has no drawable geometry', async () => {
