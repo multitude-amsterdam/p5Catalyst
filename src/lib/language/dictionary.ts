@@ -184,6 +184,10 @@ export const dictionary: Dictionary = {
 		nl: 'afbeelding downloaden',
 		en: 'download image',
 	},
+	LANG_DOWNLOAD_SVG: {
+		nl: 'SVG downloaden',
+		en: 'download SVG',
+	},
 	LANG_DARK_MODE: {
 		nl: 'donker thema',
 		en: 'dark theme',
