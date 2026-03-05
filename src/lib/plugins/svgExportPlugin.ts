@@ -26,6 +26,7 @@ type PlotSvgCommand = {
 
 type StyleEmulationSession = {
 	shouldConvertClosedShapeStrokeToFill: () => boolean;
+	capturedStyles: SvgClassStyle[];
 };
 
 type SvgPhysicalUnit = 'in' | 'mm';
@@ -35,15 +36,31 @@ type SvgExportSettings = {
 	physicalUnit: SvgPhysicalUnit;
 };
 
+type SvgClassStyle = {
+	fill?: string;
+	stroke?: string;
+	strokeWidth?: number;
+	fontFamily?: string;
+	fontSize?: string;
+	fontStyle?: string;
+	fontWeight?: string;
+	textAnchor?: string;
+	dominantBaseline?: string;
+	lineHeight?: string;
+	direction?: string;
+};
+
 const plotSvg = p5plotSvg as unknown as PlotSvgApi;
 const SVG_DRAWABLE_TAG_PATTERN =
 	/<(path|line|rect|circle|ellipse|polyline|polygon|text)\b/i;
 const CLOSED_SVG_SHAPE_TAG_PATTERN =
 	/<(circle|ellipse|rect|polygon)\b([^>]*?)(\/?)>/gi;
+const SVG_DRAWABLE_TAG_REWRITE_PATTERN =
+	/<(circle|ellipse|line|path|polygon|polyline|rect|text)\b([^>]*?)(\/?)>/gi;
 const SVG_UNIT_OPTIONS = ['Inches (in)', 'Millimeters (mm)'] as const;
 const DEFAULT_SVG_EXPORT_SETTINGS: SvgExportSettings = {
 	dpi: 96,
-	physicalUnit: 'in',
+	physicalUnit: 'mm',
 };
 
 const PLOT_SVG_METHODS = [
@@ -91,7 +108,7 @@ const STYLE_CAPTURE_METHODS = [
 	'rect',
 	'square',
 	'triangle',
-	'beginShape',
+	'endShape',
 	'text',
 ] as const;
 
@@ -103,7 +120,7 @@ const CLOSED_STYLE_CAPTURE_METHODS = new Set([
 	'rect',
 	'square',
 	'triangle',
-	'beginShape',
+	'endShape',
 ]);
 
 function getPropertyDescriptorInPrototypeChain(
@@ -173,7 +190,7 @@ function componentToHex(value: number): string {
 	return clampByte(value).toString(16).padStart(2, '0');
 }
 
-function normalizeHexColor(value: string): string | null {
+export function normalizeHexColor(value: string): string | null {
 	const trimmed = value.trim();
 	const hexMatch = trimmed.match(
 		/^#([0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})$/i
@@ -216,7 +233,7 @@ function colorArrayToHex(arrayValue: number[]): string | null {
 	return `${rgbHex}${componentToHex(alpha * 255)}`;
 }
 
-function colorLikeToHex(value: unknown): string | null {
+export function colorLikeToHex(value: unknown): string | null {
 	if (!value) return null;
 	if (typeof value === 'string') return normalizeHexColor(value);
 	if (Array.isArray(value)) {
@@ -358,11 +375,152 @@ function applyPhysicalSizeSettingsToRecorder(settings: SvgExportSettings) {
 	}
 }
 
+function cssNumber(value: number): string {
+	const rounded = Number(value.toFixed(4));
+	return Number.isInteger(rounded) ? String(rounded) : String(rounded);
+}
+
+function normalizeFontFamily(value: string): string {
+	const trimmed = value.trim();
+	if (!trimmed) return 'sans-serif';
+	if (/^['"].*['"]$/.test(trimmed)) return trimmed;
+	if (/\s/.test(trimmed)) return `"${trimmed}"`;
+	return trimmed;
+}
+
+function mapTextAlignToAnchor(align: string): string {
+	switch (align) {
+		case 'center':
+			return 'middle';
+		case 'right':
+		case 'end':
+			return 'end';
+		case 'left':
+		case 'start':
+		default:
+			return 'start';
+	}
+}
+
+function mapTextBaselineToDominantBaseline(baseline: string): string {
+	switch (baseline) {
+		case 'top':
+			return 'text-before-edge';
+		case 'middle':
+		case 'center':
+			return 'middle';
+		case 'bottom':
+			return 'text-after-edge';
+		case 'hanging':
+			return 'hanging';
+		case 'ideographic':
+			return 'ideographic';
+		case 'alphabetic':
+		default:
+			return 'alphabetic';
+	}
+}
+
+function canonicalizeStyle(style: SvgClassStyle): string {
+	const entries: Array<[string, string]> = [];
+	if (style.fill) entries.push(['fill', style.fill]);
+	if (style.stroke) entries.push(['stroke', style.stroke]);
+	if (style.strokeWidth != null) {
+		entries.push(['stroke-width', cssNumber(style.strokeWidth)]);
+	}
+	if (style.fontFamily) entries.push(['font-family', style.fontFamily]);
+	if (style.fontSize) entries.push(['font-size', style.fontSize]);
+	if (style.fontStyle) entries.push(['font-style', style.fontStyle]);
+	if (style.fontWeight) entries.push(['font-weight', style.fontWeight]);
+	if (style.textAnchor) entries.push(['text-anchor', style.textAnchor]);
+	if (style.dominantBaseline) {
+		entries.push(['dominant-baseline', style.dominantBaseline]);
+	}
+	if (style.lineHeight) entries.push(['line-height', style.lineHeight]);
+	if (style.direction) entries.push(['direction', style.direction]);
+	return entries.map(([key, value]) => `${key}:${value}`).join('; ');
+}
+
+function stripPaintAndTextPresentationAttributes(attributes: string): string {
+	return attributes
+		.replace(/\sstyle="[^"]*"/gi, '')
+		.replace(/\sfill="[^"]*"/gi, '')
+		.replace(/\sstroke="[^"]*"/gi, '')
+		.replace(/\sstroke-width="[^"]*"/gi, '')
+		.replace(/\sfont-family="[^"]*"/gi, '')
+		.replace(/\sfont-size="[^"]*"/gi, '')
+		.replace(/\sfont-style="[^"]*"/gi, '')
+		.replace(/\sfont-weight="[^"]*"/gi, '')
+		.replace(/\stext-anchor="[^"]*"/gi, '')
+		.replace(/\sdominant-baseline="[^"]*"/gi, '')
+		.replace(/\sline-height="[^"]*"/gi, '')
+		.replace(/\sdirection="[^"]*"/gi, '');
+}
+
+function attachClassName(attributes: string, className: string): string {
+	const classMatch = attributes.match(/\sclass="([^"]*)"/i);
+	if (!classMatch) return `${attributes} class="${className}"`;
+	const existing = classMatch[1].trim();
+	const merged = existing ? `${existing} ${className}` : className;
+	return attributes.replace(/\sclass="[^"]*"/i, ` class="${merged}"`);
+}
+
+function appendClassStyleBlock(svgContent: string, cssRules: string[]): string {
+	if (cssRules.length === 0) return svgContent;
+	const styleBlock =
+		`  <style id="p5c-svg-style-classes">\n` +
+		cssRules.map(rule => `    ${rule}`).join('\n') +
+		`\n  </style>\n`;
+	if (!/<\/svg>\s*$/i.test(svgContent)) return svgContent + styleBlock;
+	return svgContent.replace(/<\/svg>\s*$/i, `${styleBlock}</svg>`);
+}
+
+export function applyStyleClassesToSvg(
+	svgContent: string,
+	capturedStyles: SvgClassStyle[]
+): string {
+	let styleIndex = 0;
+	const styleToClassMap = new Map<string, string>();
+	const cssRules: string[] = [];
+	const rewritten = svgContent.replace(
+		SVG_DRAWABLE_TAG_REWRITE_PATTERN,
+		(
+			match,
+			tagName: string,
+			rawAttributes: string,
+			selfClosingSlash: string
+		) => {
+			const style = capturedStyles[styleIndex++];
+			if (!style) return match;
+			const canonicalStyle = canonicalizeStyle(style);
+			if (!canonicalStyle) return match;
+
+			let className = styleToClassMap.get(canonicalStyle);
+			if (!className) {
+				className = `p5c-s${styleToClassMap.size}`;
+				styleToClassMap.set(canonicalStyle, className);
+				cssRules.push(`.${className}{${canonicalStyle};}`);
+			}
+
+			const strippedAttributes = stripPaintAndTextPresentationAttributes(
+				rawAttributes || ''
+			);
+			const attributesWithClass = attachClassName(
+				strippedAttributes,
+				className
+			);
+			return `<${tagName}${attributesWithClass}${selfClosingSlash ? '/' : ''}>`;
+		}
+	);
+	return appendClassStyleBlock(rewritten, cssRules);
+}
+
 function emulateStyleAsStrokeDuringRecording(
 	sketch: ExtensibleP5
 ): StyleEmulationSession {
 	const renderer = (sketch as any)._renderer;
 	const rendererStates = renderer?.states;
+	const capturedStyles: SvgClassStyle[] = [];
 	const state = {
 		hasFill:
 			rendererStates?.fillColor != null ||
@@ -377,8 +535,63 @@ function emulateStyleAsStrokeDuringRecording(
 		strokeColor:
 			colorLikeToHex(rendererStates?.strokeColor) ||
 			colorLikeToHex(renderer?.curStrokeColor),
+		strokeWeight: Number(rendererStates?.strokeWeight ?? 1),
+		fontFamily: normalizeFontFamily(
+			String(rendererStates?.textFont?.family || 'sans-serif')
+		),
+		fontStyle: String(rendererStates?.fontStyle || 'normal'),
+		fontWeight: String(rendererStates?.fontWeight || 'normal'),
+		textAlign: String(rendererStates?.textAlign || 'left'),
+		textBaseline: String(rendererStates?.textBaseline || 'alphabetic'),
+		textSize: Number(rendererStates?.textSize ?? 12),
+		lineHeight:
+			rendererStates?.lineHeight != null ?
+				String(rendererStates.lineHeight)
+			:	undefined,
+		direction:
+			typeof rendererStates?.direction === 'string' ?
+				String(rendererStates.direction)
+			:	undefined,
 	};
 	let sawFillOnlyClosedShape = false;
+
+	const syncStateFromRenderer = () => {
+		state.hasFill = rendererStates?.fillColor != null;
+		state.hasStroke = rendererStates?.strokeColor != null;
+		state.fillColor =
+			colorLikeToHex(rendererStates?.fillColor) || state.fillColor;
+		state.strokeColor =
+			colorLikeToHex(rendererStates?.strokeColor) || state.strokeColor;
+		const strokeWeight = Number(rendererStates?.strokeWeight);
+		if (Number.isFinite(strokeWeight)) {
+			state.strokeWeight = strokeWeight;
+		}
+		const textSize = Number(rendererStates?.textSize);
+		if (Number.isFinite(textSize)) state.textSize = textSize;
+		if (typeof rendererStates?.fontStyle === 'string') {
+			state.fontStyle = rendererStates.fontStyle;
+		}
+		if (typeof rendererStates?.fontWeight === 'string') {
+			state.fontWeight = rendererStates.fontWeight;
+		}
+		if (typeof rendererStates?.textAlign === 'string') {
+			state.textAlign = rendererStates.textAlign;
+		}
+		if (typeof rendererStates?.textBaseline === 'string') {
+			state.textBaseline = rendererStates.textBaseline;
+		}
+		if (rendererStates?.textFont?.family) {
+			state.fontFamily = normalizeFontFamily(
+				String(rendererStates.textFont.family)
+			);
+		}
+		if (rendererStates?.lineHeight != null) {
+			state.lineHeight = String(rendererStates.lineHeight);
+		}
+		if (typeof rendererStates?.direction === 'string') {
+			state.direction = rendererStates.direction;
+		}
+	};
 
 	const pushStrokeCommand = (color: string | null) => {
 		if (!color) return;
@@ -387,6 +600,18 @@ function emulateStyleAsStrokeDuringRecording(
 		const previous = commands[commands.length - 1];
 		if (previous?.type === 'stroke' && previous.color === color) return;
 		commands.push({ type: 'stroke', color });
+	};
+
+	const extractTextFontFamily = (argument: unknown): string | null => {
+		if (typeof argument === 'string') {
+			return normalizeFontFamily(argument);
+		}
+		const family =
+			(argument as any)?.family || (argument as any)?.font?.family;
+		if (typeof family === 'string' && family.trim().length > 0) {
+			return normalizeFontFamily(family);
+		}
+		return null;
 	};
 
 	const wrapMethod = (
@@ -416,31 +641,116 @@ function emulateStyleAsStrokeDuringRecording(
 	wrapMethod('noStroke', () => {
 		state.hasStroke = false;
 	});
+	wrapMethod('strokeWeight', (...args: unknown[]) => {
+		const value = Number(args[0]);
+		if (Number.isFinite(value) && value >= 0) {
+			state.strokeWeight = value;
+		}
+	});
+	wrapMethod('textFont', (...args: unknown[]) => {
+		const family = extractTextFontFamily(args[0]);
+		if (family) state.fontFamily = family;
+		const textSize = Number(args[1]);
+		if (Number.isFinite(textSize) && textSize > 0) {
+			state.textSize = textSize;
+		}
+	});
+	wrapMethod('textSize', (...args: unknown[]) => {
+		const value = Number(args[0]);
+		if (Number.isFinite(value) && value > 0) {
+			state.textSize = value;
+		}
+	});
+	wrapMethod('textStyle', (...args: unknown[]) => {
+		const styleValue = String(args[0] ?? '').toLowerCase();
+		if (styleValue.includes('bold')) {
+			state.fontWeight = 'bold';
+		} else if (styleValue) {
+			state.fontWeight = 'normal';
+		}
+		if (styleValue.includes('italic')) {
+			state.fontStyle = 'italic';
+		} else if (styleValue) {
+			state.fontStyle = 'normal';
+		}
+	});
+	wrapMethod('textAlign', (...args: unknown[]) => {
+		const align = args[0];
+		const baseline = args[1];
+		if (typeof align === 'string' && align.length > 0) {
+			state.textAlign = align.toLowerCase();
+		}
+		if (typeof baseline === 'string' && baseline.length > 0) {
+			state.textBaseline = baseline.toLowerCase();
+		}
+	});
+	wrapMethod('textLeading', (...args: unknown[]) => {
+		const value = Number(args[0]);
+		if (Number.isFinite(value) && value > 0) {
+			state.lineHeight = `${cssNumber(value)}px`;
+		}
+	});
 
 	for (const methodName of STYLE_CAPTURE_METHODS) {
 		wrapMethod(methodName, () => {
+			syncStateFromRenderer();
 			const isClosedShape = CLOSED_STYLE_CAPTURE_METHODS.has(methodName);
+			const isText = methodName === 'text';
+			const style: SvgClassStyle = {};
 
 			if (isClosedShape && state.hasFill && !state.hasStroke) {
 				sawFillOnlyClosedShape = true;
 			}
 
-			if (isClosedShape && state.hasFill && state.fillColor) {
-				pushStrokeCommand(state.fillColor);
-				return;
+			if (isText || isClosedShape) {
+				style.fill =
+					state.hasFill && state.fillColor ? state.fillColor : 'none';
+			} else {
+				style.fill = 'none';
 			}
+
 			if (state.hasStroke && state.strokeColor) {
+				style.stroke = state.strokeColor;
+				if (
+					Number.isFinite(state.strokeWeight) &&
+					state.strokeWeight >= 0
+				) {
+					style.strokeWidth = state.strokeWeight;
+				}
 				pushStrokeCommand(state.strokeColor);
-				return;
+			} else {
+				style.stroke = 'none';
 			}
-			if (state.hasFill && state.fillColor) {
+
+			if (
+				!state.hasStroke &&
+				isClosedShape &&
+				state.hasFill &&
+				state.fillColor
+			) {
 				pushStrokeCommand(state.fillColor);
 			}
+
+			if (isText) {
+				style.fontFamily = state.fontFamily;
+				style.fontSize = `${cssNumber(state.textSize)}px`;
+				style.fontStyle = state.fontStyle || 'normal';
+				style.fontWeight = state.fontWeight || 'normal';
+				style.textAnchor = mapTextAlignToAnchor(state.textAlign);
+				style.dominantBaseline = mapTextBaselineToDominantBaseline(
+					state.textBaseline
+				);
+				if (state.lineHeight) style.lineHeight = state.lineHeight;
+				if (state.direction) style.direction = state.direction;
+			}
+
+			capturedStyles.push(style);
 		});
 	}
 
 	return {
 		shouldConvertClosedShapeStrokeToFill: () => sawFillOnlyClosedShape,
+		capturedStyles,
 	};
 }
 
@@ -524,6 +834,10 @@ async function exportCurrentFrameToSvg(
 			sketch.height,
 			exportSettings.physicalUnit,
 			exportSettings.dpi
+		);
+		svgContent = applyStyleClassesToSvg(
+			svgContent,
+			styleEmulationSession.capturedStyles
 		);
 
 		if (!svgContent || typeof svgContent !== 'string') {

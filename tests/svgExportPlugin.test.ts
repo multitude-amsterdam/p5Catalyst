@@ -24,8 +24,11 @@ vi.mock('../src/lib/utils/time', () => ({
 }));
 
 import {
+	applyStyleClassesToSvg,
+	colorLikeToHex,
 	convertClosedShapeStrokesToFills,
 	hasDrawableSvgContent,
+	normalizeHexColor,
 	rewriteSvgPhysicalSize,
 	shimCircleToEllipseDuringRecording,
 	svgExportPlugin,
@@ -167,6 +170,94 @@ describe('svgExportPlugin', () => {
 
 		expect(result).toContain(`width="285.75mm"`);
 		expect(result).toContain(`height="508mm"`);
+	});
+
+	it('collects repeated styles into CSS classes', () => {
+		const svg =
+			`<svg><ellipse cx="0" cy="0" rx="1" ry="1"/>` +
+			`<ellipse cx="1" cy="1" rx="1" ry="1"/></svg>`;
+		const styles = [
+			{ fill: '#ff2600', stroke: 'none' },
+			{ fill: '#ff2600', stroke: 'none' },
+		];
+
+		const result = applyStyleClassesToSvg(svg, styles);
+
+		expect(result).toContain(`class="p5c-s0"`);
+		expect(result).toContain(`.p5c-s0{fill:#ff2600; stroke:none;}`);
+	});
+
+	it('includes stroke width and text style variables in generated class styles', () => {
+		const svg = `<svg><line x1="0" y1="0" x2="1" y2="1"/><text x="0" y="0">hi</text></svg>`;
+		const styles = [
+			{ fill: 'none', stroke: '#112233', strokeWidth: 2 },
+			{
+				fill: '#ff2600',
+				stroke: 'none',
+				fontFamily: 'sans-serif',
+				fontSize: '12px',
+				fontStyle: 'normal',
+				fontWeight: 'normal',
+				textAnchor: 'start',
+				dominantBaseline: 'alphabetic',
+			},
+		];
+
+		const result = applyStyleClassesToSvg(svg, styles);
+
+		expect(result).toContain(`stroke-width:2`);
+		expect(result).toContain(`font-family:sans-serif`);
+		expect(result).toContain(`font-size:12px`);
+		expect(result).toContain(`text-anchor:start`);
+		expect(result).toContain(`dominant-baseline:alphabetic`);
+	});
+
+	it('strips inline presentation attributes and captures full text styling in class rules', () => {
+		const svg =
+			`<svg><text x="5" y="8" class="label" style="fill:#111" fill="#000"` +
+			` stroke="#fff" stroke-width="9">hello</text></svg>`;
+		const styles = [
+			{
+				fill: '#ff2600',
+				stroke: 'none',
+				fontFamily: '"Fira Sans"',
+				fontSize: '16px',
+				fontStyle: 'italic',
+				fontWeight: '700',
+				textAnchor: 'middle',
+				dominantBaseline: 'hanging',
+				lineHeight: '20px',
+				direction: 'rtl',
+			},
+		];
+
+		const result = applyStyleClassesToSvg(svg, styles);
+
+		expect(result).toContain(`class="label p5c-s0"`);
+		expect(result).not.toContain(`style="fill:#111"`);
+		expect(result).not.toContain(`fill="#000"`);
+		expect(result).not.toContain(`stroke="#fff"`);
+		expect(result).not.toContain(`stroke-width="9"`);
+		expect(result).toContain(`.p5c-s0{`);
+		expect(result).toContain(`line-height:20px`);
+		expect(result).toContain(`direction:rtl`);
+	});
+
+	it('normalizes hex color strings', () => {
+		expect(normalizeHexColor('#f60')).toBe('#ff6600');
+		expect(normalizeHexColor('#AbCd')).toBe('#aabbccdd');
+		expect(normalizeHexColor('#112233')).toBe('#112233');
+		expect(normalizeHexColor('rgb(255,0,0)')).toBeNull();
+	});
+
+	it('converts color-like values to normalized hex output', () => {
+		expect(colorLikeToHex([1, 0.14902, 0])).toBe('#ff2600');
+		expect(colorLikeToHex([255, 38, 0, 128])).toBe('#ff260080');
+		expect(colorLikeToHex({ _array: [0.2, 0.42745, 1, 1] })).toBe(
+			'#336dff'
+		);
+		expect(colorLikeToHex({ levels: [20, 40, 60] })).toBe('#14283c');
+		expect(colorLikeToHex('not-a-hex')).toBeNull();
 	});
 
 	it('shows an error and skips download when SVG has no drawable geometry', async () => {
