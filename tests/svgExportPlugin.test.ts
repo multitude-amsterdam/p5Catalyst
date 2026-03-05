@@ -24,6 +24,7 @@ vi.mock('../src/lib/utils/time', () => ({
 }));
 
 import {
+	convertClosedShapeStrokesToFills,
 	hasDrawableSvgContent,
 	shimCircleToEllipseDuringRecording,
 	svgExportPlugin,
@@ -129,6 +130,24 @@ describe('svgExportPlugin', () => {
 		sketch.circle(10, 20, 30);
 
 		expect(ellipse).toHaveBeenCalledWith(10, 20, 30, 30);
+	});
+
+	it('converts closed-shape stroke styling into fill styling', () => {
+		const svg = `<svg><ellipse cx="10" cy="20" rx="5" ry="5" style="stroke:#ff0000;"/></svg>`;
+		const result = convertClosedShapeStrokesToFills(svg);
+
+		expect(result).toContain(
+			`<ellipse cx="10" cy="20" rx="5" ry="5" style="fill:#ff0000; stroke:none;"/>`
+		);
+	});
+
+	it('uses black fill fallback when closed shape has no stroke style', () => {
+		const svg = `<svg><ellipse cx="10" cy="20" rx="5" ry="5"/></svg>`;
+		const result = convertClosedShapeStrokesToFills(svg);
+
+		expect(result).toContain(
+			`<ellipse cx="10" cy="20" rx="5" ry="5" style="fill:black; stroke:none;"/>`
+		);
 	});
 
 	it('shows an error and skips download when SVG has no drawable geometry', async () => {

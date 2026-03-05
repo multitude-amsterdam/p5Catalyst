@@ -14,11 +14,23 @@ type PlotSvgApi = {
 	setSvgFlattenTransforms?: (flattenTransforms: boolean) => void;
 	setSvgCoordinatePrecision?: (precision: number) => void;
 	setSvgTransformPrecision?: (precision: number) => void;
+	_commands?: PlotSvgCommand[];
+};
+
+type PlotSvgCommand = {
+	type: string;
+	color?: string;
+};
+
+type StyleEmulationSession = {
+	shouldConvertClosedShapeStrokeToFill: () => boolean;
 };
 
 const plotSvg = p5plotSvg as unknown as PlotSvgApi;
 const SVG_DRAWABLE_TAG_PATTERN =
 	/<(path|line|rect|circle|ellipse|polyline|polygon|text)\b/i;
+const CLOSED_SVG_SHAPE_TAG_PATTERN =
+	/<(circle|ellipse|rect|polygon)\b([^>]*?)(\/?)>/gi;
 
 const PLOT_SVG_METHODS = [
 	'arc',
@@ -52,6 +64,33 @@ const PLOT_SVG_METHODS = [
 	'stroke',
 	'colorMode',
 ] as const;
+
+const STYLE_CAPTURE_METHODS = [
+	'arc',
+	'bezier',
+	'circle',
+	'curve',
+	'ellipse',
+	'line',
+	'point',
+	'quad',
+	'rect',
+	'square',
+	'triangle',
+	'beginShape',
+	'text',
+] as const;
+
+const CLOSED_STYLE_CAPTURE_METHODS = new Set([
+	'arc',
+	'circle',
+	'ellipse',
+	'quad',
+	'rect',
+	'square',
+	'triangle',
+	'beginShape',
+]);
 
 function getPropertyDescriptorInPrototypeChain(
 	object: object,
@@ -112,6 +151,207 @@ export function shimCircleToEllipseDuringRecording(sketch: ExtensibleP5) {
 	};
 }
 
+function rendererColorToCssString(value: unknown): string | null {
+	if (!Array.isArray(value) || value.length < 3) return null;
+	const r = Number(value[0]);
+	const g = Number(value[1]);
+	const b = Number(value[2]);
+	const alphaRaw = Number(value[3] ?? 255);
+	if (!Number.isFinite(r) || !Number.isFinite(g) || !Number.isFinite(b)) {
+		return null;
+	}
+	if (!Number.isFinite(alphaRaw)) return `rgb(${r},${g},${b})`;
+
+	const alpha = alphaRaw > 1 ? alphaRaw / 255 : alphaRaw;
+	if (alpha >= 0.999) return `rgb(${r},${g},${b})`;
+	return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function stateColorToCssString(value: unknown): string | null {
+	if (!value) return null;
+	if (typeof value === 'string') return value;
+
+	try {
+		if (typeof (value as any).toString === 'function') {
+			const asString = String((value as any).toString());
+			if (asString && asString !== '[object Object]') return asString;
+		}
+	} catch {
+		// Fall through and try array-based decoding.
+	}
+
+	const normalizedArray = (value as any)?._array;
+	if (!Array.isArray(normalizedArray) || normalizedArray.length < 3)
+		return null;
+	const r = Number(normalizedArray[0]) * 255;
+	const g = Number(normalizedArray[1]) * 255;
+	const b = Number(normalizedArray[2]) * 255;
+	const alpha = Number(normalizedArray[3] ?? 1);
+	if (!Number.isFinite(r) || !Number.isFinite(g) || !Number.isFinite(b)) {
+		return null;
+	}
+	if (!Number.isFinite(alpha) || alpha >= 0.999) return `rgb(${r},${g},${b})`;
+	return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function resolveColorToCssString(
+	sketch: ExtensibleP5,
+	args: unknown[]
+): string | null {
+	if (args.length === 1 && typeof args[0] === 'string') {
+		return args[0] as string;
+	}
+	try {
+		const colorValue = (sketch as any).color?.(...args);
+		if (!colorValue || typeof colorValue.toString !== 'function')
+			return null;
+		return String(colorValue.toString());
+	} catch {
+		return null;
+	}
+}
+
+function extractStrokeColorFromStyle(styleValue: string): string | null {
+	const match = styleValue.match(/(?:^|;)\s*stroke\s*:\s*([^;]+)/i);
+	return match?.[1]?.trim() || null;
+}
+
+function removePaintStyleDeclarations(styleValue: string): string[] {
+	return styleValue
+		.split(';')
+		.map(declaration => declaration.trim())
+		.filter(Boolean)
+		.filter(declaration => !/^(stroke|fill)\s*:/i.test(declaration));
+}
+
+export function convertClosedShapeStrokesToFills(
+	svgContent: string,
+	defaultFillColor = 'black'
+): string {
+	return svgContent.replace(
+		CLOSED_SVG_SHAPE_TAG_PATTERN,
+		(
+			match,
+			tagName: string,
+			rawAttributes: string,
+			selfClosingSlash: string
+		) => {
+			const attributes = rawAttributes || '';
+			const styleMatch = attributes.match(/\sstyle="([^"]*)"/i);
+			const styleStrokeColor =
+				styleMatch ? extractStrokeColorFromStyle(styleMatch[1]) : null;
+				const fillColor = styleStrokeColor || defaultFillColor;
+				if (!fillColor) return match;
+
+				const remainingStyleDeclarations = styleMatch ?
+						removePaintStyleDeclarations(styleMatch[1])
+					:	[];
+				const cleanedStyleAttributes = attributes.replace(
+					/\sstyle="([^"]*)"/i,
+					''
+				);
+				const attributesWithoutPaint = cleanedStyleAttributes.replace(
+					/\s(?:fill|stroke)="[^"]*"/gi,
+					''
+				);
+				const mergedStyle = [
+					`fill:${fillColor}`,
+					'stroke:none',
+					...remainingStyleDeclarations,
+				].join('; ');
+
+				return `<${tagName}${attributesWithoutPaint} style="${mergedStyle};"${selfClosingSlash ? '/' : ''}>`;
+			}
+	);
+}
+
+function emulateStyleAsStrokeDuringRecording(
+	sketch: ExtensibleP5
+): StyleEmulationSession {
+	const renderer = (sketch as any)._renderer;
+	const rendererStates = renderer?.states;
+	const state = {
+		hasFill:
+			rendererStates?.fillColor != null ||
+			(renderer?._doFill !== false && rendererStates?.fillColor !== null),
+		hasStroke:
+			rendererStates?.strokeColor != null ||
+			(renderer?._doStroke === true &&
+				rendererStates?.strokeColor !== null),
+		fillColor:
+			stateColorToCssString(rendererStates?.fillColor) ||
+			rendererColorToCssString(renderer?.curFillColor),
+		strokeColor:
+			stateColorToCssString(rendererStates?.strokeColor) ||
+			rendererColorToCssString(renderer?.curStrokeColor),
+	};
+	let sawFillOnlyClosedShape = false;
+
+	const pushStrokeCommand = (color: string | null) => {
+		if (!color) return;
+		const commands = plotSvg._commands;
+		if (!Array.isArray(commands)) return;
+		const previous = commands[commands.length - 1];
+		if (previous?.type === 'stroke' && previous.color === color) return;
+		commands.push({ type: 'stroke', color });
+	};
+
+	const wrapMethod = (
+		methodName: string,
+		beforeCall: (...args: unknown[]) => void
+	) => {
+		const original = (sketch as any)[methodName];
+		if (typeof original !== 'function') return;
+		(sketch as any)[methodName] = function (...args: unknown[]) {
+			beforeCall(...args);
+			return original.apply(this, args);
+		};
+	};
+
+	wrapMethod('fill', (...args: unknown[]) => {
+		state.hasFill = true;
+		state.fillColor =
+			resolveColorToCssString(sketch, args) || state.fillColor;
+	});
+	wrapMethod('noFill', () => {
+		state.hasFill = false;
+	});
+	wrapMethod('stroke', (...args: unknown[]) => {
+		state.hasStroke = true;
+		state.strokeColor =
+			resolveColorToCssString(sketch, args) || state.strokeColor;
+	});
+	wrapMethod('noStroke', () => {
+		state.hasStroke = false;
+	});
+
+	for (const methodName of STYLE_CAPTURE_METHODS) {
+		wrapMethod(methodName, () => {
+			const isClosedShape = CLOSED_STYLE_CAPTURE_METHODS.has(methodName);
+
+			if (isClosedShape && state.hasFill && !state.hasStroke) {
+				sawFillOnlyClosedShape = true;
+			}
+
+			if (isClosedShape && state.hasFill && state.fillColor) {
+				pushStrokeCommand(state.fillColor);
+				return;
+			}
+			if (state.hasStroke && state.strokeColor) {
+				pushStrokeCommand(state.strokeColor);
+				return;
+			}
+			if (state.hasFill && state.fillColor) {
+				pushStrokeCommand(state.fillColor);
+			}
+		});
+	}
+
+	return {
+		shouldConvertClosedShapeStrokeToFill: () => sawFillOnlyClosedShape,
+	};
+}
+
 function sanitizeFileName(fileName: string): string {
 	const safe = fileName
 		.trim()
@@ -169,6 +409,8 @@ async function exportCurrentFrameToSvg(
 		plotSvg.beginRecordSvg(sketch, null);
 		didBeginRecording = true;
 		shimCircleToEllipseDuringRecording(sketch);
+		const styleEmulationSession =
+			emulateStyleAsStrokeDuringRecording(sketch);
 
 		plotSvg.setSvgDocumentSize?.(sketch.width, sketch.height);
 		plotSvg.setSvgFlattenTransforms?.(true);
@@ -177,8 +419,11 @@ async function exportCurrentFrameToSvg(
 
 		await sketch.redraw(1);
 
-		const svgContent = plotSvg.endRecordSvg();
+		let svgContent = plotSvg.endRecordSvg();
 		didBeginRecording = false;
+		if (styleEmulationSession.shouldConvertClosedShapeStrokeToFill()) {
+			svgContent = convertClosedShapeStrokesToFills(svgContent);
+		}
 
 		if (!svgContent || typeof svgContent !== 'string') {
 			throw new Error('No SVG content was captured.');
