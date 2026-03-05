@@ -8,6 +8,8 @@ const { plotSvgMock } = vi.hoisted(() => ({
 		setSvgFlattenTransforms: vi.fn(),
 		setSvgCoordinatePrecision: vi.fn(),
 		setSvgTransformPrecision: vi.fn(),
+		setSvgResolutionDPI: vi.fn(),
+		setSvgResolutionDPCM: vi.fn(),
 	},
 }));
 
@@ -36,13 +38,54 @@ import {
 
 function createGuiHarness() {
 	let buttonHandler: (() => void | Promise<void>) | undefined;
+	const selectCallbacks = new Map<
+		string,
+		(controller: unknown, value: string) => void
+	>();
+	const textboxCallbacks = new Map<
+		string,
+		(controller: unknown, value: string) => void
+	>();
+	const textboxControllers = new Map<
+		string,
+		{
+			setValue: ReturnType<typeof vi.fn>;
+		}
+	>();
 
 	const group = {
 		addButton: vi.fn((_, __, callback: () => void | Promise<void>) => {
 			buttonHandler = callback;
 		}),
-		addSelect: vi.fn(),
-		addTextbox: vi.fn(),
+		addSelect: vi.fn(
+			(
+				name: string,
+				_: string,
+				__: string[],
+				___: number,
+				callback?: (controller: unknown, value: string) => void
+			) => {
+				if (callback) selectCallbacks.set(name, callback);
+				return {
+					setValue: vi.fn((value: string) => callback?.({}, value)),
+				};
+			}
+		),
+		addTextbox: vi.fn(
+			(
+				name: string,
+				_: string,
+				__: string,
+				callback?: (controller: unknown, value: string) => void
+			) => {
+				if (callback) textboxCallbacks.set(name, callback);
+				const controller = {
+					setValue: vi.fn((value: string) => callback?.({}, value)),
+				};
+				textboxControllers.set(name, controller);
+				return controller;
+			}
+		),
 	};
 
 	const panel = {
@@ -63,6 +106,17 @@ function createGuiHarness() {
 
 	return {
 		gui,
+		setSelect: (name: string, value: string) => {
+			const callback = selectCallbacks.get(name);
+			if (!callback) throw new Error(`Missing select callback: ${name}`);
+			callback({}, value);
+		},
+		setTextbox: (name: string, value: string) => {
+			const callback = textboxCallbacks.get(name);
+			if (!callback) throw new Error(`Missing textbox callback: ${name}`);
+			callback({}, value);
+		},
+		getTextboxController: (name: string) => textboxControllers.get(name),
 		clickDownload: () => {
 			if (!buttonHandler) {
 				throw new Error(
@@ -97,6 +151,14 @@ function createSketch(looping = true, lockOwnLine = true) {
 	}
 
 	return sketch;
+}
+
+async function getDownloadedSvgText(): Promise<string> {
+	const createObjectURL = (globalThis.URL as any)
+		.createObjectURL as ReturnType<typeof vi.fn>;
+	const svgBlob = createObjectURL.mock.calls[0]?.[0] as Blob | undefined;
+	if (!svgBlob) throw new Error('Expected one exported SVG blob.');
+	return await svgBlob.text();
 }
 
 describe('svgExportPlugin', () => {
@@ -170,6 +232,89 @@ describe('svgExportPlugin', () => {
 
 		expect(result).toContain(`width="285.75mm"`);
 		expect(result).toContain(`height="508mm"`);
+	});
+
+	it('updates resolution value when switching resolution metric', () => {
+		const plugin = svgExportPlugin();
+		const { gui, getTextboxController, setSelect } = createGuiHarness();
+		const sketch = createSketch(false);
+
+		plugin.afterUserCreatesGui?.(gui, sketch, { fileName: 'p5Catalyst' });
+
+		const resolutionTextbox = getTextboxController('svgResolutionTextbox');
+		expect(resolutionTextbox).toBeDefined();
+
+		setSelect('svgResolutionMetricSelect', 'DPCM');
+		expect(
+			Number((resolutionTextbox as any).setValue.mock.lastCall[0])
+		).toBeCloseTo(96 / 2.54, 4);
+
+		setSelect('svgResolutionMetricSelect', 'DPMM');
+		expect(
+			Number((resolutionTextbox as any).setValue.mock.lastCall[0])
+		).toBeCloseTo(96 / 25.4, 4);
+
+		setSelect('svgResolutionMetricSelect', 'DPI');
+		expect(
+			Number((resolutionTextbox as any).setValue.mock.lastCall[0])
+		).toBeCloseTo(96, 2);
+	});
+
+	it('uses DPCM resolution for recorder settings and preserves export size math', async () => {
+		plotSvgMock.endRecordSvg.mockReturnValue(
+			`<svg xmlns="http://www.w3.org/2000/svg" width="1in" height="1in"><line x1="0" y1="0" x2="10" y2="10"/></svg>`
+		);
+
+		const plugin = svgExportPlugin();
+		const { gui, setSelect, setTextbox, clickDownload } = createGuiHarness();
+		const sketch = createSketch(false);
+
+		plugin.afterUserCreatesGui?.(gui, sketch, { fileName: 'p5Catalyst' });
+		setSelect('svgUnitSelect', 'Inches (in)');
+		setSelect('svgResolutionMetricSelect', 'DPCM');
+		setTextbox('svgResolutionTextbox', '37.7953');
+		await clickDownload();
+
+		expect(plotSvgMock.setSvgResolutionDPCM).toHaveBeenCalledWith(37.7953);
+		expect(plotSvgMock.setSvgResolutionDPI).not.toHaveBeenCalled();
+		const exportedSvg = await getDownloadedSvgText();
+		const widthInches = Number(
+			exportedSvg.match(/width="([0-9.]+)in"/)?.[1] || NaN
+		);
+		const heightInches = Number(
+			exportedSvg.match(/height="([0-9.]+)in"/)?.[1] || NaN
+		);
+		expect(widthInches).toBeCloseTo(11.25, 3);
+		expect(heightInches).toBeCloseTo(20, 3);
+	});
+
+	it('uses DPMM resolution for recorder settings via DPCM conversion', async () => {
+		plotSvgMock.endRecordSvg.mockReturnValue(
+			`<svg xmlns="http://www.w3.org/2000/svg" width="1in" height="1in"><line x1="0" y1="0" x2="10" y2="10"/></svg>`
+		);
+
+		const plugin = svgExportPlugin();
+		const { gui, setSelect, setTextbox, clickDownload } = createGuiHarness();
+		const sketch = createSketch(false);
+
+		plugin.afterUserCreatesGui?.(gui, sketch, { fileName: 'p5Catalyst' });
+		setSelect('svgUnitSelect', 'Inches (in)');
+		setSelect('svgResolutionMetricSelect', 'DPMM');
+		setTextbox('svgResolutionTextbox', '3.7795');
+		await clickDownload();
+
+		const dpcmValue = plotSvgMock.setSvgResolutionDPCM.mock.calls[0][0];
+		expect(dpcmValue).toBeCloseTo(37.795, 3);
+		expect(plotSvgMock.setSvgResolutionDPI).not.toHaveBeenCalled();
+		const exportedSvg = await getDownloadedSvgText();
+		const widthInches = Number(
+			exportedSvg.match(/width="([0-9.]+)in"/)?.[1] || NaN
+		);
+		const heightInches = Number(
+			exportedSvg.match(/height="([0-9.]+)in"/)?.[1] || NaN
+		);
+		expect(widthInches).toBeCloseTo(11.25, 3);
+		expect(heightInches).toBeCloseTo(20, 3);
 	});
 
 	it('collects repeated styles into CSS classes', () => {

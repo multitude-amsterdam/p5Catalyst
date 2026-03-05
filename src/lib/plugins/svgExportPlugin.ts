@@ -4,6 +4,8 @@ import { ROW } from '../gui/components/groups/Group';
 import type { Config, ExtensibleP5, Plugin } from '../types';
 import { getTimestamp } from '../utils/time';
 
+// TODO: remember unit settings in localStorage and load them on init if available
+
 type PlotSvgApi = {
 	beginRecordSvg: (
 		p5Instance: ExtensibleP5,
@@ -30,9 +32,11 @@ type StyleEmulationSession = {
 };
 
 type SvgPhysicalUnit = 'in' | 'mm';
+type SvgResolutionMetric = 'dpi' | 'dpcm' | 'dpmm';
 
 type SvgExportSettings = {
-	dpi: number;
+	resolution: number;
+	resolutionMetric: SvgResolutionMetric;
 	physicalUnit: SvgPhysicalUnit;
 };
 
@@ -58,8 +62,11 @@ const CLOSED_SVG_SHAPE_TAG_PATTERN =
 const SVG_DRAWABLE_TAG_REWRITE_PATTERN =
 	/<(circle|ellipse|line|path|polygon|polyline|rect|text)\b([^>]*?)(\/?)>/gi;
 const SVG_UNIT_OPTIONS = ['Inches (in)', 'Millimeters (mm)'] as const;
+const SVG_RESOLUTION_METRIC_OPTIONS = ['DPI', 'DPCM', 'DPMM'] as const;
+const DEFAULT_DPI = 144;
 const DEFAULT_SVG_EXPORT_SETTINGS: SvgExportSettings = {
-	dpi: 96,
+	resolution: DEFAULT_DPI,
+	resolutionMetric: 'dpi',
 	physicalUnit: 'mm',
 };
 
@@ -333,7 +340,66 @@ export function convertClosedShapeStrokesToFills(
 }
 
 function sanitizeDpi(value: number): number {
-	return Number.isFinite(value) && value > 0 ? value : 96;
+	return Number.isFinite(value) && value > 0 ? value : DEFAULT_DPI;
+}
+
+function getDefaultResolutionForMetric(metric: SvgResolutionMetric): number {
+	switch (metric) {
+		case 'dpcm':
+			return DEFAULT_DPI / 2.54;
+		case 'dpmm':
+			return DEFAULT_DPI / 25.4;
+		case 'dpi':
+		default:
+			return DEFAULT_DPI;
+	}
+}
+
+function sanitizeResolutionValue(
+	value: number,
+	metric: SvgResolutionMetric
+): number {
+	return Number.isFinite(value) && value > 0 ?
+			value
+		:	getDefaultResolutionForMetric(metric);
+}
+
+function resolutionToDpi(
+	resolution: number,
+	metric: SvgResolutionMetric
+): number {
+	const safeResolution = sanitizeResolutionValue(resolution, metric);
+	switch (metric) {
+		case 'dpcm':
+			return safeResolution * 2.54;
+		case 'dpmm':
+			return safeResolution * 25.4;
+		case 'dpi':
+		default:
+			return safeResolution;
+	}
+}
+
+function dpiToResolutionMetricValue(
+	dpi: number,
+	metric: SvgResolutionMetric
+): number {
+	const safeDpi = sanitizeDpi(dpi);
+	switch (metric) {
+		case 'dpcm':
+			return safeDpi / 2.54;
+		case 'dpmm':
+			return safeDpi / 25.4;
+		case 'dpi':
+		default:
+			return safeDpi;
+	}
+}
+
+function parseResolutionMetricOption(value: string): SvgResolutionMetric {
+	if (value === SVG_RESOLUTION_METRIC_OPTIONS[1]) return 'dpcm';
+	if (value === SVG_RESOLUTION_METRIC_OPTIONS[2]) return 'dpmm';
+	return 'dpi';
 }
 
 function formatPhysicalSize(value: number): string {
@@ -368,10 +434,35 @@ export function rewriteSvgPhysicalSize(
 }
 
 function applyPhysicalSizeSettingsToRecorder(settings: SvgExportSettings) {
-	const dpi = sanitizeDpi(settings.dpi);
-	plotSvg.setSvgResolutionDPI?.(dpi);
-	if (settings.physicalUnit === 'mm') {
-		plotSvg.setSvgResolutionDPCM?.(dpi / 2.54);
+	const safeResolution = sanitizeResolutionValue(
+		settings.resolution,
+		settings.resolutionMetric
+	);
+	switch (settings.resolutionMetric) {
+		case 'dpcm':
+			if (plotSvg.setSvgResolutionDPCM) {
+				plotSvg.setSvgResolutionDPCM(safeResolution);
+			} else {
+				plotSvg.setSvgResolutionDPI?.(safeResolution * 2.54);
+			}
+			break;
+		case 'dpmm': {
+			const dpcm = safeResolution * 10;
+			if (plotSvg.setSvgResolutionDPCM) {
+				plotSvg.setSvgResolutionDPCM(dpcm);
+			} else {
+				plotSvg.setSvgResolutionDPI?.(dpcm * 2.54);
+			}
+			break;
+		}
+		case 'dpi':
+		default:
+			if (plotSvg.setSvgResolutionDPI) {
+				plotSvg.setSvgResolutionDPI(safeResolution);
+			} else {
+				plotSvg.setSvgResolutionDPCM?.(safeResolution / 2.54);
+			}
+			break;
 	}
 }
 
@@ -828,12 +919,16 @@ async function exportCurrentFrameToSvg(
 		if (styleEmulationSession.shouldConvertClosedShapeStrokeToFill()) {
 			svgContent = convertClosedShapeStrokesToFills(svgContent);
 		}
+		const effectiveDpi = resolutionToDpi(
+			exportSettings.resolution,
+			exportSettings.resolutionMetric
+		);
 		svgContent = rewriteSvgPhysicalSize(
 			svgContent,
 			sketch.width,
 			sketch.height,
 			exportSettings.physicalUnit,
-			exportSettings.dpi
+			effectiveDpi
 		);
 		svgContent = applyStyleClassesToSvg(
 			svgContent,
@@ -893,14 +988,40 @@ export function svgExportPlugin(): Plugin {
 						value === SVG_UNIT_OPTIONS[1] ? 'mm' : 'in';
 				}
 			);
-			settingsGroup.addTextbox(
-				'svgDpiTextbox',
-				'Resolution (DPI)',
-				String(exportSettings.dpi),
+			const resolutionTextbox = settingsGroup.addTextbox(
+				'svgResolutionTextbox',
+				'Resolution',
+				String(exportSettings.resolution),
 				(_, value) => {
-					const parsedDpi = parseFloat(value as string);
-					if (!Number.isFinite(parsedDpi) || parsedDpi <= 0) return;
-					exportSettings.dpi = parsedDpi;
+					const parsedResolution = parseFloat(value as string);
+					if (
+						!Number.isFinite(parsedResolution) ||
+						parsedResolution <= 0
+					) {
+						return;
+					}
+					exportSettings.resolution = parsedResolution;
+				}
+			);
+			settingsGroup.addSelect(
+				'svgResolutionMetricSelect',
+				'Resolution Unit',
+				[...SVG_RESOLUTION_METRIC_OPTIONS],
+				0,
+				(_, value) => {
+					const previousDpi = resolutionToDpi(
+						exportSettings.resolution,
+						exportSettings.resolutionMetric
+					);
+					exportSettings.resolutionMetric =
+						parseResolutionMetricOption(String(value));
+					exportSettings.resolution = dpiToResolutionMetricValue(
+						previousDpi,
+						exportSettings.resolutionMetric
+					);
+					(resolutionTextbox as any)?.setValue?.(
+						cssNumber(exportSettings.resolution)
+					);
 				}
 			);
 
