@@ -247,17 +247,17 @@ describe('svgExportPlugin', () => {
 		setSelect('svgResolutionMetricSelect', 'DPCM');
 		expect(
 			Number((resolutionTextbox as any).setValue.mock.lastCall[0])
-		).toBeCloseTo(96 / 2.54, 4);
+		).toBeCloseTo(144 / 2.54, 4);
 
 		setSelect('svgResolutionMetricSelect', 'DPMM');
 		expect(
 			Number((resolutionTextbox as any).setValue.mock.lastCall[0])
-		).toBeCloseTo(96 / 25.4, 4);
+		).toBeCloseTo(144 / 25.4, 4);
 
 		setSelect('svgResolutionMetricSelect', 'DPI');
 		expect(
 			Number((resolutionTextbox as any).setValue.mock.lastCall[0])
-		).toBeCloseTo(96, 2);
+		).toBeCloseTo(144, 2);
 	});
 
 	it('uses DPCM resolution for recorder settings and preserves export size math', async () => {
@@ -266,7 +266,8 @@ describe('svgExportPlugin', () => {
 		);
 
 		const plugin = svgExportPlugin();
-		const { gui, setSelect, setTextbox, clickDownload } = createGuiHarness();
+		const { gui, setSelect, setTextbox, clickDownload } =
+			createGuiHarness();
 		const sketch = createSketch(false);
 
 		plugin.afterUserCreatesGui?.(gui, sketch, { fileName: 'p5Catalyst' });
@@ -294,7 +295,8 @@ describe('svgExportPlugin', () => {
 		);
 
 		const plugin = svgExportPlugin();
-		const { gui, setSelect, setTextbox, clickDownload } = createGuiHarness();
+		const { gui, setSelect, setTextbox, clickDownload } =
+			createGuiHarness();
 		const sketch = createSketch(false);
 
 		plugin.afterUserCreatesGui?.(gui, sketch, { fileName: 'p5Catalyst' });
