@@ -29,6 +29,7 @@ type PlotSvgCommand = {
 type StyleEmulationSession = {
 	shouldConvertClosedShapeStrokeToFill: () => boolean;
 	capturedStyles: SvgClassStyle[];
+	restore: () => void;
 };
 
 type SvgPhysicalUnit = 'in' | 'mm';
@@ -72,6 +73,7 @@ const DEFAULT_SVG_EXPORT_SETTINGS: SvgExportSettings = {
 
 const PLOT_SVG_METHODS = [
 	'arc',
+	'background',
 	'bezier',
 	'circle',
 	'curve',
@@ -181,11 +183,64 @@ function unlockP5MethodsForPlotSvg(sketch: ExtensibleP5) {
 }
 
 export function shimCircleToEllipseDuringRecording(sketch: ExtensibleP5) {
+	const originalCircle = (sketch as any).circle;
 	const ellipseMethod = (sketch as any).ellipse;
-	if (typeof ellipseMethod !== 'function') return;
+	if (typeof ellipseMethod !== 'function') return () => {};
 
 	(sketch as any).circle = function (x: number, y: number, diameter: number) {
 		return ellipseMethod.call(this, x, y, diameter, diameter);
+	};
+
+	return () => {
+		if (typeof originalCircle === 'function') {
+			(sketch as any).circle = originalCircle;
+		}
+	};
+}
+
+export function shimBackgroundToRectDuringRecording(sketch: ExtensibleP5) {
+	const originalBackground = (sketch as any).background;
+	if (typeof originalBackground !== 'function') return () => {};
+
+	(sketch as any).background = function (...args: unknown[]) {
+		const resolvedColor = resolveColorToHex(this, args);
+		const rectMethod = (this as any).rect;
+		const fillMethod = (this as any).fill;
+		const noStrokeMethod = (this as any).noStroke;
+		const pushMethod = (this as any).push;
+		const popMethod = (this as any).pop;
+		const resetMatrixMethod = (this as any).resetMatrix;
+		const rectModeMethod = (this as any).rectMode;
+
+		if (
+			!resolvedColor ||
+			typeof rectMethod !== 'function' ||
+			typeof fillMethod !== 'function' ||
+			typeof noStrokeMethod !== 'function' ||
+			typeof pushMethod !== 'function' ||
+			typeof popMethod !== 'function'
+		) {
+			return originalBackground.apply(this, args);
+		}
+
+		pushMethod.call(this);
+		try {
+			if (typeof resetMatrixMethod === 'function') {
+				resetMatrixMethod.call(this);
+			}
+			if (typeof rectModeMethod === 'function') {
+				rectModeMethod.call(this, (this as any).CORNER || 'corner');
+			}
+			noStrokeMethod.call(this);
+			fillMethod.call(this, resolvedColor);
+			return rectMethod.call(this, 0, 0, this.width, this.height);
+		} finally {
+			popMethod.call(this);
+		}
+	};
+
+	return () => {
+		(sketch as any).background = originalBackground;
 	};
 }
 
@@ -556,14 +611,41 @@ function attachClassName(attributes: string, className: string): string {
 	return attributes.replace(/\sclass="[^"]*"/i, ` class="${merged}"`);
 }
 
-function appendClassStyleBlock(svgContent: string, cssRules: string[]): string {
+function mergeClassRulesIntoTopStyleBlock(
+	svgContent: string,
+	cssRules: string[]
+): string {
 	if (cssRules.length === 0) return svgContent;
-	const styleBlock =
-		`  <style id="p5c-svg-style-classes">\n` +
-		cssRules.map(rule => `    ${rule}`).join('\n') +
-		`\n  </style>\n`;
-	if (!/<\/svg>\s*$/i.test(svgContent)) return svgContent + styleBlock;
-	return svgContent.replace(/<\/svg>\s*$/i, `${styleBlock}</svg>`);
+
+	const formattedRules = cssRules.map(rule => `    ${rule}`).join('\n');
+	const firstStylePattern = /<style\b([^>]*)>([\s\S]*?)<\/style>/i;
+	if (firstStylePattern.test(svgContent)) {
+		return svgContent.replace(
+			firstStylePattern,
+			(
+				match,
+				rawAttributes: string,
+				rawContent: string
+			) => {
+				const styleAttributes = rawAttributes || '';
+				const contentWithoutTrailingWhitespace = rawContent.replace(
+					/\s*$/,
+					''
+				);
+				const mergedContent =
+					contentWithoutTrailingWhitespace.length > 0 ?
+						`${contentWithoutTrailingWhitespace}\n${formattedRules}\n  `
+					:	`\n${formattedRules}\n  `;
+				return `<style${styleAttributes}>${mergedContent}</style>`;
+			}
+		);
+	}
+
+	const styleBlock = `\n  <style>\n${formattedRules}\n  </style>`;
+	if (/<svg\b[^>]*>/i.test(svgContent)) {
+		return svgContent.replace(/<svg\b[^>]*>/i, match => `${match}${styleBlock}`);
+	}
+	return `${styleBlock}\n${svgContent}`;
 }
 
 export function applyStyleClassesToSvg(
@@ -603,7 +685,7 @@ export function applyStyleClassesToSvg(
 			return `<${tagName}${attributesWithClass}${selfClosingSlash ? '/' : ''}>`;
 		}
 	);
-	return appendClassStyleBlock(rewritten, cssRules);
+	return mergeClassRulesIntoTopStyleBlock(rewritten, cssRules);
 }
 
 function emulateStyleAsStrokeDuringRecording(
@@ -645,6 +727,7 @@ function emulateStyleAsStrokeDuringRecording(
 			:	undefined,
 	};
 	let sawFillOnlyClosedShape = false;
+	const wrappedMethods = new Map<string, Function>();
 
 	const syncStateFromRenderer = () => {
 		state.hasFill = rendererStates?.fillColor != null;
@@ -711,6 +794,9 @@ function emulateStyleAsStrokeDuringRecording(
 	) => {
 		const original = (sketch as any)[methodName];
 		if (typeof original !== 'function') return;
+		if (!wrappedMethods.has(methodName)) {
+			wrappedMethods.set(methodName, original);
+		}
 		(sketch as any)[methodName] = function (...args: unknown[]) {
 			beforeCall(...args);
 			return original.apply(this, args);
@@ -842,6 +928,11 @@ function emulateStyleAsStrokeDuringRecording(
 	return {
 		shouldConvertClosedShapeStrokeToFill: () => sawFillOnlyClosedShape,
 		capturedStyles,
+		restore: () => {
+			for (const [methodName, originalMethod] of wrappedMethods) {
+				(sketch as any)[methodName] = originalMethod;
+			}
+		},
 	};
 }
 
@@ -895,6 +986,7 @@ async function exportCurrentFrameToSvg(
 
 	const wasLooping = sketch.isLooping();
 	let didBeginRecording = false;
+	let restoreCustomRecordingShims = () => {};
 
 	if (wasLooping) sketch.noLoop();
 
@@ -902,9 +994,18 @@ async function exportCurrentFrameToSvg(
 		unlockP5MethodsForPlotSvg(sketch);
 		plotSvg.beginRecordSvg(sketch, null);
 		didBeginRecording = true;
-		shimCircleToEllipseDuringRecording(sketch);
+		const restoreCircle = shimCircleToEllipseDuringRecording(sketch);
 		const styleEmulationSession =
 			emulateStyleAsStrokeDuringRecording(sketch);
+		const restoreBackground = shimBackgroundToRectDuringRecording(sketch);
+		let customShimsRestored = false;
+		restoreCustomRecordingShims = () => {
+			if (customShimsRestored) return;
+			customShimsRestored = true;
+			restoreBackground();
+			styleEmulationSession.restore();
+			restoreCircle();
+		};
 
 		plotSvg.setSvgDocumentSize?.(sketch.width, sketch.height);
 		applyPhysicalSizeSettingsToRecorder(exportSettings);
@@ -913,6 +1014,7 @@ async function exportCurrentFrameToSvg(
 		plotSvg.setSvgTransformPrecision?.(6);
 
 		await sketch.redraw(1);
+		restoreCustomRecordingShims();
 
 		let svgContent = plotSvg.endRecordSvg();
 		didBeginRecording = false;
@@ -946,6 +1048,7 @@ async function exportCurrentFrameToSvg(
 	} catch (error) {
 		if (didBeginRecording) {
 			try {
+				restoreCustomRecordingShims();
 				plotSvg.endRecordSvg();
 			} catch {
 				// Keep original export failure as the primary error.

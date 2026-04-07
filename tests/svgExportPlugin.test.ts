@@ -32,6 +32,7 @@ import {
 	hasDrawableSvgContent,
 	normalizeHexColor,
 	rewriteSvgPhysicalSize,
+	shimBackgroundToRectDuringRecording,
 	shimCircleToEllipseDuringRecording,
 	svgExportPlugin,
 } from '../src/lib/plugins/svgExportPlugin';
@@ -200,6 +201,43 @@ describe('svgExportPlugin', () => {
 		expect(ellipse).toHaveBeenCalledWith(10, 20, 30, 30);
 	});
 
+	it('routes background drawing through a canvas-sized rect during recording', () => {
+		const originalBackground = vi.fn();
+		const push = vi.fn();
+		const pop = vi.fn();
+		const resetMatrix = vi.fn();
+		const rectMode = vi.fn();
+		const noStroke = vi.fn();
+		const fill = vi.fn();
+		const rect = vi.fn();
+		const sketch: any = {
+			width: 640,
+			height: 480,
+			CORNER: 'corner',
+			background: originalBackground,
+			push,
+			pop,
+			resetMatrix,
+			rectMode,
+			noStroke,
+			fill,
+			rect,
+			color: vi.fn(() => ({ _array: [1, 1, 1, 1] })),
+		};
+
+		shimBackgroundToRectDuringRecording(sketch);
+		sketch.background(255);
+
+		expect(originalBackground).not.toHaveBeenCalled();
+		expect(push).toHaveBeenCalledOnce();
+		expect(resetMatrix).toHaveBeenCalledOnce();
+		expect(rectMode).toHaveBeenCalledWith('corner');
+		expect(noStroke).toHaveBeenCalledOnce();
+		expect(fill).toHaveBeenCalledWith('#ffffff');
+		expect(rect).toHaveBeenCalledWith(0, 0, 640, 480);
+		expect(pop).toHaveBeenCalledOnce();
+	});
+
 	it('converts closed-shape stroke styling into fill styling', () => {
 		const svg = `<svg><ellipse cx="10" cy="20" rx="5" ry="5" style="stroke:#ff0000;"/></svg>`;
 		const result = convertClosedShapeStrokesToFills(svg);
@@ -332,6 +370,26 @@ describe('svgExportPlugin', () => {
 
 		expect(result).toContain(`class="p5c-s0"`);
 		expect(result).toContain(`.p5c-s0{fill:#ff2600; stroke:none;}`);
+	});
+
+	it('merges generated p5c class rules into the first style tag', () => {
+		const svg =
+			`<svg xmlns="http://www.w3.org/2000/svg">` +
+			`<style>line{stroke:black;}</style>` +
+			`<line x1="0" y1="0" x2="1" y2="1"/>` +
+			`</svg>`;
+		const styles = [{ fill: 'none', stroke: '#112233', strokeWidth: 2 }];
+
+		const result = applyStyleClassesToSvg(svg, styles);
+		const styleMatches = [
+			...result.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi),
+		];
+
+		expect(styleMatches).toHaveLength(1);
+		expect(styleMatches[0][1]).toContain(`line{stroke:black;}`);
+		expect(styleMatches[0][1]).toContain(
+			`.p5c-s0{fill:none; stroke:#112233; stroke-width:2;}`
+		);
 	});
 
 	it('includes stroke width and text style variables in generated class styles', () => {

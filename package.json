@@ -41,6 +41,7 @@
 		"p5.plotsvg": "^0.1.8"
 	},
 	"devDependencies": {
+		"@types/node": "^25.5.0",
 		"@types/p5": "^1.7.6",
 		"canvas": "^3.2.1",
 		"jsdom": "^28.1.0",
