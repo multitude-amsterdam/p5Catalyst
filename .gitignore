@@ -24,6 +24,8 @@ dist-ssr
 *.sw?
 
 .vite/deps/*
+tests/visual-artifacts/*
+!tests/visual-artifacts/.gitkeep
 
 # remove on merge from `npm-create`
 create-p5catalyst

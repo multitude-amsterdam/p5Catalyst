@@ -29,17 +29,24 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"dependencies": {
 		"@ffmpeg/ffmpeg": "^0.12.15",
 		"@ffmpeg/util": "^0.12.2",
 		"jszip": "^3.10.1",
-		"p5": "^2.0.3"
+		"p5": "^2.3.2",
+		"p5.plotsvg": "^0.1.8"
 	},
 	"devDependencies": {
-		"@types/p5": "^1.7.6",
+		"@types/node": "^25.5.0",
+		"@types/p5": "^1.7.7",
+		"canvas": "^3.2.1",
+		"jsdom": "^28.1.0",
 		"typescript": "~5.8.3",
-		"vite": "^7.0.4"
+		"vite": "^7.3.6",
+		"vitest": "^4.1.11"
 	}
 }

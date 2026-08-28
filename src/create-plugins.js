@@ -5,6 +5,7 @@ import {
 	backdropPlugin,
 	randomizerPlugin,
 	imageExportPlugin,
+	svgExportPlugin,
 	videoExportPlugin,
 	storeSettingsPlugin,
 	shaderTemplatePlugin,
@@ -15,7 +16,7 @@ export const plugins = [
 	appTitlePlugin('p5Catalyst Project'),
 
 	// creates a glsl shader from a template
-	shaderTemplatePlugin(),
+	// shaderTemplatePlugin(),
 
 	// set language for gui (option to add custom dictionary)
 	languagePlugin('en'),
@@ -52,7 +53,8 @@ export const plugins = [
 	// download as png
 	imageExportPlugin('png'),
 
-	// TODO: svg export plugin
+	// download as svg
+	svgExportPlugin(),
 
 	// record and download as video
 	videoExportPlugin(),
