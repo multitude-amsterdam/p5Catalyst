@@ -5,7 +5,6 @@ const { plotSvgMock } = vi.hoisted(() => ({
 		beginRecordSvg: vi.fn(),
 		endRecordSvg: vi.fn(),
 		setSvgDocumentSize: vi.fn(),
-		setSvgFlattenTransforms: vi.fn(),
 		setSvgCoordinatePrecision: vi.fn(),
 		setSvgTransformPrecision: vi.fn(),
 		setSvgResolutionDPI: vi.fn(),
@@ -27,15 +26,17 @@ vi.mock('../src/lib/utils/time', () => ({
 
 import {
 	applyStyleClassesToSvg,
-	colorLikeToHex,
 	convertClosedShapeStrokesToFills,
 	hasDrawableSvgContent,
-	normalizeHexColor,
 	rewriteSvgPhysicalSize,
+} from '../src/lib/plugins/svg/postprocess';
+import {
+	colorLikeToHex,
+	normalizeHexColor,
 	shimBackgroundToRectDuringRecording,
 	shimCircleToEllipseDuringRecording,
-	svgExportPlugin,
-} from '../src/lib/plugins/svgExportPlugin';
+} from '../src/lib/plugins/svg/styleCapture';
+import { svgExportPlugin } from '../src/lib/plugins/svgExportPlugin';
 
 function createGuiHarness() {
 	let buttonHandler: (() => void | Promise<void>) | undefined;
@@ -503,6 +504,9 @@ describe('svgExportPlugin', () => {
 		expect(HTMLAnchorElement.prototype.click).toHaveBeenCalledOnce();
 		expect(sketch.noLoop).not.toHaveBeenCalled();
 		expect(sketch.loop).not.toHaveBeenCalled();
+		expect(Object.getOwnPropertyDescriptor(sketch, 'line')?.writable).toBe(
+			false
+		);
 	});
 
 	it('waits for redraw to finish before ending SVG recording', async () => {
@@ -532,7 +536,7 @@ describe('svgExportPlugin', () => {
 		expect(plotSvgMock.endRecordSvg).toHaveBeenCalledOnce();
 	});
 
-	it('creates writable own methods when drawing methods are locked on prototype', async () => {
+	it('restores inherited drawing methods after temporarily unlocking them', async () => {
 		plotSvgMock.endRecordSvg.mockReturnValue(
 			`<svg xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="0" x2="10" y2="10"/></svg>`
 		);
@@ -555,8 +559,8 @@ describe('svgExportPlugin', () => {
 		plugin.afterUserCreatesGui?.(gui, sketch, { fileName: 'p5Catalyst' });
 		await clickDownload();
 
-		const descriptor = Object.getOwnPropertyDescriptor(sketch, 'line');
-		expect(descriptor?.writable).toBe(true);
+		expect(Object.hasOwn(sketch, 'line')).toBe(false);
+		expect(sketch.line).toBe(prototypeWithLockedLine.line);
 		expect(gui.dialog.alert).not.toHaveBeenCalled();
 	});
 });

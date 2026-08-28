@@ -3,11 +3,11 @@ declare module 'p5.plotsvg' {
 		beginRecordSvg: (p5Instance: any, fileName?: string | null) => void;
 		endRecordSvg: () => string;
 		setSvgDocumentSize?: (width: number, height: number) => void;
-		setSvgFlattenTransforms?: (flattenTransforms: boolean) => void;
 		setSvgCoordinatePrecision?: (precision: number) => void;
 		setSvgTransformPrecision?: (precision: number) => void;
 		setSvgResolutionDPI?: (dpi: number) => void;
 		setSvgResolutionDPCM?: (dpcm: number) => void;
+		_commands?: Array<{ type: string; color?: string }>;
 	};
 
 	const p5plotSvg: PlotSvgApi;
