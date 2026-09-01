@@ -9,6 +9,7 @@ vi.mock('../src/lib/gui/components/groups/Group', () => ({
 }));
 
 import { svgExportPlugin } from '../src/lib/plugins/svgExportPlugin';
+import { svgImportPlugin } from '../src/lib/plugins/svgImportPlugin';
 
 type PathCommand =
 	| { type: 'moveTo'; args: [number, number] }
@@ -359,6 +360,38 @@ const DIFF_MAP_ARTIFACT_PATH = path.join(
 	VISUAL_ARTIFACTS_DIR,
 	'svg-export-visual-reference.diff.png'
 );
+const IMPORT_SOURCE_SVG_PATH = path.join(
+	VISUAL_ARTIFACTS_DIR,
+	'svg-import-visual-reference.svg'
+);
+const IMPORT_CANVAS_PNG_PATH = path.join(
+	VISUAL_ARTIFACTS_DIR,
+	'svg-import-visual-canvas.png'
+);
+const IMPORT_SOURCE_PNG_PATH = path.join(
+	VISUAL_ARTIFACTS_DIR,
+	'svg-import-visual-source.png'
+);
+const IMPORT_DIFF_PNG_PATH = path.join(
+	VISUAL_ARTIFACTS_DIR,
+	'svg-import-visual-diff.png'
+);
+
+const IMPORT_REFERENCE_SVG = `
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="760" viewBox="0 0 960 760">
+	<rect width="960" height="760" fill="#ffffff"/>
+	<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+		<line x1="48" y1="48" x2="220" y2="120" stroke="#16213e" stroke-width="6"/>
+		<polyline points="80,220 250,160 340,240" stroke="#0f9d58" stroke-width="4"/>
+		<path d="M 90 430 C 180 300 270 560 360 430 S 540 300 630 430 C 700 540 790 330 880 430" stroke="#d81b60" stroke-width="5"/>
+		<g transform="translate(780 620) rotate(-18) scale(1.15 .85)" stroke="#1e88e5" stroke-width="3">
+			<line x1="-70" y1="-40" x2="70" y2="40"/>
+			<line x1="-70" y1="40" x2="70" y2="-40"/>
+		</g>
+	</g>
+	<rect x="90" y="590" width="180" height="90" rx="16" fill="#f4b400"/>
+	<circle cx="430" cy="635" r="48" fill="#4285f4"/>
+</svg>`;
 
 type DownloadCapture = {
 	blob: Blob | null;
@@ -649,6 +682,18 @@ function drawReferenceScene(sketch: p5) {
 	sketch.strokeWeight(3);
 	sketch.line(80, 680, 320, 700);
 
+	sketch.stroke('#d81b60');
+	sketch.strokeWeight(5);
+	sketch.beginShape();
+	sketch.vertex(90, 430);
+	sketch.bezierVertex(180, 300);
+	sketch.bezierVertex(270, 560);
+	sketch.bezierVertex(360, 430);
+	sketch.bezierVertex(450, 300);
+	sketch.bezierVertex(540, 300);
+	sketch.bezierVertex(630, 430);
+	sketch.endShape();
+
 	sketch.push();
 	sketch.translate(840, 540);
 	sketch.rotate(sketch.radians(-18));
@@ -706,6 +751,55 @@ async function createReferenceSketch(): Promise<p5> {
 	});
 }
 
+async function createImportedReferenceSketch(): Promise<p5> {
+	return await new Promise((resolve, reject) => {
+		let resolved = false;
+		let instance: p5 | undefined;
+		const plugin = svgImportPlugin();
+		const finish = (value: p5) => {
+			if (resolved) return;
+			resolved = true;
+			resolve(value);
+		};
+		const fail = (error: unknown) => {
+			if (resolved) return;
+			resolved = true;
+			reject(error);
+		};
+
+		try {
+			instance = new p5(sketch => {
+				sketch.setup = () => {
+					try {
+						sketch.pixelDensity(1);
+						sketch.createCanvas(960, 760);
+						sketch.noLoop();
+						plugin.beforeGuiExists?.(sketch as any, {});
+						(sketch as any).importSvg(IMPORT_REFERENCE_SVG);
+					} catch (error) {
+						fail(error);
+					}
+				};
+
+				sketch.draw = () => {
+					setTimeout(() => finish(sketch), 0);
+				};
+			});
+		} catch (error) {
+			fail(error);
+			return;
+		}
+
+		setTimeout(() => {
+			if (!resolved && instance) {
+				fail(
+					new Error('Timed out waiting for imported SVG to render.')
+				);
+			}
+		}, 5000);
+	});
+}
+
 async function writeVisualArtifacts(
 	svgText: string,
 	canvasPngBuffer: Buffer,
@@ -718,6 +812,18 @@ async function writeVisualArtifacts(
 	await writeFile(CANVAS_PNG_ARTIFACT_PATH, canvasPngBuffer);
 	await writeFile(SVG_RASTERIZED_PNG_ARTIFACT_PATH, svgRasterizedPngBuffer);
 	await writeFile(DIFF_MAP_ARTIFACT_PATH, diffPngBuffer);
+}
+
+async function writeImportVisualArtifacts(
+	canvasPngBuffer: Buffer,
+	sourcePngBuffer: Buffer,
+	diffPngBuffer: Buffer
+) {
+	await mkdir(VISUAL_ARTIFACTS_DIR, { recursive: true });
+	await writeFile(IMPORT_SOURCE_SVG_PATH, IMPORT_REFERENCE_SVG, 'utf8');
+	await writeFile(IMPORT_CANVAS_PNG_PATH, canvasPngBuffer);
+	await writeFile(IMPORT_SOURCE_PNG_PATH, sourcePngBuffer);
+	await writeFile(IMPORT_DIFF_PNG_PATH, diffPngBuffer);
 }
 
 afterEach(() => {
@@ -787,6 +893,38 @@ describe('svgExportPlugin visual regression', () => {
 			);
 		} finally {
 			downloadCapture.restore();
+			sketch.remove();
+		}
+	}, 30000);
+});
+
+describe('svgImportPlugin visual regression', () => {
+	it('compares imported p5 geometry to the rasterized source SVG', async () => {
+		const sketch = await createImportedReferenceSketch();
+		try {
+			const canvasPngBuffer = getSketchCanvasPngBuffer(sketch);
+			const sourcePngBuffer = await rasterizeSvgToPngBuffer(
+				IMPORT_REFERENCE_SVG,
+				sketch.width,
+				sketch.height
+			);
+			const differenceMap = await computePixelDifferenceMap(
+				canvasPngBuffer,
+				sourcePngBuffer
+			);
+			await writeImportVisualArtifacts(
+				canvasPngBuffer,
+				sourcePngBuffer,
+				differenceMap.diffPngBuffer
+			);
+
+			expect(differenceMap.averageInkDifference).toBeLessThanOrEqual(
+				MAX_AVERAGE_INK_DIFFERENCE
+			);
+			expect(differenceMap.differingPixelRatio).toBeLessThanOrEqual(
+				MAX_DIFFERING_PIXEL_RATIO
+			);
+		} finally {
 			sketch.remove();
 		}
 	}, 30000);

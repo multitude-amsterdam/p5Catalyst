@@ -6,6 +6,7 @@ export * from './resolutionPlugin';
 export * from './setConfigPlugin';
 export * from './shaderTemplatePlugin';
 export * from './sizedCanvas';
+export * from './svgImportPlugin';
 export * from './svgExportPlugin';
 export * from './storeSettingsPlugin';
 export * from './videoExportPlugin';

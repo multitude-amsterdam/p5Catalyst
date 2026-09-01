@@ -5,6 +5,7 @@ import {
 	backdropPlugin,
 	randomizerPlugin,
 	imageExportPlugin,
+	svgImportPlugin,
 	svgExportPlugin,
 	videoExportPlugin,
 	storeSettingsPlugin,
@@ -40,6 +41,9 @@ export const plugins = [
 
 	// upload images or videos to feed the shader or fallback sketch (backdrop & overlay)
 	backdropPlugin(),
+
+	// load vector artwork and draw it as p5 geometry
+	svgImportPlugin(),
 
 	// names of controllers to add to the randomizer
 	randomizerPlugin([

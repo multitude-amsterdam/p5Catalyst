@@ -10,6 +10,72 @@ export type SvgRecording = {
 
 const plotSvg: PlotSvgApi = p5plotSvg;
 
+type PlotSvgSegment = {
+	type: string;
+	x?: number;
+	y?: number;
+	x2?: number;
+	y2?: number;
+	x3?: number;
+	y3?: number;
+	x4?: number;
+	y4?: number;
+};
+
+function isPointBezier(segment: PlotSvgSegment): boolean {
+	return (
+		segment.type === 'bezier' &&
+		Number.isFinite(segment.x2) &&
+		Number.isFinite(segment.y2) &&
+		!Number.isFinite(segment.x3) &&
+		!Number.isFinite(segment.y3)
+	);
+}
+
+/** Convert p5 2's three point vertices to p5.plotSvg's legacy cubic segment. */
+function normalizePointBezierCommands(commands: unknown) {
+	if (!Array.isArray(commands)) return;
+	for (const command of commands) {
+		if (command?.type !== 'path' || !Array.isArray(command.segments)) continue;
+		const source = command.segments as PlotSvgSegment[];
+		const segments: PlotSvgSegment[] = [];
+		let index = 0;
+
+		if (source[0] && isPointBezier(source[0])) {
+			segments.push({ type: 'vertex', x: source[0].x2, y: source[0].y2 });
+			index = 1;
+		}
+
+		while (index < source.length) {
+			const first = source[index];
+			const second = source[index + 1];
+			const third = source[index + 2];
+			if (
+				isPointBezier(first) &&
+				isPointBezier(second) &&
+				isPointBezier(third)
+			) {
+				segments.push({
+					type: 'bezier',
+					x2: first.x2,
+					y2: first.y2,
+					x3: second.x2,
+					y3: second.y2,
+					x4: third.x2,
+					y4: third.y2,
+				});
+				index += 3;
+				continue;
+			}
+
+			segments.push(first);
+			index++;
+		}
+
+		command.segments = segments;
+	}
+}
+
 const PATCHED_METHODS = [
 	'arc',
 	'background',
@@ -129,6 +195,7 @@ export function beginSvgRecording(
 			if (!active) throw new Error('SVG recording has already ended.');
 			active = false;
 			try {
+				normalizePointBezierCommands(plotSvg._commands);
 				return plotSvg.endRecordSvg();
 			} finally {
 				restoreMethods();
