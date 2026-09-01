@@ -18,18 +18,16 @@ export class ImageLoader extends FileLoader {
 			labelStr,
 			'image',
 			file => {
-				this.img = gui.sketch.loadImage(
-					file.data,
-					img => {
+				void gui.sketch
+					.loadImage(file.data)
+					.then(img => {
 						this.img = img;
 						this.file = img;
 						fileReadyCallback?.(img, this);
-					},
-					(error: unknown) => {
+					})
+					.catch((error: unknown) => {
 						console.error('Failed to load image file.', error);
-					}
-				);
-				this.file = this.img;
+					});
 			},
 			setupCallback
 		);

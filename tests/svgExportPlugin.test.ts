@@ -9,6 +9,7 @@ const { plotSvgMock } = vi.hoisted(() => ({
 		setSvgTransformPrecision: vi.fn(),
 		setSvgResolutionDPI: vi.fn(),
 		setSvgResolutionDPCM: vi.fn(),
+		_commands: null as any[] | null,
 	},
 }));
 
@@ -237,6 +238,43 @@ describe('svgExportPlugin', () => {
 		expect(fill).toHaveBeenCalledWith('#ffffff');
 		expect(rect).toHaveBeenCalledWith(0, 0, 640, 480);
 		expect(pop).toHaveBeenCalledOnce();
+	});
+
+	it('normalizes p5 2 point-by-point Bézier vertices before export', async () => {
+		plotSvgMock._commands = [
+			{
+				type: 'path',
+				segments: [
+					{ type: 'vertex', x: 10, y: 20 },
+					{ type: 'bezier', x2: 20, y2: 0 },
+					{ type: 'bezier', x2: 40, y2: 0 },
+					{ type: 'bezier', x2: 50, y2: 20 },
+				],
+			},
+		];
+		plotSvgMock.endRecordSvg.mockReturnValue(
+			`<svg><path d="M 10,20 C 20,0 40,0 50,20"/></svg>`
+		);
+
+		const plugin = svgExportPlugin();
+		const { gui, clickDownload } = createGuiHarness();
+		plugin.afterUserCreatesGui?.(gui, createSketch(false), {
+			fileName: 'p5Catalyst',
+		});
+		await clickDownload();
+
+		expect(plotSvgMock._commands[0].segments).toEqual([
+			{ type: 'vertex', x: 10, y: 20 },
+			{
+				type: 'bezier',
+				x2: 20,
+				y2: 0,
+				x3: 40,
+				y3: 0,
+				x4: 50,
+				y4: 20,
+			},
+		]);
 	});
 
 	it('converts closed-shape stroke styling into fill styling', () => {
